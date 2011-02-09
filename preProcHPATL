@@ -1,0 +1,20 @@
+#!/bin/csh
+
+
+
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
+
+mne_process_raw \
+--raw ../$1_ATLLoc_raw.fif \
+--ave ../ave/$1_ATLLoc.ave \
+--cov ../cov/$1_ATLLoc.cov  \
+--projon --lowpass 20 --highpass .5
+
+
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projoff
+
+mne_process_raw \
+--raw ../$1_ATLLoc_raw.fif \
+--ave ../ave/$1_ATLLoc.ave \
+--projoff --lowpass 20 --highpass .5
+

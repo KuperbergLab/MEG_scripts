@@ -1,0 +1,27 @@
+#!/bin/csh
+
+setenv SUBJECT $1
+
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
+
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_ATLLoc-ave.fif
+
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun1-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun2-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun3-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun4-ave.fif
+
+mne_average_forward_solutions --fwd $1_BaleenRun1-ave-7-fwd.fif --fwd $1_BaleenRun2-ave-7-fwd.fif --fwd $1_BaleenRun3-ave-7-fwd.fif --fwd $1_BaleenRun4-ave-7-fwd.fif --out $1_BaleenLP_All-ave-7-fwd.fif
+
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun5-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun6-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun7-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun8-ave.fif
+
+mne_average_forward_solutions --fwd $1_BaleenRun5-ave-7-fwd.fif --fwd $1_BaleenRun6-ave-7-fwd.fif --fwd $1_BaleenRun7-ave-7-fwd.fif --fwd $1_BaleenRun8-ave-7-fwd.fif --out $1_BaleenHP_All-ave-7-fwd.fif
+
+mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_ATLLoc-cov.fif
+mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_BaleenLP_All-cov.fif
+mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_BaleenHP_All-cov.fif
+
+mne_make_morph_maps --from $1 --to fsaverage

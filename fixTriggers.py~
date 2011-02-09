@@ -1,0 +1,69 @@
+import readInput
+import writeOutput
+import sys
+
+subjID = sys.argv[1]
+
+#ATLLOC
+
+inFile = 'eve/' + subjID + '_ATLLoc.eve'
+outFile = 'eve/' + subjID + '_ATLLocMod.eve'
+
+print inFile
+data = readInput.readTable(inFile)
+
+dataSize = len(data)
+
+wordCount = 0
+for row in data:
+	trigger = row[3]
+
+	if trigger == '1' or trigger == '2' or trigger == '3':
+		flag = trigger
+		wordCount = 0
+	else: wordCount +=1
+
+	if trigger == '4' and wordCount <= 9:
+		row[3] = trigger+flag
+	
+writeOutput.writeTable(outFile,data)
+
+#BALEEN
+
+RUNS = ['1', '2', '3', '4', '5', '6', '7', '8']
+
+for x in RUNS:
+
+	inFile = 'eve/'+subjID+'_BaleenRun'+x+'.eve'
+	outFile = 'eve/'+subjID+'_BaleenRun'+x+'Mod.eve'
+	
+	print inFile
+	data = readInput.readTable(inFile)
+	
+	rowCount = 0
+	for row in data:
+		trigger = row[3]
+		time = row[1]
+		row[1] = float(row[1]) + 31.2
+		
+		if trigger == '11' or trigger == '12':   ##change the target to '111' or '112'
+			row[3] = '1'+trigger
+			#print row
+			
+			for i in [1,2,3]:                 ## look through the previous three events to try to find the prime
+				compRow = data[rowCount-i]
+				#print 'Comparison', compRow
+
+				compTrigger = compRow[3]
+				compSOA = float(row[1])-float(compRow[1])
+				if compTrigger == '14' and ( compSOA > .580 and compSOA < .620 ):  ##check for a prime with correct SOA
+					compRow[3] = trigger
+					#print 'new ', compRow, row
+					break
+			
+		rowCount +=1
+	
+		writeOutput.writeTable(outFile, data)
+	
+
+	

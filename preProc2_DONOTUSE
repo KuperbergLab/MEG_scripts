@@ -1,0 +1,26 @@
+#!/bin/csh
+
+
+python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 $2 $3
+
+#SB - combine .blinks and .eve
+python /cluster/kuperberg/SemPrMM/MEG/scripts/blinkEveFiles.py $1 $2 $3
+
+
+##############################################
+echo 
+echo "Computing Averages for testing Artifact Rejection"
+
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projoff
+
+mne_process_raw --raw ../$1_Blink_raw.fif --ave ../ave/$1_Blink.ave --projoff
+mne_process_raw --raw ../$1_BaleenRun1_raw.fif --ave ../ave/$1_BaleenRun1.ave --projoff
+mne_process_raw --raw ../$1_BaleenRun2_raw.fif --ave ../ave/$1_BaleenRun2.ave --projoff
+
+##############################################
+echo
+echo "Counting Blink Events"
+echo
+
+python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 $2 $3 Blink 1 projoff
+python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 $2 $3 Baleen 2 projoff
