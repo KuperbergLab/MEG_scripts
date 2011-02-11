@@ -29,7 +29,7 @@ elec.POS_R = [elec.T.r elec.C.r elec.TP.r elec.CP.r elec.P.r elec.PO.r elec.O.r]
 elec.ANT_M = elec.mid.ant;
 elec.POS_M = elec.mid.pos;
 %% preprocessing/timelockanalysis setup
-exp = 'BaleenHP';
+exp = 'BaleenLP';
 switch exp
     case 'ATLLoc'
         event_numbers = [41,42,43];
@@ -60,8 +60,8 @@ end
 subjects = {'2','3','4','5','6','7','8','9','12','13','15','17','19'};
 % add subject-specific weirdness here
 %run = {}
-event_numbers = [10];
-event_names = {'AnimalTarget'}
+event_numbers = [5];
+event_names = {'AnimalTargets'}
 
 %% Loop
 for event_number = event_numbers
@@ -99,6 +99,7 @@ for event_number = event_numbers
                 cfg.demean = 'yes';
                 % read data into matlab
                 data = ft_preprocessing(cfg);
+                
                 if exist('all_data','var') == 1
                     all_data{end+1} = data;
                 end
@@ -142,57 +143,58 @@ text(0.25,0.5,'Sent','color','b') ;text(0.25,0.3,'Noun','color','r');
 text(0.25,0.1,['Channel ' GA_Sent.label{chan}],'color','k');
 axis off
 
+
 %% Statistics
 % T Test
-cfg = [];
-cfg.channel = 'all';
-cfg.latency = 'all';
-cfg.avgovertime = 'yes';
-cfg.parameter = 'individual';
-cfg.method = 'analytic';
-cfg.statistic = 'depsamplesT';
-cfg.alpha = 0.05;
-cfg.correctm = 'bonferoni';
-Nsub = length(subjects);
-cfg.design(1,1:2*Nsub)  = [ones(1,Nsub) 2*ones(1,Nsub)];
-cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
-cfg.ivar = 1;
-cfg.uvar = 2;
-
-stat = ft_timelockstatistics(cfg,GA_Sent,GA_Noun);
+% cfg = [];
+% cfg.channel = 'all';
+% cfg.latency = 'all';
+% cfg.avgovertime = 'yes';
+% cfg.parameter = 'individual';
+% cfg.method = 'analytic';
+% cfg.statistic = 'depsamplesT';
+% cfg.alpha = 0.05;
+% cfg.correctm = 'bonferoni';
+% Nsub = length(subjects);
+% cfg.design(1,1:2*Nsub)  = [ones(1,Nsub) 2*ones(1,Nsub)];
+% cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
+% cfg.ivar = 1;
+% cfg.uvar = 2;
+% 
+% stat = ft_timelockstatistics(cfg,GA_Sent,GA_Noun);
 
 %% Non parametric MonteCarlo
-cfg = [];
-cfg.channel = 'MEG';
-cfg.latency = 'all';
-cfg.avgovertime = 'yes';
-cfg.parameter = 'individual';
-cfg.method = 'montecarlo';
-cfg.statistic = 'depsamplesT';
-cfg.alpha = 0.05;
-cfg.correctm = 'no';
-cfg.correcttail = 'prob';
-cfg.numrandomization = 10000;
-
-Nsub = length(subjects);
-cfg.design(1,1:2*Nsub)  = [ones(1,Nsub) 2*ones(1,Nsub)];
-cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
-cfg.ivar = 1;
-cfg.uvar = 2;
-
-stat = ft_timelockstatistics(cfg,GA_Sent,GA_Noun)
+% cfg = [];
+% cfg.channel = 'MEG';
+% cfg.latency = 'all';
+% cfg.avgovertime = 'yes';
+% cfg.parameter = 'individual';
+% cfg.method = 'montecarlo';
+% cfg.statistic = 'depsamplesT';
+% cfg.alpha = 0.05;
+% cfg.correctm = 'no';
+% cfg.correcttail = 'prob';
+% cfg.numrandomization = 10000;
+% 
+% Nsub = length(subjects);
+% cfg.design(1,1:2*Nsub)  = [ones(1,Nsub) 2*ones(1,Nsub)];
+% cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
+% cfg.ivar = 1;
+% cfg.uvar = 2;
+% 
+% stat = ft_timelockstatistics(cfg,GA_Sent,GA_Noun)
 
 %% plot stats
 %fix labels
 %stat.label = cellfun(@(x) strrep(x,'MEG ',''),stat.label,'UniformOutput',false);
 % make the plot
-cfg.style     = 'blank';
-cfg.layout    = 'NM306all.lay';
-cfg.highlight = 'on';
-cfg.highlightchannel = find(stat.mask);
-cfg.comment   = 'no';
-figure; ft_topoplotER(cfg, GA_Sent)
-title('Nonparametric: significant without multiple comparison correction')
+% cfg.style     = 'blank';
+% cfg.layout    = 'NM306all.lay';
+% cfg.highlight = 'on';
+% cfg.highlightchannel = find(stat.mask);
+% cfg.comment   = 'no';
+% figure; ft_topoplotER(cfg, GA_Sent)
+% title('Nonparametric: significant without multiple comparison correction')
 %% Notepad
 % %% plot?
 % figure;

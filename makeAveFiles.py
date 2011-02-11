@@ -24,8 +24,8 @@ epMaxBaleen = ".7"
 filename = filePrefix + '/ave/'+subjID + '_Blink.ave'
 print filename
 
-magRej = "3e-12"
-gradRej = "2000e-13"
+gradRej = "2500e-13"
+
 
 myFile = open(filename, "w")
 myFile.close()	
@@ -36,7 +36,6 @@ myFile.write('\tname\t\"Blink average\"\n\n')
 myFile.write('\toutfile\t\t'+subjID+ '_Blink' + '-ave.fif\n')
 myFile.write('\tlogfile\t\t./logs/'+subjID + '_Blink' + '-ave.log\n')
 myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_Blink' + '.eve\n\n')
-#myFile.write('\tmagReject\t'+magRej + '\n\n')
 myFile.write('\tgradReject\t'+gradRej + '\n\n')
 
 myFile.write('\tcategory {\n')
@@ -63,7 +62,6 @@ myFile.write('\toutfile\t\t'+subjID+ '_ATLLoc' + '-ave.fif\n')
 myFile.write('\tlogfile\t\t./logs/'+subjID + '_ATLLoc' + '-ave.log\n')
 #myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocMod.eve\n\n')
 myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocModblink.eve\n\n')
-#myFile.write('\tmagReject\t'+magRej + '\n\n')
 myFile.write('\tgradReject\t'+gradRej + '\n\n')
 
 myFile.write('\tcategory {\n')
@@ -127,7 +125,7 @@ for runNum in runLP:
 	myFile.write('\tlogfile\t\t./logs/'+subjID + '_MaskedMMRun' + runNum +  '-ave.log\n')
 	#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_MaskedMMRun' + runNum + '.eve\n\n')
 	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_MaskedMMRun' + runNum + 'Modblink.eve\n\n')
-	myFile.write('\tmagReject\t'+magRej + '\n\n')
+	myFile.write('\tgradReject\t'+gradRej + '\n\n')
 	
 	myFile.write('\tcategory {\n')
 	myFile.write('\t\tname\t\"Direct\"\n')
@@ -177,7 +175,7 @@ for runNum in runLP:
 	myFile.write('\tlogfile\t\t./logs/'+subjID + '_BaleenRun' + runNum +  '-ave.log\n')
 	#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Mod.eve\n\n')
 	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Modblink.eve\n\n')
-	myFile.write('\tmagReject\t'+magRej + '\n\n')
+	myFile.write('\tgradReject\t'+gradRej + '\n\n')
 	
 	myFile.write('\tcategory {\n')
 	myFile.write('\t\tname\t\"RelLP\"\n')
@@ -234,7 +232,7 @@ for runNum in runHP:
 	myFile.write('\tlogfile\t\t./logs/'+subjID + '_BaleenRun' + runNum +  '-ave.log\n')
 	#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + '.eve\n\n')
 	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Modblink.eve\n\n')
-	myFile.write('\tmagReject\t'+magRej + '\n\n')
+	myFile.write('\tgradReject\t'+gradRej + '\n\n')
 	
 	myFile.write('\tcategory {\n')
 	myFile.write('\t\tname\t\"RelHP\"\n')

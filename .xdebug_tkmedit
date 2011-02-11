@@ -1,86 +1,86 @@
-tkmedit started: Wed Feb  9 10:20:17 2011
+tkmedit started: Thu Feb 10 10:44:10 2011
 
-	tkmedit.bin ya7 T1.mgz 
+	tkmedit.bin ya9 T1.mgz 
 
 $Id: tkmedit.c,v 1.341.2.1 2010/08/04 20:47:28 greve Exp $ $Name: stable5 $
 Set user home dir to /autofs/cluster/kuperberg/SemPrMM/MEG/scripts
-Set subject home dir to /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7
+Set subject home dir to /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9
 Using interface file /usr/local/freesurfer/stable5/lib/tcl/tkmedit.tcl
 Tcl: Successfully parsed tkmedit.tcl
 Tcl: Successfully parsed tkm_functional.tcl
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/inner_skull.surf ) (line 3825)
+Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/inner_skull.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=0, iSet=1, isName=orig )
         03: Loading vertex set
-      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/inner_skull.surf )
+      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/inner_skull.surf )
       02: Loading orig set
     01: main()
     01: Entering main loop
   00: 
   00: 
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/inner_skull.surf ) (line 3825)
+Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/inner_skull.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=0, iSet=2, isName=pial )
         03: Loading vertex set
-      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/inner_skull.surf )
+      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/inner_skull.surf )
       02: Loading pial set
     01: main()
     01: Entering main loop
   00: 
   00: 
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skull.surf ) (line 3825)
+Error in LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skull.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=1, iSet=1, isName=orig )
         03: Loading vertex set
-      02: LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skull.surf )
+      02: LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skull.surf )
       02: Loading orig set
     01: main()
     01: Entering main loop
   00: 
   00: 
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skull.surf ) (line 3825)
+Error in LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skull.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=1, iSet=2, isName=pial )
         03: Loading vertex set
-      02: LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skull.surf )
+      02: LoadSurface( iType=1, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skull.surf )
       02: Loading pial set
     01: main()
     01: Entering main loop
   00: 
   00: 
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skin.surf ) (line 3825)
+Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skin.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=0, iSet=1, isName=orig )
         03: Loading vertex set
-      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skin.surf )
+      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skin.surf )
       02: Loading orig set
     01: main()
     01: Entering main loop
   00: 
   00: 
 Error 6 in Surf_LoadVertexSet: Error loading vertex set.
-Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skin.surf ) (line 3825)
+Error in LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skin.surf ) (line 3825)
 	while Loading vertex set
 	Error 12: Couldn't load the surface vertex set.
 xDebug stack (length: 4)
         03: LoadSurfaceVertexSet( iType=0, iSet=2, isName=pial )
         03: Loading vertex set
-      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya7/bem/outer_skin.surf )
+      02: LoadSurface( iType=0, isName=/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya9/bem/outer_skin.surf )
       02: Loading pial set
     01: main()
     01: Entering main loop

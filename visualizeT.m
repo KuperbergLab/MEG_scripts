@@ -34,7 +34,7 @@ nonSigChan
 sigChan
 
 %%Read in the grand-average data for visualization
-gaStr = fiff_read_evoked_all(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/data/ga/ave_',dataType,'ga_',exp,'-n',int2str(nSubj),'-ave.fif'));
+gaStr = fiff_read_evoked_all(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/data/ga/ave_',dataType,'ga_',exp,'-n',int2str(nSubj),'-goodC-ave.fif'));
 gaStr.info.bads = nonSigChan;
 gaStr.info
 

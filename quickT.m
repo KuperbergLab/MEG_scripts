@@ -1,10 +1,23 @@
 function [p,contrast] = quickT(exp, dataType, subjList, cond1, cond2, t1, t2, sensName, format)
 
+%%This function computes t-test at an individual sensor, for a given
+%%time-window. Designed for comparing two conditions, but enter the 
+%%same condition number twice if you want to do a one-way test on
+%%one condition
+
+%%By default most of the work here is done on the diff vector. The cond
+%%structures are mostly just there in case you want to plot the sensor
+%%waveform for each condition separately, in the commented lines at the end
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 count = 0;
 goodCount = 0;
 allData=[];
+
+if cond1==cond2
+   msg = 'Running one condition t-test'
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %create initial data structure, sensors x time
@@ -54,12 +67,28 @@ for subj=subjList
             end
         end
         
+        %%If you don't find a match, print an error message
+        
+        if (isempty(chanNum)) 
+            error('Error, incorrect channel name')  
+        end
+        
+        %%Extract the epochs
         tempSubjDataSens1 = squeeze(tempSubjData.evoked(cond1).epochs(chanNum,:));
         tempSubjDataSens2 = squeeze(tempSubjData.evoked(cond2).epochs(chanNum,:));
         tempSubjDataSensDiff = tempSubjDataSens2 - tempSubjDataSens1;
+        
+        %%Add the diff vector to allData, time x subj structure
+        if (cond1 ~= cond2)
+            allData(:,goodCount) = tempSubjDataSensDiff;
+        end
+        
+        %%If just want to test one condition, add a condition vector instead
+        if (cond1 == cond2)
+            allData(:,goodCount) = tempSubjDataSens1;
+        end
     
-        allData(:,goodCount) = tempSubjDataSensDiff;
-    
+        %%Make structures for individual conditions for plotting
         condData(:,goodCount,1) = tempSubjDataSens1;
         condData(:,goodCount,2) = tempSubjDataSens2;
     
@@ -71,6 +100,8 @@ goodCount
 cond1Label = tempSubjData.evoked(cond1).comment;
 cond2Label = tempSubjData.evoked(cond2).comment;
 contrast = strcat(cond2Label, '-', cond1Label);
+
+%%get the size of the new structure
 [m,n] = size(allData);
 
 %%%%%%%%%%%%%%%%%
@@ -114,6 +145,7 @@ end
 
 mean(tData);
 std(tData);
+tData;
 
 [h,p,ci,stats] = ttest(tData);
 
