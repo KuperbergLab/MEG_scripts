@@ -28,12 +28,12 @@ elec.POS_L = [elec.T.l elec.C.l elec.TP.l elec.CP.l elec.P.l elec.PO.l elec.O.l]
 elec.POS_R = [elec.T.r elec.C.r elec.TP.r elec.CP.r elec.P.r elec.PO.r elec.O.r];
 elec.ANT_M = elec.mid.ant;
 elec.POS_M = elec.mid.pos;
-%% preprocessing/timelockanalysis setup
-exp = 'BaleenLP';
+%% exp info
+exp = 'ATLLoc';
 switch exp
     case 'ATLLoc'
         event_numbers = [41,42,43];
-        event_names = {'Sent','Noun','String'};
+        event_names = {'Sent','WordList','String'};
         runs = {'1'};
         timee = [-60 300];
         exp1 = 'ATLLoc';
@@ -56,17 +56,26 @@ switch exp
         timee = [-60 420];
         exp1 = 'Baleen';
 end
-%% not a full run?
-subjects = {'2','3','4','5','6','7','8','9','12','13','15','17','19'};
+%% processing options
+stype = 'ac';
+subjects = {'1'};
 % add subject-specific weirdness here
 %run = {}
-event_numbers = [11];
-event_names = {'AnimalPrime'}
+event_numbers = [42,43];
+event_names = {'WordList','String'};
 
 %% Loop
 for event_number = event_numbers
-    all_avg = cell(0,1);
-    all_data = cell(0,1);
+    eve_name = event_names{event_number == event_numbers};
+    %check if mat exists
+    mat_fname = ['GA_' stype '_' exp '_' eve_name '.mat'];
+    exist_type = exist(mat_fname, 'file');
+    if exist_type == 2
+        load(mat_fname)
+    else
+        all_avg = cell(0,1);
+        all_data = cell(0,1);
+    end
     for subject = subjects
         sub = subject{1};
         for runc = runs
@@ -76,17 +85,21 @@ for event_number = event_numbers
             else %good data
                 % define data sets/eve
                 if strcmp(exp,'ATLLoc')
-                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/' sub '_' exp1 '_raw.fif'];
-                    eve = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/eve/' sub '_' exp1 'Modblink.eve'];
+                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' stype sub '/' stype sub '_' exp1 '_raw.fif'];
+                    eve = ['/cluster/kuperberg/SemPrMM/MEG/data/' stype sub '/eve/' stype sub '_' exp1 'Modblink.eve'];
                 else
-                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/' sub '_' exp1 'Run' run '_raw.fif'];
-                    eve = [ '/cluster/kuperberg/SemPrMM/MEG/data/' sub '/eve/' sub '_' exp1 'Run' run 'Modblink.eve'];
+                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' stype sub '/' stype sub '_' exp1 'Run' run '_raw.fif'];
+                    eve = [ '/cluster/kuperberg/SemPrMM/MEG/data/' stype sub '/eve/' stype sub '_' exp1 'Run' run 'Modblink.eve'];
                 end
-                [data, avg] = ftsb_make_average(ds,eve,timee);
-                if exist('all_data','var') == 1
+                [data, avg] = ftsb_make_average(ds,eve,event_number,timee);
+                if exist_type == 2
+                    eval([eve_name '_data{end+1} = data'])
+                else
                     all_data{end+1} = data;
                 end
-                if exist('all_avg','var') == 1
+                if exist_type == 2
+                    eval([eve_name '_avg{end+1} = avg'])
+                else
                     all_avg{end+1} = avg;
                 end
                 %fclose('all'); %needed because FT leaks files
@@ -100,9 +113,10 @@ end
 % GA 
 for namec = event_names
     name = namec{1};
+    mat_fname = ['GA_' stype '_' exp '_' name '.mat']
     cfg.keepindividual = 'no';
     eval(['GA_' name '= ft_timelockgrandaverage(cfg, ' name '_avg{:});'])
-    save(['GA_' exp '_' name],['GA_' name], [name '_avg'],[name '_data'],'-v7.3')
+    save(mat_fname,['GA_' name], [name '_avg'],[name '_data'],'-v7.3')
 end
 beep;
 
