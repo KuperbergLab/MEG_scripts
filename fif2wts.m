@@ -5,20 +5,20 @@ cd(newwd)
 
 fiffs = {};
 %attloc
-files = dir('ya*_ATLLoc_raw.fif');
+files = dir('*_ATLLoc_raw.fif');
 fiffs{end+1} = files(1).name;
 %baleen
-files = dir('ya*_Baleen*_raw.fif');
+files = dir('*_Baleen*_raw.fif');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
 end
 %maskedmm
-files = dir('ya*_MaskedMM*_raw.fif');
+files = dir('*_MaskedMM*_raw.fif');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
 end
 %axcpt
-files = dir('ya*_AXCPT*_raw.fif');
+files = dir('*_AXCPT*_raw.fif');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
 end
