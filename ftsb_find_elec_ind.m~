@@ -1,6 +1,0 @@
-function vec = ftsb_find_elec_ind(label_cell,prefix_cell)
-vec = [];
-for prefix = prefix_cell
-    
-    
-end

@@ -1,13 +1,23 @@
 function [p,contrast] = quickT(exp, dataType, subjList, cond1, cond2, t1, t2, sensName, format)
 
-%%Enter the same condition number twice if you want to do a one-way test on
+%%This function computes t-test at an individual sensor, for a given
+%%time-window. Designed for comparing two conditions, but enter the 
+%%same condition number twice if you want to do a one-way test on
 %%one condition
+
+%%By default most of the work here is done on the diff vector. The cond
+%%structures are mostly just there in case you want to plot the sensor
+%%waveform for each condition separately, in the commented lines at the end
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 count = 0;
 goodCount = 0;
 allData=[];
+
+if cond1==cond2
+   msg = 'Running one condition t-test'
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %create initial data structure, sensors x time
@@ -73,8 +83,10 @@ for subj=subjList
             allData(:,goodCount) = tempSubjDataSensDiff;
         end
         
-        %%If just want to test one condition, add that vector
-        if (cond1 == cond2
+        %%If just want to test one condition, add a condition vector instead
+        if (cond1 == cond2)
+            allData(:,goodCount) = tempSubjDataSens1;
+        end
     
         %%Make structures for individual conditions for plotting
         condData(:,goodCount,1) = tempSubjDataSens1;
@@ -96,8 +108,8 @@ contrast = strcat(cond2Label, '-', cond1Label);
 %baseline data
 
 for subj=1:n
-    blEp = allData(1:60,subj);
-    avgBlEp = mean(blEp);
+    blEp = allData(1:60,:,subj);
+    avgBlEp = mean(blEp,1);
     avgBlEpRep = repmat(avgBlEp,1,m);
     size(avgBlEpRep);
     allData(:,subj) = allData(:,subj) - avgBlEpRep'; 
