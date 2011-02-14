@@ -60,8 +60,8 @@ end
 subjects = {'2','3','4','5','6','7','8','9','12','13','15','17','19'};
 % add subject-specific weirdness here
 %run = {}
-event_numbers = [5];
-event_names = {'AnimalTargets'}
+event_numbers = [11];
+event_names = {'AnimalPrime'}
 
 %% Loop
 for event_number = event_numbers
@@ -76,35 +76,16 @@ for event_number = event_numbers
             else %good data
                 % define data sets/eve
                 if strcmp(exp,'ATLLoc')
-                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/ya' sub '/ya' sub '_' exp1 '_raw.fif'];
-                    eve = ['/cluster/kuperberg/SemPrMM/MEG/data/ya' sub '/eve/ya' sub '_' exp1 'Modblink.eve'];
+                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/' sub '_' exp1 '_raw.fif'];
+                    eve = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/eve/' sub '_' exp1 'Modblink.eve'];
                 else
-                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/ya' sub '/ya' sub '_' exp1 'Run' run '_raw.fif'];
-                    eve = [ '/cluster/kuperberg/SemPrMM/MEG/data/ya' sub '/eve/ya' sub '_' exp1 'Run' run 'Modblink.eve'];
+                    ds = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/' sub '_' exp1 'Run' run '_raw.fif'];
+                    eve = [ '/cluster/kuperberg/SemPrMM/MEG/data/' sub '/eve/' sub '_' exp1 'Run' run 'Modblink.eve'];
                 end
-                % define cfg, eve, trialfunction and dataset
-                cfg = [];
-                cfg.sb.eve = eve;
-                cfg.dataset = ds;
-                cfg.trialfun = 'ftsb_event_reader';
-                cfg.sb.num = event_number;
-                cfg.sb.time = timee;
-                % read trials
-                cfg = ft_definetrial(cfg);
-                cfg.hdr = ft_read_header(ds);
-                cfg.channel = {'MEG*'};
-                cfg.continuous = 'yes';
-                cfg.lpfilter = 'yes';
-                cfg.lpfreq = 40;
-                cfg.demean = 'yes';
-                % read data into matlab
-                data = ft_preprocessing(cfg);
-                
+                [data, avg] = ftsb_make_average(ds,eve,timee);
                 if exist('all_data','var') == 1
                     all_data{end+1} = data;
                 end
-                % timelocked-analysis
-                avg = ft_timelockanalysis(cfg, data);
                 if exist('all_avg','var') == 1
                     all_avg{end+1} = avg;
                 end
