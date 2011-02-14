@@ -6,27 +6,27 @@ cd(newwd)
 fiffs = {};
 mats = {};
 %attloc
-files = dir('ya*_ATLLoc_raw.fif');
-mat = dir('ya*_ATLLoc_raw*.mat');
+files = dir('*_ATLLoc_raw.fif');
+mat = dir('*_ATLLoc_raw*.mat');
 fiffs{end+1} = files(1).name;
 mats{end+1} = mat(1).name;
 %baleen
-files = dir('ya*_Baleen*_raw.fif');
-mat = dir('ya*_Baleen*_raw*.mat');
+files = dir('*_Baleen*_raw.fif');
+mat = dir('*_Baleen*_raw*.mat');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
     mats{end+1} = mat(ii).name;
 end
 %maskedmm
-files = dir('ya*_MaskedMM*_raw.fif');
-mat = dir('ya*_MaskedMM*_raw*.mat');
+files = dir('*_MaskedMM*_raw.fif');
+mat = dir('*_MaskedMM*_raw*.mat');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
     mats{end+1} = mat(ii).name;
 end
 %axcpt
-files = dir('ya*_AXCPT*_raw.fif');
-mat = dir('ya*_AXCPT*_raw*.mat');
+files = dir('*_AXCPT*_raw.fif');
+mat = dir('*_AXCPT*_raw*.mat');
 for ii = 1:length(files)
     fiffs{end+1} = files(ii).name;
     mats{end+1} = mat(ii).name;
