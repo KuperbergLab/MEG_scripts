@@ -1,7 +1,0 @@
-#!/bin/csh
-
-setenv SUBJECT $1
-
-
-
-mne_setup_forward_model --surf --ico 4

@@ -34,8 +34,7 @@ mne_surf2bem \
 --fif $SUBJECTS_DIR/$1/bem/$1-bem.fif
 
 
-
-
 #mne_watershed_bem  
 ##use this if the flash surfaces don't work
 
+mne_setup_forward_model --surf --ico 4

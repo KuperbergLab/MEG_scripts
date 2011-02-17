@@ -29,7 +29,7 @@ elec.POS_R = [elec.T.r elec.C.r elec.TP.r elec.CP.r elec.P.r elec.PO.r elec.O.r]
 elec.ANT_M = elec.mid.ant;
 elec.POS_M = elec.mid.pos;
 %% exp info
-exp = 'ATLLoc';
+exp = 'BaleenHP';
 switch exp
     case 'ATLLoc'
         event_numbers = [41,42,43];
@@ -61,8 +61,8 @@ stype = 'ac';
 subjects = {'1'};
 % add subject-specific weirdness here
 %run = {}
-event_numbers = [42,43];
-event_names = {'WordList','String'};
+% event_numbers = [42,43];
+% event_names = {'WordList','String'};
 
 %% Loop
 for event_number = event_numbers
