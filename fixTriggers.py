@@ -117,12 +117,63 @@ for x in RUNS:
 
 	
 	for row in data:
+		trigger = row[3]
+		time = row[1]	
 		sampleRate = float(row[0])/float(row[1])
 		trueSample = float(row[0]) + 19
 		trueTime = trueSample/sampleRate
 		row[0] = str(int(round(trueSample,0)))
 		row[1] = str(round(trueTime,3))
 
+
+	##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
+		
+	firstRow[0] = firstSample
+	firstRow[1] = firstTime
+
+	
+	writeOutput.writeTable(outFile,data)
+
+
+###AXCPT
+
+RUNS = ['1','2']
+
+if subjID == 'ya3':
+	RUNS = ['1']
+
+for x in RUNS:
+
+	inFile = 'eve/'+subjID+'_AXCPTRun'+x+'.eve'
+	outFile = 'eve/'+subjID+'_AXCPTRun'+x+'Mod.eve'
+	print inFile
+	data = readInput.readTable(inFile)
+	
+	firstRow = data[0]
+	firstSample = firstRow[0]
+	firstTime = firstRow[1]
+
+	rowCount = 0
+	
+	for row in data:
+		trigger = row[3]
+		time = row[1]	
+		sampleRate = float(row[0])/float(row[1])
+		trueSample = float(row[0]) + 19
+		trueTime = trueSample/sampleRate
+		row[0] = str(int(round(trueSample,0)))
+		row[1] = str(round(trueTime,3))
+		
+		if trigger == '6':   ##change 6 blinks to 7s
+			print trigger,
+			compRow = data[rowCount+1]
+			compTrigger = compRow[3]
+
+			if compTrigger == '7':  
+					row[3] = '7'
+					
+		rowCount +=1
+	
 
 	##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
 		
