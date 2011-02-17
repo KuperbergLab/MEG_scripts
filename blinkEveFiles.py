@@ -18,10 +18,10 @@ DEBUG = False
 
 eves = glob(os.path.join(filePrefix,'eve',subjID+'*Mod.eve'))
 eves = filter(lambda x:(x.find('blink') == -1),eves)
-eves = filter(lambda x:(x.find('AXCPT') == -1),eves)
+#eves = filter(lambda x:(x.find('AXCPT') == -1),eves)
 eves.sort()
 blinks = glob(os.path.join(filePrefix,subjID+'*.blinks'))
-blinks = filter(lambda x:(x.find('AXCPT') == -1),blinks)
+#blinks = filter(lambda x:(x.find('AXCPT') == -1),blinks)
 blinks.sort()
 
 

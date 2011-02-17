@@ -15,6 +15,7 @@ filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 epMaxATL = ".5"   ## time in seconds for the end of the epoch (e.g. 900 ms post-stim onset)
 epMaxMasked = ".5"
 epMaxBaleen = ".7"
+epMaxAXCPT = ".7"
 
 ###############
 ##Blink .ave###
@@ -270,5 +271,66 @@ for runNum in runHP:
 	myFile.write('\t\ttmin\t-0.1\n')
 	myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
 
+	myFile.write('}\n')
+	myFile.close()	
 
+
+###################
+##AXCPT .ave###
+
+runAX = ['1','2']
+
+for runNum in runAX:
+	filename = filePrefix + '/ave/'+subjID + '_AXCPTRun' + runNum + '.ave'
+	print filename
+	
+	myFile = open(filename, "w")
+	myFile.close()	
+		
+	myFile = open(filename, "a")
+	myFile.write('average {\n\n')
+	myFile.write('\tname\t\"AXCPT averages\"\n\n')
+	myFile.write('\toutfile\t\t'+subjID+ '_AXCPTRun' + runNum + '-ave.fif\n')
+	myFile.write('\tlogfile\t\t./logs/'+subjID + '_AXCPTRun' + runNum +  '-ave.log\n')
+	#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_AXCPTRun' + runNum + '.eve\n\n')
+	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_AXCPTRun' + runNum + 'Modblink.eve\n\n')
+	myFile.write('\tgradReject\t'+gradRej + '\n\n')
+	
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"AY\"\n')
+	myFile.write('\t\tevent\t1\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+	
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"BX\"\n')
+	myFile.write('\t\tevent\t2\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"BY\"\n')
+	myFile.write('\t\tevent\t3\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+	
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"AX\"\n')
+	myFile.write('\t\tevent\t4\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+	
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"A\"\n')
+	myFile.write('\t\tevent\t5\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+	
+	myFile.write('\tcategory {\n')
+	myFile.write('\t\tname\t\"B\"\n')
+	myFile.write('\t\tevent\t6\n')
+	myFile.write('\t\ttmin\t-0.1\n')
+	myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
+
+	myFile.write('}\n')
 	myFile.close()	
