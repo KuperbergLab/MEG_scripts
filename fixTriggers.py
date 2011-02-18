@@ -142,12 +142,35 @@ RUNS = ['1','2']
 if subjID == 'ya3':
 	RUNS = ['1']
 
+
+		
 for x in RUNS:
 
 	inFile = 'eve/'+subjID+'_AXCPTRun'+x+'.eve'
 	outFile = 'eve/'+subjID+'_AXCPTRun'+x+'Mod.eve'
 	print inFile
 	data = readInput.readTable(inFile)
+	
+	if subjID == 'ya6':  ##Fix error in triggers for this subject
+		logFile = '../../vtsd_logs/ya6/AXCPT_ya6_List101_Run'+x+'.vtsd_log'
+		print logFile
+		logData = readInput.readTable(logFile)
+		firstPrimeRow = data[2]
+		firstPrimeTime = firstPrimeRow[1]
+		
+		
+		count = 0
+		
+		for row in data:
+			trueTime =  round(float(row[1]) - float(firstPrimeTime))
+			if row[3] == '8':
+				for logRow in logData:
+					logTime = round(float(logRow[5])+1)
+					if logTime == trueTime:
+						#print logRow[5], logTime, trueTime, row[3], logRow[9]
+						row[3] = logRow[9]
+						#print logRow
+	
 	
 	firstRow = data[0]
 	firstSample = firstRow[0]
@@ -165,7 +188,7 @@ for x in RUNS:
 		row[1] = str(round(trueTime,3))
 		
 		if trigger == '6':   ##change 6 blinks to 7s
-			print trigger,
+			#print trigger,
 			compRow = data[rowCount+1]
 			compTrigger = compRow[3]
 
