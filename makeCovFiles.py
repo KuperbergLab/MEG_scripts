@@ -13,54 +13,54 @@ filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 gradRej = "2500e-13"
 
 
-################
-##ATLLoc .cov###
-
-filename = filePrefix + '/cov/'+subjID + '_ATLLoc.cov'
-print filename
-
-myFile = open(filename, "w")
-myFile.close()	
-
-myFile = open(filename, "a")
-myFile.write('cov {\n\n')
-myFile.write('\tname\t\"ATLLoc\"\n\n')
-myFile.write('\toutfile\t\t'+subjID+ '_ATLLoc' + '-cov.fif\n')
-myFile.write('\tlogfile\t\t./logs/'+subjID + '_ATLLoc' + '-cov.log\n')
-#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocMod.eve\n\n')
-myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocModblink.eve\n\n')
-myFile.write('\tgradReject\t'+gradRej + '\n\n')
-
-myFile.write('\tdef {\n')
-myFile.write('\t\tname\t\"Sentences\"\n')
-myFile.write('\t\tevent\t1\n')
-myFile.write('\t\tignore\t0\n')
-myFile.write('\t\ttmin\t'+tMin+'\n')
-myFile.write('\t\ttmax\t-0.01\n')
-myFile.write('\t\tbmin\t'+tMin+'\n')
-myFile.write('\t\tbmax\t-.01\n\t}\n\n')
-
-myFile.write('\tdef {\n')
-myFile.write('\t\tname\t\"Noun Lists\"\n')
-myFile.write('\t\tevent\t2\n')
-myFile.write('\t\tignore\t0\n')
-myFile.write('\t\ttmin\t'+tMin+'\n')
-myFile.write('\t\ttmax\t-0.01\n')
-myFile.write('\t\tbmin\t'+tMin+'\n')
-myFile.write('\t\tbmax\t-.01\n\t}\n\n')
-
-myFile.write('\tdef {\n')
-myFile.write('\t\tname\t\"Consonant Strings\"\n')
-myFile.write('\t\tevent\t3\n')
-myFile.write('\t\tignore\t0\n')
-myFile.write('\t\ttmin\t'+tMin+'\n')
-myFile.write('\t\ttmax\t-0.01\n')
-myFile.write('\t\tbmin\t'+tMin+'\n')
-myFile.write('\t\tbmax\t-.01\n\t}\n\n')
-
-myFile.write('}\n')
-
-myFile.close()
+#################
+###ATLLoc .cov###
+#
+#filename = filePrefix + '/cov/'+subjID + '_ATLLoc.cov'
+#print filename
+#
+#myFile = open(filename, "w")
+#myFile.close()	
+#
+#myFile = open(filename, "a")
+#myFile.write('cov {\n\n')
+#myFile.write('\tname\t\"ATLLoc\"\n\n')
+#myFile.write('\toutfile\t\t'+subjID+ '_ATLLoc' + '-cov.fif\n')
+#myFile.write('\tlogfile\t\t./logs/'+subjID + '_ATLLoc' + '-cov.log\n')
+##myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocMod.eve\n\n')
+#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocModblink.eve\n\n')
+#myFile.write('\tgradReject\t'+gradRej + '\n\n')
+#
+#myFile.write('\tdef {\n')
+#myFile.write('\t\tname\t\"Sentences\"\n')
+#myFile.write('\t\tevent\t1\n')
+#myFile.write('\t\tignore\t0\n')
+#myFile.write('\t\ttmin\t'+tMin+'\n')
+#myFile.write('\t\ttmax\t-0.01\n')
+#myFile.write('\t\tbmin\t'+tMin+'\n')
+#myFile.write('\t\tbmax\t-.01\n\t}\n\n')
+#
+#myFile.write('\tdef {\n')
+#myFile.write('\t\tname\t\"Noun Lists\"\n')
+#myFile.write('\t\tevent\t2\n')
+#myFile.write('\t\tignore\t0\n')
+#myFile.write('\t\ttmin\t'+tMin+'\n')
+#myFile.write('\t\ttmax\t-0.01\n')
+#myFile.write('\t\tbmin\t'+tMin+'\n')
+#myFile.write('\t\tbmax\t-.01\n\t}\n\n')
+#
+#myFile.write('\tdef {\n')
+#myFile.write('\t\tname\t\"Consonant Strings\"\n')
+#myFile.write('\t\tevent\t3\n')
+#myFile.write('\t\tignore\t0\n')
+#myFile.write('\t\ttmin\t'+tMin+'\n')
+#myFile.write('\t\ttmax\t-0.01\n')
+#myFile.write('\t\tbmin\t'+tMin+'\n')
+#myFile.write('\t\tbmax\t-.01\n\t}\n\n')
+#
+#myFile.write('}\n')
+#
+#myFile.close()
 
 
 ###################

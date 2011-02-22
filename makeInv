@@ -4,12 +4,24 @@ setenv SUBJECT $1
 
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
-######FORWARD SOLUTIONS#############
+foreach t ('meg' 'eeg' 'megeeg')
 
-##ATLLOC##
+	foreach e ('ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenRun1' 'BaleenRun2' 'BaleenRun3' 'BaleenRun4' 'BaleenRun5' 'BaleenRun6' 'BaleenRun7' 'BaleenRun8')
 
-mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_ATLLoc-ave.fif
+		if ( $t == 'meg' ) then
+			echo mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --megonly --fwd $1_$e-ave-7-$t-fwd.fif
+		endif
+	
+		if ( $t == 'eeg' ) then
+			echo mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --eegonly --fwd $1_$e-ave-7-$t-fwd.fif
+		endif
 
+		if ( $t == 'megeeg' ) then
+			echo mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --fwd $1_$e-ave-7-$t-fwd.fif
+		endif
+
+	end
+end
 
 ##MaskedMM##
 
@@ -64,6 +76,8 @@ if ( -e $1_AXCPTRun1-ave.fif ) then
 	mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_AXCPT_All-cov.fif 
 endif
 
+
+end	
 
 
 ######MAKE MORPHING MAP TO FSAVERAGE######
