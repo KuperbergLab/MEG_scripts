@@ -91,61 +91,85 @@ echo "Making Cov Parameter Files"
 python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1 $2 $3
 
 
+##############################
 
-##########################
-###projon averages
+foreach proj ( 'projoff' 'projon')
 
-cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
+	cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_$proj
 
-mne_process_raw \
---raw ../$1_ATLLoc_raw.fif \
---ave ../ave/$1_ATLLoc.ave \
-#--cov ../cov/$1_ATLLoc.cov  \
---projon --lowpass 20 --highpass .5
+	mne_process_raw \
+	--raw ../$1_ATLLoc_raw.fif \
+	--ave ../ave/$1_ATLLoc.ave \
+	--$proj --lowpass 20 --highpass .5
+
+	mne_process_raw \
+	--raw ../$1_MaskedMMRun1_raw.fif \
+	--raw ../$1_MaskedMMRun2_raw.fif \
+	--ave ../ave/$1_MaskedMMRun1.ave \
+	--ave ../ave/$1_MaskedMMRun2.ave \
+	--gave $1_MaskedMM_All-ave.fif \
+	--$proj --lowpass 20
+
+	mne_process_raw \
+	--raw ../$1_BaleenRun1_raw.fif \
+	--raw ../$1_BaleenRun2_raw.fif \
+	--raw ../$1_BaleenRun3_raw.fif \
+	--raw ../$1_BaleenRun4_raw.fif \
+	--ave ../ave/$1_BaleenRun1.ave \
+	--ave ../ave/$1_BaleenRun2.ave \
+	--ave ../ave/$1_BaleenRun3.ave \
+	--ave ../ave/$1_BaleenRun4.ave \
+	--gave $1_BaleenLP_All-ave.fif \
+	--$proj --lowpass 20
+
+	mne_process_raw \
+	--raw ../$1_BaleenRun5_raw.fif \
+	--raw ../$1_BaleenRun6_raw.fif \
+	--raw ../$1_BaleenRun7_raw.fif \
+	--raw ../$1_BaleenRun8_raw.fif \
+	--ave ../ave/$1_BaleenRun5.ave \
+	--ave ../ave/$1_BaleenRun6.ave \
+	--ave ../ave/$1_BaleenRun7.ave \
+	--ave ../ave/$1_BaleenRun8.ave \
+	--gave $1_BaleenHP_All-ave.fif \
+	--$proj --lowpass 20
+
+
+	if ( -e ../$1_AXCPTRun1_raw.fif ) then
+		if ( -e ../$1_AXCPTRun2_raw.fif ) then
+			mne_process_raw \
+			--raw ../$1_AXCPTRun1_raw.fif \
+			--raw ../$1_AXCPTRun2_raw.fif \
+			--ave ../ave/$1_AXCPTRun1.ave \
+			--ave ../ave/$1_AXCPTRun2.ave \
+			--gave $1_AXCPT_All-ave.fif \
+			--$proj --lowpass 20
+		else
+			mne_process_raw \
+			--raw ../$1_AXCPTRun1_raw.fif \
+			--ave ../ave/$1_AXCPTRun1.ave \
+			--$proj --lowpass 20		
+		endif
+	endif
+
+	####################################
+	echo "Counting events"
+	
+	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 $proj
+	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 MaskedMM 2 $proj
+	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 Baleen 8 $proj
+
+end
+
+#######################################
+####COMPUTING COVARIANCE FOR PROJON####
 
 mne_process_raw \
 --raw ../$1_MaskedMMRun1_raw.fif \
 --raw ../$1_MaskedMMRun2_raw.fif \
---ave ../ave/$1_MaskedMMRun1.ave \
---ave ../ave/$1_MaskedMMRun2.ave \
---gave $1_MaskedMM_All-ave.fif \
 --cov ../cov/$1_MaskedMMRun1.cov \
 --cov ../cov/$1_MaskedMMRun2.cov \
 --gcov $1_MaskedMM_All-cov.fif \
---projon --lowpass 20
-
-mne_process_raw \
---raw ../$1_BaleenRun1_raw.fif \
---raw ../$1_BaleenRun2_raw.fif \
---raw ../$1_BaleenRun3_raw.fif \
---raw ../$1_BaleenRun4_raw.fif \
---ave ../ave/$1_BaleenRun1.ave \
---ave ../ave/$1_BaleenRun2.ave \
---ave ../ave/$1_BaleenRun3.ave \
---ave ../ave/$1_BaleenRun4.ave \
---gave $1_BaleenLP_All-ave.fif \
-#--cov ../cov/$1_BaleenRun1.cov \
-#--cov ../cov/$1_BaleenRun2.cov \
-#--cov ../cov/$1_BaleenRun3.cov \
-#--cov ../cov/$1_BaleenRun4.cov \
-#--gcov $1_BaleenLP_All-cov.fif \
---projon --lowpass 20
-
-mne_process_raw \
---raw ../$1_BaleenRun5_raw.fif \
---raw ../$1_BaleenRun6_raw.fif \
---raw ../$1_BaleenRun7_raw.fif \
---raw ../$1_BaleenRun8_raw.fif \
---ave ../ave/$1_BaleenRun5.ave \
---ave ../ave/$1_BaleenRun6.ave \
---ave ../ave/$1_BaleenRun7.ave \
---ave ../ave/$1_BaleenRun8.ave \
---gave $1_BaleenHP_All-ave.fif \
-#--cov ../cov/$1_BaleenRun5.cov \
-#--cov ../cov/$1_BaleenRun6.cov \
-#--cov ../cov/$1_BaleenRun7.cov \
-#--cov ../cov/$1_BaleenRun8.cov \
-#--gcov $1_BaleenHP_All-cov.fif \
 --projon --lowpass 20
 
 mne_process_raw \
@@ -166,130 +190,27 @@ mne_process_raw \
 --cov ../cov/$1_BaleenRun7.cov \
 --cov ../cov/$1_BaleenRun8.cov \
 --gcov $1_Baleen_All-cov.fif \
-
 --projon --lowpass 20
 
 
-
-
 if ( -e ../$1_AXCPTRun1_raw.fif ) then
 	if ( -e ../$1_AXCPTRun2_raw.fif ) then
 		mne_process_raw \
 		--raw ../$1_AXCPTRun1_raw.fif \
 		--raw ../$1_AXCPTRun2_raw.fif \
-		--ave ../ave/$1_AXCPTRun1.ave \
-		--ave ../ave/$1_AXCPTRun2.ave \
 		--cov ../cov/$1_AXCPTRun1.cov \
 		--cov ../cov/$1_AXCPTRun2.cov \
-		--gave $1_AXCPT_All-ave.fif \
 		--gcov $1_AXCPT_All-cov.fif \
-		--projoff --lowpass 20
+		--projon --lowpass 20
 	else
 		mne_process_raw \
 		--raw ../$1_AXCPTRun1_raw.fif \
 		--cov ../cov/$1_AXCPTRun1.cov \
-		--ave ../ave/$1_AXCPTRun1.ave \
-		--gave $1_AXCPT_All-ave.fif \
 		--gcov $1_AXCPT_All-cov.fif \
-		--projoff --lowpass 20		
+		--projon --lowpass 20		
 	endif
 endif
 
 
-
-
-####################################
-
-echo "Counting events"
-
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 projon
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 MaskedMM 2 projon
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 Baleen 8 projon
-
-if ( -e $1_AXCPTRun1_raw.fif ) then
-	if ( -e $1_AXCPTRun2_raw.fif ) then
-		python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 AX-CPT 2 projon
-	else
-		python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 AX-CPT 1 projon
-	endif
-endif
-
-##############################
-###projoff averages
-
-cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projoff
-
-mne_process_raw \
---raw ../$1_ATLLoc_raw.fif \
---ave ../ave/$1_ATLLoc.ave \
---projoff --lowpass 20 --highpass .5
-
-mne_process_raw \
---raw ../$1_MaskedMMRun1_raw.fif \
---raw ../$1_MaskedMMRun2_raw.fif \
---ave ../ave/$1_MaskedMMRun1.ave \
---ave ../ave/$1_MaskedMMRun2.ave \
---gave $1_MaskedMM_All-ave.fif \
---projoff --lowpass 20
-
-mne_process_raw \
---raw ../$1_BaleenRun1_raw.fif \
---raw ../$1_BaleenRun2_raw.fif \
---raw ../$1_BaleenRun3_raw.fif \
---raw ../$1_BaleenRun4_raw.fif \
---ave ../ave/$1_BaleenRun1.ave \
---ave ../ave/$1_BaleenRun2.ave \
---ave ../ave/$1_BaleenRun3.ave \
---ave ../ave/$1_BaleenRun4.ave \
---gave $1_BaleenLP_All-ave.fif \
---projoff --lowpass 20
-
-mne_process_raw \
---raw ../$1_BaleenRun5_raw.fif \
---raw ../$1_BaleenRun6_raw.fif \
---raw ../$1_BaleenRun7_raw.fif \
---raw ../$1_BaleenRun8_raw.fif \
---ave ../ave/$1_BaleenRun5.ave \
---ave ../ave/$1_BaleenRun6.ave \
---ave ../ave/$1_BaleenRun7.ave \
---ave ../ave/$1_BaleenRun8.ave \
---gave $1_BaleenHP_All-ave.fif \
---projoff --lowpass 20
-
-
-if ( -e ../$1_AXCPTRun1_raw.fif ) then
-	if ( -e ../$1_AXCPTRun2_raw.fif ) then
-		mne_process_raw \
-		--raw ../$1_AXCPTRun1_raw.fif \
-		--raw ../$1_AXCPTRun2_raw.fif \
-		--ave ../ave/$1_AXCPTRun1.ave \
-		--ave ../ave/$1_AXCPTRun2.ave \
-		--gave $1_AXCPT_All-ave.fif \
-		--projoff --lowpass 20
-	else
-		mne_process_raw \
-		--raw ../$1_AXCPTRun1_raw.fif \
-		--ave ../ave/$1_AXCPTRun1.ave \
-		--projoff --lowpass 20		
-	endif
-endif
-
-
-
-####################################
-
-#echo "Counting events"
-
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 projoff
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 MaskedMM 2 projoff
-python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 Baleen 8 projoff
-
-if ( -e $1_AXCPTRun1_raw.fif ) then
-	if ( -e $1_AXCPTRun2_raw.fif ) then
-		python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 AX-CPT 2 projoff
-	else
-		python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 AX-CPT 1 projoff
-	endif
-endif
 
 
