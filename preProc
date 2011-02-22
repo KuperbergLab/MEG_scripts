@@ -91,6 +91,7 @@ python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1 $2 $3
 
 
 ##############################
+####AVERAGING#################
 
 foreach proj ( 'projoff' 'projon')
 
@@ -153,6 +154,7 @@ foreach proj ( 'projoff' 'projon')
 	endif
 
 	####################################
+
 	echo "Counting events"
 	
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 $proj
