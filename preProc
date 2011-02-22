@@ -32,9 +32,8 @@ echo "Extracting events"
 
 foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenRun1' 'BaleenRun2' 'BaleenRun3' 'BaleenRun4' 'BaleenRun5' 'BaleenRun6' 'BaleenRun7' 'BaleenRun8' 'AXCPTRun1' 'AXCPTRun2')
 	
-	if ( -e $1_$run_raw.fif ) then
-		echo mne_process_raw --raw $1_$run_raw.fif --eventsout eve/$1_$run.eve
-		mne_process_raw --raw $1_$run_raw.fif --eventsout eve/$1_$run.eve
+	if ( -e $1_{$run}_raw.fif ) then
+		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve
 	endif
 
 
@@ -148,7 +147,8 @@ foreach proj ( 'projoff' 'projon')
 			mne_process_raw \
 			--raw ../$1_AXCPTRun1_raw.fif \
 			--ave ../ave/$1_AXCPTRun1.ave \
-			--$proj --lowpass 20		
+			--$proj --lowpass 20
+			cp $1_AXCPTRun1-ave.fif $1_AXCPT_All-ave.fif
 		endif
 	endif
 
@@ -158,6 +158,7 @@ foreach proj ( 'projoff' 'projon')
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 $proj
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 MaskedMM 2 $proj
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 Baleen 8 $proj
+	
 
 end
 
