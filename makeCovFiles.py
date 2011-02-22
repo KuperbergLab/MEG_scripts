@@ -280,7 +280,7 @@ runAX = ['1','2']
 	
 
 for runNum in runAX:
-	filename = filePrefix + '/ave/'+subjID + '_AXCPTRun' + runNum + '.cov'
+	filename = filePrefix + '/cov/'+subjID + '_AXCPTRun' + runNum + '.cov'
 	print filename
 	
 	myFile = open(filename, "w")
@@ -295,7 +295,7 @@ for runNum in runAX:
 	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_AXCPTRun' + runNum + 'Modblink.eve\n\n')
 	myFile.write('\tgradReject\t'+gradRej + '\n\n')
 	
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"AY\"\n')
 	myFile.write('\t\tevent\t1\n')
 	myFile.write('\t\tignore\t0\n')
@@ -304,7 +304,7 @@ for runNum in runAX:
 	myFile.write('\t\tbmin\t'+tMin+'\n')
 	myFile.write('\t\tbmax\t-.01\n\t}\n\n')	
 	
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"BX\"\n')
 	myFile.write('\t\tevent\t2\n')
 	myFile.write('\t\tignore\t0\n')
@@ -313,7 +313,7 @@ for runNum in runAX:
 	myFile.write('\t\tbmin\t'+tMin+'\n')
 	myFile.write('\t\tbmax\t-.01\n\t}\n\n')	
 
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"BY\"\n')
 	myFile.write('\t\tevent\t3\n')
 	myFile.write('\t\tignore\t0\n')
@@ -322,7 +322,7 @@ for runNum in runAX:
 	myFile.write('\t\tbmin\t'+tMin+'\n')
 	myFile.write('\t\tbmax\t-.01\n\t}\n\n')	
 	
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"AX\"\n')
 	myFile.write('\t\tevent\t4\n')
 	myFile.write('\t\tignore\t0\n')
@@ -331,7 +331,7 @@ for runNum in runAX:
 	myFile.write('\t\tbmin\t'+tMin+'\n')
 	myFile.write('\t\tbmax\t-.01\n\t}\n\n')	
 	
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"A\"\n')
 	myFile.write('\t\tevent\t5\n')
 	myFile.write('\t\tignore\t0\n')
@@ -340,7 +340,7 @@ for runNum in runAX:
 	myFile.write('\t\tbmin\t'+tMin+'\n')
 	myFile.write('\t\tbmax\t-.01\n\t}\n\n')	
 	
-	myFile.write('\tcategory {\n')
+	myFile.write('\tdef {\n')
 	myFile.write('\t\tname\t\"B\"\n')
 	myFile.write('\t\tevent\t6\n')
 	myFile.write('\t\tignore\t0\n')

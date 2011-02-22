@@ -4,7 +4,21 @@ setenv SUBJECT $1
 
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
+######FORWARD SOLUTIONS#############
+
+##ATLLOC##
+
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_ATLLoc-ave.fif
+
+
+##MaskedMM##
+
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_MaskedMMRun1-ave.fif
+mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_MaskedMMRun2-ave.fif
+
+mne_average_forward_solutions --fwd $1_MaskedMMRun1-ave-7-fwd.fif --fwd $1_MaskedMMRun2-ave-7-fwd.fif --out $1_MaskedMM_All-ave-7-fwd.fif
+
+##BaleenLP##
 
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun1-ave.fif
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun2-ave.fif
@@ -13,6 +27,8 @@ mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun4
 
 mne_average_forward_solutions --fwd $1_BaleenRun1-ave-7-fwd.fif --fwd $1_BaleenRun2-ave-7-fwd.fif --fwd $1_BaleenRun3-ave-7-fwd.fif --fwd $1_BaleenRun4-ave-7-fwd.fif --out $1_BaleenLP_All-ave-7-fwd.fif
 
+##BaleenHP##
+
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun5-ave.fif
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun6-ave.fif
 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun7-ave.fif
@@ -20,8 +36,36 @@ mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_BaleenRun8
 
 mne_average_forward_solutions --fwd $1_BaleenRun5-ave-7-fwd.fif --fwd $1_BaleenRun6-ave-7-fwd.fif --fwd $1_BaleenRun7-ave-7-fwd.fif --fwd $1_BaleenRun8-ave-7-fwd.fif --out $1_BaleenHP_All-ave-7-fwd.fif
 
-mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_ATLLoc-cov.fif
+##AXCPT##
+
+if ( -e $1_AXCPTRun1-ave.fif ) then
+	mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_AXCPTRun1-ave.fif
+
+	if ( -e $1_AXCPTRun2-ave.fif ) then
+		mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_AXCPTRun2-ave.fif
+		mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-fwd.fif --fwd $1_AXCPTRun2-ave-7-fwd.fif --out $1_AXCPT_All-ave-7-fwd.fif
+	endif
+
+endif
+
+
+###################INVERSE SOLUTIONS####################
+
+mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_BaleenLP_All-cov.fif
+##Note we're using the covariance from BaleenLP, because we don't have a good baseline period in ATLLoc
+
+mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_MaskedMM_All-cov.fif
+
 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_BaleenLP_All-cov.fif
+
 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_BaleenHP_All-cov.fif
+
+if ( -e $1_AXCPTRun1-ave.fif ) then
+	mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-fwd.fif --depth --loose .2 --meg --senscov $1_AXCPT_All-cov.fif 
+endif
+
+
+
+######MAKE MORPHING MAP TO FSAVERAGE######
 
 mne_make_morph_maps --from $1 --to fsaverage
