@@ -20,7 +20,7 @@ mne_setup_source_space
 if ($BEM_METHOD == FLASH) then
 	###Create only if flash surfaces have not already been created###
 	###(bem/flash directory is created by the mne_flash_bem script)
-	if ( ! -d "/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/ya1/bem/flash" ) then
+	if ( ! -d "/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash/" ) then
 		echo "flash 05 does not exist"
 		echo "Running BEM Stuff..."
 		cd $SUBJECTS_DIR/$1/bem/flash_org
