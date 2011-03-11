@@ -4,7 +4,7 @@ function avgAcrossSubjs(exp,dataType,subjList)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 %%Get a template fif structure from random subject average
-blankStr = fiff_read_evoked_all(strcat(dataPath,'ya2/ave_',dataType,'/ya2_',exp,'-ave.fif'));
+blankStr = fiff_read_evoked_all(strcat(dataPath,'ya17/ave_',dataType,'/ya17_',exp,'-ave.fif'));
 condNum = size(blankStr.evoked,2)
 sampleNum = size(blankStr.evoked(1).epochs,2)
 chanNum = 390;

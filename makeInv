@@ -4,6 +4,8 @@ setenv SUBJECT $1
 
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
+date
+
 foreach t ('meg' 'eeg' 'megeeg')
 
 ####FORWARD SOLUTIONS#####
@@ -55,28 +57,28 @@ foreach t ('meg' 'eeg' 'megeeg')
 	##Note we're using the covariance from BaleenLP, because we don't have a good baseline period in ATLLoc
 	
 	if ( $t == 'meg') then
-		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif 
-		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_MaskedMM_All-cov.fif
-		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif
-		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif
+		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif 
+		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif
+		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif
+		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif
 		if ( -e $1_AXCPTRun1-ave.fif ) then
 			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --senscov $1_AXCPT_All-cov.fif 
 		endif
 		
 	else if ( $t == 'eeg') then
-		mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMM-ave-7-$t-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenLP-ave-7-$t-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenHP-ave-7-$t-$t-inv.fif
+		mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif --inv $1_ATLLoc-ave-7-$t-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif --inv $1_MaskedMM-ave-7-$t-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif --inv $1_BaleenLP-ave-7-$t-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AllTar-cov.fif --inv $1_BaleenHP-ave-7-$t-$t-inv.fif
 		if ( -e $1_AXCPTRun1-ave.fif ) then
-			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --senscov $1_AXCPT_All-cov.fif --inv $1_$AXCPT-ave-7-$t-$t-inv.fif
+			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT-ave-7-$t-$t-inv.fif
 		endif
 				
 	else if ( $t == 'megeeg') then
-		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif 
-		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_MaskedMM_All-cov.fif
-		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif
-		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2  --meg --eeg --senscov $1_Baleen_All-cov.fif
+		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_AllTar-cov.fif 
+		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_AllTar-cov.fif
+		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_AllTar-cov.fif
+		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2  --meg --eeg --senscov $1_AllTar-cov.fif
 		if ( -e $1_AXCPTRun1-ave.fif ) then
 			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg  --senscov $1_AXCPT_All-cov.fif 
 		endif

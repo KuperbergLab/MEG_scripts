@@ -5,6 +5,8 @@
 
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1
 
+date
+
 mkdir eve
 mkdir ave
 mkdir cov
@@ -36,6 +38,7 @@ foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenRun1' 'Baleen
 		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve
 	endif
 
+end
 
 ##############################################
 echo
@@ -214,6 +217,31 @@ if ( -e ../$1_AXCPTRun1_raw.fif ) then
 	endif
 endif
 
+###COMPUTE FOR ALL TARGETS
+
+mne_process_raw \
+--raw ../$1_MaskedMMRun1_raw.fif \
+--raw ../$1_MaskedMMRun2_raw.fif \
+--raw ../$1_BaleenRun1_raw.fif \
+--raw ../$1_BaleenRun2_raw.fif \
+--raw ../$1_BaleenRun3_raw.fif \
+--raw ../$1_BaleenRun4_raw.fif \
+--raw ../$1_BaleenRun5_raw.fif \
+--raw ../$1_BaleenRun6_raw.fif \
+--raw ../$1_BaleenRun7_raw.fif \
+--raw ../$1_BaleenRun8_raw.fif \
+--cov ../cov/$1_MaskedMMRun1.cov \
+--cov ../cov/$1_MaskedMMRun2.cov \
+--cov ../cov/$1_BaleenRun1.cov \
+--cov ../cov/$1_BaleenRun2.cov \
+--cov ../cov/$1_BaleenRun3.cov \
+--cov ../cov/$1_BaleenRun4.cov \
+--cov ../cov/$1_BaleenRun5.cov \
+--cov ../cov/$1_BaleenRun6.cov \
+--cov ../cov/$1_BaleenRun7.cov \
+--cov ../cov/$1_BaleenRun8.cov \
+--gcov $1_AllTar-cov.fif \
+--projon --lowpass 20
 
 
 

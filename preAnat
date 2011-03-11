@@ -3,6 +3,8 @@
 #preAnat ya14 FLASH (if flash files exist)
 #preAnat ac1 WATER (if no flash files exist)
 
+date
+
 setenv SUBJECT $1 
 set BEM_METHOD=$2
 
