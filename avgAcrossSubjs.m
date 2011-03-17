@@ -1,6 +1,6 @@
 function avgAcrossSubjs(exp,dataType,subjList)
 
-%%%Currently does not remove bad channels from image
+%%%Currently does remove bad channels from image
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 %%Get a template fif structure from random subject average
