@@ -95,7 +95,7 @@ for subj=subjList
     end
     
 end
-goodCount
+goodCount;
 
 cond1Label = tempSubjData.evoked(cond1).comment;
 cond2Label = tempSubjData.evoked(cond2).comment;
@@ -147,7 +147,7 @@ mean(tData);
 std(tData);
 tData;
 
-[h,p,ci,stats] = ttest(tData)
+[h,p,ci,stats] = ttest(tData);
 
 %figure;plot(tAxis,mean(allData,2));title(strcat(sensName,'-',int2str(cond2), '-',int2str(cond1), ' ',int2str(t1),'-',int2str(t2)))
 %figure;plot(tAxis,mean(condData(:,:,1),2));hold;plot(tAxis,mean(condData(:,:,2),2),'r');title(strcat(sensName,'-',int2str(cond2), '-',int2str(cond1), ' ',int2str(t1),'-',int2str(t2)))
