@@ -157,9 +157,7 @@ for x in RUNS:
 		print logFile
 		logData = readInput.readTable(logFile)
 		firstPrimeRow = data[2]
-		firstPrimeTime = firstPrimeRow[1]
-	###############################################################
-		
+		firstPrimeTime = firstPrimeRow[1]		
 		count = 0
 		
 		##Fix timing due to error in trigger coding
@@ -172,7 +170,7 @@ for x in RUNS:
 						#print logRow[5], logTime, trueTime, row[3], logRow[9]
 						row[3] = logRow[9]
 						#print logRow
-	
+	################################################################
 	
 	firstRow = data[0]
 	firstSample = firstRow[0]
@@ -188,9 +186,11 @@ for x in RUNS:
 		trueTime = trueSample/sampleRate
 		row[0] = str(int(round(trueSample,0)))
 		row[1] = str(round(trueTime,3))
-		
-		nextRow = data[rowCount+1]
-		nextTrigger = compRow[3]
+		if len(data) > rowCount +1:
+			nextRow = data[rowCount+1]
+			nextTrigger = nextRow[3]
+		else:
+			break
 
 		#############################################
 		##change blinks triggered as 6 to 7s
@@ -209,6 +209,7 @@ for x in RUNS:
 				
 		##BX, BY, AY case
 		if (trigger == '1' or trigger == '2' or trigger == '3'):
+			
 			if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
 				row[3] = '4' + trigger
 		
