@@ -15,7 +15,7 @@ data = readInput.readTable(inFile)
 dataSize = len(data)
 
 wordCount = 0
-flag = 0
+flag = ''
 
 firstRow = data[0]
 firstSample = firstRow[0]
@@ -142,7 +142,8 @@ RUNS = ['1','2']
 if subjID == 'ya3':
 	RUNS = ['1']
 
-
+if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
+	RUNS = []
 		
 for x in RUNS:
 
