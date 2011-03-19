@@ -151,16 +151,18 @@ for x in RUNS:
 	print inFile
 	data = readInput.readTable(inFile)
 	
-	if subjID == 'ya6':  ##Fix error in triggers for this subject
+	###############################################################
+	if subjID == 'ya6':  ####Fix error in triggers for this subject
 		logFile = '../../vtsd_logs/ya6/AXCPT_ya6_List101_Run'+x+'.vtsd_log'
 		print logFile
 		logData = readInput.readTable(logFile)
 		firstPrimeRow = data[2]
 		firstPrimeTime = firstPrimeRow[1]
-		
+	###############################################################
 		
 		count = 0
 		
+		##Fix timing due to error in trigger coding
 		for row in data:
 			trueTime =  round(float(row[1]) - float(firstPrimeTime))
 			if row[3] == '8':
@@ -187,16 +189,33 @@ for x in RUNS:
 		row[0] = str(int(round(trueSample,0)))
 		row[1] = str(round(trueTime,3))
 		
-		if trigger == '6':   ##change 6 blinks to 7s
-			#print trigger,
-			compRow = data[rowCount+1]
-			compTrigger = compRow[3]
+		nextRow = data[rowCount+1]
+		nextTrigger = compRow[3]
 
-			if compTrigger == '7':  
+		#############################################
+		##change blinks triggered as 6 to 7s
+		
+		if trigger == '6':   
+			if nextTrigger == '7':  
 					row[3] = '7'
-					
+							
+		###########################################
+		##change triggers for incorrect trials#####
+		
+		##AX case
+		if trigger == '4': 
+			if len(nextTrigger) < 2:  ###Test for response (16, 32, 64 or 128)
+				row[3] = '4' + trigger
+				
+		##BX, BY, AY case
+		if (trigger == '1' or trigger == '2' or trigger == '3'):
+			if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
+				row[3] = '4' + trigger
+		
+		
 		rowCount +=1
 	
+		
 
 	##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
 		
