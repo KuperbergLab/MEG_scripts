@@ -6,6 +6,7 @@ dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 %%Get a template fif structure from random subject average
 blankStr = fiff_read_evoked_all(strcat(dataPath,'ya17/ave_',dataType,'/ya17_',exp,'-ave.fif'));
 condNum = size(blankStr.evoked,2)
+if strcmp(exp, 'ATLLoc') condNum = 3; end  %%don't want to try to average the whole-sentence epochs
 sampleNum = size(blankStr.evoked(1).epochs,2)
 chanNum = 390;
 count = 0;
