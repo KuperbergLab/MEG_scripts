@@ -7,13 +7,13 @@ cd /cluster/kuperberg/SemPrMM/MEG/data/$1
 
 date
 
-mkdir eve
-mkdir ave
-mkdir cov
-mkdir ave_projon
-mkdir ave_projoff
-mkdir ave_projon/logs
-mkdir ave_projoff/logs
+mkdir eve -m g+rws
+mkdir ave -m g+rws
+mkdir cov -m g+rws
+mkdir ave_projon -m g+rws
+mkdir ave_projoff -m g+rws
+mkdir ave_projon/logs -m g+rws
+mkdir ave_projoff/logs -m g+rws
 
 
 ################################################################
@@ -24,7 +24,7 @@ if ( ! -d "raw_backup" ) then
 	cp *_raw.fif raw_backup
 endif
 
-chmod u=rwx *_raw.fif
+chmod ug=rwx *_raw.fif
 
 #############################################################
 ##Extracting events read from .fif files into .eve text files
@@ -169,6 +169,7 @@ end
 
 #######################################
 ####COMPUTING COVARIANCE FOR PROJON####
+echo Computing covariance
 
 mne_process_raw \
 --raw ../$1_MaskedMMRun1_raw.fif \
@@ -219,6 +220,7 @@ endif
 
 ###COMPUTE FOR ALL TARGETS
 
+
 mne_process_raw \
 --raw ../$1_MaskedMMRun1_raw.fif \
 --raw ../$1_MaskedMMRun2_raw.fif \
@@ -243,5 +245,8 @@ mne_process_raw \
 --gcov $1_AllTar-cov.fif \
 --projon --lowpass 20
 
+echo FINISHED
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1
 
-
+########FIX GROUP ON ALL FILES########
+chgrp -R lingua .
