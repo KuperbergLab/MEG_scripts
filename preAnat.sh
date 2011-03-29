@@ -54,6 +54,8 @@ endif
 
 ###Create surfaces for viewing
 
+mne_setup_forward_model --surf --ico 4
+
 mne_surf2bem --surf $SUBJECTS_DIR/$1/bem/outer_skin.surf --id 4 --surf $SUBJECTS_DIR/$1/bem/outer_skull.surf --id 3 --surf $SUBJECTS_DIR/$1/bem/inner_skull.surf --id 1 --fif $SUBJECTS_DIR/$1/bem/$1-bem.fif
 
-mne_setup_forward_model --surf --ico 4
+
