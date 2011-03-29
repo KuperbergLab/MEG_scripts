@@ -1,3 +1,7 @@
+#!/bin/csh
+
+setenv SUBJECT $1
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
 #####Make stc files to subtract in Matlab####
 

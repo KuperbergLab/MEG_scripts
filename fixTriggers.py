@@ -1,10 +1,11 @@
 import readInput
 import writeOutput
 import sys
+import os
 
 def fixTriggers(subjID):
 	#ATLLOC
-	
+	os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
 	inFile = 'eve/' + subjID + '_ATLLoc.eve'
 	outFile = 'eve/' + subjID + '_ATLLocMod.eve'
 	
