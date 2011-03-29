@@ -33,6 +33,7 @@ if ($BEM_METHOD == FLASH) then
 		mne_flash_bem --noflash30
 		###Create symbolic links to the bem surfaces###
 		cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
+		rm *.surf
 		ln -s ./flash/outer_skin.surf outer_skin.surf
 		ln -s ./flash/outer_skull.surf outer_skull.surf
 		ln -s ./flash/inner_skull.surf inner_skull.surf
@@ -45,9 +46,10 @@ else
 	mne_watershed_bem  
 	###Create symbolic links to the bem surfaces###
 	cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
-	ln -s ./watershed/outer_skin.surf outer_skin.surf
-	ln -s ./watershed/outer_skull.surf outer_skull.surf
-	ln -s ./watershed/inner_skull.surf inner_skull.surf
+	rm *.surf
+	ln -s ./watershed/$1_outer_skin_surface outer_skin.surf
+	ln -s ./watershed/$1_outer_skull_surface outer_skull.surf
+	ln -s ./watershed/$1_inner_skull_surface inner_skull.surf
 endif
 
 #####################################
