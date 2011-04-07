@@ -1,7 +1,7 @@
 import readInput
 import writeOutput
 
-subjList = ['ya1','ya2','ya3','ya4','ya5','ya6','ya7','ya8','ya9','ya12','ya13','ya15','ya16','ya17','ya19']
+subjList = ['ya1','ya2','ya3','ya4','ya5','ya6','ya7','ya8','ya9','ya12','ya13','ya15','ya16','ya17','ya18','ya19','ya20','ya21','ya23']
 
 dataType = 'ave_projon'
 
@@ -13,6 +13,7 @@ condList = ['1','2','3']
 allSubj = [['subj','C1','%','C2','%','C3','%']]
 
 for subj in subjList:
+	#print subj
 	tempData = [subj]
 	for cond in condList:
 		totalCount = 0
@@ -62,3 +63,5 @@ for subj in subjList:
 
 outFile = dataPath + 'Baleen_ArtRej.txt';
 writeOutput.writeTable(outFile, allSubj)
+
+print "hello"
