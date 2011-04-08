@@ -7,19 +7,32 @@ cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
 ###Unmorphed##
 
-mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc $1_BaleenLP_UnRelFiller-spm.stc --smooth 5 --spm
+foreach run (1 2 3 4)
+	
+	mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set 4 --bmin -100 --bmax -.01 --stc $1_BaleenRun{$run}_c4-spm.stc --smooth 5 --spm
+	
+	foreach cond (1 2)	
+		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc $1_BaleenRun{$run}_c{$cond}-spm.stc --smooth 5 --spm
+	end
 
-mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc $1_BaleenHP_Rel-spm.stc --smooth 5 --spm
+end
 
-mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc $1_BaleenHP_Unrel-spm.stc --smooth 5 --spm
+foreach run (5 6 7 8)
+
+	foreach cond (1 2)	
+		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc $1_BaleenRun{$run}_c{$cond}-spm.stc --smooth 5 --spm
+	end
+	
+end
+
 
 ##Morphed##
-mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc $1_BaleenLP_UnRelFillerM-spm.stc --smooth 5 --spm --morph fsaverage
 
-mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc $1_BaleenHP_RelM-spm.stc --smooth 5 --spm --morph fsaverage
+foreach run (1 2 3 4)
 
-mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc $1_BaleenHP_UnrelM-spm.stc --smooth 5 --spm --morph fsaverage
+	mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set 4 --bmin -100 --bmax -.01 --stc $1_BaleenRun{$run}_c4-spm-M.stc --smooth 5 --spm --morph fsaverage
 
+end
 
 ########FIX GROUP ON ALL FILES########
 chgrp -R lingua .
