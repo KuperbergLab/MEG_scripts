@@ -9,43 +9,31 @@ mkdir stc
 
 ###Unmorphed##
 
-foreach run (1 2 3 4)  ##This is set 4, the unrelated filler in LP
-	
-	mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c4-spm.stc --smooth 5 --spm
-	
-	foreach cond (1 2)	##This is sets 1 and 2, the targets of interest
-		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c{$cond}-spm.stc --smooth 5 --spm
-	end
+##This is set 4, the unrelated filler in LP
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c4-spm.stc --smooth 5 --spm
 
-end
+##This is sets 1 and 2, targets of interest in LP
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c1-spm.stc --smooth 5 --spm
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c2-spm.stc --smooth 5 --spm
 
-foreach run (5 6 7 8)
+##This is sets 6 and 7, targets of interest in HP
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c1-spm.stc --smooth 5 --spm
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c2-spm.stc --smooth 5 --spm
 
-	foreach cond (1 2)	##This is sets 1 and 2, the targets of interest
-		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c{$cond}-spm.stc --smooth 5 --spm
-	end
-	
-end
 
 ##Morphed##
 
-foreach run (1 2 3 4)  ##This is set 4, the unrelated filler in LP
-	
-	mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c4-M-spm.stc --smooth 5 --spm --morph fsaverage
-	
-	foreach cond (1 2)	##This is sets 1 and 2, the targets of interest
-		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c{$cond}-M-spm.stc --smooth 5 --spm --morph fsaverage
-	end
+##This is set 4, the unrelated filler in LP
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c4-spm.stc --smooth 5 --spm --morph fsaverage
 
-end
+##This is sets 1 and 2, targets of interest in LP
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c1-spm.stc --smooth 5 --spm --morph fsaverage
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c2-spm.stc --smooth 5 --spm --morph fsaverage
 
-foreach run (5 6 7 8)
-
-	foreach cond (1 2)	##This is sets 1 and 2, the targets of interest
-		mne_make_movie --inv $1_BaleenRun{$run}-ave-7-meg-inv.fif --meas $1_BaleenRun{$run}-ave.fif --set $cond --bmin -100 --bmax -.01 --stc stc/$1_BaleenRun{$run}_c{$cond}-M-spm.stc --smooth 5 --spm --morph fsaverage
-	end
+##This is sets 6 and 7, targets of interest in HP
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 6 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c1-spm.stc --smooth 5 --spm --morph fsaverage
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 7 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c2-spm.stc --smooth 5 --spm --morph fsaverage
 	
-end
 
 ########FIX GROUP ON ALL FILES########
 chgrp -R lingua .
