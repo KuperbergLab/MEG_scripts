@@ -29,12 +29,30 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 			endif
 			
 			if ( $t == 'meg-eeg' ) then
-				mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --fwd $1_$e-ave-7-meg-eeg-fwd.fif
+				mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --fwd $1_$e-ave-7-$t-fwd.fif
 			endif
 			
 		endif
 
 	end
+
+########################AVERAGE FORWARD SOLUTIONS#######################
+	
+	if ($t == 'meg' || $t == 'meg-eeg') then
+		mne_average_forward_solutions --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --out $1_MaskedMM_All-ave-7-$t-fwd.fif
+		
+		mne_average_forward_solutions --fwd $1_BaleenRun1-ave-7-$t-fwd.fif --fwd $1_BaleenRun2-ave-7-$t-fwd.fif --fwd $1_BaleenRun3-ave-7-$t-fwd.fif --fwd $1_BaleenRun4-ave-7-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif
+		
+		mne_average_forward_solutions --fwd $1_BaleenRun5-ave-7-$t-fwd.fif --fwd $1_BaleenRun6-ave-7-$t-fwd.fif --fwd $1_BaleenRun7-ave-7-$t-fwd.fif --fwd $1_BaleenRun8-ave-7-$t-fwd.fif --out $1_BaleenHP_All-ave-7-$t-fwd.fif
+		
+		if ( -e $1_AXCPTRun2-ave.fif ) then
+			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --out AXCPT_All-ave-7-$t-fwd.fif
+		
+		else if ( -e $1_AXCPTRun1-ave.fif ) then
+			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif  --out AXCPT_All-ave-7-$t-fwd.fif
+		endif
+		
+	endif
 
 ###################INVERSE SOLUTIONS####################
 ###note these only change if cov matrix changes###
@@ -55,50 +73,32 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 	else if ( $t == 'meg') then
 		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-inv.fif
 
-		 mne_do_inverse_operator --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMMRun1-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMMRun2-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMM_All-ave-7-$t-inv.fif
+
 		 
-		 mne_do_inverse_operator --fwd $1_BaleenRun1-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun1-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun2-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun2-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun3-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun3-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun4-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun4-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun5-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun5-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun6-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun6-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun7-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun7-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun8-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun8-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenLP_All-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenHP_All-ave-7-$t-inv.fif
 
 		if ( -e $1_AXCPTRun1-ave.fif ) then
-			mne_do_inverse_operator --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPTRun1-ave-7-$t-inv.fif
+			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT_All-ave-7-$t-inv.fif
 		endif
 
-		if ( -e $1_AXCPTRun2-ave.fif ) then
-			mne_do_inverse_operator --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --depth --loose .2 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPTRun2-ave-7-$t-inv.fif
-		endif		
-	
 
-	##This has to be done separately b/c I couldn't figure out how to code it with the previous loop given the --meg and --eeg options
+		##This has to be done separately b/c I couldn't figure out how to code it with the previous loop given the --meg and --eeg options
 	else if ($t == 'meg-eeg') then
-		mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-inv.fif
 
-		 mne_do_inverse_operator --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMMRun1-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMMRun2-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMM_All-ave-7-$t-inv.fif
 		 
-		 mne_do_inverse_operator --fwd $1_BaleenRun1-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun1-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun2-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun2-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun3-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun3-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun4-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun4-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun5-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun5-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun6-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun6-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun7-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun7-ave-7-$t-inv.fif
-		 mne_do_inverse_operator --fwd $1_BaleenRun8-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_Baleen_All-cov.fif --inv $1_BaleenRun8-ave-7-$t-inv.fif
+		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenLP_All-ave-7-$t-inv.fif
+		 
+		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenHP_All-ave-7-$t-inv.fif
 
 		if ( -e $1_AXCPTRun1-ave.fif ) then
-			mne_do_inverse_operator --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPTRun1-ave-7-$t-inv.fif
+			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT_All-ave-7-$t-inv.fif
 		endif
+		 
 
-		if ( -e $1_AXCPTRun2-ave.fif ) then
-			mne_do_inverse_operator --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --depth --loose .2 --meg --eeg --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPTRun2-ave-7-$t-inv.fif
-		endif	
 	endif		
 
 end	
