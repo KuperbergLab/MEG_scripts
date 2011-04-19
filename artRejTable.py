@@ -1,7 +1,7 @@
 import readInput
 import writeOutput
 
-subjList = ['ya1','ya2','ya3','ya4','ya5','ya6','ya7','ya8','ya9','ya12','ya13','ya15','ya16','ya17','ya18','ya19','ya20','ya21','ya23', 'ya24', 'ya25']
+subjList = ['ya1','ya2','ya3','ya4','ya5','ya6','ya7','ya8','ya9','ya12','ya13','ya15','ya16','ya17','ya18','ya19','ya20','ya21','ya23', 'ya24', 'ya25', 'ya26']
 
 dataType = 'ave_projon'
 
