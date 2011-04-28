@@ -46,7 +46,6 @@ def makeCovFiles(subjID,preBlinkTime,postBlinkTime):
 			myFile.write('}\n')
 		
 
-	
 	###################
 
 	

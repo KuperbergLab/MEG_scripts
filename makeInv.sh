@@ -20,16 +20,16 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 	endif
 
 
-	foreach e ('ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenRun1' 'BaleenRun2' 'BaleenRun3' 'BaleenRun4' 'BaleenRun5' 'BaleenRun6' 'BaleenRun7' 'BaleenRun8' 'AXCPTRun1' 'AXCPTRun2')
+	foreach exp ('ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')
 	
-		if ( -e $1_$e-ave.fif ) then
+		if ( -e $1_$exp-ave.fif ) then
 
 			if ( $t == 'meg' ) then
-				 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --megonly --fwd $1_$e-ave-7-$t-fwd.fif
+				 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$exp-ave.fif --megonly --fwd $1_$exp-ave-7-$t-fwd.fif
 			endif
 			
 			if ( $t == 'meg-eeg' ) then
-				mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$e-ave.fif --fwd $1_$e-ave-7-$t-fwd.fif
+				mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$exp-ave.fif --fwd $1_$exp-ave-7-$t-fwd.fif
 			endif
 			
 		endif
@@ -41,9 +41,9 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 	if ($t == 'meg' || $t == 'meg-eeg') then
 		mne_average_forward_solutions --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --out $1_MaskedMM_All-ave-7-$t-fwd.fif
 		
-		mne_average_forward_solutions --fwd $1_BaleenRun1-ave-7-$t-fwd.fif --fwd $1_BaleenRun2-ave-7-$t-fwd.fif --fwd $1_BaleenRun3-ave-7-$t-fwd.fif --fwd $1_BaleenRun4-ave-7-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif
+		mne_average_forward_solutions --fwd $1_BaleenLPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun4-ave-7-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif
 		
-		mne_average_forward_solutions --fwd $1_BaleenRun5-ave-7-$t-fwd.fif --fwd $1_BaleenRun6-ave-7-$t-fwd.fif --fwd $1_BaleenRun7-ave-7-$t-fwd.fif --fwd $1_BaleenRun8-ave-7-$t-fwd.fif --out $1_BaleenHP_All-ave-7-$t-fwd.fif
+		mne_average_forward_solutions --fwd $1_BaleenHPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun4-ave-7-$t-fwd.fif --out $1_BaleenHP_All-ave-7-$t-fwd.fif
 		
 		if ( -e $1_AXCPTRun2-ave.fif ) then
 			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --out AXCPT_All-ave-7-$t-fwd.fif

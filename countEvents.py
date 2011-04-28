@@ -17,7 +17,7 @@ def countEvents(subjNum,magRej,task,numRuns,dataType):
 	outFile = filePrefix + subjNum + '_' + task + "ArtReject.txt"
 	
 	##Defining triggers to count for each task
-	TASKS = {"Blink" : ('1'), "ATLLoc" : ('1','2','3','41','42','43'), "MaskedMM" : ('1','2', '3', '4', '5', '14'), "Baleen" : ('1', '2', '3','4','5','6','7','8','9','10','11','12','14'), "AX-CPT" : ('1', '2', '3', '4', '5', '6')}
+	TASKS = {"Blink" : ('1'), "ATLLoc" : ('1','2','3','41','42','43'), "MaskedMM" : ('1','2', '3', '4', '5', '14'), "BaleenLP" : ('1', '2', '3','4','5','11','14'), "BaleenHP" : ('6','7','8','9','10','12','14' ),"AX-CPT" : ('1', '2', '3', '4', '5', '6')}
 	
 	
 	for i in range(int(numRuns)):
