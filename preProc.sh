@@ -26,13 +26,25 @@ endif
 
 chmod ug=rwx *_raw.fif
 
+################################################################
+##Change name of Baleen runs
+
+mv $1_BaleenRun1_raw.fif $1_BaleenLPRun1_raw.fif
+mv $1_BaleenRun2_raw.fif $1_BaleenLPRun2_raw.fif
+mv $1_BaleenRun3_raw.fif $1_BaleenLPRun3_raw.fif
+mv $1_BaleenRun4_raw.fif $1_BaleenLPRun4_raw.fif
+mv $1_BaleenRun5_raw.fif $1_BaleenHPRun1_raw.fif
+mv $1_BaleenRun6_raw.fif $1_BaleenHPRun2_raw.fif
+mv $1_BaleenRun7_raw.fif $1_BaleenHPRun3_raw.fif
+mv $1_BaleenRun8_raw.fif $1_BaleenHPRun4_raw.fif 
+
 #############################################################
 ##Extracting events read from .fif files into .eve text files
 
 echo
 echo "Extracting events"
 
-foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenRun1' 'BaleenRun2' 'BaleenRun3' 'BaleenRun4' 'BaleenRun5' 'BaleenRun6' 'BaleenRun7' 'BaleenRun8' 'AXCPTRun1' 'AXCPTRun2')
+foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun5' 'BaleenHPRun6' 'BaleenHPRun7' 'BaleenHPRun8' 'AXCPTRun1' 'AXCPTRun2')
 	
 	if ( -e $1_{$run}_raw.fif ) then
 		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve
@@ -114,26 +126,26 @@ foreach proj ( 'projoff' 'projon')
 	--$proj --lowpass 20
 
 	mne_process_raw \
-	--raw ../$1_BaleenRun1_raw.fif \
-	--raw ../$1_BaleenRun2_raw.fif \
-	--raw ../$1_BaleenRun3_raw.fif \
-	--raw ../$1_BaleenRun4_raw.fif \
-	--ave ../ave/$1_BaleenRun1.ave \
-	--ave ../ave/$1_BaleenRun2.ave \
-	--ave ../ave/$1_BaleenRun3.ave \
-	--ave ../ave/$1_BaleenRun4.ave \
+	--raw ../$1_BaleenLPRun1_raw.fif \
+	--raw ../$1_BaleenLPRun2_raw.fif \
+	--raw ../$1_BaleenLPRun3_raw.fif \
+	--raw ../$1_BaleenLPRun4_raw.fif \
+	--ave ../ave/$1_BaleenLPRun1.ave \
+	--ave ../ave/$1_BaleenLPRun2.ave \
+	--ave ../ave/$1_BaleenLPRun3.ave \
+	--ave ../ave/$1_BaleenLPRun4.ave \
 	--gave $1_BaleenLP_All-ave.fif \
 	--$proj --lowpass 20
 
 	mne_process_raw \
-	--raw ../$1_BaleenRun5_raw.fif \
-	--raw ../$1_BaleenRun6_raw.fif \
-	--raw ../$1_BaleenRun7_raw.fif \
-	--raw ../$1_BaleenRun8_raw.fif \
-	--ave ../ave/$1_BaleenRun5.ave \
-	--ave ../ave/$1_BaleenRun6.ave \
-	--ave ../ave/$1_BaleenRun7.ave \
-	--ave ../ave/$1_BaleenRun8.ave \
+	--raw ../$1_BaleenHPRun1_raw.fif \
+	--raw ../$1_BaleenHPRun2_raw.fif \
+	--raw ../$1_BaleenHPRun3_raw.fif \
+	--raw ../$1_BaleenHPRun4_raw.fif \
+	--ave ../ave/$1_BaleenHPRun1.ave \
+	--ave ../ave/$1_BaleenHPRun2.ave \
+	--ave ../ave/$1_BaleenHPRun3.ave \
+	--ave ../ave/$1_BaleenHPRun4.ave \
 	--gave $1_BaleenHP_All-ave.fif \
 	--$proj --lowpass 20
 
@@ -169,9 +181,9 @@ end
 
 #######################################
 ####COMPUTING COVARIANCE FOR PROJON####
- echo Computing covariance
+echo Computing covariance
  
- mne_process_raw \
+mne_process_raw \
  --raw ../$1_MaskedMMRun1_raw.fif \
  --raw ../$1_MaskedMMRun2_raw.fif \
  --cov ../cov/$1_MaskedMMRun1.cov \
@@ -179,23 +191,23 @@ end
  --gcov $1_MaskedMM_All-cov.fif \
  --projon --lowpass 20
  
- mne_process_raw \
- --raw ../$1_BaleenRun1_raw.fif \
- --raw ../$1_BaleenRun2_raw.fif \
- --raw ../$1_BaleenRun3_raw.fif \
- --raw ../$1_BaleenRun4_raw.fif \
- --raw ../$1_BaleenRun5_raw.fif \
- --raw ../$1_BaleenRun6_raw.fif \
- --raw ../$1_BaleenRun7_raw.fif \
- --raw ../$1_BaleenRun8_raw.fif \
- --cov ../cov/$1_BaleenRun1.cov \
- --cov ../cov/$1_BaleenRun2.cov \
- --cov ../cov/$1_BaleenRun3.cov \
- --cov ../cov/$1_BaleenRun4.cov \
- --cov ../cov/$1_BaleenRun5.cov \
- --cov ../cov/$1_BaleenRun6.cov \
- --cov ../cov/$1_BaleenRun7.cov \
- --cov ../cov/$1_BaleenRun8.cov \
+mne_process_raw \
+ --raw ../$1_BaleenLPRun1_raw.fif \
+ --raw ../$1_BaleenLPRun2_raw.fif \
+ --raw ../$1_BaleenLPRun3_raw.fif \
+ --raw ../$1_BaleenLPRun4_raw.fif \
+ --raw ../$1_BaleenHPRun1_raw.fif \
+ --raw ../$1_BaleenHPRun2_raw.fif \
+ --raw ../$1_BaleenHPRun3_raw.fif \
+ --raw ../$1_BaleenHPRun4_raw.fif \
+ --cov ../cov/$1_BaleenLPRun1.cov \
+ --cov ../cov/$1_BaleenLPRun2.cov \
+ --cov ../cov/$1_BaleenLPRun3.cov \
+ --cov ../cov/$1_BaleenLPRun4.cov \
+ --cov ../cov/$1_BaleenHPRun1.cov \
+ --cov ../cov/$1_BaleenHPRun2.cov \
+ --cov ../cov/$1_BaleenHPRun3.cov \
+ --cov ../cov/$1_BaleenHPRun4.cov \
  --gcov $1_Baleen_All-cov.fif \
  --projon --lowpass 20
  
@@ -218,31 +230,6 @@ if ( -e ../$1_AXCPTRun1_raw.fif ) then
 	endif
 endif
 
-###COMPUTE FOR ALL TARGETS
-###We took this out for now because the baseline for some subjects is off in Masked (ya1,3,4)
-#mne_process_raw \
-#--raw ../$1_MaskedMMRun1_raw.fif \
-#--raw ../$1_MaskedMMRun2_raw.fif \
-#--raw ../$1_BaleenRun1_raw.fif \
-#--raw ../$1_BaleenRun2_raw.fif \
-#--raw ../$1_BaleenRun3_raw.fif \
-#--raw ../$1_BaleenRun4_raw.fif \
-#--raw ../$1_BaleenRun5_raw.fif \
-#--raw ../$1_BaleenRun6_raw.fif \
-#--raw ../$1_BaleenRun7_raw.fif \
-#--raw ../$1_BaleenRun8_raw.fif \
-#--cov ../cov/$1_MaskedMMRun1.cov \
-#--cov ../cov/$1_MaskedMMRun2.cov \
-#--cov ../cov/$1_BaleenRun1.cov \
-#--cov ../cov/$1_BaleenRun2.cov \
-#--cov ../cov/$1_BaleenRun3.cov \
-#--cov ../cov/$1_BaleenRun4.cov \
-#--cov ../cov/$1_BaleenRun5.cov \
-#--cov ../cov/$1_BaleenRun6.cov \
-#--cov ../cov/$1_BaleenRun7.cov \
-#--cov ../cov/$1_BaleenRun8.cov \
-#--gcov $1_AllTar-cov.fif \
-#--projon --lowpass 20
 
 echo FINISHED
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1
