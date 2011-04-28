@@ -15,6 +15,13 @@ mkdir ave_projoff -m g+rws
 mkdir ave_projon/logs -m g+rws
 mkdir ave_projoff/logs -m g+rws
 
+#########################################################
+##Remove any existing *eve.fif files for internal consistency
+rm *raw-eve.fif
+rm eve/*.eve
+##Remove Baleen ave files with incorrect naming
+rm ave*/*BaleenRun*
+rm cov/*BaleenRun*
 
 ################################################################
 ##Save read-only copy of raw-files and make other ones writeable
@@ -126,6 +133,7 @@ python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1 $2 $3
 
 ##############################
 ####AVERAGING#################
+
 
 foreach proj ( 'projoff' 'projon')
 

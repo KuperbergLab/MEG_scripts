@@ -43,7 +43,7 @@ def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
 			myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
 			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
 			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
-			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModBlink.eve\n\n')
+			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'Modblink.eve\n\n')
 			myFile.write('\tgradReject\t'+gradRej + '\n\n')
 			
 			for item in condDict[exp]:
