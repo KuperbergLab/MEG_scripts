@@ -15,323 +15,50 @@ def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
 	epMaxBaleen = ".7"
 	epMaxAXCPT = ".7"
 	
-	###############
-	##Blink .ave###
+	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
+	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+	
+	condDict = {'Blink':[['1','Blink']],'ATLLoc':[['41','Sentences'],['42','Word Lists'],['43','Consonant Strings'],['1','Sentence First Word'],['2','Word List First Word'],['3','Consonant String First Word']],'MaskedMM': [['1','Direct'],['2','Indirect'],['3','Unrelated'],['4','Probe Target']],'BaleenLP':[['1','Related'],['2','Unrelated'],['4','Unrelated Filler'],['5','Probe Target']],'BaleenHP': [['6','Related'],['7','Unrelated'],['8','Related Filler'],['9','Unrelated Filler'],['10','Probe Target']],'AXCPT':[['1','AY'],['2','BX'],['3','BY'],['4','AX'],['5','A'],['6','B']]}
+	
+	epMaxDict = {'Blink':'.9','ATLLoc':'.5','MaskedMM':'.5','BaleenLP':'.7','BaleenHP':'.7','AXCPT':'.7'}
+	
+
 	#SB 20110119 Not exactly sure what to do with Blinks yet, need to hook into ica stream
 	
-	filename = filePrefix + '/ave/'+subjID + '_Blink.ave'
-	print filename
 	
-	gradRej = "2500e-13"
+	for exp in expList:
+		for run in runDict[exp]:
 	
-	
-	myFile = open(filename, "w")
-	myFile.close()	
-		
-	myFile = open(filename, "a")
-	myFile.write('average {\n\n')
-	myFile.write('\tname\t\"Blink average\"\n\n')
-	myFile.write('\toutfile\t\t'+subjID+ '_Blink' + '-ave.fif\n')
-	myFile.write('\tlogfile\t\t./logs/'+subjID + '_Blink' + '-ave.log\n')
-	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_Blink' + '.eve\n\n')
-	myFile.write('\tgradReject\t'+gradRej + '\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Blink\"\n')
-	myFile.write('\t\tevent\t1\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t' + '900' + '\n\t}\n\n')
-	
-	myFile.write('}\n')
-	
-	###############
-	##ATLLoc .ave###
-	
-	filename = filePrefix + '/ave/'+subjID + '_ATLLoc.ave'
-	print filename
-	
-	myFile = open(filename, "w")
-	myFile.close()	
-		
-	myFile = open(filename, "a")
-	myFile.write('average {\n\n')
-	myFile.write('\tname\t\"ATLLoc averages\"\n\n')
-	myFile.write('\toutfile\t\t'+subjID+ '_ATLLoc' + '-ave.fif\n')
-	myFile.write('\tlogfile\t\t./logs/'+subjID + '_ATLLoc' + '-ave.log\n')
-	#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocMod.eve\n\n')
-	myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_ATLLocModblink.eve\n\n')
-	myFile.write('\tgradReject\t'+gradRej + '\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Sentences\"\n')
-	myFile.write('\t\tevent\t41\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t'+epMaxATL+'\n\t}\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Word Lists\"\n')
-	myFile.write('\t\tevent\t42\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t'+epMaxATL+'\n\t}\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Consonant Strings\"\n')
-	myFile.write('\t\tevent\t43\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t'+epMaxATL+'\n\t}\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Sentence First Word\"\n')
-	myFile.write('\t\tevent\t1\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t3.6\n\t}\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Word List First Word\"\n')
-	myFile.write('\t\tevent\t2\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t3.6\n\t}\n\n')
-	
-	myFile.write('\tcategory {\n')
-	myFile.write('\t\tname\t\"Consonant String First Word\"\n')
-	myFile.write('\t\tevent\t3\n')
-	myFile.write('\t\ttmin\t-0.1\n')
-	myFile.write('\t\ttmax\t3.6\n\t}\n\n')
-	
-	
-	myFile.write('}\n')
-	myFile.close()	
-	
-	
-	
-	###################
-	##MaskedMM .ave###
-	
-	runLP = ['1', '2']
-	
-	for runNum in runLP:
-		filename = filePrefix + '/ave/'+subjID + '_MaskedMMRun' + runNum + '.ave'
-		print filename
-		
-		myFile = open(filename, "w")
-		myFile.close()	
+			filename = filePrefix + '/ave/'+subjID + '_' + exp + run + '.ave'
+			print filename
 			
-		myFile = open(filename, "a")
-		myFile.write('average {\n\n')
-		myFile.write('\tname\t\"MaskedMM averages\"\n\n')
-		myFile.write('\toutfile\t\t'+subjID+ '_MaskedMMRun' + runNum + '-ave.fif\n')
-		myFile.write('\tlogfile\t\t./logs/'+subjID + '_MaskedMMRun' + runNum +  '-ave.log\n')
-		#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_MaskedMMRun' + runNum + '.eve\n\n')
-		myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_MaskedMMRun' + runNum + 'Modblink.eve\n\n')
-		myFile.write('\tgradReject\t'+gradRej + '\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"Direct\"\n')
-		myFile.write('\t\tevent\t1\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxMasked+'\n\t}\n\n')
-	
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"Indirect\"\n')
-		myFile.write('\t\tevent\t2\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxMasked+'\n\t}\n\n')
-	
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"Unrelated\"\n')
-		myFile.write('\t\tevent\t3\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxMasked+'\n\t}\n\n')
-	
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"ProbeTarget\"\n')
-		myFile.write('\t\tevent\t4\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxMasked+'\n\t}\n\n')
-	
-	
-		myFile.write('}\n')
-		myFile.close()	
-	
-		
-	###################
-	##BaleenLP .ave###
-	
-	runLP = ['1', '2', '3', '4']
-	
-	for runNum in runLP:
-		filename = filePrefix + '/ave/'+subjID + '_BaleenRun' + runNum + '.ave'
-		print filename
-		
-		myFile = open(filename, "w")
-		myFile.close()	
+			gradRej = "2500e-13"
+				
+			myFile = open(filename, "w")
+			myFile.close()	
+				
+			myFile = open(filename, "a")
+			myFile.write('average {\n\n')
+			myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
+			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
+			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
+			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModBlink.eve\n\n')
+			myFile.write('\tgradReject\t'+gradRej + '\n\n')
 			
-		myFile = open(filename, "a")
-		myFile.write('average {\n\n')
-		myFile.write('\tname\t\"BaleenLP averages\"\n\n')
-		myFile.write('\toutfile\t\t'+subjID+ '_BaleenRun' + runNum + '-ave.fif\n')
-		myFile.write('\tlogfile\t\t./logs/'+subjID + '_BaleenRun' + runNum +  '-ave.log\n')
-		#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Mod.eve\n\n')
-		myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Modblink.eve\n\n')
-		myFile.write('\tgradReject\t'+gradRej + '\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"RelLP\"\n')
-		myFile.write('\t\tevent\t1\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"UnrelLP\"\n')
-		myFile.write('\t\tevent\t2\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"UnrelFillerLP\"\n')
-		myFile.write('\t\tevent\t4\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"ProbeTarLP\"\n')
-		myFile.write('\t\tevent\t5\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"ProbePrimeLP\"\n')
-		myFile.write('\t\tevent\t11\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-	
-		
-		myFile.write('}\n')
-		
-		myFile.close()	
-	
-	
-	###################
-	##BaleenHP .ave###
-	
-	runHP = ['5', '6', '7', '8']
-	
-	for runNum in runHP:
-		filename = filePrefix + '/ave/'+subjID + '_BaleenRun' + runNum + '.ave'
-		print filename
-		
-		myFile = open(filename, "w")
-		myFile.close()	
+			for item in condDict[exp]:
+				myFile.write('\tcategory {\n')
+				myFile.write('\t\tname\t\"'+item[1]+'\"\n')
+				myFile.write('\t\tevent\t'+item[0]+'\n')
+				myFile.write('\t\ttmin\t-0.1\n')
+				if exp == 'ATLLoc' and (item[0] == '1' or item[0] == '2' or item[0] == '3'):
+					myFile.write('\t\ttmax\t' + '3.6' + '\n\t}\n\n')
+				else:
+					myFile.write('\t\ttmax\t' + epMaxDict[exp] + '\n\t}\n\n')
 			
-		myFile = open(filename, "a")
-		myFile.write('average {\n\n')
-		myFile.write('\tname\t\"BaleenHP averages\"\n\n')
-		myFile.write('\toutfile\t\t'+subjID+ '_BaleenRun' + runNum + '-ave.fif\n')
-		myFile.write('\tlogfile\t\t./logs/'+subjID + '_BaleenRun' + runNum +  '-ave.log\n')
-		#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + '.eve\n\n')
-		myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_BaleenRun' + runNum + 'Modblink.eve\n\n')
-		myFile.write('\tgradReject\t'+gradRej + '\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"RelHP\"\n')
-		myFile.write('\t\tevent\t6\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"UnrelHP\"\n')
-		myFile.write('\t\tevent\t7\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
+			myFile.write('}\n')
 	
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"RelFillerHP\"\n')
-		myFile.write('\t\tevent\t8\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"UnrelFillerHP\"\n')
-		myFile.write('\t\tevent\t9\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"ProbeTarHP\"\n')
-		myFile.write('\t\tevent\t10\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"ProbePrimeHP\"\n')
-		myFile.write('\t\tevent\t12\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxBaleen+'\n\t}\n\n')
-	
-		myFile.write('}\n')
-		myFile.close()	
-	
-	
-	###################
-	##AXCPT .ave###
-	
-	runAX = ['1','2']
-	
-	for runNum in runAX:
-		filename = filePrefix + '/ave/'+subjID + '_AXCPTRun' + runNum + '.ave'
-		print filename
-		
-		myFile = open(filename, "w")
-		myFile.close()	
-			
-		myFile = open(filename, "a")
-		myFile.write('average {\n\n')
-		myFile.write('\tname\t\"AXCPT averages\"\n\n')
-		myFile.write('\toutfile\t\t'+subjID+ '_AXCPTRun' + runNum + '-ave.fif\n')
-		myFile.write('\tlogfile\t\t./logs/'+subjID + '_AXCPTRun' + runNum +  '-ave.log\n')
-		#myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_AXCPTRun' + runNum + '.eve\n\n')
-		myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_AXCPTRun' + runNum + 'Modblink.eve\n\n')
-		myFile.write('\tgradReject\t'+gradRej + '\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"AY\"\n')
-		myFile.write('\t\tevent\t1\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"BX\"\n')
-		myFile.write('\t\tevent\t2\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-	
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"BY\"\n')
-		myFile.write('\t\tevent\t3\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"AX\"\n')
-		myFile.write('\t\tevent\t4\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"A\"\n')
-		myFile.write('\t\tevent\t5\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-		
-		myFile.write('\tcategory {\n')
-		myFile.write('\t\tname\t\"B\"\n')
-		myFile.write('\t\tevent\t6\n')
-		myFile.write('\t\ttmin\t-0.1\n')
-		myFile.write('\t\ttmax\t'+epMaxAXCPT+'\n\t}\n\n')
-	
-		myFile.write('}\n')
-		myFile.close()	
+
 		
 if __name__ == "__main__":
 	subjID = sys.argv[1]
