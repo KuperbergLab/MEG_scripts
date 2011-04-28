@@ -36,7 +36,26 @@ mv $1_BaleenRun4_raw.fif $1_BaleenLPRun4_raw.fif
 mv $1_BaleenRun5_raw.fif $1_BaleenHPRun1_raw.fif
 mv $1_BaleenRun6_raw.fif $1_BaleenHPRun2_raw.fif
 mv $1_BaleenRun7_raw.fif $1_BaleenHPRun3_raw.fif
-mv $1_BaleenRun8_raw.fif $1_BaleenHPRun4_raw.fif 
+mv $1_BaleenRun8_raw.fif $1_BaleenHPRun4_raw.fif
+
+mv $1_BaleenRun1_raw_ica.mat $1_BaleenLPRun1_raw_ica.mat
+mv $1_BaleenRun2_raw_ica.mat $1_BaleenLPRun2_raw_ica.mat
+mv $1_BaleenRun3_raw_ica.mat $1_BaleenLPRun3_raw_ica.mat
+mv $1_BaleenRun4_raw_ica.mat $1_BaleenLPRun4_raw_ica.mat
+mv $1_BaleenRun5_raw_ica.mat $1_BaleenHPRun1_raw_ica.mat
+mv $1_BaleenRun6_raw_ica.mat $1_BaleenHPRun2_raw_ica.mat
+mv $1_BaleenRun7_raw_ica.mat $1_BaleenHPRun3_raw_ica.mat
+mv $1_BaleenRun8_raw_ica.mat $1_BaleenHPRun4_raw_ica.mat
+
+mv $1_BaleenRun1_raw.blinks $1_BaleenLPRun1_raw.blinks
+mv $1_BaleenRun2_raw.blinks $1_BaleenLPRun2_raw.blinks
+mv $1_BaleenRun3_raw.blinks $1_BaleenLPRun3_raw.blinks
+mv $1_BaleenRun4_raw.blinks $1_BaleenLPRun4_raw.blinks
+mv $1_BaleenRun5_raw.blinks $1_BaleenHPRun1_raw.blinks
+mv $1_BaleenRun6_raw.blinks $1_BaleenHPRun2_raw.blinks
+mv $1_BaleenRun7_raw.blinks $1_BaleenHPRun3_raw.blinks
+mv $1_BaleenRun8_raw.blinks $1_BaleenHPRun4_raw.blinks
+
 
 #############################################################
 ##Extracting events read from .fif files into .eve text files
@@ -44,7 +63,7 @@ mv $1_BaleenRun8_raw.fif $1_BaleenHPRun4_raw.fif
 echo
 echo "Extracting events"
 
-foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun5' 'BaleenHPRun6' 'BaleenHPRun7' 'BaleenHPRun8' 'AXCPTRun1' 'AXCPTRun2')
+foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')
 	
 	if ( -e $1_{$run}_raw.fif ) then
 		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve
