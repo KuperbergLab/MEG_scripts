@@ -46,7 +46,7 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 		mne_average_forward_solutions --fwd $1_BaleenHPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun4-ave-7-$t-fwd.fif --out $1_BaleenHP_All-ave-7-$t-fwd.fif
 		
 		if ( -e $1_AXCPTRun2-ave.fif ) then
-			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --out AXCPT_All-ave-7-$t-fwd.fif
+			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --out $1_AXCPT_All-ave-7-$t-fwd.fif
 		
 		else if ( -e $1_AXCPTRun1-ave.fif ) then
 			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif  --out $1_AXCPT_All-ave-7-$t-fwd.fif

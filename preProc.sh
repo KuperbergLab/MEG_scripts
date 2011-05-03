@@ -28,7 +28,8 @@ rm cov/*BaleenRun*
 
 if ( ! -d "raw_backup" ) then
 	mkdir raw_backup
-	cp *_raw.fif raw_backup
+	mv *_raw.fif raw_backup
+	cp raw_backup/*_raw.fif .
 endif
 
 chmod ug=rwx *_raw.fif

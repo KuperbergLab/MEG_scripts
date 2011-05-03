@@ -32,7 +32,7 @@ for subj in subjList:
 		tempData.append( percRem )
 	allSubj.append(tempData)
 
-outFile = dataPath + 'MaskedMM_ArtRej.txt';
+outFile = dataPath + 'ga/MaskedMM_ArtRej.txt';
 writeOutput.writeTable(outFile, allSubj)
 
 
@@ -61,7 +61,7 @@ for subj in subjList:
 		tempData.append( percRem )
 	allSubj.append(tempData)
 
-outFile = dataPath + 'Baleen_ArtRej.txt';
+outFile = dataPath + 'ga/Baleen_ArtRej.txt';
 writeOutput.writeTable(outFile, allSubj)
 
 print "hello"
