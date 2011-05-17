@@ -1,43 +1,25 @@
-%%%BALEENHP%%%
+avgAcrossSubjs('BaleenHP_All')
+saveSubjAve('BaleenHP_All')
 
-baleensubj = [1 3 4 5 6 9 12 13 15 16 17 19];
+avgAcrossSubjs('BaleenLP_All')
+saveSubjAve('BaleenLP_All')
 
-avgAcrossSubjs('BaleenHP_All','projoff',baleensubj)
-avgAcrossSubjs('BaleenHP_All','projon',baleensubj)
+avgAcrossSubjs('MaskedMM_All')
+saveSubjAve('MaskedMM_All')
 
-saveSubjAve('BaleenHP_All', 'projoff',baleensubj)
-saveSubjAve('BaleenHP_All', 'projon',baleensubj)
+visualizeT('MaskedMM_All', 'projoff', 1,3,300,500,.05)
+visualizeT('MaskedMM_All', 'projon', 1,3,300,500,.05)
 
-visualizeT('BaleenHP_All', 'projoff', baleensubj,3,4,300,500,.05)
-visualizeT('BaleenHP_All', 'projon', baleensubj,3,4,300,500,.05)
+visualizeT('BaleenHP_All', 'projoff', 3,4,300,500,.05)
+visualizeT('BaleenHP_All', 'projon', 3,4,300,500,.05)
 
-visualizeT('BaleenHP_All', 'projoff', baleenSubj,1,2,300,500,.05)
-visualizeT('BaleenHP_All', 'projon', baleenSubj,1,2,300,500,.05)
+visualizeT('BaleenHP_All', 'projoff', 1,2,300,500,.05)
+visualizeT('BaleenHP_All', 'projon', 1,2,300,500,.05)
+visualizeT('BaleenHP_All', 'projoff', 1,2,200,240,.05)
 
-
-%%%BALEENLP%%%
-
-avgAcrossSubjs('BaleenLP_All','projoff',baleensubj)
-avgAcrossSubjs('BaleenLP_All','projon',baleensubj)
-
-saveSubjAve('BaleenLP_All', 'projoff',baleensubj)
-saveSubjAve('BaleenLP_All', 'projon',baleensubj)
-
-visualizeT('BaleenLP_All', 'projoff', baleenSubj,1,2,300,500,.05)
-visualizeT('BaleenLP_All', 'projon', baleensubj,1,2,300,500,.05)
+visualizeT('BaleenLP_All', 'projoff', 1,2,300,500,.05)
+visualizeT('BaleenLP_All', 'projon', 1,2,300,500,.05)
 
 
-%%%MASKEDMM%%%
-
-maskedSubj = [2 5 6 7 8 9 12 13 15 16 17 19]
-
-avgAcrossSubjs('MaskedMM_All','projoff',maskedSubj)
-avgAcrossSubjs('MaskedMM_All','projon',maskedSubj)
-
-saveSubjAve('MaskedMM_All', 'projoff',maskedSubj)
-saveSubjAve('MaskedMM_All', 'projon',maskedSubj)
-
-visualizeT('MaskedMM_All', 'projoff', maskedSubjAll,1,3,300,500,.05)
-visualizeT('MaskedMM_All', 'projon', maskedSubj,1,3,300,500,.05)
-
-
+avgSTCDiffAcrossSubjs('BaleenHP_All',2,1);
+avgSTCAcrossSubjs('BaleenLP_All',3);

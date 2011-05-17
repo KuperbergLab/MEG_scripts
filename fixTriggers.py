@@ -50,7 +50,7 @@ def fixTriggers(subjID):
 	###############################################
 	#BALEENLP
 	
-	RUNS = ['1', '2', '3', '4']
+	RUNS = ['1', '2','3', '4']
 	
 	for x in RUNS:
 	

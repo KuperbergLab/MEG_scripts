@@ -1,4 +1,4 @@
-function [p,contrast] = quickT(exp, dataType, subjList, cond1, cond2, t1, t2, sensName, format)
+function [p,contrast] = quickT(exp, dataType, cond1, cond2, t1, t2, sensName, format)
 
 %%This function computes t-test at an individual sensor, for a given
 %%time-window. Designed for comparing two conditions, but enter the 
@@ -8,6 +8,15 @@ function [p,contrast] = quickT(exp, dataType, subjList, cond1, cond2, t1, t2, se
 %%By default most of the work here is done on the diff vector. The cond
 %%structures are mostly just there in case you want to plot the sensor
 %%waveform for each condition separately, in the commented lines at the end
+
+if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.baleen.meg-mri.txt');
+elseif (strcmp(exp,'MaskedMM_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
+end
+
+subjList = subjList';
+
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
@@ -26,7 +35,7 @@ end
 
 %%Case: Load data from mat file
 if format == 'mat'
-   inFile = strcat(dataPath, 'ga/ave_', dataType, '_',exp, '_n=',int2str(nSubj), '.mat');
+   inFile = strcat(dataPath, 'ga/mat/ave_', dataType, '_',exp, '_n=',int2str(nSubj), '.mat');
    load(inFile)
 end
 

@@ -1,6 +1,15 @@
-function visualizeT(exp, dataType, subjList, cond1, cond2, t1, t2, pVal)
+function visualizeT(exp, dataType, cond1, cond2, t1, t2, pVal)
 
 load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ch_names.mat')
+
+if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.baleen.meg-mri.txt');
+elseif (strcmp(exp,'MaskedMM_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
+end
+
+subjList = subjList'
+
 
 [m,nSubj] = size(subjList);
 [m,nchan] = size(ch_names);
@@ -20,7 +29,7 @@ end
 %nchan = 1
 for ichan = firstChan:lastChan
     ichan
-    [p,contrast] = quickT(exp, dataType, subjList, cond1, cond2, t1, t2, ch_names{ichan},'mat');
+    [p,contrast] = quickT(exp, dataType, cond1, cond2, t1, t2, ch_names{ichan},'mat');
     if p > pVal
         nonSigCount = nonSigCount+1;
         nonSigChan{nonSigCount} = ch_names{ichan};
