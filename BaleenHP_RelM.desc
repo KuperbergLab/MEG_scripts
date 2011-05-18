@@ -1,0 +1,16 @@
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya1/ave_projon/ya1_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya3/ave_projon/ya3_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya4/ave_projon/ya4_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya5/ave_projon/ya5_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya6/ave_projon/ya6_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya9/ave_projon/ya9_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya12/ave_projon/ya12_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya13/ave_projon/ya13_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya15/ave_projon/ya15_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya16/ave_projon/ya16_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya17/ave_projon/ya17_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya18/ave_projon/ya18_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya19/ave_projon/ya19_BaleenHP_RelM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya20/ave_projon/ya20_BaleenHP_RelM-spm
+
+deststc /cluster/kuperberg/SemPrMM/MEG/data/ga/ga_BaleenHP_RelM-spm

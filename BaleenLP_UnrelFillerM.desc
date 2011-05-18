@@ -1,0 +1,16 @@
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya1/ave_projon/ya1_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya3/ave_projon/ya3_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya4/ave_projon/ya4_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya5/ave_projon/ya5_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya6/ave_projon/ya6_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya9/ave_projon/ya9_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya12/ave_projon/ya12_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya13/ave_projon/ya13_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya15/ave_projon/ya15_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya16/ave_projon/ya16_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya17/ave_projon/ya17_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya18/ave_projon/ya18_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya19/ave_projon/ya19_BaleenLP_UnRelFillerM-spm
+stc /cluster/kuperberg/SemPrMM/MEG/data/ya20/ave_projon/ya20_BaleenLP_UnRelFillerM-spm
+
+deststc /cluster/kuperberg/SemPrMM/MEG/data/ga/ga_BaleenLP_UnRelFillerM-spm
