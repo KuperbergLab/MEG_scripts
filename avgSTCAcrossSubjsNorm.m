@@ -1,5 +1,13 @@
 function avgSTCAcrossSubjsNorm(exp,condNum)
 
+%%This script creates a grand-average STC for a single condition that is
+%%normalized. Basically we create a z-map for each subject's STC by
+%%subtracting the average baseline activity at each vertex from the rest
+%%and dividing by the standard deviation of activity at each vertex during
+%%the baseline period. Then we can average these normalized maps together
+%%with the hope that no single subject will dominate the average. We can
+%%also do stats across these normalized maps, since they can range around zero. 
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
@@ -27,7 +35,7 @@ for hemI = 1:2
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
         %%Read in stc file for subject
 
-        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-spm-',hem,'.stc')
+        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-mne-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData = subjSTC.data;
         %subjData(1,1:10)
