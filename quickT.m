@@ -53,6 +53,7 @@ for subj=subjList
         tempSubjData = allSubjData{count};
     end
     
+    %tempSubjData.info
     %%Only do the rest (add subject data to array) if not marked as bad
     %%channel
     
@@ -151,10 +152,10 @@ for subj = 1:n
     subjMean = mean(allData(t1Samp:t2Samp,subj),1);
     tData(subj) = subjMean;
 end
-
+%tData
 mean(tData);
 std(tData);
-tData;
+%bar(tData);
 
 [h,p,ci,stats] = ttest(tData);
 

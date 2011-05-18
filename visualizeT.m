@@ -12,7 +12,7 @@ subjList = subjList'
 
 
 [m,nSubj] = size(subjList);
-[m,nchan] = size(ch_names);
+[m,nchan] = size(ch_names)
 nonSigChan = {};
 sigChan = {};
 nonSigCount = 0;
@@ -23,12 +23,12 @@ if strcmp(dataType,'projon')
     lastChan = 306;
 elseif strcmp(dataType,'projoff')
     firstChan = 316;
-    lastChan = 389;
+    lastChan = 388;
 end
     
 %nchan = 1
 for ichan = firstChan:lastChan
-    ichan
+    ch_names{ichan}
     [p,contrast] = quickT(exp, dataType, cond1, cond2, t1, t2, ch_names{ichan},'mat');
     if p > pVal
         nonSigCount = nonSigCount+1;
