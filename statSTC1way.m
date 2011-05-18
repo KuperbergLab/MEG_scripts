@@ -1,6 +1,16 @@
-function pArray = statSTC1way(subjList,exp,condNum)
+function pArray = statSTC1way(exp,condNum)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
+
+
+if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.baleen.meg-mri.txt');
+elseif (strcmp(exp,'MaskedMM_All'))
+    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
+end
+subjList = subjList'
+
+
 [~,n] = size(subjList);
 %%for each subject, get the stc data out
 for hemI = 1
@@ -19,11 +29,16 @@ for hemI = 1
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
         %%Read in stc file for subject
 
-        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-spm-',hem,'.stc')
+        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-mne-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData = subjSTC.data;
-
-        allSubjData(:,:,count) = subjData-4;
+        subjBaseline = mean(subjData(:,1:60),2);
+        subjBaseline = repmat(subjBaseline,1,480);
+        subjSD = std(subjData(:,1:60),0,2);
+        subjSD = repmat(subjSD,1,480);
+        subjData = (subjData-subjBaseline)./subjSD;
+        
+        allSubjData(:,:,count) = subjData;
 
     end
     newSTC = subjSTC;
@@ -41,7 +56,7 @@ for hemI = 1
     end
 
     newSTC.data = pArray;
-    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'_pVal-spm-',hem,'.stc');
+    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'_pVal-mne-',hem,'.stc');
     mne_write_stc_file(outFile,newSTC);
     
 end

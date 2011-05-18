@@ -57,7 +57,7 @@ for hemI = 1:2
 
     newSTC = subjSTC;  %%just use the last subject's STC to get the structure of the file
     newSTC.data = gaSubjData;
-    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'-Norm-spm-',hem,'.stc')
+    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'-Norm-mne-',hem,'.stc')
     mne_write_stc_file(outFile,newSTC);
     
 end
