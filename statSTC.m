@@ -1,5 +1,6 @@
 function pArray = statSTC
 
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 exp = 'BaleenHP_All';
@@ -10,6 +11,7 @@ elseif (strcmp(exp,'MaskedMM_All'))
     subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
 end
 subjList = subjList'
+
 
 for hemI = 1:2
     
