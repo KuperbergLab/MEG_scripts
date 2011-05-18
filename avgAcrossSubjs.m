@@ -1,6 +1,19 @@
 function avgAcrossSubjs(exp)
 
-%%%Currently does remove bad channels from image
+%%This outputs two types of grand-average evoked files for viewing in
+%%mne_browse_raw. The first one is a straight average, and the second one
+%%'goodC' is an average that selectively excludes bad channels in
+%%individuals from the average. This one is cleaner but of course it has
+%%different numbers of observations going into different channels.
+
+%%This outputs a separate set of files with projections on and off. The
+%%'projoff' is designed only for viewing the G-A EEG data, and for
+%%comparison with standard language ERPs, it flips the polarity of the
+%%signals. Therefore you should NEVER view the MEG G-A for projoff, because
+%%it will have the field maps flipped
+
+%%%Selecting data path and subject%%%%
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
@@ -9,6 +22,9 @@ elseif (strcmp(exp,'MaskedMM_All'))
     subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
 end
 subjList = subjList'
+
+
+%%%%Getting the data out, loop once each for projon and projoff
 
 for x = 1:2
     if x == 1
@@ -20,7 +36,9 @@ for x = 1:2
     %%Get a template fif structure from random subject average
     blankStr = fiff_read_evoked_all(strcat(dataPath,'ya17/ave_',dataType,'/ya17_',exp,'-ave.fif'));
     condNum = size(blankStr.evoked,2);
-    if strcmp(exp, 'ATLLoc') condNum = 3; end  %%don't want to try to average the whole-sentence epochs
+    
+    %%don't want to try to average the whole-sentence epochs
+    if strcmp(exp, 'ATLLoc') condNum = 3; end  
 
     %%Initialize variables
     sampleNum = size(blankStr.evoked(1).epochs,2)
@@ -82,21 +100,8 @@ for x = 1:2
 
 
     end
-
-    epCount;
-
-    %%Since the good channels are the same across conditions, cut redundant
-    %%columns to a single 390 x 1 matrix
-    goodDataCount = goodDataCount(:,1);
-    goodDataCount'
-
-    %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
-    %%equivalent dimension matrix
-    goodDataCountRep = repmat(goodDataCount,[1,sampleNum,condNum]);
-
-    %%Finally, array-divide them
-    goodDataMean = goodDataSum./goodDataCountRep;
-    size(goodDataMean)
+    
+    %%%COMPUTING REGULAR GRAND-AVERAGE%%%%
 
     gaData = mean(allData,4);
 
@@ -111,11 +116,25 @@ for x = 1:2
         blankStr.evoked(y).nave = epCount(y);
     end
 
-
     outFile = strcat(dataPath,'ga/ave_',dataType,'ga_',exp,'-n',int2str(count),'-ave.fif')
     fiff_write_evoked(outFile,blankStr);
 
-    %%%%ALTERNATIVE METHOD%%%%
+    
+    %%%COMPUTING THE 'GOOD CHANNEL' GRAND-AVERAGE
+    
+    %%Since the good channels are the same across conditions, cut redundant
+    %%columns to a single 390 x 1 matrix. This structure contains info
+    %%about how many observations went into each channel.
+    goodDataCount = goodDataCount(:,1);
+    goodDataCount'
+
+    %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
+    %%equivalent dimension matrix
+    goodDataCountRep = repmat(goodDataCount,[1,sampleNum,condNum]);
+
+    %%Finally, array-divide them to get the correct mean for each channel
+    goodDataMean = goodDataSum./goodDataCountRep;
+    size(goodDataMean)
 
     %%plot negative up for EEG
     if strcmp(dataType,'projoff') 
@@ -128,7 +147,7 @@ for x = 1:2
         blankStr.evoked(y).nave = epCount(y);
     end
 
-
     outFile = strcat(dataPath,'ga/ave_',dataType,'ga_',exp,'-n',int2str(count),'-goodC-ave.fif')
     fiff_write_evoked(outFile,blankStr);
+
 end
