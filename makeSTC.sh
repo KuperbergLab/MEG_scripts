@@ -38,7 +38,7 @@ mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-av
 
 ###MNE####
 ##This is set 3, the unrelated filler in LP
-mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 3 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c3M-mne.stc --smooth 5 --mne --morph fsaverage
+mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-ave.fif --set 3 --bmin -100 --bmax -.01 --stc stc/$1_BaleenLP_All_c3M-mne.stc --smooth 5 --morph fsaverage
 
 ########FIX GROUP ON ALL FILES########
 chgrp -R lingua .
