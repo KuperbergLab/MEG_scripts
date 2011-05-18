@@ -1,4 +1,4 @@
-function avgSTCDiffAcrossSubjs(exp,condNum1, condNum2)
+function avgSTCDiffAcrossSubjs(exp,condNum1, condNum2,type)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
@@ -29,15 +29,20 @@ for hemI = 1:2
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
         %%Read in stc file for subject
 
-        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum1),'M-spm-',hem,'.stc')
+        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum1),'M-',type,'-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData1 = subjSTC.data;
 
-        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum2),'M-spm-',hem,'.stc')
+        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum2),'M-',type,'-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData2 = subjSTC.data;
 
         subjData = subjData2-subjData1;
+        
+        outFile = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum2),'-c',int2str(condNum1),'M-',type,'-',hem,'.stc')
+        newSTC = subjSTC;
+        newSTC.data = subjData;
+        mne_write_stc_file(outFile,newSTC);
         
         allSubjData(:,:,count) = subjData;
 
@@ -47,7 +52,7 @@ for hemI = 1:2
 
     newSTC = subjSTC;  %%just use the last subject's STC to get the structure of the file
     newSTC.data = gaSubjData;
-    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum2),'-c',int2str(condNum1),'M_n',int2str(n),'-spm-',hem,'.stc');
+    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum2),'-c',int2str(condNum1),'M_n',int2str(n),'-',type,'-',hem,'.stc');
     mne_write_stc_file(outFile,newSTC);
     
 end
