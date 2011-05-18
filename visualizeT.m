@@ -22,8 +22,8 @@ if strcmp(dataType,'projon')
     firstChan = 1;
     lastChan = 306;
 elseif strcmp(dataType,'projoff')
-    firstChan = 307;
-    lastChan = 376;
+    firstChan = 316;
+    lastChan = 389;
 end
     
 %nchan = 1
