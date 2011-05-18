@@ -47,7 +47,7 @@ for hemI = 1:2
 
     pArray = zeros(10242,480);
 
-    for x = 1:10%242
+    for x = 1:10242
         x
         for y = 1:480
             [~,p] = ttest(squeeze(allSubjData(x,y,:)));
