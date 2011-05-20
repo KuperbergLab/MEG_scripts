@@ -7,9 +7,9 @@ def fixTriggers(subjID):
 
 	os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
 	
-	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+	expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
-	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 	
 	if subjID == 'ya3':
 		runDict['AXCPT']=['Run1']
@@ -119,6 +119,7 @@ def fixTriggers(subjID):
 		data = readInput.readTable(inFile)
 		
 		rowCount = 0
+		flag2 = 0
 		for row in data:
 			trigger = row[3]
 			
@@ -136,6 +137,14 @@ def fixTriggers(subjID):
 						compRow[3] = trigger
 						#print 'new ', compRow, row
 						break
+				
+			##Flip half of the related filler triggers to '88' to get equal number of related and unrelated
+			if trigger == '8':
+				if flag2 == 1:
+					row[3] = '88'
+					flag2 = 0
+				elif flag2 == 0:
+					flag2 = 1	
 				
 			rowCount +=1
 		
