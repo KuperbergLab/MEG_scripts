@@ -138,10 +138,10 @@ def fixTriggers(subjID):
 						#print 'new ', compRow, row
 						break
 				
-			##Flip half of the related filler triggers to '88' to get equal number of related and unrelated
+			##Flip half of the related filler triggers to '18' to get equal number of related and unrelated
 			if trigger == '8':
 				if flag2 == 1:
-					row[3] = '88'
+					row[3] = '18'
 					flag2 = 0
 				elif flag2 == 0:
 					flag2 = 1	
