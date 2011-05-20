@@ -36,6 +36,11 @@ mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-av
 mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c1M-spm.stc --smooth 5 --spm --morph fsaverage
 mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c2M-spm.stc --smooth 5 --spm --morph fsaverage
 
+##This is sets 3 and 4, related (half) and unrelated fillers in HP
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 3 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c3M-spm.stc --smooth 5 --spm --morph fsaverage
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c4M-spm.stc --smooth 5 --spm --morph fsaverage
+
+
 
 ###MNE####
 ##This is set 3, the unrelated filler in LP
@@ -49,6 +54,9 @@ mne_make_movie --inv $1_BaleenLP_All-ave-7-meg-inv.fif --meas $1_BaleenLP_All-av
 mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 1 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c1M-mne.stc --smooth 5 --morph fsaverage
 mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 2 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c2M-mne.stc --smooth 5 --morph fsaverage
 
+##This is sets 3 and 4, related and unrelated fillers in HP
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 3 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c3M-mne.stc --smooth 5 --morph fsaverage
+mne_make_movie --inv $1_BaleenHP_All-ave-7-meg-inv.fif --meas $1_BaleenHP_All-ave.fif --set 4 --bmin -100 --bmax -.01 --stc stc/$1_BaleenHP_All_c4M-mne.stc --smooth 5 --morph fsaverage
 
 ########FIX GROUP ON ALL FILES########
 chgrp -R lingua .
