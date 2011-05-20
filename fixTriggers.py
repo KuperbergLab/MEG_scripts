@@ -3,33 +3,70 @@ import writeOutput
 import sys
 import os
 
-def fixTriggers(subjID):
-	#ATLLOC
+def fixTriggers(subjID):	
+
 	os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
-	inFile = 'eve/' + subjID + '_ATLLoc.eve'
+	
+	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+	
+	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+	
+	if subjID == 'ya3':
+		runDict['AXCPT']=['Run1']
+
+		
+	if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
+		runDict['AXCPT']=''
+		
+	#########################
+	##FIX TIMING IN ALL SCRIPTS###
+	
+	for exp in expList:
+		for run in runDict[exp]:
+				inFile = 'eve/' + subjID + '_'+exp+run+'.eve'
+				outFile = 'eve/' + subjID + '_' + exp + run + 'Mod.eve'
+				print inFile
+				data = readInput.readTable(inFile)
+				
+				firstRow = data[0]
+				firstSample = firstRow[0]
+				firstTime = firstRow[1]
+				
+				wordCount = 0   ##for ATLLoc
+				flag = ''
+				
+				for row in data:
+					trigger = row[3]
+					time = row[1]	
+					sampleRate = float(row[0])/float(row[1])
+					trueSample = float(row[0]) + 19
+					trueTime = trueSample/sampleRate
+					row[0] = str(int(round(trueSample,0)))
+					row[1] = str(round(trueTime,3))
+					finalRow = row
+			
+				##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
+					
+				firstRow[0] = firstSample
+				firstRow[1] = firstTime
+
+				###add extra trigger to get around MNE bug that ignores last row
+				extraRow = [str(int(finalRow[0])+1),str(round(float(finalRow[1])+1,3)),'0','99']
+				data.append(extraRow)
+				writeOutput.writeTable(outFile,data)
+				
+	###############################
+	###CHANGE CODES IN ATLLOC
+	inFile = 'eve/' + subjID + '_ATLLocMod.eve'
 	outFile = 'eve/' + subjID + '_ATLLocMod.eve'
-	
-	print inFile
 	data = readInput.readTable(inFile)
-	
-	dataSize = len(data)
-	
+
 	wordCount = 0
 	flag = ''
 	
-	firstRow = data[0]
-	firstSample = firstRow[0]
-	firstTime = firstRow[1]
-	
 	for row in data:
 		trigger = row[3]
-		time = row[1]
-		sampleRate = float(row[0])/float(row[1])
-		trueSample = float(row[0]) + 19
-		trueTime = trueSample/sampleRate
-		row[0] = str(int(round(trueSample,0)))
-		row[1] = str(round(trueTime,3))
-		
+
 		if trigger == '1' or trigger == '2' or trigger == '3':
 			flag = trigger
 			wordCount = 0
@@ -37,12 +74,6 @@ def fixTriggers(subjID):
 	
 		if trigger == '4' and wordCount <= 9:
 			row[3] = trigger+flag
-			
-	
-	##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
-	
-	firstRow[0] = firstSample
-	firstRow[1] = firstTime
 	
 	writeOutput.writeTable(outFile,data)
 	
@@ -50,29 +81,13 @@ def fixTriggers(subjID):
 	###############################################
 	#BALEENLP
 	
-	RUNS = ['1', '2','3', '4']
-	
-	for x in RUNS:
-	
-		inFile = 'eve/'+subjID+'_BaleenLPRun'+x+'.eve'
-		outFile = 'eve/'+subjID+'_BaleenLPRun'+x+'Mod.eve'
-		
-		print inFile
-		data = readInput.readTable(inFile)
-		
-		firstRow = data[0]
-		firstSample = firstRow[0]
-		firstTime = firstRow[1]
-	
+	for x in runDict['BaleenLP']:
+		inFile = 'eve/'+subjID+'_BaleenLP'+x+'Mod.eve'
+		outFile = 'eve/'+subjID+'_BaleenLP'+x+'Mod.eve'
+		data = readInput.readTable(inFile)		
 		rowCount = 0
 		for row in data:
 			trigger = row[3]
-			time = row[1]
-			sampleRate = float(row[0])/float(row[1])
-			trueSample = float(row[0]) + 19
-			trueTime = trueSample/sampleRate
-			row[0] = str(int(round(trueSample,0)))
-			row[1] = str(round(trueTime,3))
 			
 			##This part fixes the coding for the probe primes. Originally the trigger 11 was sent for the target when the prime was a probe. This recodes the target as 111 and codes the prime itself as 11
 			if trigger == '11':   ##change the target to '111'
@@ -91,42 +106,21 @@ def fixTriggers(subjID):
 						break
 				
 			rowCount +=1
-		
-		##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
-	
-		firstRow[0] = firstSample
-		firstRow[1] = firstTime
-	
-		#SB moved this to end of biggest loop (otherwise writing file every row iteration)
+
 		writeOutput.writeTable(outFile, data)
 
 
 	###############################################
 	#BALEENHP
 	
-	RUNS = ['1', '2', '3', '4']
-	
-	for x in RUNS:
-	
-		inFile = 'eve/'+subjID+'_BaleenHPRun'+x+'.eve'
-		outFile = 'eve/'+subjID+'_BaleenHPRun'+x+'Mod.eve'
-		
-		print inFile
+	for x in runDict['BaleenHP']:
+		inFile = 'eve/'+subjID+'_BaleenHP'+x+'Mod.eve'
+		outFile = 'eve/'+subjID+'_BaleenHP'+x+'Mod.eve'
 		data = readInput.readTable(inFile)
 		
-		firstRow = data[0]
-		firstSample = firstRow[0]
-		firstTime = firstRow[1]
-	
 		rowCount = 0
 		for row in data:
 			trigger = row[3]
-			time = row[1]
-			sampleRate = float(row[0])/float(row[1])
-			trueSample = float(row[0]) + 19
-			trueTime = trueSample/sampleRate
-			row[0] = str(int(round(trueSample,0)))
-			row[1] = str(round(trueTime,3))
 			
 			if trigger == '12':   ##change the target to '112'
 				row[3] = '1'+trigger
@@ -145,74 +139,21 @@ def fixTriggers(subjID):
 				
 			rowCount +=1
 		
-		##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
-	
-		firstRow[0] = firstSample
-		firstRow[1] = firstTime
-	
-		#SB moved this to end of biggest loop (otherwise writing file every row iteration)
 		writeOutput.writeTable(outFile, data)
 
 
-
-
-
-	#SB	
-	###MaskedMM
-	
-	RUNS = ['1','2']
-	
-	for x in RUNS:
-	
-		inFile = 'eve/'+subjID+'_MaskedMMRun'+x+'.eve'
-		outFile = 'eve/'+subjID+'_MaskedMMRun'+x+'Mod.eve'
-		print inFile
-		data = readInput.readTable(inFile)
-		
-		firstRow = data[0]
-		firstSample = firstRow[0]
-		firstTime = firstRow[1]
-	
-		
-		for row in data:
-			trigger = row[3]
-			time = row[1]	
-			sampleRate = float(row[0])/float(row[1])
-			trueSample = float(row[0]) + 19
-			trueTime = trueSample/sampleRate
-			row[0] = str(int(round(trueSample,0)))
-			row[1] = str(round(trueTime,3))
-	
-	
-		##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
-			
-		firstRow[0] = firstSample
-		firstRow[1] = firstTime
-	
-		
-		writeOutput.writeTable(outFile,data)
-	
-	
+	#########################	
 	###AXCPT
-	
-	RUNS = ['1','2']
-	
-	if subjID == 'ya3':
-		RUNS = ['1']
-	
-	if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
-		RUNS = []
 			
-	for x in RUNS:
-	
-		inFile = 'eve/'+subjID+'_AXCPTRun'+x+'.eve'
-		outFile = 'eve/'+subjID+'_AXCPTRun'+x+'Mod.eve'
-		print inFile
+	for x in runDict['AXCPT']:
+		x
+		inFile = 'eve/'+subjID+'_AXCPT'+x+'Mod.eve'
+		outFile = 'eve/'+subjID+'_AXCPT'+x+'Mod.eve'
 		data = readInput.readTable(inFile)
 		
 		###############################################################
 		if subjID == 'ya6':  ####Fix error in triggers for this subject
-			logFile = '../../vtsd_logs/ya6/AXCPT_ya6_List101_Run'+x+'.vtsd_log'
+			logFile = '../../vtsd_logs/ya6/AXCPT_ya6_List101_'+x+'.vtsd_log'
 			print logFile
 			logData = readInput.readTable(logFile)
 			firstPrimeRow = data[2]
@@ -230,21 +171,11 @@ def fixTriggers(subjID):
 							row[3] = logRow[9]
 							#print logRow
 		################################################################
-		
-		firstRow = data[0]
-		firstSample = firstRow[0]
-		firstTime = firstRow[1]
-	
+
 		rowCount = 0
 		
 		for row in data:
 			trigger = row[3]
-			time = row[1]	
-			sampleRate = float(row[0])/float(row[1])
-			trueSample = float(row[0]) + 19
-			trueTime = trueSample/sampleRate
-			row[0] = str(int(round(trueSample,0)))
-			row[1] = str(round(trueTime,3))
 			if len(data) > rowCount +1:
 				nextRow = data[rowCount+1]
 				nextTrigger = nextRow[3]
@@ -271,17 +202,9 @@ def fixTriggers(subjID):
 				
 				if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
 					row[3] = '4' + trigger
-			
-			
+						
 			rowCount +=1
 		
-			
-	
-		##Undo the timing change for the first row in file because this row indicates the beginning of the scan, not a visual event, so it shouldn't be changed
-			
-		firstRow[0] = firstSample
-		firstRow[1] = firstTime
-	
 		
 		writeOutput.writeTable(outFile,data)
 		
