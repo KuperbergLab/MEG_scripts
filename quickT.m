@@ -1,4 +1,4 @@
-function [p,contrast] = quickT(exp, dataType, cond1, cond2, t1, t2, sensName, format)
+function [p,contrast] = quickT(exp, projType, cond1, cond2, t1, t2, sensName, format)
 
 %%This function computes t-test at an individual sensor, for a given
 %%time-window. Designed for comparing two conditions, but enter the 
@@ -9,16 +9,23 @@ function [p,contrast] = quickT(exp, dataType, cond1, cond2, t1, t2, sensName, fo
 %%structures are mostly just there in case you want to plot the sensor
 %%waveform for each condition separately, in the commented lines at the end
 
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
+
+
+if strcmp(projType,'projon') 
+    dataType = 'meg';
+elseif strcmp(projType,'projoff')
+    dataType = 'eeg';
+end
+
 if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.baleen.meg-mri.txt');
+    subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.baleen.',dataType,'.txt'));
 elseif (strcmp(exp,'MaskedMM_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.meg-mri.txt');
+    subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/ya.masked.',dataType,'.txt'));
 end
 
 subjList = subjList';
 
-
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
 
 count = 0;
 goodCount = 0;
@@ -31,11 +38,11 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %create initial data structure, sensors x time
 
-[m,nSubj] = size(subjList);
+[~,nSubj] = size(subjList);
 
 %%Case: Load data from mat file
 if format == 'mat'
-   inFile = strcat(dataPath, 'ga/mat/ave_', dataType, '_',exp, '_n=',int2str(nSubj), '.mat');
+   inFile = strcat(dataPath, 'ga/mat/ave_', projType, '_',exp, '_n=',int2str(nSubj), '.mat');
    load(inFile)
 end
 
@@ -44,7 +51,7 @@ for subj=subjList
 
     %%Case: Read fif files directly
     if format == 'fif'    
-        inFile = strcat(dataPath,'ya',int2str(subj),'/ave_',dataType,'/','ya',int2str(subj),'_',exp,'-ave.fif')
+        inFile = strcat(dataPath,'ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif')
         tempSubjData = fiff_read_evoked_all(inFile);    
     end
     
@@ -59,7 +66,7 @@ for subj=subjList
     
     badTest = find(strcmp(tempSubjData.info.bads, sensName));
     if size(badTest,2) == 1 
-        g = 99
+        msg = 'bad channel'
         subj
     end
     
@@ -152,7 +159,7 @@ for subj = 1:n
     subjMean = mean(allData(t1Samp:t2Samp,subj),1);
     tData(subj) = subjMean;
 end
-%tData
+tData;
 mean(tData);
 std(tData);
 %bar(tData);

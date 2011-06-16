@@ -1,4 +1,4 @@
-function pArray = statSTC(exp,condPair,type,norm,numSamples)
+function pArray = statSTCTime(exp,condPair,type,norm,numSamples,t1,t2)
 
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
@@ -27,16 +27,12 @@ for hemI = 1:2
     for subj=subjList
         count=count+1;
         subj
+       subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
+ 
+        fileName = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+       subjStruct = mne_read_stc_file(fileName);
 
-
-        %%Read in ave fif file for subject
-        filename = strcat(dataPath,'ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp, '_c',int2str(condPair(1)),'M-',type,'-lh.stc');
-        subjRel = mne_read_stc_file(filename);
-
-        filename = strcat(dataPath,'ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'M-',type,'-lh.stc');
-        subjUnrel = mne_read_stc_file(filename);
-
-        subjDiff = subjUnrel.data-subjRel.data;
+        subjDiff = subjStruct.data;
         if norm == 1
              subjBaseline = mean(subjDiff(:,1:60),2);
              subjBaseline = repmat(subjBaseline,1,numSamples);
@@ -47,7 +43,7 @@ for hemI = 1:2
   
 
         allSubjData(:,:,count) = subjDiff;
-        newSTC = subjRel;
+        newSTC = subjStruct;
 
     end
 
@@ -66,7 +62,7 @@ for hemI = 1:2
     pArray = -log(pArray);
     
     newSTC.data = pArray;
-    outFile = strcat(dataPath,'ga/stc/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'ga/stc/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc');
     if norm == 1
         outFile = strcat(dataPath,'ga/stc/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
     end

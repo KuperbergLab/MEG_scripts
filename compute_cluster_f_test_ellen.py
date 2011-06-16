@@ -12,13 +12,20 @@ from joblib import Memory
 #cache directory
 mem = Memory(cachedir="/home/scratch/")
 
-
+# Edit this box only
+########################
 type = "EEG" #EEG or MEG
 plot_type = "data" #data or f
-par = "BaleenHP_All"
+par = "BaleenHP_All" #'BaleenHP_All', 'BaleenLP_All', 'MaskedMM_All', 'AXCPT_All'
 use_joblib = True
-cond = 0 #index to the dictionary
+cond = 0 #index to the con_dict
 do_plot = True
+subj_dict = dict({"BaleenLP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
+	"BaleenHP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
+	"MaskedMM_All": [5, 6, 9, 12, 13, 15, 16, 17, 19, 18, 21],
+	"AXCPT_All": [3, 6, 5, 9, 12, 13, 15, 17, 18, 19 ,21]})
+#########################
+
 
 #Baleen(HP or LP)_All - 0,1 is direct/unrelated 2,3 is filler direct/unrelated
 #MaskedMM_All 0,2 is direct/unrelated
@@ -33,10 +40,6 @@ cond_names = con_dict[par][cond][1]
 
 title = '{0}: {1} - {2}'.format(par,cond_names[0],cond_names[1])
 suffix = '%s-%s' % cond_names
-subj_dict = dict({"BaleenLP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
-	"BaleenHP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
-	"MaskedMM_All": [5, 6, 9, 12, 13, 15, 16, 17, 19, 18, 21],
-	"AXCPT_All": [3, 6, 5, 9, 12, 13, 15, 17, 18, 19 ,21]})
 subjects = subj_dict[par]
 
 ch_idx = range(306)
