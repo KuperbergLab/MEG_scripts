@@ -1,12 +1,11 @@
 ###SemPrMM
 ###Make .ave files
-###usage: python <this script.py> subjectID preBlinkTime postBlinkTime
-###ex: python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py ya16 -0.1 0.4
+###usage: python <this script.py> subjectID 
+###ex: python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py ya16 
 
 import sys
 
-def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
-	print("preBlinkTime:{0}\tpostBlinkTime:{1}".format(preBlinkTime,postBlinkTime))
+def makeAveFiles(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
@@ -14,8 +13,8 @@ def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
 	epMaxMasked = ".5"
 	epMaxBaleen = ".7"
 	epMaxAXCPT = ".7"
-	gradRej = "2500e-13"
-
+# 	gradRej = "2500e-13"
+# 	eegRej = "100e-6"
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
@@ -43,8 +42,9 @@ def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
 			myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
 			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
 			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
-			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'Modblink.eve\n\n')
-			myFile.write('\tgradReject\t'+gradRej + '\n\n')
+			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
+#			myFile.write('\tgradReject\t'+gradRej + '\n\n')
+#			myFile.write('\teegReject\t'+eegRej + '\n\n')
 			
 			for item in condDict[exp]:
 				myFile.write('\tcategory {\n')
@@ -61,7 +61,4 @@ def makeAveFiles(subjID,preBlinkTime,postBlinkTime):
 
 		
 if __name__ == "__main__":
-	subjID = sys.argv[1]
-	preBlinkTime = sys.argv[2]
-	postBlinkTime = sys.argv[3]
-	makeAveFiles(subjID,preBlinkTime,postBlinkTime)
+	makeAveFiles(sys.argv[1])

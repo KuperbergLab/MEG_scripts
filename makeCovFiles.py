@@ -3,8 +3,7 @@
 
 import sys
 
-def makeCovFiles(subjID,preBlinkTime,postBlinkTime):
-	print("preBlinkTime:{0}\tpostBlinkTime:{1}".format(preBlinkTime,postBlinkTime))
+def makeCovFiles(subjID):
 	
 	tMin = '-0.2'  ##Time in seconds (from trigger) for the beginning of epoch used to estimate covariance
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
@@ -30,8 +29,8 @@ def makeCovFiles(subjID,preBlinkTime,postBlinkTime):
 			myFile.write('\tname\t\"' + exp + '\"\n\n')
 			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run +'-cov.fif\n')
 			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run +  '-cov.log\n')
-			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' + exp + run + 'Modblink.eve\n\n')
-			myFile.write('\tgradReject\t'+gradRej + '\n\n')
+			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' + exp + run + 'ModRej.eve\n\n')
+#			myFile.write('\tgradReject\t'+gradRej + '\n\n')
 					
 			for item in condDict[exp]:
 				myFile.write('\tdef {\n')
@@ -50,7 +49,4 @@ def makeCovFiles(subjID,preBlinkTime,postBlinkTime):
 
 	
 if __name__ == "__main__":
-	subjID = sys.argv[1]
-	preBlinkTime = sys.argv[2]
-	postBlinkTime = sys.argv[3]
-	makeCovFiles(subjID,preBlinkTime,postBlinkTime)
+	makeCovFiles(sys.argv[1])

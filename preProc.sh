@@ -3,6 +3,9 @@
 #usage: preProc subjID preBlinkTime postBlinkTime
 #example: preproc ya16 -0.1 0.4
 
+
+########BEG SETUP
+
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1
 
 date
@@ -117,6 +120,9 @@ endif
 
 echo
 
+#############END SETUP
+
+#############BEG REJECT
 
 ###########################
 echo
@@ -131,7 +137,9 @@ echo
 echo "Making Cov Parameter Files"
 python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1 $2 $3
 
+################END REJECT
 
+################BEG AVG
 ##############################
 ####AVERAGING#################
 
@@ -207,6 +215,10 @@ foreach proj ( 'projoff' 'projon')
 
 end
 
+###############END AVG
+
+###############BEG COV
+
 #######################################
 ####COMPUTING COVARIANCE FOR PROJON####
 echo Computing covariance
@@ -261,6 +273,8 @@ endif
 
 echo FINISHED
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1
+
+###############END COV
 
 ########FIX GROUP ON ALL FILES########
 chgrp -R lingua .

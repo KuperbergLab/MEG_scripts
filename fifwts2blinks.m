@@ -48,14 +48,17 @@ for ii = 1:length(fiffs)
     t = linspace(0,length(X)/Fs,length(X));
     
     U = wts * X;
-    
+   
+   
+    % let's find biggest-ranging componment
+    [C I] = max(max(U') - min(U'));
+   
     Winv = inv(wts);
-    badComp = [1];
+    badComp = [I];
     Winv(:,badComp) = 0;
     Xclean = Winv * U;
    
-    
-    [pk loc] = findpeaks(U(1,:),'MINPEAKDISTANCE',150,'MINPEAKHEIGHT',mean(U(1,:))+3*std(U(1,:)));
+    [pk loc] = findpeaks(U(badComp,:),'MINPEAKDISTANCE',150,'MINPEAKHEIGHT',mean(U(badComp,:))+3*std(U(badComp,:)));
     samp = dataStruct.first_samp;
     loc = loc + double(dataStruct.first_samp);
     
@@ -70,3 +73,10 @@ for ii = 1:length(fiffs)
 end
 
 cd(priorwd)
+%
+%figure(1)
+%for i = 1:74
+%    plot(U(i, 1:6000))
+%    title(['Channel ' num2str(i)])
+%    pause(1)
+%end
