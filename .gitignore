@@ -5,6 +5,7 @@ ya.baleen*
 ya.masked*
 *.log
 *.lout
+._*
 
 readInput.pyc
 
