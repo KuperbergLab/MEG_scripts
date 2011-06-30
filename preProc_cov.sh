@@ -1,5 +1,9 @@
 #!/bin/csh
 
+echo
+echo "Making Cov Parameter Files"
+python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1
+
 echo Computing covariance
 date
 mne_process_raw \
