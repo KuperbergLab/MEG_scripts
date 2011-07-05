@@ -29,11 +29,12 @@ sub = n(1:ind-1);
 sub_thr = ['/cluster/kuperberg/SemPrMM/MEG/data/' sub '/rej/rej_thr.txt'];
 if exist(sub_thr, 'file')
     disp('Using subject specific thresholds...')
-    S = importdata(sub_thr);
+    rej_path = sub_thr;
 else
     disp('Using default thresholds...')
-    S = importdata('/cluster/kuperberg/SemPrMM/MEG/scripts/rej_thr.txt');
+    rej_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/rej_thr.txt';
 end
+S = importdata(rej_path)
 
 % find each rej thr
 [~, i] = ismember(S.textdata, 'veog');

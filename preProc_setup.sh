@@ -89,14 +89,14 @@ echo "Renaming EEG channels"
 
 if ( $1 == 'ya1' | $1 == 'ya3' |$1 == 'ya4' |$1 == 'ya7' ) then
 	foreach f ( *_raw.fif )
-		mne_rename_channels --fif $f --alias ../../scripts/alias1.txt
+		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1.txt
 		mne_check_eeg_locations --file $f --fix
 	end
 endif
 
 
 foreach f ( *_raw.fif )
-	mne_rename_channels --fif $f --alias ../../scripts/alias2.txt
+	mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt
 end
 
 

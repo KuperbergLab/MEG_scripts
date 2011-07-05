@@ -22,3 +22,5 @@ art_mask.hdr
 art_mask_temporalfile.mat
 
 nohup.out
+
+readInput.pyc

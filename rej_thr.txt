@@ -1,5 +1,0 @@
-veog    40e-6
-heog    25e-6
-eeg     100e-6
-grad    2e-12
-mag     3e-12

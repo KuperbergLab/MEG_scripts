@@ -4,6 +4,7 @@ import os
 from glob import glob
 from readInput import readTable
 import math
+from pipeline import make_lingua
 # studies = ['Baleen','MaskedMM','AXCPT']
 # studies_codes = dict({'MaskedMM':['1','2','3','4','5'],'Baleen':['1','2','4','5','6','7','8','9','10','11','12']})
 # studies_task = dict({'MaskedMM':['4','5'],'Baleen':['5','10','11','12']})
@@ -123,7 +124,8 @@ if __name__ == '__main__':
 		for study in codes.keys():
 			subjects = sorted(get_subjects(study))
 			study_results = parse_study(study,subjects)
-			with open('MEG_'+study+'_accuracy.log','w') as f:
+			logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/MEG_%s_accuracy.log' % study
+			with open(logf,'w') as f:
 				#write out header
 				f.write('sub:\t\t')
 				good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
@@ -145,5 +147,5 @@ if __name__ == '__main__':
 							avg_rt = 0
 						f.write("%1.3f(%1.3f)\t" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
 					f.write("{0}\n".format(round(float(total_num)/total_den,3)))
-	
+            make_lingua(logf)
 

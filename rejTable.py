@@ -5,6 +5,7 @@ import sys
 from pipeline import load_data
 
 from writeOutput import writeTable
+from pipeline import make_lingua
 
 if sys.platform == 'darwin':
     pre = 'Volumes'
@@ -32,7 +33,7 @@ if __name__ == '__main__':
             'ya27', 'ya29', 'ya30', 'ya31', 'ya32', 'ya33')
     all_data = get_data(subjects)
     for k,v in all_data.items():
-        fname = '%s_rejTable.txt' % k
+        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/%s_rejTable.txt' % (pre, k)
         codes = sorted(v['ya17'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))
         code_line = '\t\t%s' % '\t\t\t'.join(codes)
         subject_lines = []
@@ -49,4 +50,5 @@ if __name__ == '__main__':
         f.write(code_line + '\n')
         f.write('\n'.join(subject_lines))
         f.close()
+        make_lingua(fname)
     pass
