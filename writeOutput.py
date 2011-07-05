@@ -1,4 +1,4 @@
-from pipeline as make_lingua
+from pipeline import make_lingua
 
 def writeTable(filename, data):
     

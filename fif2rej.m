@@ -34,7 +34,7 @@ else
     disp('Using default thresholds...')
     rej_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/rej_thr.txt';
 end
-S = importdata(rej_path)
+S = importdata(rej_path);
 
 % find each rej thr
 [~, i] = ismember(S.textdata, 'veog');
