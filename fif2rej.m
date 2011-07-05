@@ -12,13 +12,13 @@ function fif2rej(fiff, do_plot)
 
 if nargin < 1
     fiff = '/cluster/kuperberg/SemPrMM/MEG/data/ya1/ya1_ATLLoc_raw.fif';
-    chan_c = {'grad', 'mag', 'eeg'};
-    chan_c = {'veog'};
     do_plot = 0
 elseif nargin < 2
-    chan_c = {'veog', 'heog', 'eeg'};
     do_plot = 0;
 end
+
+% add 'mag' or 'grad' if you want to make rej files based on these channels
+chan_c = {'veog', 'heog', 'eeg'};
 
 
 %%%%%%%%%
