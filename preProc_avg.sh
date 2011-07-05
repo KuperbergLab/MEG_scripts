@@ -71,11 +71,5 @@ foreach proj ( 'projoff' 'projon')
 
 	####################################
 
-	echo "Counting events"
-	
-	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 ATLLoc 1 $proj
-	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 MaskedMM 2 $proj
-	python /cluster/kuperberg/SemPrMM/MEG/scripts/countEvents.py $1 0 Baleen 8 $proj
-	
 
 end
