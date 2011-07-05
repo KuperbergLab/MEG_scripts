@@ -7,9 +7,6 @@ echo "Making Ave Parameter Files"
 python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1
 
 
-echo
-echo "Making Cov Parameter Files"
-python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1
 
 
 foreach proj ( 'projoff' 'projon')
