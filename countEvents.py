@@ -5,6 +5,7 @@ import sys
 ##Usage: python countEvents.py subjNum magRej task numRuns
 
 
+##
 def countEvents(subjNum,magRej,task,numRuns,dataType):
 	##File containing the original number of events recorded
 	allEveFileName = "/cluster/kuperberg/SemPrMM/MEG/data/" + subjNum + '/eve/' + subjNum + '_' + task + 'Mod.eve'
