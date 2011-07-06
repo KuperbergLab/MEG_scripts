@@ -108,8 +108,8 @@ if type == "MEG":
 elif type == "EEG":
 	chans_to_proc = eeg_names
 	img_dir = "img_eeg"
-	layout = Layout("sample-EEG",path="/cluster/kuperberg/SemPrMM/MEG/scripts/")
-img_dir = "cluster_results/"+"{0}_{1}".format(par,type)
+	layout = Layout("sample-EEG",path="/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/")
+img_dir = "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/cluster_results/"+"{0}_{1}".format(par,type)
 layout.pos[:,2:] *= 0.85
 
 
@@ -267,7 +267,4 @@ if do_plot:
 	pl.figure(-conditions[1], facecolor='w')
 	pl.figtext(0.03, 0.93, title, fontsize=18)
 	pl.legend(hf,(cond_names[0],cond_names[1]),loc=(4,14.5))
-	fo = '%s/full_%s_%s.png' % (img_dir,suffix,plot_type)
-	pl.savefig(fo,dpi=150)
-	print("Saved %s" % fo)
-	#pl.show()
+	fo = '%s/full_%s_%s.png' % (img_dir,suffix,plo
