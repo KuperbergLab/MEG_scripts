@@ -267,4 +267,7 @@ if do_plot:
 	pl.figure(-conditions[1], facecolor='w')
 	pl.figtext(0.03, 0.93, title, fontsize=18)
 	pl.legend(hf,(cond_names[0],cond_names[1]),loc=(4,14.5))
-	fo = '%s/full_%s_%s.png' % (img_dir,suffix,plo
+	fo = '%s/full_%s_%s.png' % (img_dir,suffix,plot_type)
+	pl.savefig(fo,dpi=150)
+	print("Saved %s" % fo)
+	#pl.show()
