@@ -1,7 +1,7 @@
 function fif2rej(fiff, do_plot)
 %------------------------
 %
-% Writes out 5 text files, each with two columns.
+% Writes out rejection files, each with two columns.
 % First column is time point (in samples) and next is
 % channel on which that time point should be rejected
 %
@@ -12,13 +12,13 @@ function fif2rej(fiff, do_plot)
 
 if nargin < 1
     fiff = '/cluster/kuperberg/SemPrMM/MEG/data/ya1/ya1_ATLLoc_raw.fif';
-    do_plot = 0
+    do_plot = 0;
 elseif nargin < 2
     do_plot = 0;
 end
 
 % add 'mag' or 'grad' if you want to make rej files based on these channels
-chan_c = {'veog', 'heog', 'eeg'};
+chan_c = {'eeg', 'veog', 'heog' };
 
 
 %%%%%%%%%
@@ -78,9 +78,9 @@ for chan = chan_c
                 f = @peak2peak;
             case 'eeg'
                 chans = [316:375 379:389];
-                meth = 'peak2peak';
+                meth = 'flat';
                 thr = eeg_rej;
-                f = @peak2peak;
+                f = @flat;
             otherwise
                 error('Bad chan_str specifier')
         end
@@ -109,7 +109,10 @@ for chan = chan_c
     chans(ib) = [];
     
     X = fiff_read_raw_segment(ds,ds.first_samp,ds.last_samp,chans);
+    
     Xm = detrend(X', 'constant')';
+    % new filtering here
+    
     
     % compute bad sample points
     bad_mat = f(Xm, thr, ds, chans, do_plot);
@@ -156,16 +159,17 @@ end
 bad_mat = bad_mat(1:mat_ind-1,:);
 fprintf('Finished window rejection method in %3.3f s\n', toc)
 if p
-    t = double(ds.first_samp):double(ds.last_samp);
+%     t = double(ds.first_samp):double(ds.last_samp);
     [n, x] = hist(bad_mat(:,1), length(X));
     n(1,2) = 0;
-    figure(chans);close(chans);figure(chans);
-    hold on;plot(t,X,'b');bar(x, n/10000,'r'); hold off;
+    plotter(chans, ds, X, n, x, first, thr)
 end
 end
 
 function bad_mat = flat(X, thr, ds, chans, p)
 fprintf('Running flat rejection method...\n')
+[b, a] = butter(4, .5 / (ds.info.sfreq / 2), 'high');
+X = filtfilt(b, a, X')';
 [r, c] = find(X > thr | X < -thr);
 bad_mat = zeros(length(r), 2);
 first = double(ds.first_samp);
@@ -173,24 +177,22 @@ for ii = 1:length(r)
     bad_mat(ii, :) = [first+c(ii) chans(r(ii))];
 end
 if p
-    close all;
-    c = 254;
-    ci = chans == c;
-    dat = X(ci,:);
-    [r, ~] = find(bad_mat(:,2) == c);
-    b_ch = bad_mat(r,1);
-    [n, x] = hist(b_ch, length(dat));
-    n(1,2) = 0;
-    figure(1);close 1;figure(1);
-    t = double(ds.first_samp):double(ds.last_samp);
-    hold on;plot(t,dat,'b');bar(x, n/(1/thr)); hold off;
+    for c = unique(bad_mat(:,2))'
+        ci = find(chans == c);
+        dat = X(ci,:);
+        [r2, ~] = find(bad_mat(:,2) == c);
+        b_ch = bad_mat(r2,1);
+        [n, x] = hist(b_ch, length(dat));
+        n(1,2) = 0;
+        plotter(c, ds, dat, n, x, first, thr)
+    end
 end
 fprintf('Finished flat rejection method...\n')
 end
 
 function bad_mat = peak2peak(X, thr, ds, chans, p)
 fprintf('Running peak-to-peak rejection method...\n')
-w = 600;
+w = 300;
 bad_mat = zeros(length(X)*20,2);
 % bad_mat = [];
 mat_ind = 1;
@@ -230,9 +232,19 @@ if p
         b_ch = bad_mat(r,1);
         [n, x] = hist(b_ch, length(dat));
         n(1,2) = 0;
-        figure(c);close(c);figure(c);
-        t = double(ds.first_samp):double(ds.last_samp);
-        hold on;plot(t,dat,'b');bar(x, n/(1/thr)); hold off;
+        plotter(c, ds, dat, n, x, first, thr)
     end
 end
 end
+
+function plotter(c_num, ds, dat, n, x, first, thr)
+figure(c_num);close(c_num);figure(c_num)
+set(c_num, 'Position', [1400 508 560 420] );
+t = double(ds.first_samp):double(ds.last_samp);
+hold on;
+axis([first first+length(dat) -250e-6 250e-6])
+plot(t, dat, 'b');
+bar(x, n/(1/thr),'EdgeColor', [1 0 0]);
+hold off;
+end
+
