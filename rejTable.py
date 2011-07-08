@@ -50,5 +50,6 @@ if __name__ == '__main__':
         f.write(code_line + '\n')
         f.write('\n'.join(subject_lines))
         f.close()
+        print("Saved rejection table to %s" % fname)
         make_lingua(fname)
     pass
