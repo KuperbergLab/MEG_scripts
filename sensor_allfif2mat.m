@@ -4,6 +4,12 @@ function sensor_allfif2mat(exp,listPrefix)
 %%list. Actually it saves two mat files, one with projections on and one
 %%with them off.
 
+%%It also fixes one bug. The first four subjects had two junk channels
+%%acquired, so the evoked structure is a different size and breaks in
+%%grand-averaging. Here we delete those channels from the evoked.epochs
+%%structure. It is important to note they are still present in other parts
+%%of the data file, for example, the channel_name structure. 
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
 
@@ -23,7 +29,17 @@ for x = 1:2
         count = count + 1;
         inFile = strcat(dataPath,'data/ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'_All-ave.fif');
         tempSubjData = fiff_read_evoked_all(inFile);
-            
+        
+        %%Get rid of junk channels accidentally acquired in first subjects
+        %%so matrices match up
+        if (subj == 1 || subj == 2 || subj == 3 || subj == 4)
+            condNum = size(tempSubjData.evoked,2);
+            for c = 1:condNum
+                tempSubjData.evoked(c).epochs(390,:) = [];
+                tempSubjData.evoked(c).epochs(379,:) = [];
+            end
+        end
+        
         allSubjData{count} = tempSubjData;
 
     end

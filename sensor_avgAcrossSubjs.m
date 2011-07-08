@@ -14,33 +14,28 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
-
+numSubj = size(subjList)
 
 %%%%Getting the data out, loop once each for projon and projoff
 
 for x = 1:2
     
     if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',int2str(count)));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',numSubj));
+        dataType = 'eeg';
+        chanNum = 74;
+        chanV = [316:389];
     else
-        projType = 'projon';
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projon_n',numSubj));
         dataType = 'meg';
         chanNum = 306;
         chanV = [1:306];
     end
     
-    %%Select subject list, depending on whether doing EEG or MEG
-    if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-        subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.baleen.',dataType,'.txt'));
-    elseif (strcmp(exp,'MaskedMM_All'))
-        subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.masked.',dataType,'.txt'));
-    end
-    subjList = subjList'
-
 
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
-    newStr = fiff_read_evoked_all(strcat(dataPath,'ya17/ave_',projType,'/ya17_',exp,'-ave.fif'));
+    newStr = fiff_read_evoked_all(strcat(dataPath,'data/ya17/ave_',projType,'/ya17_',exp,'-ave.fif'));
     newStr.info.chs = newStr.info.chs([chanV]);
     newStr.info.bads = {};
     
@@ -70,13 +65,9 @@ for x = 1:2
 
 
     %%for each subject, get the evoked data out
-    for subj=subjList
-        count=count+1
-        subj
+    for s = 1:numSubj
 
-        %%Read in ave fif file for subject
-        filename = strcat(dataPath,'ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif')
-        tempStr = fiff_read_evoked_all(filename);
+        tempStr = allSubjData(s)
 
         %%For each condition, get the evoked data out
         for c = 1:condNum
@@ -104,13 +95,6 @@ for x = 1:2
             end
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-
-           %%First get rid of junk channels accidentally acquired in first subjects
-            %%so matrices match up
-            if (subj == 1 || subj == 3 || subj == 4 || subj == 7)
-                temp(390,:) = [];
-                temp(379,:) = [];
-            end
                              
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
             temp = temp(chanV,:);
