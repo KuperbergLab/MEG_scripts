@@ -14,82 +14,76 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
-numSubj = size(subjList)
+numSubj = size(subjList,2);
 
 %%%%Getting the data out, loop once each for projon and projoff
 
 for x = 1:2
     
     if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',numSubj));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',int2str(numSubj)));
         dataType = 'eeg';
-        chanNum = 74;
-        chanV = [316:389];
+        numChan = 74;
+        chanV = 316:389;
     else
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projon_n',numSubj));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projon_n',int2str(numSubj)));
         dataType = 'meg';
-        chanNum = 306;
-        chanV = [1:306];
+        numChan = 306;
+        chanV = 1:306;
     end
     
 
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
-    newStr = fiff_read_evoked_all(strcat(dataPath,'data/ya17/ave_',projType,'/ya17_',exp,'-ave.fif'));
-    newStr.info.chs = newStr.info.chs([chanV]);
-    newStr.info.bads = {};
+    newStr = allSubjData{10};
     
-    for z = 1:chanNum
+    numSample = size(newStr.evoked(1).epochs,2);
+    numCond = size(newStr.evoked,2);
+    if strcmp(exp, 'ATLLoc') numCond = 3; end     %%don't want to try to average the whole-sentence epochs
+
+    newStr.info.chs = newStr.info.chs(chanV);
+    for z = 1:numChan
         tempName{z} = newStr.info.ch_names(chanV(z));
     end
     newStr.info.ch_names = tempName;
-        
-    newStr.info.nchan = chanNum;
-    for y = 1:size(newStr.evoked,2)
-        newStr.evoked(y).epochs = newStr.evoked(y).epochs(chanV,:);
+    newStr.info.bads = {};
+    newStr.info.nchan = numChan;
+
+    for c = 1:numCond
+        newStr.evoked(c).epochs = newStr.evoked(c).epochs(chanV,:);
     end
     
-   
-    %%Initialize variables
-    sampleNum = size(newStr.evoked(1).epochs,2)
-    condNum = size(newStr.evoked,2);
-    %chanNum = 390;
-    count = 0;
-    allData=[];
-    goodDataSum =zeros(chanNum,sampleNum,condNum);
-    goodDataCount = zeros(chanNum,condNum);
-    epCount=zeros(condNum,1);
+    allData=zeros(numChan,numSample,numCond,numSubj);
+    goodDataSum =zeros(numChan,numSample,numCond);
+    goodDataCount = zeros(numChan,numCond);
+    epCount=zeros(numCond,1);
     
-    %%don't want to try to average the whole-sentence epochs
-    if strcmp(exp, 'ATLLoc') condNum = 3; end  
-
-
     %%for each subject, get the evoked data out
     for s = 1:numSubj
 
-        tempStr = allSubjData(s)
+        subjStr = allSubjData{s};
 
         %%For each condition, get the evoked data out
-        for c = 1:condNum
+        for c = 1:numCond
  
-            temp = tempStr.evoked(c).epochs(:,:);    
+            epData = subjStr.evoked(c).epochs(:,:);    
      
             %%keep a running count of how many epochs went into grand-average
-            epCount(c) = epCount(c) + tempStr.evoked(c).nave;
+            epCount(c) = epCount(c) + subjStr.evoked(c).nave;
            
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %%%%First create the structure for the 'good channel average' separately here%%%%
+            %%%%Create the structure for the 'good channel average' separately here%%%%
             countG = 0;
             for iChan = chanV
                 countG = countG +1;
-                sensName = tempStr.info.ch_names{iChan};
-                badTest = find(strcmp(tempStr.info.bads, sensName));
+                sensName = subjStr.info.ch_names{iChan};
+                badTest = find(strcmp(subjStr.info.bads, sensName));
                 if size(badTest,2) == 1 
                     sensName;
                 end
 
                 if size(badTest,2) == 0
-                    goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + temp(iChan,:);
+                    goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
                     goodDataCount(countG,c) = goodDataCount(countG,c)+1;
                 end
             end
@@ -97,21 +91,19 @@ for x = 1:2
             
                              
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
-            temp = temp(chanV,:);
-            %tempStr.info.chs = tempStr.info.chs([chanV]);
-        
+            epData = epData(chanV,:);        
 
             %%sensor x time x condition structure for subject data
-            tempEv(:,:,c) = temp;
+            epDataAllC(:,:,c) = epData;
 
 
         end
 
         %%sensor x time x condition x subject structure
-        allData(:,:,:,count) = tempEv;
-        size(allData)
-        clear('tempEv');
-        clear('tempStr');
+        allData(:,:,:,s) = epDataAllC;
+        %size(allData)
+        clear('epData');
+        clear('epDataAllC');
 
 
     end
@@ -126,12 +118,12 @@ for x = 1:2
     end
 
     %%write epochs to 'blank' fif structure
-    for y = 1:condNum
+    for y = 1:numCond
         newStr.evoked(y).epochs(:,:) = gaData(:,:,y);
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'ga/ga_ave_',exp,'_',dataType,'-n',int2str(count),'-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',exp,'_',dataType,'-n',int2str(numSubj),'-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
     
@@ -145,7 +137,7 @@ for x = 1:2
 
     %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
     %%equivalent dimension matrix
-    goodDataCountRep = repmat(goodDataCount,[1,sampleNum,condNum]);
+    goodDataCountRep = repmat(goodDataCount,[1,numSample,numCond]);
 
     %%Finally, array-divide them to get the correct mean for each channel
     goodDataMean = goodDataSum./goodDataCountRep;
@@ -157,12 +149,12 @@ for x = 1:2
     end
 
     %%write epochs to 'blank' fif structure
-    for y = 1:condNum
+    for y = 1:numCond
         newStr.evoked(y).epochs(:,:) = goodDataMean(:,:,y);
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'ga/ga_ave_',exp,'_',dataType,'-n',int2str(count),'-goodC-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
 end
