@@ -1,4 +1,4 @@
-function dataStruct = sensor_diffAcrossSubjs(gafif, cond1, cond2)
+function dataStruct = sensor_diffAcrossSubjs(gafifFile, cond1, cond2)
 
 %%This function takes as input a grand-average fif file and 
 %%adds an average for the difference between two
@@ -7,8 +7,8 @@ function dataStruct = sensor_diffAcrossSubjs(gafif, cond1, cond2)
 
 %%%Selecting data path and subject%%%%
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/ga/';
-fileName = strcat(dataPath,gafif)
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/';
+fileName = strcat(dataPath,gafifFile)
 
 dataStruct = fiff_read_evoked_all(fileName);
 
