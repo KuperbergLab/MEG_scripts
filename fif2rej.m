@@ -170,6 +170,8 @@ function bad_mat = flat(X, thr, ds, chans, p)
 fprintf('Running flat rejection method...\n')
 [b, a] = butter(4, .5 / (ds.info.sfreq / 2), 'high');
 X = filtfilt(b, a, X')';
+[b2, a2] = butter(4, 40 / (ds.info.sfreq / 2), 'low');
+X = filtfilt(b2, a2, X')';
 [r, c] = find(X > thr | X < -thr);
 bad_mat = zeros(length(r), 2);
 first = double(ds.first_samp);
@@ -239,7 +241,7 @@ end
 
 function plotter(c_num, ds, dat, n, x, first, thr)
 figure(c_num);close(c_num);figure(c_num)
-set(c_num, 'Position', [1400 508 560 420] );
+set(c_num, 'Position', [2100 600 560 420] );
 t = double(ds.first_samp):double(ds.last_samp);
 hold on;
 axis([first first+length(dat) -250e-6 250e-6])
