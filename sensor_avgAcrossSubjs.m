@@ -1,4 +1,4 @@
-function sensor_avgAcrossSubjs(exp)
+function sensor_avgAcrossSubjs(exp,listPrefix)
 
 %%Ellen Lau%%
 %%This outputs two types of grand-average evoked files for viewing in
@@ -12,16 +12,16 @@ function sensor_avgAcrossSubjs(exp)
 %%signals for EEG
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+
 
 %%%%Getting the data out, loop once each for projon and projoff
 
 for x = 1:2
+    
     if x == 1
-        projType = 'projoff';
-        dataType = 'eeg';
-        chanNum = 74;
-        chanV = [316:389];
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',int2str(count)));
     else
         projType = 'projon';
         dataType = 'meg';
