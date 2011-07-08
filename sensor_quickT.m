@@ -1,4 +1,4 @@
-function [p,contrast] = sensor_quickT(exp, projType, cond1, cond2, t1, t2, sensName, format)
+function [p,contrast] = sensor_quickT(exp, listPrefix,projType, cond1, cond2, t1, t2, chanNum)
 
 %%This function computes t-test at an individual sensor, for a given
 %%time-window. Designed for comparing two conditions, but enter the 
@@ -9,8 +9,10 @@ function [p,contrast] = sensor_quickT(exp, projType, cond1, cond2, t1, t2, sensN
 %%structures are mostly just there in case you want to plot the sensor
 %%waveform for each condition separately, in the commented lines at the end
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
-
+load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ch_names.mat')
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+numSubj = size(subjList,2);
 
 if strcmp(projType,'projon') 
     dataType = 'meg';
@@ -18,18 +20,11 @@ elseif strcmp(projType,'projoff')
     dataType = 'eeg';
 end
 
-if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-    subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.baleen.',dataType,'.txt'));
-elseif (strcmp(exp,'MaskedMM_All'))
-    subjList = dlmread(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.masked.',dataType,'.txt'));
-end
-
-subjList = subjList';
-
 
 count = 0;
 goodCount = 0;
 allData=[];
+sensName = ch_names{chanNum};
 
 if cond1==cond2
    msg = 'Running one condition t-test'
@@ -38,58 +33,30 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %create initial data structure, sensors x time
 
-[~,nSubj] = size(subjList);
 
-%%Case: Load data from mat file
-if format == 'mat'
-   inFile = strcat(dataPath, 'ga/mat/ave_', projType, '_',exp, '_n=',int2str(nSubj), '.mat');
-   load(inFile)
-end
+
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp,'_',projType, '_n',int2str(numSubj), '.mat'));
 
 for subj=subjList
     count = count + 1;
-
-    %%Case: Read fif files directly
-    if format == 'fif'    
-        inFile = strcat(dataPath,'ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif')
-        tempSubjData = fiff_read_evoked_all(inFile);    
-    end
     
-    %%Case: Load data from mat file
-    if format == 'mat'
-        tempSubjData = allSubjData{count};
-    end
+    tempSubjData = allSubjData{count};
     
-    %tempSubjData.info
     %%Only do the rest (add subject data to array) if not marked as bad
     %%channel
     
     badTest = find(strcmp(tempSubjData.info.bads, sensName));
+    
     if size(badTest,2) == 1 
         msg = 'bad channel'
         subj
     end
-    
-    %%Now add all this stuff to the data array for this channel
+
+    %%Now add all this stuff to the time x subj data array
     if size(badTest,2) == 0
         goodCount = goodCount + 1;
         nchan = tempSubjData.info.nchan;
-    
-        %%Find out for this subject, which number corresponds to this channel
-        %%name
-        chanNum = [];
-        for ichan = 1:nchan
-            if strcmp(tempSubjData.info.ch_names{ichan}, sensName)
-                chanNum = ichan;
-            end
-        end
-        
-        %%If you don't find a match, print an error message
-        
-        if (isempty(chanNum)) 
-            error('Error, incorrect channel name')  
-        end
-        
+            
         %%Extract the epochs
         tempSubjDataSens1 = squeeze(tempSubjData.evoked(cond1).epochs(chanNum,:));
         tempSubjDataSens2 = squeeze(tempSubjData.evoked(cond2).epochs(chanNum,:));
@@ -112,6 +79,7 @@ for subj=subjList
     end
     
 end
+
 goodCount;
 
 cond1Label = tempSubjData.evoked(cond1).comment;
@@ -165,6 +133,7 @@ std(tData);
 %bar(tData);
 
 [h,p,ci,stats] = ttest(tData);
+
 
 %figure;plot(tAxis,mean(allData,2));title(strcat(sensName,'-',int2str(cond2), '-',int2str(cond1), ' ',int2str(t1),'-',int2str(t2)))
 %figure;plot(tAxis,mean(condData(:,:,1),2));hold;plot(tAxis,mean(condData(:,:,2),2),'r');title(strcat(sensName,'-',int2str(cond2), '-',int2str(cond1), ' ',int2str(t1),'-',int2str(t2)))
