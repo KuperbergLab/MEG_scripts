@@ -1,7 +1,27 @@
 #!/bin/csh
 
-#preAnat ya14 FLASH (if flash files exist)
-#preAnat ac1 WATER (if no flash files exist)
+#preAnat ya14 FLASH (if flash files exist) logfile
+#preAnat ac1 WATER (if no flash files exist) logfile
+
+if ( $#argv == 0 ) then 
+    echo "NO SUBJECT ARGUMENT"
+    exit 1
+endif
+
+if ( $#argv == 2 ) then
+    set log='./preProc_avg.log'
+    echo "Logging to default log..." >>& $log
+endif
+
+if ( $#argv == 3) then
+    set log=$3
+endif
+
+# if log exists, delete
+if ( -e $log ) then
+    rm $log
+endif
+
 
 date
 
@@ -10,8 +30,8 @@ set BEM_METHOD=$2
 
 ###Set up MRI images for MRILab and setup source space##
 
-mne_setup_mri
-mne_setup_source_space
+mne_setup_mri >>& $log
+mne_setup_source_space  >>& $log
 
 
 ####FLASH VS WATERSHED##################
@@ -23,14 +43,14 @@ if ($BEM_METHOD == FLASH) then
 	###Create only if flash surfaces have not already been created###
 	###(bem/flash directory is created by the mne_flash_bem script)
 	if ( ! -e "/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash/outer_skin.surf" ) then
-		echo "flash 05 does not exist"
-		echo "Running BEM Stuff..."
-		cd $SUBJECTS_DIR/$1/bem/flash_org
-		echo $SUBJECTS_DIR
+		echo "flash 05 does not exist"  >>& $log
+		echo "Running BEM Stuff..."  >>& $log
+		cd $SUBJECTS_DIR/$1/bem/flash_org 
+		echo $SUBJECTS_DIR  >>& $log
 		###ORGANIZE DICOMS IF FLASH###
-		mne_organize_dicom ../flash_dcm
+		mne_organize_dicom ../flash_dcm  >>& $log
 		ln -s 0*5d* flash05
-		mne_flash_bem --noflash30
+		mne_flash_bem --noflash30  >>& $log
 		###Create symbolic links to the bem surfaces###
 		cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 		rm *.surf
@@ -38,12 +58,12 @@ if ($BEM_METHOD == FLASH) then
 		ln -s ./flash/outer_skull.surf outer_skull.surf
 		ln -s ./flash/inner_skull.surf inner_skull.surf
 	else
-		echo "flash 05 exists"
+		echo "flash 05 exists"  >>& $log
 	endif
 else
 	##use this if the flash surfaces don't work
 	echo "Running Watershed stuff..."
-	mne_watershed_bem  
+	mne_watershed_bem   >>& $log
 	###Create symbolic links to the bem surfaces###
 	cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 	rm *.surf
@@ -56,8 +76,8 @@ endif
 
 ###Create surfaces for viewing
 
-mne_setup_forward_model --surf --ico 4
+mne_setup_forward_model --surf --ico 4 >>& $log
 
-mne_surf2bem --surf $SUBJECTS_DIR/$1/bem/outer_skin.surf --id 4 --surf $SUBJECTS_DIR/$1/bem/outer_skull.surf --id 3 --surf $SUBJECTS_DIR/$1/bem/inner_skull.surf --id 1 --fif $SUBJECTS_DIR/$1/bem/$1-bem.fif
+mne_surf2bem --surf $SUBJECTS_DIR/$1/bem/outer_skin.surf --id 4 --surf $SUBJECTS_DIR/$1/bem/outer_skull.surf --id 3 --surf $SUBJECTS_DIR/$1/bem/inner_skull.surf --id 1 --fif $SUBJECTS_DIR/$1/bem/$1-bem.fif  >>& $log
 
 

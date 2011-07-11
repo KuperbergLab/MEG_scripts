@@ -1,8 +1,31 @@
 #!/bin/csh
 
+#usage: preProc_setup.sh subjID logfile
+
+if ( $#argv == 0 ) then 
+    echo "NO SUBJECT ARGUMENT"
+    exit 1
+endif
+
+if ( $#argv == 1 ) then
+    set log='./preProc_setup.log'
+    echo "Logging to default log..." >>& $log
+endif
+
+if ( $#argv == 2) then
+    set log=$2
+endif
+
+# if log exists, delete
+if ( -e $log ) then
+    rm $log
+endif
+
+
+
 cd /cluster/kuperberg/SemPrMM/MEG/data/$1
 
-date
+date >>& $log
 
 mkdir eve -m g+rws
 mkdir ave -m g+rws
@@ -66,37 +89,37 @@ mv $1_BaleenRun8_raw.blinks $1_BaleenHPRun4_raw.blinks
 ##Extracting events read from .fif files into .eve text files
 
 echo
-echo "Extracting events"
+echo "Extracting events" >>& $log
 
 foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')
 	
 	if ( -e $1_{$run}_raw.fif ) then
-		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve
+		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve >>& $log
 	endif
 
 end
 
 ##############################################
 echo
-echo "Fixing triggers"
+echo "Fixing triggers" >>& $log
 
-python /cluster/kuperberg/SemPrMM/MEG/scripts/fixTriggers.py $1
+python /cluster/kuperberg/SemPrMM/MEG/scripts/fixTriggers.py $1 >>& $log
 
 
 ##############################################
 echo
-echo "Renaming EEG channels"
+echo "Renaming EEG channels" >>& $log
 
 if ( $1 == 'ya1' | $1 == 'ya3' |$1 == 'ya4' |$1 == 'ya7' ) then
 	foreach f ( *_raw.fif )
-		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1.txt
-		mne_check_eeg_locations --file $f --fix
+		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1.txt >>& $log
+		mne_check_eeg_locations --file $f --fix >>& $log
 	end
 endif
 
 
 foreach f ( *_raw.fif )
-	mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt
+	mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt >>& $log
 end
 
 
@@ -104,14 +127,14 @@ end
 ###Marking bad channels
 
 echo
-echo "Marking bad channels"
+echo "Marking bad channels" >>& $log
 
 if ( -e $1_bad_chan.txt ) then
 	foreach f ( *_raw.fif )
-		mne_mark_bad_channels --bad $1_bad_chan.txt $f
+		mne_mark_bad_channels --bad $1_bad_chan.txt $f >>& $log
 	end
 endif
 
 echo
 date
-echo "Finished preProc - setup"
+echo "Finished preProc - setup" >>& $log

@@ -1,10 +1,29 @@
 #!/bin/csh
 
-echo
-echo "Making Cov Parameter Files"
-python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1
+if ( $#argv == 0 ) then 
+    echo "NO SUBJECT ARGUMENT"
+    exit 1
+endif
 
-echo Computing covariance
+if ( $#argv == 1 ) then
+    set log='./preProc_cov.log'
+    echo "Logging to default log..." >>& $log
+endif
+
+if ( $#argv == 2) then
+    set log=$2
+endif
+
+# if log exists, delete
+if ( -e $log ) then
+    rm $log
+endif
+
+echo
+echo "Making Cov Parameter Files"  >>& $log
+python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1  >>& $log
+
+echo "Computing covariance"  >>& $log
 date
 mne_process_raw \
  --raw ../$1_MaskedMMRun1_raw.fif \
@@ -12,7 +31,7 @@ mne_process_raw \
  --cov ../cov/$1_MaskedMMRun1.cov \
  --cov ../cov/$1_MaskedMMRun2.cov \
  --gcov $1_MaskedMM_All-cov.fif \
- --projon --lowpass 20
+ --projon --lowpass 20  >>& $log
  
 mne_process_raw \
  --raw ../$1_BaleenLPRun1_raw.fif \
@@ -32,7 +51,7 @@ mne_process_raw \
  --cov ../cov/$1_BaleenHPRun3.cov \
  --cov ../cov/$1_BaleenHPRun4.cov \
  --gcov $1_Baleen_All-cov.fif \
- --projon --lowpass 20
+ --projon --lowpass 20  >>& $log
  
 
 if ( -e ../$1_AXCPTRun1_raw.fif ) then
@@ -43,15 +62,15 @@ if ( -e ../$1_AXCPTRun1_raw.fif ) then
 		--cov ../cov/$1_AXCPTRun1.cov \
 		--cov ../cov/$1_AXCPTRun2.cov \
 		--gcov $1_AXCPT_All-cov.fif \
-		--projon --lowpass 20
+		--projon --lowpass 20  >>& $log
 	else
 		mne_process_raw \
 		--raw ../$1_AXCPTRun1_raw.fif \
 		--cov ../cov/$1_AXCPTRun1.cov \
 		--gcov $1_AXCPT_All-cov.fif \
-		--projon --lowpass 20		
+		--projon --lowpass 20  >>& $log		
 	endif
 endif
 
 date
-echo FINISHED
+echo "FINISHED"  >>& $log
