@@ -9,7 +9,7 @@ if ( $#argv == 0 ) then
 endif
 
 if ( $#argv == 2 ) then
-    set log='./preProc_avg.log'
+    set log='./preAnat.log'
     echo "Logging to default log..." >>& $log
 endif
 

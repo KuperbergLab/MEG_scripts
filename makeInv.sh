@@ -8,7 +8,7 @@ if ( $#argv == 0 ) then
 endif
 
 if ( $#argv == 1 ) then
-    set log='./preProc_avg.log'
+    set log='./makeInv.log'
     echo "Logging to default log..." >>& $log
 endif
 
