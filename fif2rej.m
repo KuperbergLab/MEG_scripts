@@ -98,7 +98,7 @@ for chan = chan_c
     new_path = fullfile(tmp, new_fn);
 
     % some output
-    fprintf('\n\nfiff: %s\ndata: %s\nmethod: %s\nrejection file: %s\n\n', fiff, chan_str, meth, new_path);
+    fprintf('fiff: %s\ndata: %s\nmethod: %s\nrejection file: %s\n', fiff, chan_str, meth, new_path);
 
     % load data
     ds = fiff_setup_read_raw(fiff);
@@ -108,10 +108,17 @@ for chan = chan_c
     [~, ib, ~] = intersect(chans, ia);
     chans(ib) = [];
     
+    %take care of 'MISC 064' in ya1, ya3, ya4, and ya7
+    [~, ia, ~] = intersect(ds.info.ch_names, {'MISC 064'});
+    [~, ib, ~] = intersect(chans, ia);
+    if ib
+        fprintf('Skipping MISC 064...\n');
+        chans(ib) = [];
+    end
+    
     X = fiff_read_raw_segment(ds,ds.first_samp,ds.last_samp,chans);
     
     Xm = detrend(X', 'constant')';
-    % new filtering here
     
     
     % compute bad sample points
