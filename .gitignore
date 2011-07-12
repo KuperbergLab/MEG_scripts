@@ -6,21 +6,6 @@ ya.masked*
 *.log
 *.lout
 ._*
-
-readInput.pyc
-
-readInput.pyc
-
-writeOutput.pyc
-
 .DS_Store
 
-art_mask.img
-
-art_mask.hdr
-
-art_mask_temporalfile.mat
-
-nohup.out
-
-readInput.pyc
+._.gitignore
