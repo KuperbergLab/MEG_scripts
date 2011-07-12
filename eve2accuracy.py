@@ -147,5 +147,5 @@ if __name__ == '__main__':
 							avg_rt = 0
 						f.write("%1.3f(%1.3f)\t" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
 					f.write("{0}\n".format(round(float(total_num)/total_den,3)))
-            make_lingua(logf)
+			make_lingua(logf)
 
