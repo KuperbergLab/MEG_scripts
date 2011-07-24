@@ -39,7 +39,10 @@ for x = 1:2
     
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
-    if strcmp(exp, 'ATLLoc') numCond = 3; end     %%don't want to try to average the whole-sentence epochs
+    if strcmp(exp, 'ATLLoc') 
+        numCond = 3; 
+        newStr.evoked(4:6) = [];
+    end     %%don't want to try to average the whole-sentence epochs
 
     newStr.info.chs = newStr.info.chs(chanV);
     for z = 1:numChan
