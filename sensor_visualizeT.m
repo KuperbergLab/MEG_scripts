@@ -51,7 +51,7 @@ for x = 1:2
     gaStr.info.bads = nonSigChan;
     gaStr.info
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif_tmap/','ga_',exp,'_',dataType,contrast,'_',int2str(t1),'-',int2str(t2),'_p',num2str(pVal),'_n',int2str(numSubj),'-ave.fif');
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif_tmap/','ga_',exp,'_',dataType,'_',contrast,'_',int2str(t1),'-',int2str(t2),'_p',num2str(pVal),'_n',int2str(numSubj),'-ave.fif');
     fiff_write_evoked(outFile,gaStr);
 
 end

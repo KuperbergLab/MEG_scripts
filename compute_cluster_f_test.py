@@ -18,7 +18,7 @@ type = "EEG" #EEG or MEG
 plot_type = "data" #data or f
 par = "BaleenHP_All" #'BaleenHP_All', 'BaleenLP_All', 'MaskedMM_All', 'AXCPT_All'
 use_joblib = True
-cond = 0 #index to the con_dict
+cond = 0 #index to the con_dict, e.g. which of the contrasts you want to look at in that paradigm
 do_plot = True
 subj_dict = dict({"BaleenLP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
 	"BaleenHP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
@@ -105,9 +105,11 @@ if type == "MEG":
 	chans_to_proc = meg_names
 	img_dir = "img_meg"
 	layout = Layout()
+	proj = "on'
 elif type == "EEG":
 	chans_to_proc = eeg_names
 	img_dir = "img_eeg"
+	proj = 'off'
 	layout = Layout("sample-EEG",path="/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/")
 img_dir = "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/cluster_results/"+"{0}_{1}".format(par,type)
 layout.pos[:,2:] *= 0.85
@@ -121,7 +123,7 @@ X1a = []
 bads = []
 bads_name = []
 for s in subjects:
-	fif = '/cluster/kuperberg/SemPrMM/MEG/data/ya{0}/ave_projoff/ya{0}_{1}-ave.fif'.format(s,par)
+	fif = '/cluster/kuperberg/SemPrMM/MEG/data/ya{0}/ave_proj%s/ya{0}_{1}-ave.fif'.format(s,par) % proj
 	if use_joblib:
 		x0, times, bads_s, bads_name_s = mem.cache(extract_data)(fif, conditions[0], chans_to_proc)
 		x1, times, bads_s, bads_name_s = mem.cache(extract_data)(fif, conditions[1], chans_to_proc)
