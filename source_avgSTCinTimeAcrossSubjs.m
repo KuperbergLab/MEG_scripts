@@ -3,15 +3,18 @@ function source_avgSTCinTimeAcrossSubjs(exp,condPair,type,norm,t1,t2)
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
+%%type is spm or mne
+%%norm is 0 or 1
+%%if you pick mne and norm=1, you should end up with something basically identical to
+%%spm
 
-if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.baleen.meg.txt');
-elseif (strcmp(exp,'MaskedMM_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.masked.meg.txt');
-end
+%%You just use this if you want to create individual subject files for
+%%time-windows so you can do stats across them.
 
-subjList = subjList'
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+
+
 
 [~,n] = size(subjList);
  
@@ -30,18 +33,18 @@ for hemI = 1:2
         subj 
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
  
-        fileName = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
         if norm == 1
-            fileName = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
         end
 
         stcStruct = mne_read_stc_file(fileName);
         stcData = stcStruct.data;
         meanStcData = mean(stcData(:,sample1:sample2),2);
 
-        outFile = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
         if norm == 1
-            outFile = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
         end
 
         newSTC = stcStruct;

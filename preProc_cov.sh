@@ -21,6 +21,7 @@ endif
 
 echo
 echo "Making Cov Parameter Files"  >>& $log
+cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 python /cluster/kuperberg/SemPrMM/MEG/scripts/makeCovFiles.py $1  >>& $log
 
 echo "Computing covariance"  >>& $log

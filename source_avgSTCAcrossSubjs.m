@@ -1,14 +1,15 @@
-function source_avgSTCAcrossSubjs(exp,condNum,type,norm)
+function source_avgSTCAcrossSubjs(exp,listPrefix,condNum,type,norm)
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
+%%type is spm or mne
+%%norm is 0 or 1
+%%if you pick mne and norm=1, you should end up with something basically identical to
+%%spm
 
-if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.baleen.meg.txt');
-elseif (strcmp(exp,'MaskedMM_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.masked.meg.txt');
-end
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
 
-subjList = subjList'
+
+
 [~,n] = size(subjList);
 %%for each subject, get the stc data out
 for hemI = 1:2
@@ -27,7 +28,7 @@ for hemI = 1:2
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
         %%Read in stc file for subject
 
-        filename = strcat(dataPath,subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-',type,'-',hem,'.stc')
+        filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condNum),'M-',type,'-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData = subjSTC.data;
         
@@ -48,9 +49,9 @@ for hemI = 1:2
 
     newSTC = subjSTC;  %%just use the last subject's STC to get the structure of the file
     newSTC.data = gaSubjData;
-    outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_',exp,'_c',int2str(condNum),'M_n',int2str(n),'-',type,'-',hem,'.stc');
     if norm==1
-        outFile = strcat(dataPath,'ga/ga_',exp,'_c',int2str(condNum),'M-norm_n',int2str(n),'-',type,'-',hem,'.stc');  
+        outFile = strcat(dataPath,'results/source_space/ga_',exp,'_c',int2str(condNum),'M-norm_n',int2str(n),'-',type,'-',hem,'.stc');  
     end
     mne_write_stc_file(outFile,newSTC);
     

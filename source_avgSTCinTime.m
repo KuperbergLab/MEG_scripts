@@ -1,5 +1,8 @@
 function source_avgSTCinTime(filePrefix, type,t1,t2)
 
+%%This script is simpler than most: it just takes a single stc file and
+%%averages it across a time-window. 
+
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
 
