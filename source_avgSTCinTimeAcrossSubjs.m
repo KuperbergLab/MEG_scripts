@@ -1,4 +1,4 @@
-function source_avgSTCinTimeAcrossSubjs(exp,condPair,type,norm,t1,t2)
+function source_avgSTCinTimeAcrossSubjs(exp,listPrefix,condPair,type,norm,t1,t2)
 
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
@@ -33,9 +33,9 @@ for hemI = 1:2
         subj 
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
  
-        fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
         if norm == 1
-            fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
         end
 
         stcStruct = mne_read_stc_file(fileName);

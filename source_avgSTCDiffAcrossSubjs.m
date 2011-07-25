@@ -1,4 +1,4 @@
-function source_avgSTCDiffAcrossSubjs(exp,condPair,type,norm)
+function source_avgSTCDiffAcrossSubjs(exp,listPrefix,condPair,type,norm)
 
 %%type is spm or mne
 %%norm is 0 or 1
@@ -30,7 +30,7 @@ for hemI = 1:2
         %%Read in stc file for subject
 
         for c = 1:2
-            filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
+            filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
             
             subjSTC = mne_read_stc_file(filename);
             
