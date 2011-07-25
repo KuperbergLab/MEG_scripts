@@ -42,9 +42,9 @@ for hemI = 1:2
         stcData = stcStruct.data;
         meanStcData = mean(stcData(:,sample1:sample2),2);
 
-        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
         if norm == 1
-            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
         end
 
         newSTC = stcStruct;

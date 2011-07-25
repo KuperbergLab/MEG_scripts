@@ -1,14 +1,8 @@
 function pArray = source_statSTC(exp,condPair,type,norm,numSamples)
 
 
-dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/data/';
-
-if (strcmp(exp,'BaleenHP_All') || strcmp(exp,'BaleenLP_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.baleen.meg.txt');
-elseif (strcmp(exp,'MaskedMM_All'))
-    subjList = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ya.masked.meg.txt');
-end
-subjList = subjList'
+dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
 
 
 for hemI = 1:2
@@ -29,11 +23,11 @@ for hemI = 1:2
         subj
 
 
-        %%Read in ave fif file for subject
-        filename = strcat(dataPath,'ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp, '_c',int2str(condPair(1)),'M-',type,'-lh.stc');
+        %%Read in stc file for subject
+        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp, '_c',int2str(condPair(1)),'M-',type,'-',hem,'.stc');
         subjRel = mne_read_stc_file(filename);
 
-        filename = strcat(dataPath,'ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'M-',type,'-lh.stc');
+        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'M-',type,'-',hem,'.stc');
         subjUnrel = mne_read_stc_file(filename);
 
         subjDiff = subjUnrel.data-subjRel.data;
@@ -66,9 +60,9 @@ for hemI = 1:2
     pArray = -log(pArray);
     
     newSTC.data = pArray;
-    outFile = strcat(dataPath,'ga/stc/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',type,'-',hem,'.stc');
     if norm == 1
-        outFile = strcat(dataPath,'ga/stc/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
+        outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
 
