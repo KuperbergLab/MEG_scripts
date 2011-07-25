@@ -48,9 +48,9 @@ for hemI = 1:2
         
         subjDataDiff = subjData(:,:,2)-subjData(:,:,1);
         
-        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
         if norm == 1
-            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
         end
         newSTC = subjSTC;
         newSTC.data = subjDataDiff;

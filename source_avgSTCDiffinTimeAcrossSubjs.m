@@ -1,4 +1,4 @@
-function source_avgSTCinTimeAcrossSubjs(exp,listPrefix,condPair,type,norm,t1,t2)
+function source_avgSTCDiffinTimeAcrossSubjs(exp,listPrefix,condPair,type,norm,t1,t2)
 
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
