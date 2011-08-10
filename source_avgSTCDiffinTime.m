@@ -28,28 +28,17 @@ for hemI = 1:2
     end
     
     count = 0;
+    
     for subj=subjList
         count=count+1;
         subj 
         subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
- 
-        fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        filePrefix = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M');
         if norm == 1
-            fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            filePrefix = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm');
         end
-
-        stcStruct = mne_read_stc_file(fileName);
-        stcData = stcStruct.data;
-        meanStcData = mean(stcData(:,sample1:sample2),2);
-
-        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
-        if norm == 1
-            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
-        end
-
-        newSTC = stcStruct;
-        newSTC.data = meanStcData;
-
-        mne_write_stc_file(outFile,newSTC);
+        
+        source_avgSTCinTime(filePrefix, type, t1, t2);
     end
+    
 end
