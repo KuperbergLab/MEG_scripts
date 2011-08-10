@@ -28,8 +28,8 @@ for x = 1:2
     else
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projon_n',int2str(numSubj)));
         dataType = 'meg';
-        numChan = 306;
-        chanV = 1:306;
+        numChan = 389;
+        chanV = 1:389;
     end
     
 

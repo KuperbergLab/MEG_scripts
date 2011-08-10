@@ -27,11 +27,8 @@ for x = 1:2
 
     for subj=subjList
         count = count + 1;
-        if strcmp(exp,'ATLLoc') == 1
-            inFile = strcat(dataPath,'data/ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif');
-        else
-            inFile = strcat(dataPath,'data/ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'_All-ave.fif');
-        end
+        inFile = strcat(dataPath,'data/ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif');
+
         tempSubjData = fiff_read_evoked_all(inFile);
         
         %%Get rid of junk channels accidentally acquired in first subjects
