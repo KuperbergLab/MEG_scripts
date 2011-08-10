@@ -1,4 +1,4 @@
-function pArray = source_statSTC(exp,condPair,type,norm,numSamples)
+function pArray = source_statSTC(exp,listPrefix, condPair,type,norm,numSamples)
 
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
