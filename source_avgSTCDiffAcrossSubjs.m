@@ -30,7 +30,7 @@ for hemI = 1:2
         %%Read in stc file for subject
 
         for c = 1:2
-            filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
+            filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
             
             subjSTC = mne_read_stc_file(filename);
             
@@ -48,9 +48,9 @@ for hemI = 1:2
         
         subjDataDiff = subjData(:,:,2)-subjData(:,:,1);
         
-        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
         if norm == 1
-            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_All_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
         end
         newSTC = subjSTC;
         newSTC.data = subjDataDiff;
@@ -66,10 +66,10 @@ for hemI = 1:2
 
     newSTC = subjSTC;  %%just use the last subject's STC to get the structure of the file
     newSTC.data = gaSubjData;
-    outFile = strcat(dataPath,'results/source_space/ga_stc/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_n',int2str(n),'-',type,'-',hem,'.stc');
     
     if norm == 1
-          outFile = strcat(dataPath,'results/source_space/ga_stc/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm_n',int2str(n),'-',type,'-',hem,'.stc');  
+          outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm_n',int2str(n),'-',type,'-',hem,'.stc');  
     end
     
     mne_write_stc_file(outFile,newSTC);
