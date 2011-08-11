@@ -1,4 +1,4 @@
-function source_avgSTCAcrossSubjs(exp,listPrefix,condNum,type,norm)
+function source_avgSTCAcrossSubjs(exp,listPrefix,condNum,type,norm,numSamples)
 
 %%type is spm or mne
 %%norm is 0 or 1
@@ -13,7 +13,7 @@ subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, 
 [~,n] = size(subjList);
 %%for each subject, get the stc data out
 for hemI = 1:2
-    allSubjData = zeros(10242,480,n);
+    allSubjData = zeros(10242,numSamples,n);
 
     if hemI == 1
         hem = 'lh';
@@ -34,13 +34,12 @@ for hemI = 1:2
         
         if norm == 1
             subjBaseline = mean(subjSTC.data(:,1:60),2);
-            subjBaseline = repmat(subjBaseline,1,480);
+            subjBaseline = repmat(subjBaseline,1,numSamples);
             subjSD = std(subjSTC.data(:,1:60),0,2);
-            subjSD = repmat(subjSD,1,480);
+            subjSD = repmat(subjSD,1,numSamples);
             subjSTC.data = (subjSTC.data-subjBaseline)./(subjSD);
         end
        
-
         allSubjData(:,:,count) = subjData;
 
     end
