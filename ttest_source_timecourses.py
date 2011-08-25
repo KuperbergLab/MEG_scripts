@@ -43,7 +43,7 @@ print label
 #label = 'G_temp_sup-Lateral-'+hem
 #label = 'G_temporal_middle-'+hem
 #label = 'Pole_temporal-'+hem
-#label = 'S_temp_sup-'+hem
+#label = 'S_temporal_sup-'+hem
 #label = 'G_pariet_inf-Angular-'+hem
 
 #values, times, vertices = mne.label_time_courses(label_fname, stc_fname)

@@ -17,14 +17,14 @@ import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-.1, .5]
-ymin,ymax = [-.5, 1.5]
+xmin,xmax = [-100, 501]
+ymin,ymax = [-1, 1]
 lWidth = 4
 
 color1 = 'b'
 color2 = 'b'
-lineStyle1 = 'solid'
-lineStyle2 = 'dotted'
+lineStyle1 = 'dotted'
+lineStyle2 = 'solid'
 lineLabel1 = 'low-proportion'
 lineLabel2 = 'high-proportion'
 
@@ -60,22 +60,33 @@ values2, times2, vertices2 = mne.label_time_courses(label2_fname, stc2_fname)
 values2 = np.mean(values2,0)
 print "Number of vertices : %d" % len(vertices1)
 
+times1=times1*1000
+times2=times2*1000
+
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 16}
+
+pl.rc('font', **font)
 
 #########################
 # View source activations
 
-
+pl.clf()
 pl.plot(times1, values1.T,color=color1,linewidth=lWidth,linestyle=lineStyle1)
 pl.plot(times2, values2.T,color=color2,linewidth=lWidth,linestyle=lineStyle2)
 pl.plot(times1,values1.T*0,color='k')
 pl.legend((lineLabel1,lineLabel2),loc="upper left")
-pl.ylim([-.5,1.5])
-pl.xlim([-.1,.51])
+pl.ylim([ymin,ymax])
+pl.xlim([xmin,xmax])
 pl.xlabel('time (ms)')
 pl.ylabel('Source amplitude')
-pl.title('Activations in Label : %s' % label1)
-
+#pl.title('Activations in Label : %s' % label1)
+pl.ticklabel_format(style='plain',axis='x')
+#pl.rcParams.update({'font.size': 12})
 pl.show()
+outFile = 'scratch/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.label2+'-'+args.hem2+'-'+args.protocol2+'.png'
+pl.savefig(outFile)
 
 
 #label = 'BaleenHP_c1_c2_350-450_cluster0-'+hem
