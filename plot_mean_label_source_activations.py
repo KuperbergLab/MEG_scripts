@@ -1,0 +1,90 @@
+"""
+====================================================
+Extracting the mean time series of activations in a label
+====================================================
+
+
+"""
+# Author: Alexandre Gramfort <gramfort@nmr.mgh.harvard.edu>
+# Edited by Ellen Lau <ellenlau@nmr.mgh.harvard.edu>
+# License: BSD (3-clause)
+
+print __doc__
+
+import mne
+import numpy as np
+import pylab as pl
+import argparse
+
+####Plotting Parameters####
+xmin,xmax = [-.1, .5]
+ymin,ymax = [-.5, 1.5]
+lWidth = 4
+
+color1 = 'b'
+color2 = 'b'
+lineStyle1 = 'solid'
+lineStyle2 = 'dotted'
+lineLabel1 = 'low-proportion'
+lineLabel2 = 'high-proportion'
+
+
+####################################
+
+parser = argparse.ArgumentParser(description='Get input')
+parser.add_argument('protocol1',type=str)
+parser.add_argument('protocol2',type=str)
+parser.add_argument('label1',type=str)
+parser.add_argument('label2',type=str)
+parser.add_argument('hem1',type=str)
+parser.add_argument('hem2',type=str)
+
+args=parser.parse_args()
+
+data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
+stc1_fname = data_path + '/diff/ga_'+args.protocol1+'_All_c2-c1M_n24-spm-'+args.hem1+'.stc'
+stc2_fname = data_path + '/diff/ga_'+args.protocol2+'_All_c2-c1M_n24-spm-'+args.hem2+'.stc'
+
+label1 = args.label1+'-'+args.hem1
+label2 = args.label2+'-'+args.hem2
+label1_fname = data_path + '/label/%s.label' % label1
+label2_fname = data_path + '/label/%s.label' % label2
+
+
+values1, times1, vertices1 = mne.label_time_courses(label1_fname, stc1_fname)
+values1 = np.mean(values1,0)
+#print values1.shape
+print "Number of vertices : %d" % len(vertices1)
+
+values2, times2, vertices2 = mne.label_time_courses(label2_fname, stc2_fname)
+values2 = np.mean(values2,0)
+print "Number of vertices : %d" % len(vertices1)
+
+
+#########################
+# View source activations
+
+
+pl.plot(times1, values1.T,color=color1,linewidth=lWidth,linestyle=lineStyle1)
+pl.plot(times2, values2.T,color=color2,linewidth=lWidth,linestyle=lineStyle2)
+pl.plot(times1,values1.T*0,color='k')
+pl.legend((lineLabel1,lineLabel2),loc="upper left")
+pl.ylim([-.5,1.5])
+pl.xlim([-.1,.51])
+pl.xlabel('time (ms)')
+pl.ylabel('Source amplitude')
+pl.title('Activations in Label : %s' % label1)
+
+pl.show()
+
+
+#label = 'BaleenHP_c1_c2_350-450_cluster0-'+hem
+#label = 'G_front_inf-Triangul-'+hem
+#label = 'G_front_inf-Opercular-'+hem
+#label = 'G_front_inf-Orbital-'+hem
+#label = 'G_temp_sup-Lateral-'+hem
+#label = 'G_temporal_middle-'+hem
+#label = 'Pole_temporal-'+hem
+#label = 'S_temporal_sup-'+hem
+#label = 'G_pariet_inf-Angular-'+hem
+
