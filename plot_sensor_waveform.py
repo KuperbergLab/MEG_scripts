@@ -10,7 +10,7 @@ import argparse
 ###Plotting parameters###
 
 xmin,xmax = [-100, 501]
-ymin,ymax = [4,-4] ##EEG
+ymin,ymax = [3,-3] ##EEG
 #ymin, ymax = [-1,1] ##MEG
 lWidth = 4
 
@@ -53,11 +53,11 @@ wave2 = data2[args.sensor][:]*scalingFactor
 
 ###################
 
-# font = {'family' : 'normal',
-#         'weight' : 'bold',
-#         'size'   : 16}
-# 
-# pl.rc('font', **font)
+font = {
+         'weight' : 'bold',
+         'size'   : 16}
+ 
+pl.rc('font', **font)
 
 
 pl.clf()
