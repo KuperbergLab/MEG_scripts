@@ -10,7 +10,7 @@ def makeAveFiles(subjID):
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
 	epMaxATL = ".5"   ## time in seconds for the end of the epoch (e.g. 900 ms post-stim onset)
-	epMaxMasked = ".5"
+	epMaxMasked = ".7"
 	epMaxBaleen = ".7"
 	epMaxAXCPT = ".7"
 # 	gradRej = "2500e-13"

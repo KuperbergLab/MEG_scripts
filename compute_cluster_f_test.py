@@ -3,14 +3,14 @@ import numpy as np
 import pylab as pl
 
 from mne import fiff
-from mne.stats import permutation_1d_cluster_test
+from mne.stats import permutation_cluster_test
 from mne.layouts import Layout
 
 
 from joblib import Memory
 
 #cache directory
-mem = Memory(cachedir="/home/scratch/")
+mem = Memory(cachedir="/cluster/kuperberg/SemPrMM/MEG/scripts/scratch/")
 
 # Edit this box only
 ########################
@@ -20,8 +20,8 @@ par = "BaleenHP_All" #'BaleenHP_All', 'BaleenLP_All', 'MaskedMM_All', 'AXCPT_All
 use_joblib = True
 cond = 0 #index to the con_dict, e.g. which of the contrasts you want to look at in that paradigm
 do_plot = True
-subj_dict = dict({"BaleenLP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
-	"BaleenHP_All":[1, 3, 4, 5, 6, 9, 12, 13, 15, 16, 17, 19, 18,21],
+subj_dict = dict({"BaleenLP_All":[1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33],
+	"BaleenHP_All":[1],
 	"MaskedMM_All": [5, 6, 9, 12, 13, 15, 16, 17, 19, 18, 21],
 	"AXCPT_All": [3, 6, 5, 9, 12, 13, 15, 17, 18, 19 ,21]})
 #########################
@@ -91,8 +91,10 @@ meg_names = ['MEG 0113','MEG 0112','MEG 0111','MEG 0122','MEG 0123','MEG 0121','
 
 
 def extract_data(s, setno, ch_names):
+	print "hello"
 	data = fiff.read_evoked(s,setno=setno,baseline=(None, 0))
 	sel = [data['info']['ch_names'].index(c) for c in ch_names]
+	print "hello3"
 	times = data['evoked']['times']
 	mask = times > 0
 	print "-------------- " + str(data['info']['bads'])
@@ -105,12 +107,12 @@ if type == "MEG":
 	chans_to_proc = meg_names
 	img_dir = "img_meg"
 	layout = Layout()
-	proj = "on'
+	proj = 'on'
 elif type == "EEG":
 	chans_to_proc = eeg_names
 	img_dir = "img_eeg"
 	proj = 'off'
-	layout = Layout("sample-EEG",path="/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/")
+	layout = Layout("ya1_70elec",path="/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/")
 img_dir = "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/cluster_results/"+"{0}_{1}".format(par,type)
 layout.pos[:,2:] *= 0.85
 
@@ -125,6 +127,7 @@ bads_name = []
 for s in subjects:
 	fif = '/cluster/kuperberg/SemPrMM/MEG/data/ya{0}/ave_proj%s/ya{0}_{1}-ave.fif'.format(s,par) % proj
 	if use_joblib:
+		print "hello2"
 		x0, times, bads_s, bads_name_s = mem.cache(extract_data)(fif, conditions[0], chans_to_proc)
 		x1, times, bads_s, bads_name_s = mem.cache(extract_data)(fif, conditions[1], chans_to_proc)
 	else:
