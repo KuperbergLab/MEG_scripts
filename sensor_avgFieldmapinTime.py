@@ -2,6 +2,10 @@ import numpy as np
 import mne
 import argparse
 
+#example
+#run sensor_avgFieldmapinTime.py ga_MaskedMM_All_meg-n21-goodC 4 .350 .450
+
+
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('prefix',type=str)
 parser.add_argument('set',type=int)

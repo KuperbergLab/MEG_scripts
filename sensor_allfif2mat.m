@@ -10,6 +10,8 @@ function sensor_allfif2mat(exp,listPrefix)
 %%structure. It is important to note they are still present in other parts
 %%of the data file, for example, the channel_name structure. 
 
+%%EX: sensor_allfif2mat('MaskedMM_All','ya.meg.')
+
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
 
