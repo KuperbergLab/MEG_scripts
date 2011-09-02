@@ -18,15 +18,15 @@ import argparse
 
 ####Plotting Parameters####
 xmin,xmax = [-100, 501]
-ymin,ymax = [-1, 1]
+ymin,ymax = [0, 8]
 lWidth = 4
 
 color1 = 'b'
 color2 = 'b'
 lineStyle1 = 'dotted'
 lineStyle2 = 'solid'
-lineLabel1 = 'low-proportion'
-lineLabel2 = 'high-proportion'
+lineLabel1 = 'related'
+lineLabel2 = 'unrelated'
 
 
 ####################################
@@ -38,12 +38,17 @@ parser.add_argument('label1',type=str)
 parser.add_argument('label2',type=str)
 parser.add_argument('hem1',type=str)
 parser.add_argument('hem2',type=str)
+parser.add_argument('set1',type=str)
+parser.add_argument('set2',type=str)
 
 args=parser.parse_args()
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
-stc1_fname = data_path + '/diff/ga_'+args.protocol1+'_All_c2-c1M_n24-spm-'+args.hem1+'.stc'
-stc2_fname = data_path + '/diff/ga_'+args.protocol2+'_All_c2-c1M_n24-spm-'+args.hem2+'.stc'
+#stc1_fname = data_path + '/diff/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n20-spm-'+args.hem1+'.stc'
+#stc2_fname = data_path + '/diff/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n20-spm-'+args.hem2+'.stc'
+stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_All_c'+args.set1+'M_n20-spm-'+args.hem1+'.stc'
+stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_All_c'+args.set2+'M_n20-spm-'+args.hem2+'.stc'
+
 
 label1 = args.label1+'-'+args.hem1
 label2 = args.label2+'-'+args.hem2
