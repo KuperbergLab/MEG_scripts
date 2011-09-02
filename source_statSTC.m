@@ -1,5 +1,6 @@
 function pArray = source_statSTC(exp,listPrefix, condPair,type,norm,numSamples)
 
+%%ex: source_statSTC('MaskedMM_All','ya.meg.',[1 3],'spm',0,480);
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';

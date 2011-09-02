@@ -1,5 +1,7 @@
 function pArray = source_statSTCTime(exp,listPrefix,condPair,type,norm,numSamples,t1,t2)
 
+%%Be careful: usually numSamples should be set to 1
+%%ex:source_statSTCTime('MaskedMM_All','ya.meg.',[1 3],'spm',0,1,350,450);
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
@@ -24,10 +26,11 @@ for hemI = 1:2
         subj
        subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
  
-        fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+       fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
        subjStruct = mne_read_stc_file(fileName);
 
         subjDiff = subjStruct.data;
+
         if norm == 1
              subjBaseline = mean(subjDiff(:,1:60),2);
              subjBaseline = repmat(subjBaseline,1,numSamples);
@@ -36,7 +39,7 @@ for hemI = 1:2
              subjDiff = (subjDiff-subjBaseline)./(subjSD);
         end
   
-
+        size(subjDiff)
         allSubjData(:,:,count) = subjDiff;
         newSTC = subjStruct;
 
