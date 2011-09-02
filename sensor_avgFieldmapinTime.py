@@ -27,7 +27,7 @@ time_idx = np.where((evoked.times >= args.time1) & (evoked.times <= args.time2))
 for x in time_idx:
    evoked.data[:,x] = data
 
-evoked.save(data_path+args.prefix+'-'+str(args.time1)+'-'+str(args.time2)+'-ave.fif')
+evoked.save(data_path+args.prefix+'-'+str(args.set)+'-'+str(args.time1)+'-'+str(args.time2)+'-ave.fif')
 
 
 # evoked = mne.fiff.read_evoked('ga_BaleenHP_All_meg-n24-goodC-ave.fif',setno=6)
