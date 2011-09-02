@@ -20,12 +20,17 @@ parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('protocol',type=str)
 parser.add_argument('label',type=str)
 parser.add_argument('hem', type=str)
-
+parser.add_argument('t1',type=float)
+parser.add_argument('t2',type=float)
 
 args=parser.parse_args()
 print args.protocol
 
+baseline=100 #ms
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
+sample1 = int( round( (args.t1+baseline)/1.6667 ) )
+sample2 = int( round( (args.t2+baseline)/1.6667 ) )
+
 
 
 subjects = [1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
@@ -54,7 +59,7 @@ valuesAll = []
 for stc_fname in stcs_fname:
 	values, times, vertices = mne.label_time_courses(label_fname, stc_fname)
 	values = np.mean(values,0)
-	values = values[271:321]
+	values = values[sample1:sample2]
 	values = np.mean(values,0)
 	#print values
 	valuesAll.append(values)
