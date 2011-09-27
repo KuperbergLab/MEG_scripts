@@ -10,37 +10,37 @@ from scikits.learn.externals.joblib import Memory
 ###############################################################################
 # Parameters
 
-subjects = [1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
-#subjects = [6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
+#subjects = [1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
+subjects = [6, 9, 12, 13, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
 
 
-conds = [1, 2]  # 1 - 2
-#conds = [1, 3] 
+#conds = [1, 2]  # 1 - 2
+conds = [1, 3] 
 
 
-protocol = 'BaleenHP'
+#protocol = 'BaleenHP'
 #protocol = 'BaleenLP'
-#protocol = 'MaskedMM'
+protocol = 'MaskedMM'
 
 
-#time_interval = (0.35, 0.45)  #If you set a real time_interval, you will average across this and do spatial clusters
-#dec = None
+time_interval = (0.3, 0.4)  #If you set a real time_interval, you will average across this and do spatial clusters
+dec = None
 
 
-time_interval = None  #If you set time_interval to None, it will do spatiotemporal clusters
-dec = 10  # this sets the temporal decimation factor. e.g. if you sampled 600Hz and set this to 3, you will downsample the test to every 5 ms
+#time_interval = None  #If you set time_interval to None, it will do spatiotemporal clusters
+#dec = 10  # this sets the temporal decimation factor. e.g. if you sampled 600Hz and set this to 3, you will downsample the test to every 5 ms
 
 
-thresholds = [.1]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
+thresholds = [2.09]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
 
-
-def stat_fun(X):
-    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
-stat_name = 'mean'
 
 #def stat_fun(X):
-#	return scipy.stats.ttest_1samp(X,0)[0]
-#stat_name = 'ttest'
+#    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
+#stat_name = 'mean'
+
+def stat_fun(X):
+	return scipy.stats.ttest_1samp(X,0)[0]
+stat_name = 'ttest'
 
 
 #n_permutations = 1000
@@ -160,7 +160,7 @@ for t in thresholds:
     #you only write out a cluster to an stc file if it crosses the second-stage threshold
     for k, c in enumerate(clusters):
         stc_cluster.data = c
-        if cluster_pv[k] < 0.09:  ##This is the threshold for saving an stc file with cluster
+        if cluster_pv[k] < 0.2:  ##This is the threshold for saving an stc file with cluster
             stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' \
                                         % (time_interval[0]*1000,time_interval[1]*1000,k, stat_name, t, cluster_pv[k]))
 

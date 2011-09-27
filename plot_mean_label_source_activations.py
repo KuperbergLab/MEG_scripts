@@ -18,7 +18,7 @@ import argparse
 
 ####Plotting Parameters####
 xmin,xmax = [-100, 501]
-ymin,ymax = [0, 8]
+ymin,ymax = [-.5, 1.5]
 lWidth = 4
 
 color1 = 'b'
@@ -44,10 +44,10 @@ parser.add_argument('set2',type=str)
 args=parser.parse_args()
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
-#stc1_fname = data_path + '/diff/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n20-spm-'+args.hem1+'.stc'
-#stc2_fname = data_path + '/diff/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n20-spm-'+args.hem2+'.stc'
-stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_All_c'+args.set1+'M_n20-spm-'+args.hem1+'.stc'
-stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_All_c'+args.set2+'M_n20-spm-'+args.hem2+'.stc'
+stc1_fname = data_path + '/diff/Baleen/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
+stc2_fname = data_path + '/diff/Baleen/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem2+'.stc'
+#stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_All_c'+args.set1+'M_n20-spm-'+args.hem1+'.stc'
+#stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_All_c'+args.set2+'M_n20-spm-'+args.hem2+'.stc'
 
 
 label1 = args.label1+'-'+args.hem1

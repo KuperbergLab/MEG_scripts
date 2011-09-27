@@ -11,7 +11,7 @@ import argparse
 
 xmin,xmax = [-100, 501]
 ymin,ymax = [3,-3] ##EEG
-#ymin, ymax = [-1,1] ##MEG
+#ymin, ymax = [-1.5,1.5] ##MEG
 lWidth = 4
 
 color1 = 'k'
