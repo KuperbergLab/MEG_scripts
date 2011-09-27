@@ -1,4 +1,4 @@
-function sensor_allfif2mat(exp,listPrefix)
+function sensor_allfif2mat(exp,subjGroup,listPrefix)
 
 %%This saves a mat file holding all the average data for all subjects in
 %%list. Actually it saves two mat files, one with projections on and one
@@ -10,7 +10,7 @@ function sensor_allfif2mat(exp,listPrefix)
 %%structure. It is important to note they are still present in other parts
 %%of the data file, for example, the channel_name structure. 
 
-%%EX: sensor_allfif2mat('MaskedMM_All','ya.meg.')
+%%EX: sensor_allfif2mat('MaskedMM_All','ya','ya.meg.')
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
@@ -29,7 +29,7 @@ for x = 1:2
 
     for subj=subjList
         count = count + 1;
-        inFile = strcat(dataPath,'data/ya',int2str(subj),'/ave_',projType,'/','ya',int2str(subj),'_',exp,'-ave.fif');
+        inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_',projType,'/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
 
         tempSubjData = fiff_read_evoked_all(inFile);
         
