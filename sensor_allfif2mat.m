@@ -35,7 +35,7 @@ for x = 1:2
         
         %%Get rid of junk channels accidentally acquired in first subjects
         %%so matrices match up
-        if (subj == 1 || subj == 2 || subj == 3 || subj == 4)
+        if (subj == 1 || subj == 2 || subj == 3 || subj == 4) && strcmp(subjGroup,'ya')
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
                 tempSubjData.evoked(c).epochs(390,:) = [];
@@ -47,7 +47,7 @@ for x = 1:2
 
     end
 
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_',projType,'_n',int2str(count));
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_',projType,'_n',int2str(count));
 
     save(outFile,'allSubjData')
 end

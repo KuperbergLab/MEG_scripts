@@ -1,4 +1,4 @@
-function sensor_avgAcrossSubjs(exp,listPrefix)
+function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
 
 %%Ellen Lau%%
 %%This outputs two types of grand-average evoked files for viewing in
@@ -21,12 +21,12 @@ numSubj = size(subjList,2);
 for x = 1:2
     
     if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projoff_n',int2str(numSubj)));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup,'_',exp, '_projoff_n',int2str(numSubj)));
         dataType = 'eeg';
         numChan = 74;
         chanV = 316:389;
     else
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp, '_projon_n',int2str(numSubj)));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projon_n',int2str(numSubj)));
         dataType = 'meg';
         numChan = 389;
         chanV = 1:389;
@@ -35,7 +35,7 @@ for x = 1:2
 
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
-    newStr = allSubjData{10};
+    newStr = allSubjData{5};
     
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
@@ -63,7 +63,6 @@ for x = 1:2
     
     %%for each subject, get the evoked data out
     for s = 1:numSubj
-
         subjStr = allSubjData{s};
 
         %%For each condition, get the evoked data out
@@ -157,7 +156,7 @@ for x = 1:2
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',subjGroup,'_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
 end
