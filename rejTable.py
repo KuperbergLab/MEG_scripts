@@ -30,7 +30,8 @@ def get_data(subjects):
 if __name__ == '__main__':
     subjects = ('ya1', 'ya2', 'ya3', 'ya4', 'ya5', 'ya6', 'ya7', 'ya8', 'ya9', 'ya12', 'ya13', 'ya15', 
             'ya16', 'ya17', 'ya18', 'ya19', 'ya20', 'ya21', 'ya22', 'ya23', 'ya24', 'ya25', 'ya26', 
-            'ya27', 'ya29', 'ya30', 'ya31', 'ya32', 'ya33', 'ac6', 'ac11', 'ac1', 'ac2', 'ac3', 'ac7', 'ac8', 'ac10', 'ac11', 'sc1')
+            'ya27', 'ya29', 'ya30', 'ya31', 'ya32', 'ya33', 'ac6', 'ac11', 'ac1', 'ac2', 'ac3', 'ac7',
+	     'ac8', 'ac10', 'ac11', 'sc1', 'sc3', 'sc4', 'sc5', 'sc6', 'sc7', 'sc8', 'sc9','sc10')
     print subjects
     all_data = get_data(subjects)
     for k,v in all_data.items():
