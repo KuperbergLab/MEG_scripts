@@ -64,6 +64,7 @@ for x = 1:2
     %%for each subject, get the evoked data out
     for s = 1:numSubj
         subjStr = allSubjData{s};
+        s
 
         %%For each condition, get the evoked data out
         for c = 1:numCond
@@ -85,6 +86,9 @@ for x = 1:2
                 end
 
                 if size(badTest,2) == 0
+                    iChan
+                    size(epData)
+                    size(goodDataSum)
                     goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
                     goodDataCount(countG,c) = goodDataCount(countG,c)+1;
                 end

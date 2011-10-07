@@ -43,6 +43,7 @@ for x = 1:2
             end
         end
         
+
         allSubjData{count} = tempSubjData;
 
     end
