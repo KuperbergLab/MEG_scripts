@@ -13,7 +13,7 @@ def makeAveFiles(subjID):
 	epMaxMasked = ".7"
 	epMaxBaleen = ".7"
 	epMaxAXCPT = ".7"
-# 	gradRej = "2500e-13"
+ 	gradRej = "2500e-13"
 # 	eegRej = "100e-6"
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
@@ -43,7 +43,7 @@ def makeAveFiles(subjID):
 			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
 			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
 			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
-#			myFile.write('\tgradReject\t'+gradRej + '\n\n')
+			myFile.write('\tgradReject\t'+gradRej + '\n\n')
 #			myFile.write('\teegReject\t'+eegRej + '\n\n')
 			
 			for item in condDict[exp]:

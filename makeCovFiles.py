@@ -30,7 +30,7 @@ def makeCovFiles(subjID):
 			myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run +'-cov.fif\n')
 			myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run +  '-cov.log\n')
 			myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' + exp + run + 'ModRej.eve\n\n')
-#			myFile.write('\tgradReject\t'+gradRej + '\n\n')
+			myFile.write('\tgradReject\t'+gradRej + '\n\n')
 					
 			for item in condDict[exp]:
 				myFile.write('\tdef {\n')
