@@ -89,6 +89,22 @@ foreach proj ( 'projoff' 'projon')
 			cp $1_AXCPTRun1-ave.fif $1_AXCPT_All-ave.fif
 		endif
 	endif
+	
+	
+	##Hack for ac8 BaleenLP
+	if ( $1 == 'ac8' ) then
+		
+		mne_process_raw \
+		--raw ../$1_BaleenLPRun1_raw.fif \
+		--raw ../$1_BaleenLPRun3_raw.fif \
+		--raw ../$1_BaleenLPRun4_raw.fif \
+		--ave ../ave/$1_BaleenLPRun1.ave \
+		--ave ../ave/$1_BaleenLPRun3.ave \
+		--ave ../ave/$1_BaleenLPRun4.ave \
+		--gave $1_BaleenLP_All-ave.fif \
+		--$proj --lowpass 20 >>& $log
+
+	endif	
 
 	####################################
 
