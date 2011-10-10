@@ -5,7 +5,8 @@ function [allC,allC_rmsL,allC_rmsR] = sensor_rms_hem(exp,subjGroup,listPrefix,gr
 %%as well as the MEG rms in each hemisphere for each subject in the list,
 %%for each condition. You choose magnetometers vs. gradiometers
 
-%%Note that this includes a baseline step, before anything else happens
+%%Note that this includes a baseline step, before anything else happens,
+%%except for ATLLoc, since that one is high-pass filtered
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -56,9 +57,11 @@ for c = 1:numCond
         %%For each condition, get the evoked data out
         epData = subjStr.evoked(c).epochs(chanV,:);
         %%Baseline it
-        baseline = mean(epData(:,baselineV),2);
-        baseline = repmat(baseline,1,numSample);
-        epData = epData - baseline;
+        if ~strcmp(exp,'ATLLoc')
+            baseline = mean(epData(:,baselineV),2);
+            baseline = repmat(baseline,1,numSample);
+            epData = epData - baseline;
+        end
         %%Add it to array
         allC(:,:,s,c) = epData;
     end
