@@ -160,7 +160,7 @@ for x = 1:2
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',subjGroup,'_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/',subjGroup,'_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
 end
