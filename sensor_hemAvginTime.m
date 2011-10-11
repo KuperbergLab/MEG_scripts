@@ -17,7 +17,7 @@ allData= winL;
 allData(:,2) = winR;
 allData(:,3) = winL_R;
 
-outFile = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/hem_measures/',listPrefix,filePrefix,'.',int2str(t1),'-',int2str(t2),'.txt');
+outFile = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/hem_measures/',listPrefix,'.',filePrefix,'.',int2str(t1),'-',int2str(t2),'.txt');
 
 dlmwrite(outFile,allData,'\t');
 

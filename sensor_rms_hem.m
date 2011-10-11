@@ -12,7 +12,7 @@ function [allC,allC_rmsL,allC_rmsR] = sensor_rms_hem(exp,subjGroup,listPrefix,gr
 
 %%%Loading parameters%%%%%%%%%%%%%%%%%%%%%%%
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 baselineV = 1:60; %for 600Hz, -100 ms pre-trigger period
 numChan = 306;
