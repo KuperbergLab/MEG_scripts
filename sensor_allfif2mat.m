@@ -13,7 +13,7 @@ function sensor_allfif2mat(exp,subjGroup,listPrefix)
 %%EX: sensor_allfif2mat('MaskedMM_All','ya','ya.meg.')
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 
 
 %%run twice, for each projection setting
