@@ -15,6 +15,7 @@ import mne
 import numpy as np
 import scipy
 import argparse
+import writeOutput
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('protocol',type=str)
@@ -72,4 +73,5 @@ print "mean",np.mean(valuesAll)
 tval,pval = scipy.stats.ttest_1samp(valuesAll,0)
 print "t",tval
 print "p",pval
+
 
