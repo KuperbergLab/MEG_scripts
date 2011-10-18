@@ -105,7 +105,7 @@ def parse_study(study,subjects):
 	
 def get_subjects(study):
 	path = os.path.join('/cluster/kuperberg/SemPrMM/','MEG','data')
-	all_subs = [name for name in os.listdir(path) if "ya" in name and os.path.isdir(os.path.join(path, name))]
+	all_subs = [name for name in os.listdir(path) if ("ya" in name or "ac" in name or "sc" in name) and os.path.isdir(os.path.join(path, name))]
 	return [sub for sub in all_subs if len(find_eves(study,sub)) > 0]
 	
 
