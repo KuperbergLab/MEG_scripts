@@ -13,7 +13,7 @@ function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 
 %%%%Getting the data out, loop once each for projon and projoff
@@ -87,8 +87,8 @@ for x = 1:2
 
                 if size(badTest,2) == 0
                     iChan
-                    size(epData)
-                    size(goodDataSum)
+                    size(epData);
+                    size(goodDataSum);
                     goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
                     goodDataCount(countG,c) = goodDataCount(countG,c)+1;
                 end

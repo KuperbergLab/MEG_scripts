@@ -8,7 +8,7 @@ function source_avgSTCAcrossSubjs(exp,listPrefix,condNum,type,norm,numSamples)
 %%ex: source_avgSTCAcrossSubjs('MaskedMM_All', 'ya.meg.',1,'spm',0,480)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix,'.txt')))';
 
 
 
