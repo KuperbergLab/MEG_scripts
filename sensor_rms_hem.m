@@ -15,8 +15,8 @@ dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 baselineV = 1:60; %for 600Hz, -100 ms pre-trigger period
-numChan = 306;
-chanV = 1:306;
+numChan = 389;
+chanV = 1:389;
 
 load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/l',gradType,'.mat'))
 load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/r',gradType,'.mat'))
@@ -28,9 +28,16 @@ if strcmp(gradType, 'mag')
     lchan = lmag;
     rchan = rmag;
 end
+if strcmp(gradType, 'eeg')
+    lchan = leeg;
+    rchan = reeg;
+end
 
 
 load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projon_n',int2str(numSubj)));
+if strcmp(gradType, 'eeg')
+    load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projoff_n',int2str(numSubj)));
+end
 
 
 %%Get a test fif structure from random subject average to figure out
@@ -89,12 +96,18 @@ for c = 1:numCond
         dataR = data(rchanG,:);
         dataL_rms = squeeze(sqrt(mean((dataL.^2),1)));
         dataR_rms = squeeze(sqrt(mean((dataR.^2),1)));
+        if strcmp(gradType, 'eeg')
+            dataL_rms = squeeze(mean(dataL,1));
+            dataR_rms = squeeze(mean(dataR,1));
+        end
         allC_rmsL(:,s,c) = dataL_rms;
         allC_rmsR(:,s,c) = dataR_rms;
     end
 end
 
-        
+time = -100:1.666:700;
+%figure;plot(time,(mean(allC_rmsL(:,:,2),2)-mean(allC_rmsL(:,:,1),2)),'k');hold;plot(time,(mean(allC_rmsR(:,:,2),2)-mean(allC_rmsR(:,:,1),2)),'r')        
+%%%%%figure;plot(time,mean(allC_rmsR(:,:,1),2),'k');hold;plot(time,mean(allC_rmsR(:,:,2),2),'r')        
         
         
  

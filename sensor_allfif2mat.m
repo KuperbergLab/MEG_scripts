@@ -48,7 +48,7 @@ for x = 1:2
 
     end
 
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_',projType,'_n',int2str(count));
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_',projType,'.mat');
 
     save(outFile,'allSubjData')
 end

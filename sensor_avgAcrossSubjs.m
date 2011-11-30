@@ -21,12 +21,12 @@ numSubj = size(subjList,2);
 for x = 1:2
     
     if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup,'_',exp, '_projoff_n',int2str(numSubj)));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
         dataType = 'eeg';
         numChan = 74;
         chanV = 316:389;
     else
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projon_n',int2str(numSubj)));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
         dataType = 'meg';
         numChan = 389;
         chanV = 1:389;
@@ -86,7 +86,7 @@ for x = 1:2
                 end
 
                 if size(badTest,2) == 0
-                    iChan
+                    iChan;
                     size(epData);
                     size(goodDataSum);
                     goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
@@ -129,7 +129,7 @@ for x = 1:2
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',exp,'_',dataType,'-n',int2str(numSubj),'-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
     
@@ -160,7 +160,7 @@ for x = 1:2
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/',subjGroup,'_',exp,'_',dataType,'-n',int2str(numSubj),'-goodC-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
 end

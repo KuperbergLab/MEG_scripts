@@ -1,4 +1,4 @@
-function [p,contrast] = sensor_quickT(exp, listPrefix,projType, cond1, cond2, t1, t2, chanNum)
+function [p,contrast] = sensor_quickT(exp, subjGroup, listPrefix,projType, cond1, cond2, t1, t2, chanNum)
 
 %%This function computes t-test at an individual sensor, for a given
 %%time-window. Designed for comparing two conditions, but enter the 
@@ -11,7 +11,7 @@ function [p,contrast] = sensor_quickT(exp, listPrefix,projType, cond1, cond2, t1
 
 load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ch_names.mat')
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 
 if strcmp(projType,'projon') 
@@ -24,7 +24,7 @@ end
 count = 0;
 goodCount = 0;
 allData=[];
-sensName = ch_names{chanNum};
+sensName = ch_names{chanNum}
 
 if cond1==cond2
    msg = 'Running one condition t-test'
@@ -35,7 +35,7 @@ end
 
 
 
-load(strcat(dataPath, 'results/sensor_level/ave_mat/', exp,'_',projType, '_n',int2str(numSubj), '.mat'));
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp,'_',projType, '.mat'));
 
 for subj=subjList
     count = count + 1;
@@ -49,6 +49,7 @@ for subj=subjList
     
     if size(badTest,2) == 1 
         msg = 'bad channel'
+        sensName
         subj
     end
 
