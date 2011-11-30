@@ -2,6 +2,9 @@
 
 #preAnat ya14 FLASH (if flash files exist) logfile
 #preAnat ac1 WATER (if no flash files exist) logfile
+setenv USE_STABLE_5_0_0
+source /usr/local/freesurfer/nmr-stable50-env
+source /usr/pubsw/packages/mne/nightly/bin/mne_setup
 
 if ( $#argv == 0 ) then 
     echo "NO SUBJECT ARGUMENT"
