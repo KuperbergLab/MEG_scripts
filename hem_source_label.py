@@ -1,6 +1,6 @@
 """
 ====================================================
-Computing a 1-way t-test on a time-window from the time series of activations in a label
+Outputs the subject mean for each subject in the given ROI in the given time-window
 ====================================================
 The label is not subject-specific but defined from fsaverage brain
 
@@ -43,8 +43,8 @@ hemList = ['lh', 'rh']
 valuesHem = []
 for hem in hemList:
 
-	#stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%sM-spm-%s.stc' % (s, s, args.protocol,args.set,hem) for s in subjects]
-	stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_AllUnrelated_c%sM-spm-%s.stc' % (s, s, args.protocol,args.set,hem) for s in subjects]
+	stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%sM-spm-%s.stc' % (s, s, args.protocol,args.set,hem) for s in subjects]
+	#stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_AllUnrelated_c%sM-spm-%s.stc' % (s, s, args.protocol,args.set,hem) for s in subjects]
 	
 	#label = 'BaleenHP_c1_c2_350-450_cluster0-'+hem
 	label = args.label+hem
