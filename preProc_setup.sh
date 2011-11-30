@@ -38,7 +38,7 @@ mkdir ave_projoff/logs -m g+rws
 #########################################################
 ##Remove any existing *eve.fif files for internal consistency
 rm *raw-eve.fif
-rm eve/*.eve
+#rm eve/*.eve
 ##Remove Baleen ave files with incorrect naming
 rm ave*/*BaleenRun*
 rm cov/*BaleenRun*
