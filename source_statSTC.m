@@ -3,8 +3,7 @@ function pArray = source_statSTC(exp,listPrefix, condPair,type,norm,numSamples)
 %%ex: source_statSTC('MaskedMM_All','ya.meg.',[1 3],'spm',0,480);
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
-
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 
 for hemI = 1:2
     
@@ -43,22 +42,25 @@ for hemI = 1:2
 
         allSubjData(:,:,count) = subjDiff;
         newSTC = subjRel;
-
+        
     end
 
     size(allSubjData);
 
-    pArray = zeros(10242,numSamples);    
+    pArray = zeros(10242,numSamples);
+    tArray = zeros(10242,numSamples);
 
     for y = 1:numSamples
         y
-        [~,p] = ttest(squeeze(allSubjData(:,y,:))'); %%ttest works on first dimension of an array
+        [~,p,~,stats] = ttest(squeeze(allSubjData(:,y,:))'); %%ttest works on first dimension of an array
         pArray(:,y) = p';
+        tArray(:,y) = (stats.tstat)';
     end
     size(p)
-
     size(pArray)
+    size(tArray)
     pArray = -log(pArray);
+    
     
     newSTC.data = pArray;
     outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',type,'-',hem,'.stc');
@@ -66,6 +68,15 @@ for hemI = 1:2
         outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
+    
+    newSTC.data = tArray;
+    newSTC.data(1,1)
+    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t_n',int2str(n),'-',type,'-',hem,'.stc');
+    if norm == 1
+       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
+    end
+    mne_write_stc_file(outFile, newSTC);
+
 
 end
 
