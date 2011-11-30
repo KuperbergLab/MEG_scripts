@@ -63,10 +63,12 @@ print label
 valuesAll = []
 for stc_fname in stcs_fname:
 	values, times, vertices = mne.label_time_courses(label_fname, stc_fname)
+	print len(values)
 	values = np.mean(values,0)
+	print len(values)
 	values = values[sample1:sample2]
 	values = np.mean(values,0)
-	#print values
+	print values
 	valuesAll.append(values)
 
 print "mean",np.mean(valuesAll)

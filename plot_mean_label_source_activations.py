@@ -17,13 +17,13 @@ import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-100, 501]
-ymin,ymax = [-.5, 8]
+xmin,xmax = [-100, 701]
+ymin,ymax = [-.5, 2]
 lWidth = 4
 
-color1 = 'b'
-color2 = 'b'
-lineStyle1 = 'dotted'
+color1 = 'r'
+color2 = 'g'
+lineStyle1 = 'solid'
 lineStyle2 = 'solid'
 lineLabel1 = 'LP left'
 lineLabel2 = 'LP right'
@@ -44,12 +44,12 @@ parser.add_argument('set2',type=str)
 args=parser.parse_args()
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
-#stc1_fname = data_path + '/diff/Baleen/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
-#stc2_fname = data_path + '/diff/Baleen/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem2+'.stc'
+stc1_fname = data_path + '/diff/Baleen/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
+stc2_fname = data_path + '/diff/Baleen/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem2+'.stc'
 #stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_All_c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
 #stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_All_c'+args.set2+'M_n24-spm-'+args.hem2+'.stc'
-stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_AllUnrelated_c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
-stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_AllUnrelated_c'+args.set2+'M_n24-spm-'+args.hem2+'.stc'
+#stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_AllUnrelated_c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
+#stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_AllUnrelated_c'+args.set2+'M_n24-spm-'+args.hem2+'.stc'
 
 
 label1 = args.label1+'-'+args.hem1
@@ -83,13 +83,13 @@ pl.clf()
 pl.plot(times1, values1.T,color=color1,linewidth=lWidth,linestyle=lineStyle1)
 pl.plot(times2, values2.T,color=color2,linewidth=lWidth,linestyle=lineStyle2)
 pl.plot(times1,values1.T*0,color='k')
-pl.legend((lineLabel1,lineLabel2),loc="upper left")
+#pl.legend((lineLabel1,lineLabel2),loc="upper left")
 pl.ylim([ymin,ymax])
 pl.xlim([xmin,xmax])
 pl.xlabel('time (ms)')
 pl.ylabel('Source amplitude')
 #pl.title('Activations in Label : %s' % label1)
-pl.ticklabel_format(style='plain',axis='x')
+#pl.ticklabel_format(style='plain',axis='x')
 #pl.rcParams.update({'font.size': 12})
 pl.show()
 outFile = 'scratch/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.label2+'-'+args.hem2+'-'+args.protocol2+'.png'
