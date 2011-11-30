@@ -16,7 +16,9 @@ args=parser.parse_args()
 
 ##script for creating average field map
 
-data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
+#data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
+data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'
+
 
 evokedCrop = mne.fiff.read_evoked(data_path+args.prefix+'-ave.fif',setno=args.set)
 evokedCrop.crop(tmin=args.time1, tmax=args.time2)
@@ -27,8 +29,8 @@ time_idx = np.where((evoked.times >= args.time1) & (evoked.times <= args.time2))
 for x in time_idx:
    evoked.data[:,x] = data
 
-evoked.save(data_path+args.prefix+'-'+str(args.set)+'-'+str(args.time1)+'-'+str(args.time2)+'-ave.fif')
-
+#evoked.save('/cluster/kuperberg/SemPrMM/MEG/results/field_maps/'+args.prefix+'-'+str(args.set)+'-'+str(args.time1)+'-'+str(args.time2)+'-ave.fif')
+evoked.save(data_path + args.prefix+'-'+str(args.set)+'-'+str(args.time1)+'-'+str(args.time2)+'-ave.fif')
 
 # evoked = mne.fiff.read_evoked('ga_BaleenHP_All_meg-n24-goodC-ave.fif',setno=6)
 # time_idx = np.where((evoked.times >= 0.35) & (evoked.times <= 0.450))[0]
