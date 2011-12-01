@@ -9,7 +9,6 @@ function_inputs*
 scratch*
 *.swp
 ._*
-._*.py
 erp*
 *bdf*
 .DS_Store
