@@ -34,9 +34,9 @@ if strcmp(gradType, 'eeg')
 end
 
 
-load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projon_n',int2str(numSubj)));
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
 if strcmp(gradType, 'eeg')
-    load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '_',exp, '_projoff_n',int2str(numSubj)));
+    load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projoff.mat'));
 end
 
 
