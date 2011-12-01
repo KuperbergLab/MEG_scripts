@@ -7,9 +7,9 @@ def fixTriggers(subjID):
 
     os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
     
-    expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+    expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
     
-    runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+    runDict = {'Blink':[''], 'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
     
     if subjID == 'ya3':
         runDict['AXCPT']=['Run1']
@@ -40,7 +40,7 @@ def fixTriggers(subjID):
                         trigger = row[3]
                         time = row[1]   
                         sampleRate = float(row[0])/float(row[1])
-                        trueSample = float(row[0]) + 19
+                        trueSample = float(row[0]) + 19 ## compensate for the time lag between projector and trigger
                         trueTime = trueSample/sampleRate
                         row[0] = str(int(round(trueSample,0)))
                         row[1] = str(round(trueTime,3))
