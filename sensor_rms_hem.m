@@ -5,6 +5,8 @@ function [allC,allC_rmsL,allC_rmsR] = sensor_rms_hem(exp,subjGroup,listPrefix,gr
 %%as well as the MEG rms in each hemisphere for each subject in the list,
 %%for each condition. You choose magnetometers vs. gradiometers
 
+%%If you choose 'eeg', it computes the mean, not the rms
+
 %%Note that this includes a baseline step, before anything else happens,
 %%except for ATLLoc, since that one is high-pass filtered
 
