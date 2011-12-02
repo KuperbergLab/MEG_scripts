@@ -8,6 +8,7 @@ def makeCovFiles(subjID):
 	tMin = '-0.2'  ##Time in seconds (from trigger) for the beginning of epoch used to estimate covariance
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	gradRej = "2500e-13"
+	magRej = "2500e-15"
 	
 	expList = ['MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
@@ -40,7 +41,7 @@ def makeCovFiles(subjID):
 				myFile.write('\t\ttmin\t'+tMin+'\n')
 				myFile.write('\t\ttmax\t-0.01\n')
 				myFile.write('\t\tbmin\t'+tMin+'\n')
-				myFile.write('\t\tbmax\t-.01\n\t}\n\n')
+				myFile.write('\t\tbmax\t-0.01\n\t}\n\n')
 			
 			myFile.write('}\n')
 		
