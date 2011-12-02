@@ -1,4 +1,5 @@
-#!/bin/csh
+#!/bin/csh -f 
+
 #usage makeSTC.sh subjID logfile
 
 if ( $#argv == 0 ) then 

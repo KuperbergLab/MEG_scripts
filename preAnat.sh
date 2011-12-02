@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/csh -f 
 
 #preAnat ya14 FLASH (if flash files exist) logfile
 #preAnat ac1 WATER (if no flash files exist) logfile

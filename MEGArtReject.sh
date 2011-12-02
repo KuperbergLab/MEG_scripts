@@ -1,7 +1,7 @@
-#!/bin/csh
+#!/bin/csh -f
 #usage: MEGArtReject.sh SubjType
+#usage: subjType: sc ac or ya (in Lower case)
 
-# subjType: sc ac or ya 
 echo 'Clearing existing results from MEG/data/subject/ave_projon/logs folders'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
    foreach i ( $1* )

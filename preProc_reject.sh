@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/csh -f
 
 #usage: preProc_reject subjID logfile
 

@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/csh -f 
 
 #usage makeInv subjID logfile
 setenv USE_STABLE_5_0_0
