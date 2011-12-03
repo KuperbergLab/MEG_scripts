@@ -103,4 +103,6 @@ def new_eve(eve):
 if __name__ == '__main__':
 
     for eve in glob(op.join(eve_dir,'*Mod.eve')):
-        new_eve(eve)
+        if (eve != '*BlinkMod.eve'):
+            new_eve(eve)
+        
