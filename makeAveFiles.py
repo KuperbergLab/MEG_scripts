@@ -1,11 +1,11 @@
 ###SemPrMM
 ###Make .ave files
-###usage: python <this script.py> subjectID 
-###ex: python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py ya16 
+###usage: python <this script.py> subjectID projType
+###ex: python makeAveFiles.py ya16 projoff
 
 import sys
 
-def makeAveFiles(subjID):
+def makeAveFiles(subjID,projType):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
@@ -14,7 +14,7 @@ def makeAveFiles(subjID):
 	epMaxBaleen = ".7"
 	epMaxAXCPT = ".7"
  	gradRej = "2000e-13"
- 	magRej = "2500e-15"
+ 	magRej = "3000e-15"
 # 	eegRej = "100e-6"
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
@@ -26,9 +26,7 @@ def makeAveFiles(subjID):
 	epMaxDict = {'Blink':'.9','ATLLoc':epMaxATL,'MaskedMM':epMaxMasked,'BaleenLP':epMaxBaleen,'BaleenHP':epMaxBaleen,'AXCPT':epMaxAXCPT}
 	
 
-	#SB 20110119 Not exactly sure what to do with Blinks yet, need to hook into ica stream
-	
-	
+
 	for exp in expList:
                  if exp == 'ATLLoc'or exp =='MaskedMM'or exp=='BaleenLP'or exp=='BaleenHP'or exp=='AXCPT':
                         for run in runDict[exp]:
@@ -43,9 +41,10 @@ def makeAveFiles(subjID):
                                 myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
                                 myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
                                 myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
-                                myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')                                           
-                                myFile.write('\tgradReject\t'+gradRej + '\n\n')
-                                myFile.write('\tmagReject\t'+magRej + '\n\n')
+                                myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
+                                if projType == 'projon':
+                                	myFile.write('\tgradReject\t'+gradRej + '\n\n')
+                                	myFile.write('\tmagReject\t'+magRej + '\n\n')
                                 
                                 for item in condDict[exp]:
                                         myFile.write('\tcategory {\n')
@@ -84,4 +83,4 @@ def makeAveFiles(subjID):
                                 
 		
 if __name__ == "__main__":
-	makeAveFiles(sys.argv[1])
+	makeAveFiles(sys.argv[1],sys.argv[2])

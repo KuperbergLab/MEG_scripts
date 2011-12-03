@@ -21,29 +21,23 @@ if ( -e $log ) then
     rm $log
 endif
 
-
-echo "Making Ave Parameter Files" >>& $log
-
-
-
-python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 >>& $log
-
-
-
 foreach proj ( 'projoff' 'projon')
+	echo "Making Ave Parameter Files" >>& $log
+	python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 $proj >>& $log
+
 	echo "Making Avg fif Files" >>& $log
 	cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_$proj
+
+	mne_process_raw \
+	--raw ../$1_Blink_raw.fif \
+	--ave ../ave/$1_Blink.ave \
+	--$proj --lowpass 20 --highpass .1 >>& $log
 
 	mne_process_raw \
 	--raw ../$1_ATLLoc_raw.fif \
 	--ave ../ave/$1_ATLLoc.ave \
 	--$proj --lowpass 20 --highpass .5 >>& $log
 	
-	mne_process_raw \
-	--raw ../$1_Blink_raw.fif \
-	--ave ../ave/$1_Blink.ave \
-	--$proj --lowpass 20 --highpass .1 >>& $log
-
 	mne_process_raw \
 	--raw ../$1_MaskedMMRun1_raw.fif \
 	--raw ../$1_MaskedMMRun2_raw.fif \
