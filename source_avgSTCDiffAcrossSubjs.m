@@ -8,7 +8,7 @@ function source_avgSTCDiffAcrossSubjs(exp,listPrefix,condPair,type,norm, numSamp
 %%ex: source_avgSTCDiffAcrossSubjs('MaskedMM_All','ya.meg.',[1 3],'spm',0,480)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, exp, '.txt')))';
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 
 
 
@@ -28,7 +28,7 @@ for hemI = 1:2
     for subj=subjList
         count=count+1;
         subj 
-        subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/');
+        subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/',exp,'/');
         %%Read in stc file for subject
 
         for c = 1:2
@@ -68,10 +68,10 @@ for hemI = 1:2
 
     newSTC = subjSTC;  %%just use the last subject's STC to get the structure of the file
     newSTC.data = gaSubjData;
-    outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',listPrefix,'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M','-',type,'-',hem,'.stc');
     
     if norm == 1
-          outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm_n',int2str(n),'-',type,'-',hem,'.stc');  
+          outFile = strcat(dataPath,'results/source_space/ga_stc/diff/ga_',listPrefix,'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm','-',type,'-',hem,'.stc');  
     end
     
     mne_write_stc_file(outFile,newSTC);
