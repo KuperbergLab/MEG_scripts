@@ -15,7 +15,9 @@ def makeAveFiles(subjID,projType):
 	epMaxAXCPT = ".7"
  	gradRej = "2000e-13"
  	magRej = "3000e-15"
-# 	eegRej = "100e-6"
+
+ 	if subjID == "ya31":
+ 		magRej = "4000e-15"   ##note exception for ya31, whose magnetometers were baseline noisy
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
