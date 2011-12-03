@@ -31,7 +31,7 @@ foreach proj ( 'projoff' 'projon')
 	mne_process_raw \
 	--raw ../$1_Blink_raw.fif \
 	--ave ../ave/$1_Blink.ave \
-	--$proj --lowpass 20 --highpass .1 >>& $log
+	--$proj --lowpass 20 >>& $log
 
 	mne_process_raw \
 	--raw ../$1_ATLLoc_raw.fif \
@@ -44,7 +44,7 @@ foreach proj ( 'projoff' 'projon')
 	--ave ../ave/$1_MaskedMMRun1.ave \
 	--ave ../ave/$1_MaskedMMRun2.ave \
 	--gave $1_MaskedMM_All-ave.fif \
-	--$proj --lowpass 20 --highpass 0.1 >>& $log
+	--$proj --lowpass 20 >>& $log
 
 	mne_process_raw \
 	--raw ../$1_BaleenLPRun1_raw.fif \
@@ -56,7 +56,7 @@ foreach proj ( 'projoff' 'projon')
 	--ave ../ave/$1_BaleenLPRun3.ave \
 	--ave ../ave/$1_BaleenLPRun4.ave \
 	--gave $1_BaleenLP_All-ave.fif \
-	--$proj --lowpass 20 --highpass 0.1 >>& $log
+	--$proj --lowpass 20 >>& $log
 
 	mne_process_raw \
 	--raw ../$1_BaleenHPRun1_raw.fif \
@@ -68,7 +68,7 @@ foreach proj ( 'projoff' 'projon')
 	--ave ../ave/$1_BaleenHPRun3.ave \
 	--ave ../ave/$1_BaleenHPRun4.ave \
 	--gave $1_BaleenHP_All-ave.fif \
-	--$proj --lowpass 20 --highpass 0.1 >>& $log
+	--$proj --lowpass 20 >>& $log
 
 
 	if ( -e ../$1_AXCPTRun1_raw.fif ) then
