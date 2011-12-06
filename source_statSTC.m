@@ -24,10 +24,10 @@ for hemI = 1:2
 
 
         %%Read in stc file for subject
-        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp, '_c',int2str(condPair(1)),'M-',type,'-',hem,'.stc');
+        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/',exp,'/ya',int2str(subj),'_',exp, '_c',int2str(condPair(1)),'M-',type,'-',hem,'.stc');
         subjRel = mne_read_stc_file(filename);
 
-        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'M-',type,'-',hem,'.stc');
+        filename = strcat(dataPath,'/data/ya',int2str(subj),'/ave_projon/stc/',exp,'/ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'M-',type,'-',hem,'.stc');
         subjUnrel = mne_read_stc_file(filename);
 
         subjDiff = subjUnrel.data-subjRel.data;
@@ -63,17 +63,17 @@ for hemI = 1:2
     
     
     newSTC.data = pArray;
-    outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-',type,'-',hem,'.stc');
     if norm == 1
-        outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
+        outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
     
     newSTC.data = tArray;
     newSTC.data(1,1)
-    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t_n',int2str(n),'-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-',type,'-',hem,'.stc');
     if norm == 1
-       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
+       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
 
