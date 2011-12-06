@@ -41,22 +41,22 @@ mkdir stc/$exp
 foreach c ($condList)
 
 	echo Unmorphed mne >>& $log
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}-mne.stc --smooth 7 >>& $log
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}-mne.stc --smooth 7 >>& $log
 	
 	echo Unmorphed spm >>& $log
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}-spm.stc --smooth 7 --spm >>& $log
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}-spm.stc --smooth 7 --spm >>& $log
 
 	echo Unmorphed sLORETA >>& $log
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}-sLORETA.stc --smooth 7 --sLORETA >>& $log
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}-sLORETA.stc --smooth 7 --sLORETA >>& $log
 
 	echo Morphed mne >>& $log
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}M-mne.stc --smooth 7 --morph fsaverage >>& $log
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-mne.stc --smooth 7 --morph fsaverage >>& $log
 	
 	echo Morphed spm >>& $log
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
 
 	echo Morphed spm >>& $log	
-	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/exp/$1_{$exp}_c{$c}M-sLORETA.stc --smooth 7 --sLORETA --morph fsaverage >>& $log	
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-sLORETA.stc --smooth 7 --sLORETA --morph fsaverage >>& $log	
 	
 end	
 
