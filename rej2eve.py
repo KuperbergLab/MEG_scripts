@@ -43,9 +43,8 @@ epochs = {'BaleenLP':{'1':[60, 421],
 
 type_rep = {'veog':'1000',
             'heog':'2000',
-            'eeg':'3000',
-            'grad':'4000',
-            'mag':'5000'}
+            'eeg':'3000'
+            }
 
 def samp2dict(gen, r):
     """
@@ -103,6 +102,11 @@ def new_eve(eve):
 if __name__ == '__main__':
 
     for eve in glob(op.join(eve_dir,'*Mod.eve')):
-        if (eve != '*BlinkMod.eve'):
+       if ('BlinkMod.eve' not in eve):
+####       eve != glob(op.join(eve_dir, '*BlinkMod.eve'))):
+            print(eve)
             new_eve(eve)
+        
+            
+            
         
