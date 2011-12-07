@@ -21,7 +21,7 @@ if ( -e $log ) then
     rm $log
 endif
 
-foreach proj ( 'projoff' 'projon')
+foreach proj ( 'projon' 'projoff' )
 	echo "Making Ave Parameter Files" >>& $log
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 $proj >>& $log
 
@@ -106,6 +106,9 @@ foreach proj ( 'projoff' 'projon')
 	endif	
 
 	####################################
-
+    if (proj == 'projon') then
+        	echo "Making ModRej4projoff.eve files" >>& $log
+	        python /cluster/kuperberg/SemPrMM/MEG/scripts/projonrej2eve.py $1 >>& $log
+    endif  
 
 end
