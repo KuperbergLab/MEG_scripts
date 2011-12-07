@@ -122,7 +122,9 @@ if __name__ == '__main__':
 
 	if do_full:
 		for study in codes.keys():
+			print study
 			subjects = sorted(get_subjects(study))
+			print subjects
 			study_results = parse_study(study,subjects)
 			logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/MEG_%s_accuracy.log' % study
 			with open(logf,'w') as f:
