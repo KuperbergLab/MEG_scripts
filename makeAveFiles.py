@@ -23,9 +23,11 @@ def makeAveFiles(subjID,projType):
 	
 	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 	
-	condDict = {'Blink':[['1','Blink']],'ATLLoc':[['41','Sentences'],['42','Word Lists'],['43','Consonant Strings'],['1','Sentence First Word'],['2','Word List First Word'],['3','Consonant String First Word']],'MaskedMM': [['1','Direct'],['2','Indirect'],['3','Unrelated'],['4','Probe Target']],'BaleenLP':[['1','Related'],['2','Unrelated'],['4','Unrelated Filler'],['5','Probe Target']],'BaleenHP': [['6','Related'],['7','Unrelated'],['8','Related Filler'],['9','Unrelated Filler'],['10','Probe Target'],['18','Related Filler Extra']],'AXCPT':[['1','AY target'],['2','BX target'],['3','BY target'],['4','AX target'],['5','A prime'],['6','B prime']]}
+	condDict = {'Blink':[['1','Blink']],'ATLLoc':[['41','Sentences'],['42','Word Lists'],['43','Consonant Strings'],['1','Sentence First Word'],['2','Word List First Word'],['3','Consonant String First Word']],'MaskedMM': [['1','Direct'],['2','Indirect'],['3','Unrelated'],['4','Probe Target']],'BaleenLP':[['1','Related'],['2','Unrelated'],['4','Unrelated Filler'],['5','Probe Target']['14','Prime'],'BaleenHP': [['6','Related'],['7','Unrelated'],['8','Related Filler'],['9','Unrelated Filler'],['10','Probe Target'],['14', 'Prime'],['18','Related Filler Extra']],'AXCPT':[['1','AY target'],['2','BX target'],['3','BY target'],['4','AX target'],['5','A prime'],['6','B prime']]}
 	
 	epMaxDict = {'Blink':'.9','ATLLoc':epMaxATL,'MaskedMM':epMaxMasked,'BaleenLP':epMaxBaleen,'BaleenHP':epMaxBaleen,'AXCPT':epMaxAXCPT}
+
+##	eveFileType = {'projon': 'ModRej.eve', 'projoff': 'ModRej4poff.eve' }
 	
 
 
@@ -43,8 +45,10 @@ def makeAveFiles(subjID,projType):
                                 myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
                                 myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
                                 myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
-                                myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
+                                if projType == 'projoff':
+                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej4projoff.eve\n\n')
                                 if projType == 'projon':
+                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
                                 	myFile.write('\tgradReject\t'+gradRej + '\n\n')
                                 	myFile.write('\tmagReject\t'+magRej + '\n\n')
                                 
