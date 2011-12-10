@@ -71,9 +71,9 @@ for hemI = 1:2
     
     newSTC.data = tArray;
     newSTC.data(1,1)
-    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',listPrefix, '_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-',type,'-',hem,'.stc');
     if norm == 1
-       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-Norm-',type,'-',hem,'.stc');
+       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',listPrefix,'_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
 
