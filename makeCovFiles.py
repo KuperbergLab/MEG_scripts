@@ -5,7 +5,7 @@ import sys
 
 def makeCovFiles(subjID):
 	
-	tMin = '-0.2'  ##Time in seconds (from trigger) for the beginning of epoch used to estimate covariance
+	tMin = '-0.1'  ##Time in seconds (from trigger) for the beginning of epoch used to estimate covariance
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	gradRej = "2000e-13"
 	magRej = "3000e-15"
