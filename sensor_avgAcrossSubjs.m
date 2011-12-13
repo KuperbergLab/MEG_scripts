@@ -1,11 +1,8 @@
 function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
 
 %%Ellen Lau%%
-%%This outputs two types of grand-average evoked files for viewing in
-%%mne_browse_raw. The first one is a straight average, and the second one
-%%'goodC' is an average that selectively excludes bad channels in
-%%individuals from the average. This one is cleaner but of course it has
-%%different numbers of observations going into different channels.
+%%This outputs grand-average evoked files for viewing in
+%%mne_browse_raw. 
 
 %%This outputs a separate set of files for EEG and MEG. For
 %%comparison with standard language ERPs, it flips the polarity of the
@@ -18,7 +15,7 @@ numSubj = size(subjList,2);
 
 %%%%Getting the data out, loop once each for projon and projoff
 
-for x = 1:1
+for x = 1:2
     
     if x == 1
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
@@ -57,8 +54,6 @@ for x = 1:1
     end
     
     allData=zeros(numChan,numSample,numCond,numSubj);
-    goodDataSum =zeros(numChan,numSample,numCond);
-    goodDataCount = zeros(numChan,numCond);
     epCount=zeros(numCond,1);
     
     %%for each subject, get the evoked data out
@@ -73,28 +68,6 @@ for x = 1:1
      
             %%keep a running count of how many epochs went into grand-average
             epCount(c) = epCount(c) + subjStr.evoked(c).nave;
-           
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %%%%Create the structure for the 'good channel average' separately here%%%%
-            countG = 0;
-            for iChan = chanV
-                countG = countG +1;
-                sensName = subjStr.info.ch_names{iChan};
-                badTest = find(strcmp(subjStr.info.bads, sensName));
-                if size(badTest,2) == 1 
-                    sensName;
-                end
-
-                if size(badTest,2) == 0
-                    iChan;
-                    size(epData);
-                    size(goodDataSum);
-                    goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
-                    goodDataCount(countG,c) = goodDataCount(countG,c)+1;
-                end
-            end
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
                              
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
             epData = epData(chanV,:);        
@@ -102,15 +75,13 @@ for x = 1:1
             %%sensor x time x condition structure for subject data
             epDataAllC(:,:,c) = epData;
 
-
         end
 
-        %%sensor x time x condition x subject structure
+        %%update sensor x time x condition x subject structure
         allData(:,:,:,s) = epDataAllC;
-        %size(allData)
+
         clear('epData');
         clear('epDataAllC');
-
 
     end
     
@@ -132,50 +103,6 @@ for x = 1:1
     outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
+       
     
-    %%%COMPUTING THE 'GOOD CHANNEL' GRAND-AVERAGE
-    
-    %%Since the good channels are the same across conditions, cut redundant
-    %%columns to a single 390 x 1 matrix. This structure contains info
-    %%about how many observations went into each channel.
-    goodDataCount = goodDataCount(:,1);
-    goodDataCount'
-
-    %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
-    %%equivalent dimension matrix
-    goodDataCountRep = repmat(goodDataCount,[1,numSample,numCond]);
-
-    %%Finally, array-divide them to get the correct mean for each channel
-    goodDataMean = goodDataSum./goodDataCountRep;
-    size(goodDataMean)
-
-    %%plot negative up for EEG
-    if strcmp(dataType,'eeg') 
-        goodDataMean = -goodDataMean;
-    end
-
-    %%write epochs to 'blank' fif structure
-    for y = 1:numCond
-        newStr.evoked(y).epochs(:,:) = goodDataMean(:,:,y);
-        newStr.evoked(y).nave = epCount(y);
-    end
-
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif')
-    fiff_write_evoked(outFile,newStr);
-    
-    %make a baselined version for quick viewing in Matlab
-    baselineV = 1:60;
-    numSample = size(goodDataMean,2);
-    goodDataMeanbl = [];
-    for c = 1:numCond
-        condData = squeeze(goodDataMean(:,:,c));
-        baseline = mean(condData(:,baselineV),2);
-        baseline = repmat(baseline,1,numSample);
-        blData = condData - baseline;
-        goodDataMeanbl(:,:,c) = blData;
-    end
-    
-    outMat = strcat(dataPath,'results/sensor_level/ave_mat/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.mat');
-    save(outMat,'goodDataMeanbl');
-
 end
