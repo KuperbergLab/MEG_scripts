@@ -18,7 +18,7 @@ numSubj = size(subjList,2);
 
 %%%%Getting the data out, loop once each for projon and projoff
 
-for x = 1:2
+for x = 1:1
     
     if x == 1
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
@@ -162,5 +162,20 @@ for x = 1:2
 
     outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif')
     fiff_write_evoked(outFile,newStr);
+    
+    %make a baselined version for quick viewing in Matlab
+    baselineV = 1:60;
+    numSample = size(goodDataMean,2);
+    goodDataMeanbl = [];
+    for c = 1:numCond
+        condData = squeeze(goodDataMean(:,:,c));
+        baseline = mean(condData(:,baselineV),2);
+        baseline = repmat(baseline,1,numSample);
+        blData = condData - baseline;
+        goodDataMeanbl(:,:,c) = blData;
+    end
+    
+    outMat = strcat(dataPath,'results/sensor_level/ave_mat/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.mat');
+    save(outMat,'goodDataMeanbl');
 
 end
