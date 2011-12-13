@@ -7,9 +7,9 @@ def fixTriggers(subjID):
 
     os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
     
-    expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+    expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
     
-    runDict = {'Blink':[''], 'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+    runDict = { 'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
     
     if subjID == 'ya3':
         runDict['AXCPT']=['Run1']

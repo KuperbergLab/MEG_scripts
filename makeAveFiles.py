@@ -76,7 +76,7 @@ def makeAveFiles(subjID,projType):
                                 myFile.write('\tname\t\"'+ exp + ' averages\"\n\n')
                                 myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
                                 myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
-                                myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'Mod.eve\n\n')           
+                                myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + '.eve\n\n')           
                                 
                                 for item in condDict[exp]:
                                         myFile.write('\tcategory {\n')
