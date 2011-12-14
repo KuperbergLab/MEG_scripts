@@ -38,7 +38,7 @@ for x = 1:2
     numCond = size(newStr.evoked,2);
     if strcmp(exp, 'ATLLoc') 
         numCond = 3; 
-        newStr.evoked(4:6) = [];
+        newStr.evoked = newStr.evoked(1:3);
     end     %%don't want to try to average the whole-sentence epochs
 
     newStr.info.chs = newStr.info.chs(chanV);
@@ -55,6 +55,10 @@ for x = 1:2
     
     allData=zeros(numChan,numSample,numCond,numSubj);
     epCount=zeros(numCond,1);
+    goodDataCount = zeros(numChan,numCond);
+    numCond = size(newStr.evoked,2);
+    
+    
     
     %%for each subject, get the evoked data out
     for s = 1:numSubj
@@ -68,7 +72,17 @@ for x = 1:2
      
             %%keep a running count of how many epochs went into grand-average
             epCount(c) = epCount(c) + subjStr.evoked(c).nave;
-                             
+                 countG = 0;            
+                 for iChan = chanV
+                     countG = countG + 1;
+                    sensName = subjStr.info.ch_names{iChan};
+                    badTest = find(strcmp(subjStr.info.bads, sensName));
+
+                    if size(badTest,2) == 0	  	
+                        goodDataCount(countG,c) = goodDataCount(countG,c)+1;
+                    end
+                 end
+	  	     
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
             epData = epData(chanV,:);        
 
@@ -103,6 +117,8 @@ for x = 1:2
     outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
+    goodDataCount = goodDataCount(:,1);
+    goodDataCount'
        
     
 end
