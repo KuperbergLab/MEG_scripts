@@ -1,4 +1,4 @@
-function pArray = source_statSTC(exp,listPrefix, condPair,type,norm,numSamples)
+function [pArray,tArray] = source_statSTC(exp,listPrefix, condPair,type,norm,numSamples)
 
 %%ex: source_statSTC('MaskedMM_All','ya.meg.',[1 3],'spm',0,480);
 
@@ -59,7 +59,7 @@ for hemI = 1:2
     size(p)
     size(pArray)
     size(tArray)
-    pArray = -log(pArray);
+    pArray = -log10(pArray);
     
     
     newSTC.data = pArray;
