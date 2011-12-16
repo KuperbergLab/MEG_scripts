@@ -103,11 +103,6 @@ for x = 1:2
 
     gaData = mean(allData,4);
 
-    %%plot negative up for EEG
-    if strcmp(dataType,'eeg') 
-        gaData = -gaData;
-    end
-
     %%write epochs to 'blank' fif structure
     for y = 1:numCond
         newStr.evoked(y).epochs(:,:) = gaData(:,:,y);
