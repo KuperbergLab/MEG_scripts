@@ -63,6 +63,8 @@ for s = subjList
     %% Interpolate at each time point in each condition
 
     numConditions = size(subjStr.evoked,2);
+    if strcmp(exp, 'ATLLoc') numConditions = 3; end
+
     numSamples = size(subjStr.evoked(1).epochs,2);
 
     for c = 1:numConditions
