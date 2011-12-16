@@ -3,7 +3,6 @@ function sensor_interpolate(exp,subjGroup,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 
-
 numChan = 70;
 
 for s = subjList
