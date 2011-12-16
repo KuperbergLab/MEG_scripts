@@ -10,7 +10,7 @@ function sensor_allfif2mat(exp,subjGroup,listPrefix)
 %%structure. It is important to note they are still present in other parts
 %%of the data file, for example, the channel_name structure. 
 
-%%EX: sensor_allfif2mat('MaskedMM_All','ya','ya.meg.')
+%%EX: sensor_allfif2mat('MaskedMM_All','ya','ya.n22.meeg')
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
@@ -29,8 +29,13 @@ for x = 1:2
 
     for subj=subjList
         count = count + 1;
-        inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_',projType,'/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
-
+        
+        if x == 1
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projoff/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
+        elseif x == 2
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
+        end
+        
         tempSubjData = fiff_read_evoked_all(inFile);
         
         %%Get rid of junk channels accidentally acquired in first subjects
