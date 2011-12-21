@@ -14,6 +14,9 @@ with cluster level permutation test.
 #
 # License: BSD (3-clause)
 
+#run compute_cluster_stats_roi.py ya.n22.meeg BaleenHP_All BaleenHP_All Pole_temporal- lh 1 2
+
+
 print __doc__
 
 import mne
