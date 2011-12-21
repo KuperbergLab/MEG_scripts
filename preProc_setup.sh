@@ -122,9 +122,6 @@ foreach f ( *_raw.fif )
 	mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt >>& $log
 end
 
-if ( $1 == 'sc3' ) then
-	mne_rename_channels --fif sc3_MaskedMMRun2_raw.fif --alias ../../scripts/function_inputs/alias3.txt >>& $log
-endif
 
 ##############################################
 ###Marking bad channels
