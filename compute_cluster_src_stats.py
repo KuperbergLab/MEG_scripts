@@ -1,6 +1,8 @@
 import copy
 import numpy as np
 import scipy
+import argparse
+import readInput
 
 import mne
 from mne.stats import permutation_cluster_1samp_test
@@ -10,20 +12,21 @@ from scikits.learn.externals.joblib import Memory
 ###############################################################################
 # Parameters
 
-#subjects = [1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
-subjects = [6, 9, 12, 13, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
+parser = argparse.ArgumentParser(description='Get input')
+parser.add_argument('prefix',type=str)
+parser.add_argument('protocol',type=str)
+parser.add_argument('cond1',type=int)
+parser.add_argument('cond2',type=int)
+parser.add_argument('model',type=str)
+args=parser.parse_args()
 
 
-#conds = [1, 2]  # 1 - 2
-conds = [1, 3] 
+subjFile = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/' + args.prefix + '.txt'
+subjects = readInput.readList(subjFile)
+print subjects
 
 
-#protocol = 'BaleenHP'
-#protocol = 'BaleenLP'
-protocol = 'MaskedMM'
-
-
-time_interval = (0.3, 0.4)  #If you set a real time_interval, you will average across this and do spatial clusters
+time_interval = (0.3, 0.5)  #If you set a real time_interval, you will average across this and do spatial clusters
 dec = None
 
 
@@ -51,7 +54,7 @@ n_permutations = 100 #This sets the number of permutations to run
 
 
 mem = Memory(cachedir=None)
-#mem = Memory(cachedir='./scratch') #This caches stuff in the local directory scratch, so if you run it again it can be faster. if you don't want to do this just comment this line.
+mem = Memory(cachedir='./scratch') #This caches stuff in the local directory scratch, so if you run it again it can be faster. if you don't want to do this just comment this line.
 # mem = Memory(cachedir='my_joblib.cache', verbose=5)
 # mem = Memory(cachedir='/space/megmix/1/users/gramfort', mmap_mode='r', verbose=5)
 # mem = Memory(cachedir='/space/megmix/1/users/gramfort', verbose=5)
@@ -64,10 +67,14 @@ else:
     n_jobs = min(n_jobs, 5)
 
 #inputs
-prefix = "%s_c%d_c%d_" % (protocol, conds[0], conds[1])
+print args.prefix
+print args.protocol
+prefix = "%s_%s_c%d_c%d_" % (args.prefix, args.protocol, args.cond1, args.cond2)
+print prefix
+#
 
-stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%dM-spm' % (s, s, protocol, conds[0]) for s in subjects]
-stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%dM-spm' % (s, s, protocol, conds[1]) for s in subjects]
+stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%dM-%s' % (s, args.protocol, s, args.protocol, args.cond1, args.model) for s in subjects]
+stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%dM-%s' % (s, args.protocol, s, args.protocol, args.cond2, args.model) for s in subjects]
 
 #load the vertex configuration
 ico_tris = mne.source_estimate._get_ico_tris(grade=5)
@@ -113,7 +120,7 @@ mean_stc1, X1, mean_stc2, X2 = mem.cache(load_data)(stcs1_fname, stcs2_fname, de
 template_stc = copy.deepcopy(mean_stc1)
 
 stc_diff = copy.deepcopy(template_stc)
-stc_diff.data = mean_stc1.data - mean_stc2.data
+stc_diff.data = mean_stc2.data - mean_stc1.data
 stc_diff.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + 'diff_of_means')
 
 if time_interval is not None:  # squash time interval
