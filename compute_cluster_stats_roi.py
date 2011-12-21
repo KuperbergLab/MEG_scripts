@@ -39,6 +39,7 @@ parser.add_argument('label',type=str)
 parser.add_argument('hem', type=str)
 parser.add_argument('cond1',type=str)
 parser.add_argument('cond2',type=str)
+parser.add_argument('model',type=str)
 
 args=parser.parse_args()
 print args.protocol1
@@ -49,8 +50,8 @@ subjFile = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/' + args.pref
 subjects = readInput.readList(subjFile)
 print subjects
 
-stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-spm-%s.stc' % (s, args.protocol1, s, args.protocol1,args.cond1,args.hem) for s in subjects]
-stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-spm-%s.stc' % (s, args.protocol2, s, args.protocol2,args.cond2,args.hem) for s in subjects]
+stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-%s-%s.stc' % (s, args.protocol1, s, args.protocol1,args.cond1,args.model,args.hem) for s in subjects]
+stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-%s-%s.stc' % (s, args.protocol2, s, args.protocol2,args.cond2,args.model,args.hem) for s in subjects]
 
 label = args.label+args.hem
 label_fname = data_path + '/label/%s.label' % label
