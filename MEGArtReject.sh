@@ -7,16 +7,16 @@ cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
    foreach i ( $1* )
      echo $i
      cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-     rm {$i}_MEGArtRejectATLLoc
-     rm {$i}_MEGArtRejectBaleenHP
-     rm {$i}_MEGArtRejectBaleenLP
-     rm {$i}_MEGArtRejectMaskedMM
-     rm {$i}_MEGArtReject-BadChanATLLoc
-     rm {$i}_MEGArtReject-BadChanBaleenHP
-     rm {$i}_MEGArtReject-BadChanBaleenLP
-     rm {$i}_MEGArtReject-BadChanMaskedMM
+        rm {$i}_MEGArtRejectATLLoc
+        rm {$i}_MEGArtRejectBaleenHP
+        rm {$i}_MEGArtRejectBaleenLP
+        rm {$i}_MEGArtRejectMaskedMM
+        rm {$i}_MEGArtReject-BadChanATLLoc
+        rm {$i}_MEGArtReject-BadChanBaleenHP
+        rm {$i}_MEGArtReject-BadChanBaleenLP
+        rm {$i}_MEGArtReject-BadChanMaskedMM
    end 
-
+ 
 echo 'CountEvents-CountBadChannels'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
@@ -43,10 +43,6 @@ end
 
 echo 'Clearing existing results from MEG/results folder'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/results/MEGArtRej
-   rm $1_MEGArtRejSummary-ATLLoc
-   rm $1_MEGArtRejSummary-BaleenHP
-   rm $1_MEGArtRejSummary-BaleenLP
-   rm $1_MEGArtRejSummary-MaskedMM
    rm $1_MEGArtRejSummaryATLLoc
    rm $1_MEGArtRejSummaryBaleenHP
    rm $1_MEGArtRejSummaryBaleenLP
@@ -58,4 +54,4 @@ foreach par ( 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' )
    echo $par
    python /cluster/kuperberg/SemPrMM/MEG/scripts/computeEvents.py $1 $par /autofs/cluster/kuperberg/SemPrMM/MEG/results/MEGArtRej/$1_MEGArtRejSummary-$par
 end
-    
+echo 'Results saved in MEG/results/MEGArtRej folder' 
