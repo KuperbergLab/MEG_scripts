@@ -98,6 +98,8 @@ import pylab as pl
 
 xmin,xmax = [-100, 701]
 ymin,ymax = [0, 4]
+if args.model == 'mne':
+	ymin,ymax = [0,4*1e-10]
 lWidth = 4
 color1 = 'k'
 color2 = 'r'
