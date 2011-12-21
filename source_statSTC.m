@@ -63,9 +63,9 @@ for hemI = 1:2
     
     
     newSTC.data = pArray;
-    outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',listPrefix,'_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-',type,'-',hem,'.stc');
     if norm == 1
-        outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-Norm-',type,'-',hem,'.stc');
+        outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',listPrefix,'_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
     
