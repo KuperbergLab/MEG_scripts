@@ -9,7 +9,7 @@ import argparse
 
 ###Plotting parameters###
 
-xmin,xmax = [-100, 501]
+xmin,xmax = [-100, 601]
 ymin,ymax = [3,-3] ##EEG
 #ymin, ymax = [-1.5,1.5] ##MEG
 lWidth = 4
