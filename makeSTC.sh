@@ -6,7 +6,7 @@
 set exp = "BaleenLP_All"
 echo $exp
 
-set condList = (3)
+set condList = ( 5 )
 echo $condList
 
 ####################################
