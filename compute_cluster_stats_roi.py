@@ -21,6 +21,7 @@ from mne import fiff
 from mne.stats import permutation_cluster_test
 from mne.datasets import sample
 import argparse
+import readInput
 import numpy as np
 
 
@@ -28,25 +29,25 @@ import numpy as np
 # Set parameters
 
 parser = argparse.ArgumentParser(description='Get input')
+parser.add_argument('prefix',type=str)
 parser.add_argument('protocol1',type=str)
 parser.add_argument('protocol2',type=str)
 parser.add_argument('label',type=str)
 parser.add_argument('hem', type=str)
-parser.add_argument('set1',type=str)
-parser.add_argument('set2',type=str)
+parser.add_argument('cond1',type=str)
+parser.add_argument('cond2',type=str)
 
 args=parser.parse_args()
 print args.protocol1
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
 
-subjects = [1, 3, 4, 6, 9, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
+subjFile = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/' + args.prefix + '.txt'
+subjects = readInput.readList(subjFile)
+print subjects
 
-if args.protocol1 == 'MaskedMM':
-	subjects = [6, 9, 12, 13, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33]
-
-stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%sM-spm-%s.stc' % (s, s, args.protocol1,args.set1,args.hem) for s in subjects]
-stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%d/ave_projon/stc/ya%d_%s_All_c%sM-spm-%s.stc' % (s, s, args.protocol2,args.set2,args.hem) for s in subjects]
+stcs1_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-spm-%s.stc' % (s, args.protocol1, s, args.protocol1,args.cond1,args.hem) for s in subjects]
+stcs2_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-spm-%s.stc' % (s, args.protocol2, s, args.protocol2,args.cond2,args.hem) for s in subjects]
 
 label = args.label+args.hem
 label_fname = data_path + '/label/%s.label' % label
@@ -139,5 +140,5 @@ pl.xlabel("time (ms)")
 # pl.ylabel("f-values")
 pl.show()
 
-outFile = 'scratch/'+args.label+'-'+args.hem+'-'+args.protocol1+args.set1+'-'+args.protocol2+args.set2+'.png'
+outFile = 'scratch/'+args.prefix + '-' + args.label+args.hem+'-'+args.protocol1+args.cond1+'-'+args.protocol2+args.cond2+'.png'
 pl.savefig(outFile,dpi = (200))
