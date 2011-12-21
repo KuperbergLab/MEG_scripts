@@ -110,7 +110,7 @@ for x = 1:2
             end
 
             size(epDataM);
-            dataV = [dataV;epDataM];
+            dataV = [dataV;epDataM*1e6];
             subjV = [subjV;ones(numChan,1)*subjList(s)];
             condV = [condV;ones(numChan,1)*condCode];
             chanV = [chanV;[1:numChan]'];
