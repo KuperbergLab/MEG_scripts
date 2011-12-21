@@ -17,7 +17,10 @@ parser.add_argument('prefix',type=str)
 parser.add_argument('protocol',type=str)
 parser.add_argument('cond1',type=int)
 parser.add_argument('cond2',type=int)
+parser.add_argument('t1',type=float)
+parser.add_argument('t2',type=float)
 parser.add_argument('model',type=str)
+parser.add_argument('threshold',type=float)
 args=parser.parse_args()
 
 
@@ -26,7 +29,7 @@ subjects = readInput.readList(subjFile)
 print subjects
 
 
-time_interval = (0.3, 0.5)  #If you set a real time_interval, you will average across this and do spatial clusters
+time_interval = (args.t1,args.t2)  #If you set a real time_interval, you will average across this and do spatial clusters
 dec = None
 
 
@@ -34,16 +37,16 @@ dec = None
 #dec = 10  # this sets the temporal decimation factor. e.g. if you sampled 600Hz and set this to 3, you will downsample the test to every 5 ms
 
 
-thresholds = [2.09]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
+thresholds = [args.threshold]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
 
-
-#def stat_fun(X):
-#    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
-#stat_name = 'mean'
 
 def stat_fun(X):
-	return scipy.stats.ttest_1samp(X,0)[0]
-stat_name = 'ttest'
+    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
+stat_name = 'mean'
+
+#def stat_fun(X):
+#	return scipy.stats.ttest_1samp(X,0)[0]
+#stat_name = 'ttest'
 
 
 #n_permutations = 1000
@@ -69,7 +72,7 @@ else:
 #inputs
 print args.prefix
 print args.protocol
-prefix = "%s_%s_c%d_c%d_" % (args.prefix, args.protocol, args.cond1, args.cond2)
+prefix = "%s_%s_c%d_c%d_%s" % (args.prefix, args.protocol, args.cond1, args.cond2,args.model)
 print prefix
 #
 
