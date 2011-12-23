@@ -7,7 +7,7 @@ numChan = 70;
 
 for s = subjList
 
-    fileName = strcat(subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-ave.fif');
+    fileName = strcat(dataPath,'data/', subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-ave.fif');
     subjStr = fiff_read_evoked_all(fileName); %%this holds the original data
     iStr = subjStr; %%this will hold the interpolated data
     
@@ -78,7 +78,7 @@ for s = subjList
     size(iData)
 
 
-    outFileName = strcat(subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-I-ave.fif');
+    outFileName = strcat(dataPath,'data/',subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-I-ave.fif');
 
     fiff_write_evoked(outFileName,iStr);
 
