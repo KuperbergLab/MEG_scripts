@@ -13,14 +13,16 @@ parser.add_argument('set2',type=int)
 args=parser.parse_args()
 
 condList = [args.set1, args.set2]
+print condList
 colorList = ['k','r']
+
 ymin,ymax = [0,13]
 xmin,xmax = [-100,600]
-scalingFactor = 1e13
+
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
 results_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/MEG_rms/'
-channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/chan_'
+channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/grad_'
 channelGroups = ['frontal','temporal','parietal','occipital']
 
 hemList = ['L', 'R']
