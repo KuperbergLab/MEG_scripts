@@ -69,18 +69,30 @@ for i = 1:numChan
 end
 
 
-    
+%      
 
 for x = 1:2
     if x == 1 
-        exp = 'BaleenLP_All';
-    elseif x==2 exp = 'BaleenHP_All';
+        if subjGroup == 'ac' | subjGroup =='sc'
+           exp = 'BaleenLP_All_BaleenLP_All';
+        else 
+            exp ='BaleenLP_All' 
+        end 
+    elseif x==2 
+        if subjGroup == 'ac' | subjGroup =='sc'
+           exp = 'BaleenHP_All_BaleenHP_All';
+        else
+           exp = 'BaleenHP_All';
+        end 
     end
     %load allSubjData cell array
-    load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
-    
+    if subjGroup == 'ac' | subjGroup =='sc'    
+       load(strcat(dataPath, 'results/sensor_level/ave_mat/', subjGroup, '.meg.', exp, '_projoff.mat'));
+    else 
+       load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projoff.mat'));        
+    end
 
-    [~,numCond] = size(condList);
+    [numCond] = size(condList);
 
     for c = 1:numCond
         cond = condList(c);
@@ -103,9 +115,9 @@ for x = 1:2
             baseline = repmat(baseline,1,numSample);
             epData = epData - baseline;       
             epDataM = squeeze(mean(epData(chan,sample1:sample2),2));
-            if strcmp(exp,'BaleenLP_All')
+            if strcmp(exp,'BaleenLP_All_BaleenLP_All')
                 condCode = cond;
-            elseif strcmp(exp,'BaleenHP_All')
+            elseif strcmp(exp,'BaleenHP_All_BaleenHP_All')
                 condCode = cond+100;
             end
 
@@ -123,6 +135,12 @@ for x = 1:2
 end
 allData = [subjV condV chanV dataV hemV antV midVV midHV];
 
-outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/',listPrefix,'.BaleenAll.',int2str(t1),'-',int2str(t2),'.txt');
-dlmwrite(outFile,allData,'\t')
+
+
+if subjGroup == 'ac' | subjGroup =='sc'
+    outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', subjGroup, '.meg', '.BaleenAll.',int2str(t1),'-',int2str(t2),'.txt');
+else
+    outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.BaleenAll.',int2str(t1),'-',int2str(t2),'.txt');
+end    
+    dlmwrite(outFile,allData,'\t')
         
