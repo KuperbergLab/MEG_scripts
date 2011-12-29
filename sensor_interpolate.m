@@ -1,10 +1,11 @@
 function sensor_interpolate(exp,subjGroup,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+disp(dataPath);
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 
 numChan = 70;
-
+disp(dataPath);
 for s = subjList
 
     fileName = strcat(dataPath,'data/', subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-ave.fif');

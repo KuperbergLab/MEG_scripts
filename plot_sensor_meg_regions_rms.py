@@ -46,6 +46,7 @@ for group in channelGroups:
 			pl.subplot(122)
 		for c in range(2):
 			file = data_path + args.prefix +'-ave.fif'
+			print file
 			print 'set ',condList[c]
 			evoked = mne.fiff.read_evoked(file,setno=condList[c],baseline=(-100,0))
 			times=evoked.times*1000
