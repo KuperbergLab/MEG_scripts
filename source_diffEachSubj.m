@@ -1,11 +1,11 @@
-function source_avgSTCDiffAcrossSubjs(exp,listPrefix,condPair,type,norm, numSamples)
+function source_diffEachSubj(exp,listPrefix,condPair,type,norm, numSamples)
 
 %%type is spm or mne
 %%norm is 0 or 1
 %%if you pick mne and norm=1, you should end up with something basically identical to
 %%spm
 
-%%ex: source_avgSTCDiffAcrossSubjs('MaskedMM_All','ya.meg.',[1 3],'spm',0,480)
+%%ex: source_diffEachSubj('MaskedMM_All','ya.meg.',[1 3],'spm',0,480)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
