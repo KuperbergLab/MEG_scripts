@@ -30,9 +30,6 @@ cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_projon
 
 date
 
-if ( ! -e /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/mri/T1-neuromag/sets/COR-*.fif) then
-	echo 'No coregistration transform created' >>& $log
-endif
 
 foreach t ('meg' 'eeg' 'meg-eeg')
 ####FORWARD SOLUTIONS#####
