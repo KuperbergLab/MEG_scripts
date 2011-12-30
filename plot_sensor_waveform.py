@@ -1,4 +1,5 @@
 import mne
+from mne import fiff
 import numpy as np
 import pylab as pl
 import argparse
@@ -10,7 +11,7 @@ import argparse
 ###Plotting parameters###
 
 xmin,xmax = [-100, 601]
-ymin,ymax = [3,-3] ##EEG
+ymin,ymax = [-3,3] ##EEG
 #ymin, ymax = [-1.5,1.5] ##MEG
 lWidth = 4
 
@@ -39,7 +40,7 @@ args=parser.parse_args()
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
 
 file1 = data_path + args.prefix1 +'-ave.fif'
-evoked1 = mne.fiff.read_evoked(file1,setno=args.set1,baseline=(-100,0))
+evoked1 = fiff.Evoked(file1,setno=args.set1,baseline=(-100,0),proj=False)
 data1=evoked1.data
 wave1 = data1[args.sensor][:]*scalingFactor
 print args.sensor
@@ -47,7 +48,7 @@ print args.sensor
 times=evoked1.times*1000
 
 file2 = data_path + args.prefix2 + '-ave.fif'
-evoked2 = mne.fiff.read_evoked(file2,setno=args.set2,baseline=(-100,0))
+evoked2 = fiff.Evoked(file2,setno=args.set2,baseline=(-100,0),proj=False)
 data2=evoked2.data
 wave2 = data2[args.sensor][:]*scalingFactor
 
