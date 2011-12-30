@@ -4,7 +4,7 @@ import pylab as pl
 import numpy as np
 import argparse
 import readInput
-
+import matplotlib
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('prefix1',type=str)
@@ -21,7 +21,8 @@ print condList
 colorList = ['k','r']
 
 ymin,ymax = [7,-7]
-xmin,xmax = [-100,600]
+xmin,xmax = [-100,601]
+lWidth = 4
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
@@ -33,6 +34,14 @@ hemList = ['left','right']
 
 for group in channelGroups:
 	pl.clf()
+	font = {
+         'weight' : 'bold',
+         'size'   : 16}
+ 
+	pl.rc('font', **font)
+	
+	#figure(num=None, figsize=(16, 6), dpi=80, facecolor='w', edgecolor='k')
+
 
 	for hem in hemList:
 	
@@ -54,11 +63,11 @@ for group in channelGroups:
 			print sel
 			data = evoked.data[sel]*1e6
 			region_mean = np.mean(data,0)
-			pl.plot(times,region_mean,color=colorList[c])
+			pl.plot(times,region_mean,color=colorList[c],linewidth=lWidth)
 			pl.ylim([ymin,ymax])
 			pl.xlim([xmin,xmax])
-		pl.legend((args.label1,args.label2),loc="bottom left")
-		pl.title(hem + group)
+		#pl.legend((args.label1,args.label2),loc="bottom left")
+		#pl.title(hem + group)
 		pl.plot(times,region_mean*0,color='k')
 		pl.show()
 

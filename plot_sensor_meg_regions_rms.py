@@ -15,8 +15,9 @@ args=parser.parse_args()
 condList = [args.set1, args.set2]
 print condList
 colorList = ['k','r']
+lWidth = 4
 
-ymin,ymax = [0,13]
+ymin,ymax = [0,16]
 xmin,xmax = [-100,600]
 
 
@@ -56,10 +57,10 @@ for group in channelGroups:
 			square = np.power(data,2)
 			meanSquare = np.mean(square,0)
 			rms = np.power(meanSquare,.5)
-			pl.plot(times,rms,color=colorList[c])
+			pl.plot(times,rms,color=colorList[c],linewidth=lWidth)
 			pl.ylim([ymin,ymax])
 			pl.xlim([xmin,xmax])
-		pl.title(hem + group)
+		#pl.title(hem + group)
 		pl.show()
 
 	outFile = results_path + args.prefix + '-' + str(args.set1)+'-'+str(args.set2)+'-'+group +'.png'
