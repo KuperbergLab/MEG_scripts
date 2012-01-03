@@ -1,4 +1,4 @@
-function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
+function sensor_avgAcrossSubjs(exp,listPrefix)
 
 %%Ellen Lau%%
 %%This outputs grand-average evoked files for viewing in
