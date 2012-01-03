@@ -4,9 +4,7 @@ function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
 %%This outputs grand-average evoked files for viewing in
 %%mne_browse_raw. 
 
-%%This outputs a separate set of files for EEG and MEG. For
-%%comparison with standard language ERPs, it flips the polarity of the
-%%signals for EEG
+%%This outputs a separate set of files for EEG and MEG. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
@@ -53,11 +51,10 @@ for x = 1:2
         newStr.evoked(c).epochs = newStr.evoked(c).epochs(chanV,:);
     end
     
+    %%Initialize variables
     allData=zeros(numChan,numSample,numCond,numSubj);
     epCount=zeros(numCond,1);
-    goodDataCount = zeros(numChan,numCond);
     numCond = size(newStr.evoked,2);
-    
     
     
     %%for each subject, get the evoked data out
@@ -72,16 +69,6 @@ for x = 1:2
      
             %%keep a running count of how many epochs went into grand-average
             epCount(c) = epCount(c) + subjStr.evoked(c).nave;
-                 countG = 0;            
-                 for iChan = chanV
-                     countG = countG + 1;
-                    sensName = subjStr.info.ch_names{iChan};
-                    badTest = find(strcmp(subjStr.info.bads, sensName));
-
-                    if size(badTest,2) == 0	  	
-                        goodDataCount(countG,c) = goodDataCount(countG,c)+1;
-                    end
-                 end
 	  	     
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
             epData = epData(chanV,:);        
@@ -112,8 +99,5 @@ for x = 1:2
     outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
 
-    goodDataCount = goodDataCount(:,1);
-    goodDataCount'
-       
     
 end
