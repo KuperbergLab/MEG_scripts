@@ -40,13 +40,13 @@ dec = None
 thresholds = [args.threshold]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
 
 
-def stat_fun(X):
-    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
-stat_name = 'mean'
-
 #def stat_fun(X):
-#	return scipy.stats.ttest_1samp(X,0)[0]
-#stat_name = 'ttest'
+#    return np.mean(X, axis=0)  #This determines what function to use for the first stage of the test (e.g. mean, t-value)
+#stat_name = 'mean'
+
+def stat_fun(X):
+	return scipy.stats.ttest_1samp(X,0)[0]
+stat_name = 'ttest'
 
 
 #n_permutations = 1000
