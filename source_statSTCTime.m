@@ -51,8 +51,10 @@ for hemI = 1:2
 
     for y = 1:numSamples
         y
-        [~,p] = ttest(squeeze(allSubjData(:,y,:))'); %%ttest works on first dimension of an array
+        [~,p,~,stats] = ttest(squeeze(allSubjData(:,y,:))'); %%ttest works on first dimension of an array
         pArray(:,y) = p';
+        tArray(:,y) = (stats.tstat)';
+ 
     end
     size(p)
 
@@ -65,6 +67,16 @@ for hemI = 1:2
         outFile = strcat(dataPath,'results/source_space/ga_stc_logp_map/ga_',listPrefix,'_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_pVal_n',int2str(n),'-Norm-',type,'-',hem,'.stc');
     end
     mne_write_stc_file(outFile, newSTC);
+    
+    
+        newSTC.data = tArray;
+    newSTC.data(1,1)
+    outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',listPrefix, '_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc');
+    if norm == 1
+       outFile = strcat(dataPath,'results/source_space/ga_stc_t_map/ga_',listPrefix,'_',exp,'_diffSTC_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'_t-Norm-',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc');
+    end
+    mne_write_stc_file(outFile, newSTC);
+
 
 end
 
