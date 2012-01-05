@@ -14,7 +14,7 @@ with cluster level permutation test.
 #
 # License: BSD (3-clause)
 
-#run compute_cluster_stats_roi.py ya.n22.meeg BaleenHP_All BaleenHP_All Pole_temporal- lh 1 2
+#run compute_cluster_stats_roi.py ya.n22.meeg BaleenHP_All BaleenHP_All Pole_temporal- lh 1 2 spm
 
 
 print __doc__
@@ -85,7 +85,7 @@ times = times[sample1:]
 
 ###############################################################################
 # Compute statistic
-threshold = 2.07 #2.8
+threshold = 2.08 #2.8
 print threshold
 T_obs, clusters, cluster_p_values, H0 = \
                  permutation_cluster_test([condition1, condition2],
