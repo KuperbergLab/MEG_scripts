@@ -73,7 +73,7 @@ for x in range(4):
 			stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-%s-%s.stc' % (s, protocolList[x], s, protocolList[x],condList[x],args.model,hem) for s in subjects]
 			
 			label_fname = data_path + '/label/%s-%s.label' % (label, hem)
-			label_list = [label_fname]
+			
 	
 			valuesAll = []
 			for stc_fname in stcs_fname:
@@ -91,6 +91,7 @@ for x in range(4):
 				dataTable.append(row)
 				count = count + 1
 		
-fileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/R/'+args.prefix+'BaleenAll.2x2.'+str(int(args.t1))+'-'+str(int(args.t2))+'.txt'
+fileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/R/'+args.prefix+'.BaleenAll.2x2.'+str(int(args.t1))+'-'+str(int(args.t2))+'.txt'
 
-writeOutput.writeTable(fileName, dataT
+writeOutput.writeTable(fileName, dataTable)
+
