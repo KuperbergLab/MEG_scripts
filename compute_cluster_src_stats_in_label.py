@@ -9,6 +9,9 @@ from mne.stats import permutation_cluster_1samp_test
 
 from scikits.learn.externals.joblib import Memory
 
+
+# run compute_cluster_src_stats_in_label.py ya.n22.meeg BaleenHP_All 1 2 .3 .5 spm 2.08
+
 ###############################################################################
 # Parameters
 
@@ -50,8 +53,8 @@ def stat_fun(X):
 stat_name = 'ttest'
 
 
-#n_permutations = 1000
-n_permutations = 100 #This sets the number of permutations to run
+n_permutations = 1000
+#n_permutations = 100 #This sets the number of permutations to run
 
 ###############################################################################
 # Process
@@ -208,6 +211,4 @@ for t in thresholds:
         stc_cluster.data = c
         if cluster_pv[k] < 0.2:  ##This is the threshold for saving an stc file with cluster
             stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' \
-                                        % (time_interval[0]*1000,time_interval[1]*1000,k, stat_name, t, cluster_pv[k]))
-
-    print 'pv : %s' % np.sort(cluster_pv)[:5]
+                                        % (time_interval[0]*1000,time_interva
