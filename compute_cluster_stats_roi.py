@@ -58,7 +58,7 @@ label_fname = data_path + '/label/%s.label' % label
 print label
 
 baseline = 100 #ms
-#sample1 = int(round( (100+baseline)/1.6667)) #don't predict any differences in baseline or first 100
+#sample1 = int(round( (baseline)/1.6667)) #don't predict any differences in baseline or first 100
 #print sample1
 sample1 = 0
 
