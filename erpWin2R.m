@@ -1,6 +1,8 @@
 function erpWin2R(exp,subjGroup,listPrefix,t1,t2,condList)
 
+%ex" erpWin2R('ATLLoc', 'ac','ac.meg.ATLLoc',300, 500, [1 3 4])
 %This script baselines the data
+
 
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
@@ -38,8 +40,8 @@ for i = 1:numChan
     elseif find(rightA==z) regionV{i} = 'RA';
     elseif find(leftP==z) regionV{i} = 'LP';
     elseif find(rightP==z) regionV{i} = 'RP';
-    elseif find(midV==z) regionV{i} = 'MV';
-    elseif find(midH==z) regionV{i} = 'MH';
+    elseif find(midV==z) regionV{i} = 'MV'; %vertical midline
+    elseif find(midH==z) regionV{i} = 'MH'; %horizontal midline
     else regionV{i} = 'XX'; i;
     end
 end
