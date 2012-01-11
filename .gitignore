@@ -6,10 +6,13 @@ ya.masked*
 *.log
 *.lout
 function_inputs*
+beta*
+SemPrMM
 scratch*
 *.swp
 ._*
 *bdf*
 .DS_Store
+.Rapp.history
 
 ._.gitignore
