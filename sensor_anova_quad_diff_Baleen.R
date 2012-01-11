@@ -1,4 +1,4 @@
-anova_quad_diff <-function(filePrefix,t1,t2){
+sensor_anova_quad_diff_Baleen <-function(filePrefix,t1,t2){
 
 library('ez')
 

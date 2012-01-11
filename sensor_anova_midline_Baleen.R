@@ -1,4 +1,4 @@
-anova_midline <-function(filePrefix,t1,t2){
+sensor_anova_midline_Baleen <-function(filePrefix,t1,t2){
 	
 library('ez')
 

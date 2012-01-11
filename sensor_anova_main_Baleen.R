@@ -1,4 +1,4 @@
-anova_main <-function(filePrefix,t1,t2){
+sensor_anova_main_Baleen <-function(filePrefix,t1,t2){
 
 library('ez')
 
