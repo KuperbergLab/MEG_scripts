@@ -7,6 +7,11 @@ load(paste(filePath,filePrefix,t1,"-",t2,".df",sep=""))
 outfile <-paste(filePath,filePrefix,t1,"-",t2,"_main_av.txt",sep="")
 sink(outfile);
 
+erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
+erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prop)<-c("lo","lo","hi","hi");
+
 #get rid of bad channels T9, T10, TP9 and TP10
 erpData.all <- subset(erpData.all,elec !=29 & elec != 39 & elec !=40 & elec !=50)
 

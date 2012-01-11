@@ -7,6 +7,12 @@ load(paste(filePath,filePrefix,t1,"-",t2,".df",sep=""))
 outfile <-paste(filePath,filePrefix,t1,"-",t2,"_quad_av.txt",sep="")
 sink(outfile);
 
+erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
+erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prop)<-c("lo","lo","hi","hi");	
+	
+	
 #Just get those 48 electrodes that are in the defined quadrants
 erpData.quad <-subset(erpData.all, hemCode != 0)
 
