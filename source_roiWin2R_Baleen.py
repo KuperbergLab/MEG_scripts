@@ -1,6 +1,6 @@
 """
 ====================================================
-For Baleen, outputting data table for input to R on a time-window from the time series of activations in a label
+For Baleen, outputting data table for input to R on a time-window from the time series of activations in selected labels
 ====================================================
 The label is not subject-specific but defined from fsaverage brain
 
@@ -43,7 +43,7 @@ data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
 protocolList = ['BaleenLP_All', 'BaleenLP_All', 'BaleenHP_All', 'BaleenHP_All']
 condList = ['1', '2', '1', '2']
 hemList = ['lh','rh']
-labelList = ['G_front_inf-Opercular', 'G_front_inf-Triangul','G_front_inf-Orbital', 'Pole_temporal', 'G_temp_ant-sup-Lateral','G_temp_post-sup-Lateral','S_temporal_ant-sup','S_temporal_post-sup','G_temporal_ant-middle','G_temporal_post-middle','G_temporal_inf','S_temporal_inf','G_pariet_inf-Angular']
+labelList = ['G_front_inf-Opercular', 'G_front_inf-Triangul','G_front_inf-Orbital', 'Pole_temporal', 'G_temp_ant-sup-Lateral','G_temp_post-sup-Lateral','S_temporal_ant-sup','S_temporal_post-sup','G_temporal_ant-middle','G_temporal_post-middle','G_temporal_inf','S_temporal_inf','G_pariet_inf-Angular','aparc2009-aMTGSTS','aparc2009-pMTGSTS','aparc2009-IFG']
 
 ##Convert input times from ms to samples
 baseline=100 #ms
@@ -91,7 +91,7 @@ for x in range(4):
 				dataTable.append(row)
 				count = count + 1
 		
-fileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/R/'+args.prefix+'.BaleenAll.2x2.'+str(int(args.t1))+'-'+str(int(args.t2))+'.txt'
+fileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/R/'+args.prefix+'.BaleenAll.2x2.'+args.model+'.'+str(int(args.t1))+'-'+str(int(args.t2))+'.txt'
 
 writeOutput.writeTable(fileName, dataTable)
 
