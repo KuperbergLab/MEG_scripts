@@ -32,6 +32,7 @@ lineLabel2 = 'LP right'
 ####################################
 
 parser = argparse.ArgumentParser(description='Get input')
+parser.add_argument('prefix',type=str)
 parser.add_argument('protocol1',type=str)
 parser.add_argument('protocol2',type=str)
 parser.add_argument('label1',type=str)
@@ -40,16 +41,15 @@ parser.add_argument('hem1',type=str)
 parser.add_argument('hem2',type=str)
 parser.add_argument('set1',type=str)
 parser.add_argument('set2',type=str)
+parser.add_argument('model',type=str)
 
 args=parser.parse_args()
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
-stc1_fname = data_path + '/diff/Baleen/ga_'+args.protocol1+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
-stc2_fname = data_path + '/diff/Baleen/ga_'+args.protocol2+'_All_c'+args.set2+'-c'+args.set1+'M_n24-spm-'+args.hem2+'.stc'
-#stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_All_c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
-#stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_All_c'+args.set2+'M_n24-spm-'+args.hem2+'.stc'
-#stc1_fname = data_path + '/single_condition/ga_'+args.protocol1+'_AllUnrelated_c'+args.set1+'M_n24-spm-'+args.hem1+'.stc'
-#stc2_fname = data_path + '/single_condition/ga_'+args.protocol2+'_AllUnrelated_c'+args.set2+'M_n24-spm-'+args.hem2+'.stc'
+stc1_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol1+'_c'+args.set2+'-c'+args.set1+'M-'+model+'-'+args.hem1+'.stc'
+stc2_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol2+'_c'+args.set2+'-c'+args.set1+'M-'+model+'-'+args.hem2+'.stc'
+stc1_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol1+'_All_c'+args.set1+'M-'+model+'-'+args.hem1+'.stc'
+stc2_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol2+'_All_c'+args.set2+'M-'+model+'-'+args.hem2+'.stc'
 
 
 label1 = args.label1+'-'+args.hem1
