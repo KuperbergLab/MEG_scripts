@@ -12,17 +12,18 @@ Extracting the mean time series of activations in a label
 print __doc__
 
 import mne
+from mne import fiff
 import numpy as np
 import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-100, 701]
-ymin,ymax = [-.5, 2]
+xmin,xmax = [-100, 550]
+ymin,ymax = [0, 4]
 lWidth = 4
 
-color1 = 'r'
-color2 = 'g'
+color1 = 'k'
+color2 = 'r'
 lineStyle1 = 'solid'
 lineStyle2 = 'solid'
 lineLabel1 = 'LP left'
@@ -42,14 +43,20 @@ parser.add_argument('hem2',type=str)
 parser.add_argument('set1',type=str)
 parser.add_argument('set2',type=str)
 parser.add_argument('model',type=str)
+parser.add_argument('single_diff',type=str)
 
 args=parser.parse_args()
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
-stc1_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol1+'_c'+args.set2+'-c'+args.set1+'M-'+model+'-'+args.hem1+'.stc'
-stc2_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol2+'_c'+args.set2+'-c'+args.set1+'M-'+model+'-'+args.hem2+'.stc'
-stc1_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol1+'_All_c'+args.set1+'M-'+model+'-'+args.hem1+'.stc'
-stc2_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol2+'_All_c'+args.set2+'M-'+model+'-'+args.hem2+'.stc'
+
+if args.single_diff == 'diff':
+	stc1_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol1+'_c'+args.set2+'-c'+args.set1+'M-'+args.model+'-'+args.hem1+'.stc'
+	stc2_fname = data_path + '/diff/ga_'+args.prefix+'_'+args.protocol2+'_c'+args.set2+'-c'+args.set1+'M-'+args.model+'-'+args.hem2+'.stc'
+else:
+	stc1_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol1+'_c'+args.set1+'M-'+args.model+'-'+args.hem1+'.stc'
+	stc2_fname = data_path + '/single_condition/ga_'+args.prefix+'_'+args.protocol2+'_c'+args.set2+'M-'+args.model+'-'+args.hem2+'.stc'
+
+
 
 
 label1 = args.label1+'-'+args.hem1
@@ -84,15 +91,17 @@ pl.plot(times1, values1.T,color=color1,linewidth=lWidth,linestyle=lineStyle1)
 pl.plot(times2, values2.T,color=color2,linewidth=lWidth,linestyle=lineStyle2)
 pl.plot(times1,values1.T*0,color='k')
 #pl.legend((lineLabel1,lineLabel2),loc="upper left")
+pl.axvline(x=0,ymin=0,ymax=1,color='k')
 pl.ylim([ymin,ymax])
 pl.xlim([xmin,xmax])
 pl.xlabel('time (ms)')
 pl.ylabel('Source amplitude')
+pl.axvspan(300, 500, color='k', alpha=0.1)
 #pl.title('Activations in Label : %s' % label1)
 #pl.ticklabel_format(style='plain',axis='x')
 #pl.rcParams.update({'font.size': 12})
 pl.show()
-outFile = 'scratch/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.label2+'-'+args.hem2+'-'+args.protocol2+'.png'
+outFile = data_path + '/roi_plots/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.label2+'-'+args.hem2+'-'+args.protocol2+'-'+args.set1+'-'+args.set2 + '-'+ args.single_diff + '-' +args.model+'.png'
 pl.savefig(outFile)
 
 
