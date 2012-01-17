@@ -14,7 +14,6 @@ for hemI = 1:2
         hem = 'rh';
     end
     
-    fileName = strcat(filePrefix, '-',type,'-',hem,'.stc')
     stcStruct = mne_read_stc_file(strcat(filePrefix, '-',type,'-',hem,'.stc'));
     stcData = stcStruct.data;
     meanStcData = mean(stcData(:,sample1:sample2),2);
