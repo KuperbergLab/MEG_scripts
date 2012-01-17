@@ -35,7 +35,7 @@ for hemI = 1:2  %%Separate STC files output for each hemisphere
     stcDataMean = mean(stcDataAll,3); %%Take mean across condition dimension
     size(stcDataMean)
         
-    outFile = strcat(dataPath,'ga_',listPrefix,'_AllCondBaleen-',type,'-',hem,'.stc');
+    outFile = strcat(dataPath,'ga_',listPrefix,'_AllCondBaleen-',type,'-',hem,'.stc')
     newSTC = stcStruct;
     newSTC.data = stcDataMean;
     mne_write_stc_file(outFile,newSTC);
