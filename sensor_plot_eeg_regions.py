@@ -10,7 +10,7 @@ import matplotlib
 #It outputs one .png file for anterior (with left and right subplots) and one for posterior. 
 #It also outputs a .png file containing the axis figure in classic ERP fashion
 
-#Ex: run sensor_plot_eeg_regions.py ga_ya.n22.meeg_BaleenLP_All_eeg ga_ya.n22.meeg_BaleenLP_All_eeg 1 2 related unrelated
+#Ex: run sensor_plot_eeg_regions.py ga_ya.n22.meeg_BaleenLP_All_eeg ga_ya.n22.meeg_BaleenLP_All_eeg 0 1 related unrelated
 
 
 parser = argparse.ArgumentParser(description='Get input')
