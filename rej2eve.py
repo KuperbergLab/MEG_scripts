@@ -84,7 +84,7 @@ def reject(type, d, eve_data, rej_data):
 def new_eve(eve):
     print 'Starting with %s' % eve
     eve_d = readTable(eve)
-    rej_types = ('veog', 'heog', 'eeg') # , 'grad', 'mag'
+    rej_types = ('veog', 'heog') # , 'grad', 'mag', 'eeg'
     k = filter(lambda y: y in eve, epochs.keys())[0]
     new_eve = eve_d[:]
     for type in rej_types:

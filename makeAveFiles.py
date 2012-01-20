@@ -15,6 +15,7 @@ def makeAveFiles(subjID,projType):
 	epMaxAXCPT = ".7"
  	gradRej = "2000e-13"
  	magRej = "3000e-15"
+ 	eegRej = "100e-6"
 
  	if subjID == "ya31" or subjID == 'sc9':
  		magRej = "4000e-15"   ##note exception for ya31, whose magnetometers were baseline noisy
@@ -51,6 +52,7 @@ def makeAveFiles(subjID,projType):
                                         myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
                                 	myFile.write('\tgradReject\t'+gradRej + '\n\n')
                                 	myFile.write('\tmagReject\t'+magRej + '\n\n')
+                                	myFile.write('\teegReject\t'+eegRej + '\n\n')
                                 
                                 for item in condDict[exp]:
                                         myFile.write('\tcategory {\n')

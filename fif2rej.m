@@ -17,8 +17,8 @@ elseif nargin < 2
     do_plot = 0;
 end
 
-% add 'mag' or 'grad' if you want to make rej files based on these channels
-chan_c = {'eeg', 'veog', 'heog' };
+% add 'eeg' or 'mag' or 'grad' if you want to make rej files based on these channels
+chan_c = {'veog', 'heog' };
 
 
 %%%%%%%%%
