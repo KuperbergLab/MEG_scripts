@@ -19,6 +19,7 @@ def countBadChan(inFile, par):
         x=0
         chans=[]
         badchans=[] #initialise separately
+        
         for i in range(0, trialCount):
             lineTemp = dataTable1[i]
             if len(lineTemp) > 10:
@@ -41,7 +42,7 @@ def countBadChan(inFile, par):
         myFile2.close()
 
         
-        name3=str(name1[0]) + '_MEGArtReject-BadChan' + str(par)
+        name3=str(name1[0]) + '_MEGArtReject-BadChan_' + str(par)
         outFile2=str(name3)
         myFile3 = open(outFile2, "a")
         for i in range(0, len(badchans), 2):

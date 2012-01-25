@@ -1,24 +1,25 @@
 import sys
 import os 
+import os.path
 import readInput 
 
 def computeEvents(subjType, par):
-       data_path = '/cluster/kuperberg/SemPrMM/MEG/'
+     data_path = '/cluster/kuperberg/SemPrMM/MEG/'
         
-       if (subjType == 'ac'):
-           subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
-       if (subjType == 'sc'):
-           subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
-       if (subjType == 'ya'):
-           subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
-       subject_list = readInput.readList(subject_filename)
-       print subject_list
+     if (subjType == 'ac'):
+         subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
+     if (subjType == 'sc'):
+         subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
+     if (subjType == 'ya'):
+         subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
+     subject_list = readInput.readList(subject_filename)
+     print subject_list
 
-       for subject in subject_list:
-
+     for subject in subject_list:
 #To Find the total number of rejected trials, and percentage
-          subjID = str(subjType)+ str(subject)
-          inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject' + str(par)
+        subjID = str(subjType)+ str(subject)
+        inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject' + str(par) 
+        if os.path.exists(inFile1):
           totalTrials = 0
           totalRejects = 0
           trialCount=0
@@ -28,6 +29,7 @@ def computeEvents(subjType, par):
           lineTemp = []
           lineTemp1 = []
           temp = 1
+       
           myFile1 = open(inFile1, "r") 
           while temp:
              temp = myFile1.readline()
@@ -80,7 +82,7 @@ def computeEvents(subjType, par):
           dataTable3=[]
           dataTable4=[]
           linetemp1=[]
-          inFile2 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject-BadChan' + str(par)
+          inFile2 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject-BadChan_' + str(par)
           myFile3 = open(inFile2, "r")
 ##          print inFile2
           while temp3:
