@@ -126,45 +126,35 @@ def get_subjects(study, subjType):
 	
 
 if __name__ == '__main__':
-        do_eves = False
-	do_full = True
-	if do_eves:
-	 	parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_BaleenRun1Mod.eve','Baleen')
-	 	parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_BaleenRun8Mod.eve','Baleen')
-	 	parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya21/eve/ya21_MaskedMMRun1Mod.eve',"MaskedMM")
-	 	parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya21/eve/ya21_AXCPTRun1Mod.eve',"AXCPT")
-		parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_AXCPTRun1Mod.eve',"AXCPT")
-		parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_AXCPTRun2Mod.eve',"AXCPT")
 
-	if do_full:
-                subjType = sys.argv[1]
-                study = sys.argv[2]
-                print study
-                subjects = sorted(get_subjects(study, subjType))
-                print subjects
-                study_results = parse_study(study,subjects)
-		logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
-                with open(logf,'w') as f:
-                        f.write('sub:\t\t')
-                        good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
-                        #write out header
-                        f.write('CondCode\t\tAccuracy\tUnknown\n')
-                        for sub in sorted(study_results.keys()): 
-                                results = study_results[sub]
-                                total_num = 0
-                                total_den = 0
-                                for key in good_keys:
-                                        v = results[key]
-                                        total_num += v['c']
-                                        total_den += v['t']
-                                        if v['rts']:
-                                                avg_rt = sum(v['rts']) / float(len(v['rts']))
-                                        else:
-                                                avg_rt = 0
-                                        f.write(sub+':\t\t')
-                                        f.write(codes[study][key][0]+'\t\t')
-                                        f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
-                                f.write('AllTasks\t')
-                                f.write("{0}\n".format(round(float(total_num)/total_den,3)))
-                        make_lingua(logf)
+	subjType = sys.argv[1]
+	study = sys.argv[2]
+	print study
+	subjects = sorted(get_subjects(study, subjType))
+	print subjects
+	study_results = parse_study(study,subjects)
+	logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
+	with open(logf,'w') as f:
+		f.write('sub:\t\t')
+		good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
+		#write out header
+		f.write('CondCode\t\tAccuracy\tUnknown\n')
+		for sub in sorted(study_results.keys()): 
+			results = study_results[sub]
+			total_num = 0
+			total_den = 0
+			for key in good_keys:
+				v = results[key]
+				total_num += v['c']
+				total_den += v['t']
+				if v['rts']:
+					avg_rt = sum(v['rts']) / float(len(v['rts']))
+				else:
+					avg_rt = 0
+				f.write(sub+':\t\t')
+				f.write(codes[study][key][0]+'\t\t')
+				f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
+			f.write('AllTasks\t')
+			f.write("{0}\n".format(round(float(total_num)/total_den,3)))
+		make_lingua(logf)
 
