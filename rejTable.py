@@ -46,7 +46,7 @@ if __name__ == '__main__':
     
     all_data = get_data(subjects)
     for k,v in all_data.items():
-        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/heogveog/%s_%s_rejTable.txt' % (pre, subjType, k)
+        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/heogveog_rejection/%s_%s_rejTable.txt' % (pre, subjType, k)
         codes = sorted(v[subjType+'3'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))
         code_line = '\t\t%s' % '\t\t\t'.join(codes)
         subject_lines = []
