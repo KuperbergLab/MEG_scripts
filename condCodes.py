@@ -18,7 +18,8 @@ condLabels = {'Blink':
 			[['1','Direct'],
 			['2','Indirect'],
 			['3','Unrelated'],
-			['4','Probe Target']],
+			['4','Probe Target'],
+			['5','Probe Prime']],
 		'BaleenLP':
 			[['1','Related'],
 			['2','Unrelated'],
