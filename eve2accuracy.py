@@ -143,7 +143,7 @@ if __name__ == '__main__':
                 subjects = sorted(get_subjects(study, subjType))
                 print subjects
                 study_results = parse_study(study,subjects)
-		logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/MEG/R_%s_%s_accuracy.log' % (subjType, study)
+		logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
                 with open(logf,'w') as f:
                         f.write('sub:\t\t')
                         good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
