@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
 import os
+import sys
 from glob import glob
+import readInput
 from readInput import readTable
 import math
-#from pipeline import make_lingua
+from pipeline import make_lingua
+
 # studies = ['Baleen','MaskedMM','AXCPT']
 # studies_codes = dict({'MaskedMM':['1','2','3','4','5'],'Baleen':['1','2','4','5','6','7','8','9','10','11','12']})
 # studies_task = dict({'MaskedMM':['4','5'],'Baleen':['5','10','11','12']})
@@ -13,6 +16,7 @@ import math
 # 					'Baleen':['LRelTar','LUnrTar','LUnrFil','LAnTar','HRelTar','HUnrTar','HRelFil',
 # 								'HUnrFil','HAnTar','LAnPr','HAnPr'],
 # 					'AXCPT':['AY','BY','BX','AX']})
+##or "ac" in name or "sc" in name
 
 codes = {"Baleen":{
 			"1":("LP_RelTarg",False),
@@ -104,10 +108,21 @@ def parse_study(study,subjects):
 	return all_subjects
 
 	
-def get_subjects(study):
-	path = os.path.join('/cluster/kuperberg/SemPrMM/','MEG','data')
-	all_subs = [name for name in os.listdir(path) if ("ya" in name or "ac" in name or "sc" in name) and os.path.isdir(os.path.join(path, name))]
-	return [sub for sub in all_subs if len(find_eves(study,sub)) > 0]
+def get_subjects(study, subjType):
+	path = os.path.join('/cluster/kuperberg/SemPrMM/','MEG/')
+        if (subjType == 'ac'):
+                subject_filename = path + 'scripts/function_inputs/ac.meg.all.txt'
+        if (subjType == 'sc'):
+                subject_filename = path + 'scripts/function_inputs/sc.meg.all.txt'
+        if (subjType == 'ya'):
+                subject_filename = path + 'scripts/function_inputs/ya.meg.all.txt'
+        subject_list = readInput.readList(subject_filename)
+        all_subs = []
+        for row in subject_list:
+                row = subjType+row
+                all_subs.append(row)
+                
+	return [sub for sub in all_subs if len(find_eves(study,sub)) > 0]  
 	
 
 if __name__ == '__main__':
@@ -122,33 +137,34 @@ if __name__ == '__main__':
 		parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_AXCPTRun2Mod.eve',"AXCPT")
 
 	if do_full:
-		for study in codes.keys():
-			print study
-			subjects = sorted(get_subjects(study))
-			print subjects
-			study_results = parse_study(study,subjects)
-			logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/MEG_%s_accuracy.log' % study
-			with open(logf,'w') as f:
-				#write out header
-				f.write('sub:\t\t')
-				good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
-				for key in good_keys:
-					f.write(codes[study][key][0]+'\t\t')
-				f.write('AllTasks\n')
-				for sub in sorted(study_results.keys()):
-					f.write(sub+':\t\t')
-					results = study_results[sub]
-					total_num = 0
-					total_den = 0
-					for code_key in good_keys:
-						v = results[code_key]
-						total_num += v['c']
-						total_den += v['t']
-						if v['rts']:
-							avg_rt = sum(v['rts']) / float(len(v['rts']))
-						else:
-							avg_rt = 0
-						f.write("%1.3f(%1.3f)\t" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
-					f.write("{0}\n".format(round(float(total_num)/total_den,3)))
-			make_lingua(logf)
+                subjType = sys.argv[1]
+                study = sys.argv[2]
+                print study
+                subjects = sorted(get_subjects(study, subjType))
+                print subjects
+                study_results = parse_study(study,subjects)
+		logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/MEG/R_%s_%s_accuracy.log' % (subjType, study)
+                with open(logf,'w') as f:
+                        f.write('sub:\t\t')
+                        good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
+                        #write out header
+                        f.write('CondCode\t\tAccuracy\tUnknown\n')
+                        for sub in sorted(study_results.keys()): 
+                                results = study_results[sub]
+                                total_num = 0
+                                total_den = 0
+                                for key in good_keys:
+                                        v = results[key]
+                                        total_num += v['c']
+                                        total_den += v['t']
+                                        if v['rts']:
+                                                avg_rt = sum(v['rts']) / float(len(v['rts']))
+                                        else:
+                                                avg_rt = 0
+                                        f.write(sub+':\t\t')
+                                        f.write(codes[study][key][0]+'\t\t')
+                                        f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
+                                f.write('AllTasks\t')
+                                f.write("{0}\n".format(round(float(total_num)/total_den,3)))
+                        make_lingua(logf)
 
