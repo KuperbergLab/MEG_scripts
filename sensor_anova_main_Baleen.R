@@ -16,7 +16,6 @@ levels(erpData.all$prop)<-c("lo","lo","hi","hi");
 erpData.all <- subset(erpData.all,elec !=29 & elec != 39 & elec !=40 & elec !=50)
 
 eztest <-ezANOVA(data=erpData.all,dv = .(amp),wid=.(subj),within=.(prime,prop),type=3,detailed=TRUE)
-
 print(eztest)
 
 #
