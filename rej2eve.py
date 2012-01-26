@@ -9,42 +9,16 @@ from os import path as op
 from readInput import readTable
 from writeOutput import writeTable
 
+import condCodes as cc
+
 sub = sys.argv[1]
 
 pre = '/cluster/kuperberg/SemPrMM/MEG/data'
 data_d = '%s/%s/' % (pre,sub)
 temp_d = '%s/%s/rej/' % (pre, sub)
 eve_dir = '%s/%s/eve/' % (pre, sub)
-
-##Notice the epochs are coded in samples, not ms : (
-epochs = {'BaleenLP':{'1':[60, 421],
-                      '2':[60, 421],
-                      '4':[60, 421],
-                      '5':[60, 421],
-                      '11':[60, 421],
-                      '14':[60, 421]},
-          'BaleenHP':{'6':[60, 421],
-                      '7':[60, 421],
-                      '8':[60, 421],
-                      '18':[60, 421],
-                      '9':[60, 421],
-                      '10':[60, 421],
-                      '12':[60, 421],
-                      '14':[60, 421]},
-          'MaskedMM':{'1':[60, 421],
-                      '2':[60, 421],
-                      '3':[60, 421],
-                      '4':[60, 421],
-                      '5':[60, 421]},
-          'ATLLoc':{'41':[60, 300],
-                    '42':[60, 300],
-                    '43':[60, 300]},
-          'AXCPT':{'1':[60, 421],
-                      '2':[60, 421],
-                      '3':[60, 421],
-                      '4':[60, 421],
-                      '5':[60, 421],
-                      '6':[60, 421]}}
+                      
+epochs = cc.epochs                      
 
 type_rep = {'veog':'1000',
             'heog':'2000',
