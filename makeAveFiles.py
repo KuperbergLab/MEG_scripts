@@ -4,32 +4,25 @@
 ###ex: python makeAveFiles.py ya16 projoff
 
 import sys
+import condCodes as cc
 
 def makeAveFiles(subjID,projType):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
-	epMaxATL = ".5"   ## time in seconds for the end of the epoch (e.g. 900 ms post-stim onset)
-	epMaxMasked = ".7"
-	epMaxBaleen = ".7"
-	epMaxAXCPT = ".7"
  	gradRej = "2000e-13"
  	magRej = "3000e-15"
  	eegRej = "100e-6"
 
  	if subjID == "ya31" or subjID == 'sc9':
- 		magRej = "4000e-15"   ##note exception for ya31, whose magnetometers were baseline noisy
+ 		magRej = "4000e-15"   ##note exception for ya31 and sc9, whose magnetometers were baseline noisy
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
 	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 	
-	condDict = {'Blink':[['1','Blink']],'ATLLoc':[['41','Sentences'],['42','Word Lists'],['43','Consonant Strings'],['1','Sentence First Word'],['2','Word List First Word'],['3','Consonant String First Word']],'MaskedMM': [['1','Direct'],['2','Indirect'],['3','Unrelated'],['4','Probe Target']],'BaleenLP':[['1','Related'],['2','Unrelated'],['4','Unrelated Filler'],['5','Probe Target'],['14','Prime']],'BaleenHP': [['6','Related'],['7','Unrelated'],['8','Related Filler'],['9','Unrelated Filler'],['10','Probe Target'],['14', 'Prime'],['18','Related Filler Extra']],'AXCPT':[['1','AY target'],['2','BX target'],['3','BY target'],['4','AX target'],['5','A prime'],['6','B prime']]}
-	
-	epMaxDict = {'Blink':'.9','ATLLoc':epMaxATL,'MaskedMM':epMaxMasked,'BaleenLP':epMaxBaleen,'BaleenHP':epMaxBaleen,'AXCPT':epMaxAXCPT}
-
-##	eveFileType = {'projon': 'ModRej.eve', 'projoff': 'ModRej4poff.eve' }
-	
+	condDict = cc.condLabels
+	epMaxDict = cc.epMax
 
 
 	for exp in expList:
