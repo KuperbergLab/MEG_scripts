@@ -2,37 +2,40 @@ import sys
 import os 
 
 def countBadChan(inFile, par):
-
+        
         trialCount=rtrialCount = 0
-        dataTable1=dataTable2=lineTemp=[]       
-        myFile1 = open(inFile, "r") 
-        temp = 1
-        while temp:
-           temp = myFile1.readline()
-           temp1 = temp.strip() # when I included (' ') it did not return the items as a list, but when I just wrote () it did the trick!
-           if temp1:
-              temp2 = temp1.split()
-              dataTable1.append(temp2) # Save information as a list of items in a DataTable
-              trialCount=len(dataTable1)   
-        myFile1.close()
-
+        lineTemp=[]
+        rlineTemp=[]
         x=0
         chans=[]
         badchans=[] #initialise separately
+        items=[]
+        temp = 1
+        dataTable = []
+        
+        myFile = open(inFile, "r")
+        while temp:
+            temp = myFile.readline()
+            temp = temp.strip('] ')
+            temp = temp.split()
+            if temp:
+                dataTable.append(temp)
+        myFile.close()
+        trialCount=len(dataTable)
         
         for i in range(0, trialCount):
-            lineTemp = dataTable1[i]
+            lineTemp = dataTable[i]
             if len(lineTemp) > 10:
-                rtrialCount +=1
-                x = lineTemp.index("MEG")
-                chans.append(lineTemp[x+1])
+                    chans.append(lineTemp[len(lineTemp) - 8]) #append the last but 8th item in the list-lineTemp to chans
+                    rtrialCount+=1
         items=list(set(chans)) #finds the items in a list(first occurances)
+        
         for i in range(0, len(items)):
             badchans.append(items[i])
             badchans.append(chans.count(items[i]))
                             
         name1=str.split(str(inFile), '_')
-        name2=str(name1[0]) + '_MEGArtReject' + str(par)
+        name2=str(name1[0]) + '_MEEGArtReject_' + str(par)
         outFile1=str(name2)
         myFile2 = open(outFile1, "a")
         myFile2.write("\n")
@@ -41,8 +44,7 @@ def countBadChan(inFile, par):
         myFile2.write(str(rtrialCount))
         myFile2.close()
 
-        
-        name3=str(name1[0]) + '_MEGArtReject-BadChan_' + str(par)
+        name3=str(name1[0]) + '_MEEGArtReject-BadChan_' + str(par)
         outFile2=str(name3)
         myFile3 = open(outFile2, "a")
         for i in range(0, len(badchans), 2):
