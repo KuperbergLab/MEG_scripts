@@ -16,20 +16,23 @@ def computeEvents(subjType, par):
      print subject_list
 
      for subject in subject_list:
-#To Find the total number of rejected trials, and percentage
+  
+#To Find the total number of rejected trials, and percentage inclusion
         subjID = str(subjType)+ str(subject)
-        inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject' + str(par) 
+        totalTrials = 0 # Must be initialised within the loop to refresh for each subject :) 
+        totalRejects = 0
+        trialCount=0
+        rtrialCount=0
+        pReject=0
+        dataTable1=[]
+        dataTable2=[]
+        lineTemp = []
+        lineTemp1 = []
+        temp = 1
+        
+        inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEEGArtReject_' + str(par) 
         if os.path.exists(inFile1):
-          totalTrials = 0
-          totalRejects = 0
-          trialCount=0
-          rtrialCount=0
-          dataTable1=[]
-          dataTable2=[]
-          lineTemp = []
-          lineTemp1 = []
-          temp = 1
-       
+             
           myFile1 = open(inFile1, "r") 
           while temp:
              temp = myFile1.readline()
@@ -39,39 +42,31 @@ def computeEvents(subjType, par):
                 dataTable1.append(temp2) # Save information as a list of items in a DataTable
                 runCount=len(dataTable1)   
           myFile1.close()
+          
           for i in range(0, len(dataTable1)):
             lineTemp = (dataTable1[i])
             trialCount=float(lineTemp[0])
             rtrialCount=float(lineTemp[1])
             totalTrials = totalTrials + trialCount
             totalRejects = totalRejects + rtrialCount
+            
           pReject=(1-round(((totalRejects)/float(totalTrials)),4))
-          if par == 'ATLLoc':
-                 frac=((totalTrials-totalRejects)/float(600))
-          if par == 'MaskedMM':
-                 frac=((totalTrials-totalRejects)/float(212))
-          if par == 'BaleenLP':
-                 frac=((totalTrials-totalRejects)/float(360))
-          if par == 'BaleenHP':
-                 frac=((totalTrials-totalRejects)/float(360))
 
 
 # To Display the total number of rejected trials, and percentage         
-          outFile = data_path + 'results/MEGArtRej/' + str(subjType) + '_MEGArtRejSummary' + str(par)
+          outFile = data_path + 'results/artifact_rejection/megeeg_rejection/' + str(subjType) + '_MEEGArtRejSummary_' + str(par)
           myFile2 = open(outFile, "a") 
           myFile2.write("\n")
           myFile2.write(subjID)
-##      myFile2.write("\tTrials: ")
-          myFile2.write("\t")
+          myFile2.write("\n")
+          myFile2.write("Number of events found:\t")
           myFile2.write(str(totalTrials))
-##      myFile2.write("\tRejTrials: ")
-          myFile2.write("\t")
+          myFile2.write("\n")
+          myFile2.write("Number of events rejected:\t")
           myFile2.write(str(totalRejects))
-##      myFile2.write("\tPRejected:")
-          myFile2.write("\t")
+          myFile2.write("\n")
+          myFile2.write("MEG/EEG Inclusion Rate:\t")
           myFile2.write(str(pReject))
-          myFile2.write("\t")
-          myFile2.write(str(frac))
           myFile2.write("\n")
 
 # To Find the name of the bad channels rejected
@@ -82,9 +77,8 @@ def computeEvents(subjType, par):
           dataTable3=[]
           dataTable4=[]
           linetemp1=[]
-          inFile2 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEGArtReject-BadChan_' + str(par)
+          inFile2 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEEGArtReject-BadChan_' + str(par)
           myFile3 = open(inFile2, "r")
-##          print inFile2
           while temp3:
              temp3 = myFile3.readline()
              temp4 = temp3.strip() # when I included (' ') it did not return the items as a list, but when I just wrote () it did the trick!
@@ -98,12 +92,11 @@ def computeEvents(subjType, par):
           items=list(set(chans))
 
 # To Display the name of the bad channels rejected
-          myFile2.write("Number of Times MEG Channels Rejected")
+          myFile2.write("Number of Times MEG/EEG Channels Rejected")
           myFile2.write("\n")
           for i in range(0, len(items)):
                 x=0
                 myFile2.write(str(items[i]))
-                
                 for j in range(0, len(chans)):
                         if items[i] == chans[j]:
                               x = x + int(chantot[j])
