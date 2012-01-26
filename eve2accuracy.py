@@ -4,7 +4,7 @@ import os
 from glob import glob
 from readInput import readTable
 import math
-from pipeline import make_lingua
+#from pipeline import make_lingua
 # studies = ['Baleen','MaskedMM','AXCPT']
 # studies_codes = dict({'MaskedMM':['1','2','3','4','5'],'Baleen':['1','2','4','5','6','7','8','9','10','11','12']})
 # studies_task = dict({'MaskedMM':['4','5'],'Baleen':['5','10','11','12']})
@@ -42,7 +42,8 @@ codes = {"Baleen":{
 					
 def find_eves(study,subject):
 	all_eve =  glob(os.path.join('/cluster/kuperberg/SemPrMM/MEG/data',subject,'eve',"*"+study+'*Mod.eve'))
-	return all_eve	
+	return all_eve
+
 	
 def parse_eve(eve,study):
 	lines = readTable(eve)
@@ -110,7 +111,7 @@ def get_subjects(study):
 	
 
 if __name__ == '__main__':
-	do_eves = False
+        do_eves = False
 	do_full = True
 	if do_eves:
 	 	parse_eve('/cluster/kuperberg/SemPrMM/MEG/data/ya17/eve/ya17_BaleenRun1Mod.eve','Baleen')
