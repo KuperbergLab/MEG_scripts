@@ -1,4 +1,4 @@
-save_df_main <-function(filePrefix,t1,t2){
+sensor_save_df_main <-function(filePrefix,t1,t2){
 	
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
 fileName <- paste(filePath,filePrefix,t1,"-",t2,".txt",sep="")
