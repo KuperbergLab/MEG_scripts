@@ -9,7 +9,9 @@ def makeCovFiles(subjID):
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	gradRej = "2000e-13"
 	magRej = "3000e-15"
- 	if subjID == "ya31":
+	eegRej = "100e-6"
+	
+ 	if subjID == "ya31" or subjID == 'sc9':
  		magRej = "4000e-15"   ##note exception for ya31, whose magnetometers were baseline noisy
 	
 	expList = ['MaskedMM','BaleenLP','BaleenHP','AXCPT']
