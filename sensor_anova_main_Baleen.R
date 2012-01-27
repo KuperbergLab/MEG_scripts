@@ -3,8 +3,8 @@ sensor_anova_main_Baleen <-function(filePrefix,t1,t2){
 library('ez')
 
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,t1,"-",t2,".df",sep=""))
-outfile <-paste(filePath,filePrefix,t1,"-",t2,"_main_av.txt",sep="")
+load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
+outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_main_av.txt",sep="")
 sink(outfile);
 
 erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);

@@ -1,17 +1,12 @@
-sensor_anova_midline_Baleen <-function(filePrefix,t1,t2){
+sensor_anova_midline_ATLLoc <-function(filePrefix,t1,t2){
 	
 library('ez')
 
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
-outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_mid_av.txt",sep="")
+load(paste(filePath,filePrefix,"ATLLoc.",t1,"-",t2,".df",sep=""))
+outfile <-paste(filePath,filePrefix,"ATLLoc.",t1,"-",t2,"_mid_av.txt",sep="")
 sink(outfile);
 	
-	
-erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
-erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prop)<-c("lo","lo","hi","hi");
 	
 #start with all the electrodes in both midlines
 erpData.mid <-subset(erpData.all, hemCode == 0 & elec != 28 & elec != 29 & elec != 39 & elec !=40)
@@ -26,14 +21,14 @@ levels(erpData.midV$ant)<-c("A","A","A","A","A","P","P","P","P","P")
 #####Omnibus ANOVA######
 
 #compute the ANOVA
-eztest <- ezANOVA(data=erpData.midV,dv = .(amp),wid=.(subj),within=.(prime,prop,ant),type=3,detailed=TRUE)
+eztest <- ezANOVA(data=erpData.midV,dv = .(amp),wid=.(subj),within=.(cond,ant),type=3,detailed=TRUE)
 
 #print results to file
 print("midV")
 print(eztest)
 
 #Print the marginal means
-erpData.midV.aov <- aov(amp ~ prime * prop * ant + Error(subj/(prime * prop * ant)),data=erpData.midV)
+erpData.midV.aov <- aov(amp ~ cond * ant + Error(subj/(cond * ant)),data=erpData.midV)
 print("Marginal Means")
 print(model.tables(erpData.midV.aov,"means"),digits=5)
 
@@ -47,14 +42,14 @@ levels(erpData.midH$hem)<-c("L","L","L","L","R","R","R","R")
 #####Omnibus ANOVA######
 
 #compute the ANOVA
-eztest <- ezANOVA(data=erpData.midH,dv = .(amp),wid=.(subj),within=.(prime,prop,hem),type=3,detailed=TRUE)
+eztest <- ezANOVA(data=erpData.midH,dv = .(amp),wid=.(subj),within=.(cond,hem),type=3,detailed=TRUE)
 
 #print results to file
 print("midH")
 print(eztest)
 
 #Print the marginal means
-erpData.midH.aov <- aov(amp ~ prime * prop * hem + Error(subj/(prime * prop * hem)),data=erpData.midH)
+erpData.midH.aov <- aov(amp ~ cond * hem + Error(subj/(cond * hem)),data=erpData.midH)
 print("Marginal Means")
 print(model.tables(erpData.midH.aov,"means"),digits=5)
 
