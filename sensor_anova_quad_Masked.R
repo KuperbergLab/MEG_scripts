@@ -18,6 +18,9 @@ levels(erpData.quad$ant)<-c("A","P")
 
 #####Omnibus ANOVA######
 
+#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
+erpData.quad <- subset(erpData.quad, cond == 1 | cond == 2 | cond == 3)
+
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(cond,hem,ant),type=3,detailed=TRUE)
 

@@ -20,6 +20,9 @@ levels(erpData.midV$ant)<-c("A","A","A","A","A","P","P","P","P","P")
 
 #####Omnibus ANOVA######
 
+#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
+erpData.midV <- subset(erpData.midV, cond == 1 | cond == 2 | cond == 3)
+
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.midV,dv = .(amp),wid=.(subj),within=.(cond,ant),type=3,detailed=TRUE)
 
@@ -40,6 +43,9 @@ erpData.midH$hem <-factor(erpData.midH$elec)
 levels(erpData.midH$hem)<-c("L","L","L","L","R","R","R","R")
 
 #####Omnibus ANOVA######
+
+#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
+erpData.midH <- subset(erpData.midH, cond == 1 | cond == 2 | cond == 3)
 
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.midH,dv = .(amp),wid=.(subj),within=.(cond,hem),type=3,detailed=TRUE)
