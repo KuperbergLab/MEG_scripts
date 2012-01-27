@@ -1,7 +1,8 @@
 import sys
 import os 
 import os.path
-import readInput 
+import readInput
+from operator import itemgetter, attrgetter
 
 def computeEvents(subjType, par):
      data_path = '/cluster/kuperberg/SemPrMM/MEG/'
@@ -81,15 +82,17 @@ def computeEvents(subjType, par):
           myFile3 = open(inFile2, "r")
           while temp3:
              temp3 = myFile3.readline()
-             temp4 = temp3.strip() # when I included (' ') it did not return the items as a list, but when I just wrote () it did the trick!
+             temp4 = temp3.strip() 
              if temp4:
                temp5 = temp4.split()
                dataTable3.append(temp5) # Save information as a list of items in a DataTable
           for i in range(0, len(dataTable3)):
               lineTemp1 = dataTable3[i]
               chans.append(lineTemp1[0])
-              chantot.append(lineTemp1[1])
+              chantot.append(lineTemp1[1])          
           items=list(set(chans))
+          items = sorted(items, key=itemgetter(0)) # To print Gradiometer, magnetometers and theh the EEG channels in oreder. 
+          
 
 # To Display the name of the bad channels rejected
           myFile2.write("Number of Times MEG/EEG Channels Rejected")
