@@ -75,6 +75,7 @@ def parse_eve(eve,study):
 					good_rt = 0 < rt < 1.4
 				elif study == "AXCPT":
 					good_rt = 0< rt < 1.5
+					print good_rt
 				if (task and good_rt) or (not task and not good_rt):
 					cr["c"] += 1
 					if task:
@@ -129,32 +130,37 @@ if __name__ == '__main__':
 
 	subjType = sys.argv[1]
 	study = sys.argv[2]
-	print study
-	subjects = sorted(get_subjects(study, subjType))
-	print subjects
-	study_results = parse_study(study,subjects)
-	logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
-	with open(logf,'w') as f:
-		f.write('sub:\t\t')
-		good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
-		#write out header
-		f.write('CondCode\t\tAccuracy\tUnknown\n')
-		for sub in sorted(study_results.keys()): 
-			results = study_results[sub]
-			total_num = 0
-			total_den = 0
-			for key in good_keys:
-				v = results[key]
-				total_num += v['c']
-				total_den += v['t']
-				if v['rts']:
-					avg_rt = sum(v['rts']) / float(len(v['rts']))
-				else:
-					avg_rt = 0
-				f.write(sub+':\t\t')
-				f.write(codes[study][key][0]+'\t\t')
-				f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
-			f.write('AllTasks\t')
-			f.write("{0}\n".format(round(float(total_num)/total_den,3)))
-		make_lingua(logf)
+	if (study =='AXCPT'and subjType == 'ac'):
+                print "No data for AX in AC subject group"
+        elif (study =='AXCPT' and subjType =='sc'):
+                print "No data for AX in SC subject group"
+        else:
+                print study
+                subjects = sorted(get_subjects(study, subjType))
+                print subjects
+                study_results = parse_study(study,subjects)
+                logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
+                with open(logf,'w') as f:
+                        f.write('sub:\t\t')
+                        good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
+                        #write out header
+                        f.write('CondCode\t\tAccuracy\tUnknown\n')
+                        for sub in sorted(study_results.keys()): 
+                                results = study_results[sub]
+                                total_num = 0
+                                total_den = 0
+                                for key in good_keys:
+                                        v = results[key]
+                                        total_num += v['c']
+                                        total_den += v['t']
+                                        if v['rts']:
+                                                avg_rt = sum(v['rts']) / float(len(v['rts']))
+                                        else:
+                                                avg_rt = 0
+                                        f.write(sub+':\t\t')
+                                        f.write(codes[study][key][0]+'\t\t')
+                                        f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
+##                                f.write('ALL  TASKS\n')
+        ##			f.write("{0}\n".format(round(float(total_num)/total_den,3)))
+                        make_lingua(logf)
 
