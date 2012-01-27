@@ -25,27 +25,6 @@ eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(cond,hem,an
 print("All")
 print(eztest)
 
-#####Within Low Proportion ANOVA####
-
-erpData.quad.lo <- subset(erpData.quad, prop == 'lo')
-
-#compute the ANOVA
-eztest <- ezANOVA(data=erpData.quad.lo,dv = .(amp),wid=.(subj),within=.(cond,hem,ant),type=3,detailed=TRUE)
-
-#print results to file
-print("Lo")
-print(eztest)
-
-#####Within High Proportion ANOVA####
-
-erpData.quad.hi <- subset(erpData.quad, prop == 'hi')
-
-#compute the ANOVA
-eztest <- ezANOVA(data=erpData.quad.hi,dv = .(amp),wid=.(subj),within=.(cond,hem,ant),type=3,detailed=TRUE)
-
-#print results to file
-print("Hi")
-print(eztest)
 
 
 #####Within Anterior ANOVA####
