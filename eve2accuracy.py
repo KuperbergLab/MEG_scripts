@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#usage: python eve2accuracy.py sybjType ExpName
 
 import os
 import sys
@@ -50,6 +51,9 @@ def find_eves(study,subject):
 
 	
 def parse_eve(eve,study):
+        mask_maxrt=2.0
+        bal_maxrt=1.5
+        ax_maxrt=2.0
 	lines = readTable(eve)
 	results = dict()
 	response_ind = [i for i,x in enumerate(lines) if x[3] == "16" or x[3] == "32" or x[3] == "64" or x[3] == "128"]
@@ -70,11 +74,11 @@ def parse_eve(eve,study):
 					rt = -1
 				task = codes[study][code][1]
 				if study == "MaskedMM":
-					good_rt = 0 < rt < 1.600
+					good_rt = 0 < rt < mask_maxrt
 				elif study == "Baleen":
-					good_rt = 0 < rt < 1.4
+					good_rt = 0 < rt < bal_maxrt
 				elif study == "AXCPT":
-					good_rt = 0< rt < 1.5
+					good_rt = 0< rt < ax_maxrt
 					print good_rt
 				if (task and good_rt) or (not task and not good_rt):
 					cr["c"] += 1
