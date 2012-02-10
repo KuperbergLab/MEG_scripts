@@ -29,7 +29,7 @@ def compare(efile, rfile):
     for code in cc.codes[study]:
         neve = len([e for e in eve if e[3] == code])
         nrej = len([r for r in rej if r[3] == code])
-#        print('Code %s\tEve# %d\t Rej# %d' % (code, neve, nrej))
+        print('Code %s\tEve# %d\t Rej# %d' % (code, neve, nrej))
         d[code] = [nrej, neve]
     return study, d
 
