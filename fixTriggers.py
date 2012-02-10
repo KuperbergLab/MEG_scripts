@@ -34,10 +34,27 @@ def fixTriggers(subjID):
     			row[3] = 14
     			print row
     	writeOutput.writeTable(outFile,data)		
+ 
+#########################
+    ##FIX RANDOM YA22 ERROR
+    ##This is only case where original .eve files gets changed, because somehow incorrect trigger got sent on a single trial (how could this happen? spooky)
+    inFile= 'eve/ya22_BaleenHPRun3.eve'
+    outFile = 'eve/ya22_BaleenHPRun3.eve'
+    if os.path.exists(inFile):
+    	data = readInput.readTable(inFile)
+    	for row in data:
+    		trigger = row[3]
+    		time = row[1]
+    		if (time == '71.100' and trigger == '6'):
+    			print row
+    			row[3] = 14
+    			print row
+    	writeOutput.writeTable(outFile,data)		
 
     #########################
     ##FIX RANDOM YA6 ERROR
     ##This is only case where original .eve files gets changed, because somehow incorrect trigger got sent on a single trial (how could this happen? spooky)
+    ##NOt clear what this code was originally so changing to 600
     inFile= 'eve/ya6_BaleenHPRun3.eve'
     outFile = 'eve/ya6_BaleenHPRun3.eve'
     if os.path.exists(inFile):
