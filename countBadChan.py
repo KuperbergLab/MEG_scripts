@@ -1,5 +1,6 @@
 import sys
 import os 
+import readInput
 
 def countBadChan(inFile, par):
         
@@ -13,14 +14,15 @@ def countBadChan(inFile, par):
         temp = 1
         dataTable = []
         
-        myFile = open(inFile, "r")
-        while temp:
-            temp = myFile.readline()
-            temp = temp.strip('] ')
-            temp = temp.split()
-            if temp:
-                dataTable.append(temp)
-        myFile.close()
+        dataTable = readInput.readTable(inFile)
+#         myFile = open(inFile, "r")
+#         while temp:
+#             temp = myFile.readline()
+#             temp = temp.strip('] ')
+#             temp = temp.split()
+#             if temp:
+#                 dataTable.append(temp)
+#         myFile.close()
         trialCount=len(dataTable)
         
         for i in range(0, trialCount):
@@ -37,7 +39,7 @@ def countBadChan(inFile, par):
         name1=str.split(str(inFile), '_')
         name2=str(name1[0]) + '_MEEGArtReject_' + str(par)
         outFile1=str(name2)
-        myFile2 = open(outFile1, "a")
+        myFile2 = open(outFile1, "w")
         myFile2.write("\n")
         myFile2.write(str(trialCount))
         myFile2.write("\t")
@@ -46,7 +48,7 @@ def countBadChan(inFile, par):
 
         name3=str(name1[0]) + '_MEEGArtReject-BadChan_' + str(par)
         outFile2=str(name3)
-        myFile3 = open(outFile2, "a")
+        myFile3 = open(outFile2, "w")
         for i in range(0, len(badchans), 2):
             myFile3.write("\n")
             myFile3.write(str(badchans[i]))
