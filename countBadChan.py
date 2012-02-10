@@ -2,6 +2,10 @@ import sys
 import os 
 import readInput
 
+
+#The MEEGArtReject_ file contains the total number of specified triggers encountered by MNE and the number rejected
+#The 
+
 def countBadChan(inFile, par):
         
         trialCount= 0
@@ -24,9 +28,9 @@ def countBadChan(inFile, par):
     	badChanList=list(set(badTrials)) #finds the items in a list(first occurances)
     	
     	##Create critical data table of bad channels and the number of trials they caused rejection
+    	##Create critical data table of bad channels and the number of trials they caused rejection
     	for chan in badChanList:
-    		badchans.append(chan)
-    		badchans.append(badTrials.count(chan))
+    		badchans.append([chan, badTrials.count((chan))])
                                     
         name1=str.split(str(inFile), '_')
         name2=str(name1[0]) + '_MEEGArtReject_' + str(par)
@@ -41,11 +45,11 @@ def countBadChan(inFile, par):
         name3=str(name1[0]) + '_MEEGArtReject-BadChan_' + str(par)
         outFile2=str(name3)
         myFile3 = open(outFile2, "w")
-        for i in range(0, len(badchans), 2):
+        for row in badchans:
             myFile3.write("\n")
-            myFile3.write(str(badchans[i]))
+            myFile3.write(row[0])
             myFile3.write("\t")
-            myFile3.write(str(badchans[i+1]))
+            myFile3.write(str(row[1]))
             myFile3.write("\n")
         myFile3.close()
 
