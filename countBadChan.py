@@ -48,4 +48,11 @@ def countBadChan(inFile, par):
         for row in badchans:
             myFile3.write("\n")
             myFile3.write(row[0])
-            myFil
+            myFile3.write("\t")
+            myFile3.write(str(row[1]))
+            myFile3.write("\n")
+        myFile3.close()
+
+if __name__ == "__main__":
+   
+   countBadChan(sys.argv[1], sys.argv[2])
