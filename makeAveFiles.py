@@ -28,6 +28,7 @@ def makeAveFiles(subjID,projType):
   	if subjID == "ya15":
 		eegRej = "80e-6"
 		
+		
 	if subjID == "ya26":
 		eegRej = "90e-6"
 	
