@@ -18,6 +18,24 @@ def fixTriggers(subjID):
     if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
         runDict['AXCPT']=''
         
+        
+    #########################
+    ##FIX RANDOM YA19 ERROR
+    ##This is only case where original .eve files gets changed, because somehow incorrect trigger got sent on a single trial (how could this happen? spooky)
+    inFile= 'eve/ya19_BaleenLPRun2.eve'
+    outFile = 'eve/ya19_BaleenLPRun2.eve'
+    if os.path.exists(inFile):
+    	data = readInput.readTable(inFile)
+    	for row in data:
+    		trigger = row[3]
+    		time = row[1]
+    		if (time == '162.257' and trigger == '2'):
+    			print row
+    			row[3] = 14
+    			print row
+    	writeOutput.writeTable(outFile,data)		
+
+        
     #########################
     ##FIX TIMING IN ALL SCRIPTS###
     
