@@ -33,12 +33,12 @@ subjects = readInput.readList(subjFile)
 print subjects
 
 
-#time_interval = (args.t1,args.t2)  #If you set a real time_interval, you will average across this and do spatial clusters
-#dec = None
+time_interval = (args.t1,args.t2)  #If you set a real time_interval, you will average across this and do spatial clusters
+dec = None
 
 
-time_interval = None  #If you set time_interval to None, it will do spatiotemporal clusters
-dec = 10  # this sets the temporal decimation factor. e.g. if you sampled 600Hz and set this to 3, you will downsample the test to every 5 ms
+#time_interval = None  #If you set time_interval to None, it will do spatiotemporal clusters
+#dec = 10  # this sets the temporal decimation factor. e.g. if you sampled 600Hz and set this to 3, you will downsample the test to every 5 ms
 
 
 thresholds = [args.threshold]  #This sets the threshold for the first stage of the test. You have the option of including more than one threshold to see what happens when it changes
@@ -53,8 +53,8 @@ def stat_fun(X):
 stat_name = 'ttest'
 
 
-#n_permutations = 1000
-n_permutations = 100 #This sets the number of permutations to run
+n_permutations = 1000
+#n_permutations = 100 #This sets the number of permutations to run
 
 ###############################################################################
 # Process
