@@ -4,33 +4,24 @@ import readInput
 
 def countBadChan(inFile, par):
         
-        trialCount=rtrialCount = 0
-        lineTemp=[]
-        rlineTemp=[]
-        x=0
+        trialCount= 0
+        rtrialCount = 0
         chans=[]
         badchans=[] #initialise separately
         items=[]
-        temp = 1
         dataTable = []
         
         dataTable = readInput.readTable(inFile)
-#         myFile = open(inFile, "r")
-#         while temp:
-#             temp = myFile.readline()
-#             temp = temp.strip('] ')
-#             temp = temp.split()
-#             if temp:
-#                 dataTable.append(temp)
-#         myFile.close()
         trialCount=len(dataTable)
         
-        for i in range(0, trialCount):
-            lineTemp = dataTable[i]
-            if len(lineTemp) > 10:
-                    chans.append(lineTemp[len(lineTemp) - 8]) #append the last but 8th item in the list-lineTemp to chans
-                    rtrialCount+=1
-        items=list(set(chans)) #finds the items in a list(first occurances)
+        # read through the output logfile from the MNE averaging and look for longer lines indicating rejection
+        # lines that have more than 9 columns are epochs that were rejected
+        # if you count over 8 from the right, you will get the channel number that caused the rejection
+       	for row in dataTable:
+             if len(row) > 10:
+                     chans.append(row[len(row) - 8]) #append the last but 8th item in the list-lineTemp to chans
+                     rtrialCount+=1
+    	items=list(set(chans)) #finds the items in a list(first occurances)
         
         for i in range(0, len(items)):
             badchans.append(items[i])
