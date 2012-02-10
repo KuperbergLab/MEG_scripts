@@ -8,6 +8,7 @@
 
 import os
 import mne
+from mne import fiff
 
 
 def clean_ecg_eog(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
@@ -27,13 +28,13 @@ def clean_ecg_eog(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
         Path where all the files are.
     """
     # Reading fif File
-    raw_in = mne.fiff.Raw(in_fif_fname)
+    raw_in = fiff.Raw(in_fif_fname)
 
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
         prefix = in_fif_fname[:-4]
-
+	print in_fif_fname
     if out_fif_fname is None:
         out_fif_fname = prefix + '_clean_ecg_eog_raw.fif'
     if ecg_proj_fname is None:
@@ -47,7 +48,8 @@ def clean_ecg_eog(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
 
     print 'Implementing ECG and EOG artifact rejection on data'
 
-    ecg_events = mne.artifacts.find_ecg_events(raw_in)
+    ecg_events, _, _ = mne.artifacts.find_ecg_events(raw_in)
+    print ecg_event_fname
     print "Writing ECG events in %s" % ecg_event_fname
     mne.write_events(ecg_event_fname, ecg_events)
 
