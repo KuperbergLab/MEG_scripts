@@ -19,7 +19,7 @@ def makeAveFiles(subjID,projType):
  	if subjID == "ya31" or subjID == 'sc9':
  		magRej = "4000e-15"   ##note exception for ya31 and sc9, whose magnetometers were baseline noisy
  	
- 	if subjID == "ya21" or subjID == "ya18" or subjID == "ya27" or subjID == "ya31":
+ 	if subjID == "ya5" or subjID == "ya21" or subjID == "ya18" or subjID == "ya27" or subjID == "ya31":
  		eegRej = "150e-6"   ##because of alpha for ya21
  	
  	if subjID == "ya23":
