@@ -42,16 +42,7 @@ if ($1 == 'ya') then
     end
 endif
  
-cd ../../..
 
-echo 'Clearing existing results from MEG/results folder'
-cd /autofs/cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/megeeg_rejection
-   rm $1_MEEGArtRejSummary_ATLLoc
-   rm $1_MEEGArtRejSummary_BaleenHP
-   rm $1_MEEGArtRejSummary_BaleenLP
-   rm $1_MEEGArtRejSummary_MaskedMM
-   rm $1_MEEGArtRejSummary_AXCPT
-cd ../../..
 echo 'ComputeEvents'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ( 'AXCPT' 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' )

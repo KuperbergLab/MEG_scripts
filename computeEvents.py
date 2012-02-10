@@ -6,6 +6,9 @@ from operator import itemgetter, attrgetter
 
 def computeEvents(subjType, par):
      data_path = '/cluster/kuperberg/SemPrMM/MEG/'
+     outFile = data_path + 'results/artifact_rejection/megeeg_rejection/' + str(subjType) + '_MEEGArtRejSummary_' + str(par)
+     myFile2 = open(outFile, "w") 
+
         
      if (subjType == 'ac'):
          subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
@@ -55,8 +58,7 @@ def computeEvents(subjType, par):
 
 
 # To Display the total number of rejected trials, and percentage         
-          outFile = data_path + 'results/artifact_rejection/megeeg_rejection/' + str(subjType) + '_MEEGArtRejSummary_' + str(par)
-          myFile2 = open(outFile, "w") 
+          myFile2 = open(outFile, "a") 
           myFile2.write("\n")
           myFile2.write(subjID)
           myFile2.write("\n")
