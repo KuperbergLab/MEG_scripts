@@ -36,7 +36,7 @@ if __name__ == '__main__':
     if (subjType == 'sc'):
 		subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
     if (subjType == 'ya'):
-		subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
+		subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.possible.txt'
     subject_list = readInput.readList(subject_filename)
     subjects = []
     for row in subject_list:
