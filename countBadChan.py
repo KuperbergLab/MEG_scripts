@@ -6,7 +6,7 @@ def countBadChan(inFile, par):
         
         trialCount= 0
         rtrialCount = 0
-        chans=[]
+        badTrials=[]
         badchans=[] #initialise separately
         items=[]
         dataTable = []
@@ -19,14 +19,15 @@ def countBadChan(inFile, par):
         # if you count over 8 from the right, you will get the channel number that caused the rejection
        	for row in dataTable:
              if len(row) > 10:
-                     chans.append(row[len(row) - 8]) #append the last but 8th item in the list-lineTemp to chans
+                     badTrials.append(row[len(row) - 8]) #append the last but 8th item in the list-lineTemp to chans
                      rtrialCount+=1
-    	items=list(set(chans)) #finds the items in a list(first occurances)
-        
-        for i in range(0, len(items)):
-            badchans.append(items[i])
-            badchans.append(chans.count(items[i]))
-                            
+    	badChanList=list(set(badTrials)) #finds the items in a list(first occurances)
+    	
+    	##Create critical data table of bad channels and the number of trials they caused rejection
+    	for chan in badChanList:
+    		badchans.append(chan)
+    		badchans.append(badTrials.count(chan))
+                                    
         name1=str.split(str(inFile), '_')
         name2=str(name1[0]) + '_MEEGArtReject_' + str(par)
         outFile1=str(name2)
