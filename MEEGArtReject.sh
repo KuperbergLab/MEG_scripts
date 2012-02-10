@@ -3,23 +3,6 @@
 #usage: subjType: sc ac or ya (in Lower case) 
 #Computes the MEG and EEG rejection for all paradigms - 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' 'AXCPT'- (only in the case of ya)
 
-echo 'Clearing existing results from MEG/data/subject/ave_projon/logs folders'
-cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
-   foreach i ( $1* )
-     
-     cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-     rm {$i}_MEEGArtReject_ATLLoc
-     rm {$i}_MEEGArtReject_BaleenHP
-     rm {$i}_MEEGArtReject_BaleenLP
-     rm {$i}_MEEGArtReject_MaskedMM
-     rm {$i}_MEEGArtReject_AXCPT
-     rm {$i}_MEEGArtReject-BadChan_ATLLoc
-     rm {$i}_MEEGArtReject-BadChan_BaleenHP
-     rm {$i}_MEEGArtReject-BadChan_BaleenLP
-     rm {$i}_MEEGArtReject-BadChan_MaskedMM
-     rm {$i}_MEEGArtReject-BadChan_AXCPT
-   end 
-   cd ../../..
 
 echo 'CountEvents-CountBadChannels'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
