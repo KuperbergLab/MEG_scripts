@@ -17,6 +17,7 @@ def fixTriggers(subjID):
         
     if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
         runDict['AXCPT']=''
+    
         
         
     #########################
@@ -34,9 +35,9 @@ def fixTriggers(subjID):
     			row[3] = 14
     			print row
     	writeOutput.writeTable(outFile,data)		
+
  
-#########################
-    ##FIX RANDOM YA22 ERROR
+	###########################FIX RANDOM YA22 ERROR
     ##This is only case where original .eve files gets changed, because somehow incorrect trigger got sent on a single trial (how could this happen? spooky)
     inFile= 'eve/ya22_BaleenHPRun3.eve'
     outFile = 'eve/ya22_BaleenHPRun3.eve'
@@ -66,7 +67,20 @@ def fixTriggers(subjID):
     			print row
     			row[3] = 600
     			print row
-    	writeOutput.writeTable(outFile,data)
+    		writeOutput.writeTable(outFile,data)
+    
+	##########################
+	##FIX UNKNOWN YA3 LPRUN3 ERROR
+	#Although no documentation to explain, vtsd logs and raw datafiles show run3 restarted after one minute (54 events), so responses to the stimuli that had already been shown should not be counted. 
+	
+    inFile = 'eve/ya3_BaleenLPRun3.eve'
+    outFile = 'eve/ya3_BaleenLPRun3.eve'
+    if os.path.exists(inFile):
+    	data = readInput.readTable(inFile)
+    	for i in range(1,54):
+    		row = data[i]
+    		row[3] = int(row[3])+900
+    	writeOutput.writeTable(outFile,data)	
     	
     #########################
     ##FIX TIMING IN ALL SCRIPTS###
