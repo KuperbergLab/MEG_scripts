@@ -11,9 +11,8 @@ import mne
 from mne import fiff
 
 
-def clean_eog_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
-                  eog_proj_fname=None, ecg_event_fname=None,
-                  eog_event_fname=None, in_path='.'):
+def clean_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
+                  ecg_event_fname=None, in_path='.'):
     """Clean ECG from raw fif file
 
     Parameters
@@ -36,17 +35,13 @@ def clean_eog_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
         prefix = in_fif_fname[:-4]
 	print in_fif_fname
     if out_fif_fname is None:
-        out_fif_fname = prefix + '_clean_ecg_eog_raw.fif'
+        out_fif_fname = prefix + '_clean_ecg_raw.fif'
     if ecg_proj_fname is None:
         ecg_proj_fname = prefix + '_ecg_proj.fif'
-    if eog_proj_fname is None:
-        eog_proj_fname = prefix + '_eog_proj.fif'
     if ecg_event_fname is None:
         ecg_event_fname = prefix + '_ecg-eve.fif'
-    if eog_event_fname is None:
-        eog_event_fname = prefix + '_eog-eve.fif'
 
-    print 'Implementing ECG and EOG artifact rejection on data'
+    print 'Implementing ECG artifact rejection on data'
 
     ecg_events, _, _ = mne.artifacts.find_ecg_events(raw_in)
     print ecg_event_fname
@@ -61,38 +56,19 @@ def clean_eog_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
                '--projnmag 2 --projngrad 1 --projneeg 1 --projevent 999 --highpass 5 '
                '--lowpass 35 --projmagrej 4000  --projgradrej 3000 --projeegrej 500'
                % (in_path, in_fif_fname, ecg_event_fname))
-    st = os.system(command)
 
+    st = os.system(command)
     if st != 0:
         print "Error while running : %s" % command
 
-    eog_events = mne.artifacts.find_eog_events(raw_in)
-    print "Writing EOG events in %s" % eog_event_fname
-    mne.write_events(eog_event_fname, eog_events)
-
-    print 'Computing EOG projector'
-
-    command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-               '--projtmin -0.15 --projtmax 0.15 --saveprojtag _eog_proj '
-               '--projnmag 2 --projngrad 2 --projneeg 2 --projevent 998 --lowpass 35 '
-               '--projmagrej 4000  --projgradrej 3000 --projeegrej 500' % (in_path,
-               in_fif_fname, eog_event_fname))
-
-
-
-    print 'Running : %s' % command
-
-    st = os.system(command)
-    if st != 0:
-        raise ValueError('Problem while running : %s' % command)
 
     if out_fif_fname is not None:
-        # Applying the ECG EOG projector
-        print 'Applying ECG EOG projector'
+        # Applying the ECG projector
+        print 'Applying ECG projector'
 
-        command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s '
+        command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
                    '--projoff --save %s --filteroff'
-                   % (in_path, in_fif_fname, ecg_proj_fname, eog_proj_fname, in_fif_fname,
+                   % (in_path, in_fif_fname, ecg_proj_fname, in_fif_fname,
                    out_fif_fname))
 
 
@@ -103,7 +79,7 @@ def clean_eog_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
         if st != 0:
             raise ValueError('Pb while running : %s' % command)
 
-        print ('Done removing ECG and EOG artifacts. '
+        print ('Done removing ECG artifacts. '
                'IMPORTANT : Please eye-ball the data !!')
     else:
         print 'Projection not applied to raw data.'
@@ -125,4 +101,4 @@ if __name__ == '__main__':
     raw_in = options.raw_in
     raw_out = options.raw_out
 
-    clean_eog_ecg(raw_in, raw_out)
+    clean_ecg(raw_in, raw_out)
