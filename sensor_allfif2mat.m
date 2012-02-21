@@ -20,8 +20,10 @@ subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt
 for x = 1:2
     if x == 1
         projType = 'projoff';
-    else
+    elseif x == 2
         projType = 'projon';
+    elseif x == 3 
+        projType = 'MaxFilter';
     end
  
     count = 0;
@@ -34,6 +36,8 @@ for x = 1:2
             inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projoff/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
         elseif x == 2
             inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
+        elseif x == 3
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_MaxFilter/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
         end
         
         tempSubjData = fiff_read_evoked_all(inFile);

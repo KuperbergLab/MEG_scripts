@@ -20,11 +20,17 @@ for x = 1:2
         dataType = 'eeg';
         numChan = 74;
         chanV = 316:389;
-    else
+    elseif x == 2
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
         dataType = 'meg';
         numChan = 389;
         chanV = 1:389;
+    elseif x == 3
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_MaxFilter.mat'));
+        dataType = 'megMF';
+        numChan = 389;
+        chanV = 1:389;
+        
     end
     
 
