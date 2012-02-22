@@ -151,7 +151,8 @@ def fixTriggers(subjID):
         inFile = 'eve/'+subjID+'_BaleenLP'+x+'Mod.eve'
         outFile = 'eve/'+subjID+'_BaleenLP'+x+'Mod.eve'
         if os.path.exists(inFile):
-            data = readInput.readTable(inFile)      
+            data = readInput.readTable(inFile)
+            print inFile
             rowCount = 0
             for row in data:
                 trigger = row[3]
@@ -173,9 +174,22 @@ def fixTriggers(subjID):
                             break
                     
                 rowCount +=1
-    
-            writeOutput.writeTable(outFile, data)
+                
+            ########################
+            ##Change trigger for incorrect button presses ('go' responses)
+            rowCount = 0
+            for row in data:
+                trigger = row[3]
+                if (trigger == '1' or trigger == '2' or trigger == '4'):
+                	nextRow = data[rowCount+1]
+                	nextTrigger = nextRow[3]
+                	#print row, nextRow
+                	if nextTrigger == '16' or nextTrigger == '32' or nextTrigger == '64' or nextTrigger == '128':
+                		print "catch: ", row, nextRow
+                		row[3] = '500' + row[3]
+                rowCount +=1
 
+            writeOutput.writeTable(outFile, data)
 
     ###############################################
     #BALEENHP
@@ -185,7 +199,7 @@ def fixTriggers(subjID):
         outFile = 'eve/'+subjID+'_BaleenHP'+x+'Mod.eve'
         if os.path.exists(inFile):
             data = readInput.readTable(inFile)
-            
+            print inFile
             rowCount = 0
             flag2 = 0
             for row in data:
@@ -213,9 +227,26 @@ def fixTriggers(subjID):
                         flag2 = 0
                     elif flag2 == 0:
                         flag2 = 1   
-                    
-                rowCount +=1
+                                            
+                rowCount +=1          
             
+            ########################
+            ##Change trigger for incorrect button presses ('go' responses)
+            rowCount = 0
+            for row in data:
+                trigger = row[3]
+
+                if (trigger == '6' or trigger == '7' or trigger == '8' or trigger == '9' or trigger == '18'):
+                	nextRow = data[rowCount+1]
+                	nextTrigger = nextRow[3]
+                	#print row, nextRow
+                	if nextTrigger == '16' or nextTrigger == '32' or nextTrigger == '64' or nextTrigger == '128':
+                		print "catch: ", row, nextRow
+                		row[3] = '500' + row[3]
+                rowCount +=1
+                		
+                            
+            ##########################################write it all out    
             writeOutput.writeTable(outFile, data)
 
 
