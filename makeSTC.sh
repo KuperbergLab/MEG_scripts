@@ -3,7 +3,7 @@
 #usage makeSTC.sh subjID logfile
 #you need to change the exp variable and condList below to run STCs for your experiment of interest
 
-set exp = "BaleenLP_All"
+set exp = "MaskedMM_All"
 echo $exp
 
 set condList = ( 1 2 3 4 )
