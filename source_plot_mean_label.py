@@ -18,7 +18,7 @@ import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-100, 550]
+xmin,xmax = [-100, 650]
 ymin,ymax = [0, 4]
 lWidth = 4
 
@@ -26,8 +26,8 @@ color1 = 'k'
 color2 = 'r'
 lineStyle1 = 'solid'
 lineStyle2 = 'solid'
-lineLabel1 = 'LP left'
-lineLabel2 = 'LP right'
+lineLabel1 = 'LP related'
+lineLabel2 = 'LP unrelated'
 
 
 ####################################
@@ -94,6 +94,11 @@ pl.plot(times1,values1.T*0,color='k')
 pl.axvline(x=0,ymin=0,ymax=1,color='k')
 pl.ylim([ymin,ymax])
 pl.xlim([xmin,xmax])
+pl.box('off') # turn off the box frame 
+pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2) #draw a thicker horizontal line at 0			
+pl.axvline(x=0,ymin=0,ymax=1,color='k',linewidth=2) #draw a vertical line at 0 that goes 1/8 of the range in each direction from the middle (e.g., if the range is -8:8, =16, 1/8 of 16=2, so -2:2).
+pl.tick_params(axis='both',right='off',top='off') #turn off all the tick marks
+
 pl.xlabel('time (ms)')
 pl.ylabel('Source amplitude')
 pl.axvspan(300, 500, color='k', alpha=0.1)
