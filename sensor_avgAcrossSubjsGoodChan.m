@@ -1,4 +1,4 @@
-function sensor_avgAcrossSubjsGoodChan(exp,subjGroup,listPrefix)
+function sensor_avgAcrossSubjsGoodChan(exp,listPrefix)
 
 %%Ellen Lau%%
 %%This outputs grand-average evoked files for viewing in
