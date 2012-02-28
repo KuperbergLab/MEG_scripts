@@ -45,6 +45,7 @@ args=parser.parse_args()
 print args.protocol1
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
+figure_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/roi_temporal_clustering_figures/'
 
 subjFile = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/' + args.prefix + '.txt'
 subjects = readInput.readList(subjFile)
@@ -85,7 +86,7 @@ times = times[sample1:]
 
 ###############################################################################
 # Compute statistic
-threshold = 2.08 #2.8
+threshold = 2.07 #2.8
 print threshold
 T_obs, clusters, cluster_p_values, H0 = \
                  permutation_cluster_test([condition1, condition2],
@@ -108,8 +109,7 @@ lineStyle2 = 'solid'
 lineLabel1 = 'LP left'
 lineLabel2 = 'LP right'
 
-font = {'family' : 'normal',
-        'weight' : 'bold',
+font = {'weight' : 'bold',
         'size'   : 16}
 
 pl.rc('font', **font)
@@ -146,5 +146,5 @@ pl.xlabel("time (ms)")
 # pl.ylabel("f-values")
 pl.show()
 
-outFile = 'scratch/'+args.prefix + '-' + args.label+args.hem+'-'+args.protocol1+args.cond1+'-'+args.protocol2+args.cond2+'.png'
+outFile = figure_path+args.prefix + '-' + args.label+args.hem+'-'+args.protocol1+args.cond1+'-'+args.protocol2+args.cond2+'.png'
 pl.savefig(outFile,dpi = (200))
