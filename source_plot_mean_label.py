@@ -37,7 +37,6 @@ parser.add_argument('prefix',type=str)
 parser.add_argument('protocol1',type=str)
 parser.add_argument('protocol2',type=str)
 parser.add_argument('label1',type=str)
-parser.add_argument('label2',type=str)
 parser.add_argument('hem1',type=str)
 parser.add_argument('hem2',type=str)
 parser.add_argument('set1',type=str)
@@ -60,9 +59,8 @@ else:
 
 
 label1 = args.label1+'-'+args.hem1
-label2 = args.label2+'-'+args.hem2
+
 label1_fname = data_path + '/label/%s.label' % label1
-label2_fname = data_path + '/label/%s.label' % label2
 
 
 values1, times1, vertices1 = mne.label_time_courses(label1_fname, stc1_fname)
@@ -70,16 +68,16 @@ values1 = np.mean(values1,0)
 #print values1.shape
 print "Number of vertices : %d" % len(vertices1)
 
-values2, times2, vertices2 = mne.label_time_courses(label2_fname, stc2_fname)
+values2, times2, vertices2 = mne.label_time_courses(label1_fname, stc2_fname)
 values2 = np.mean(values2,0)
 print "Number of vertices : %d" % len(vertices1)
 
 times1=times1*1000
 times2=times2*1000
 
+#        'weight' : 'bold',
 font = {'family' : 'normal',
-        'weight' : 'bold',
-        'size'   : 16}
+        'size'   : 30}
 
 pl.rc('font', **font)
 
@@ -98,15 +96,17 @@ pl.box('off') # turn off the box frame
 pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2) #draw a thicker horizontal line at 0			
 pl.axvline(x=0,ymin=0,ymax=1,color='k',linewidth=2) #draw a vertical line at 0 that goes 1/8 of the range in each direction from the middle (e.g., if the range is -8:8, =16, 1/8 of 16=2, so -2:2).
 pl.tick_params(axis='both',right='off',top='off') #turn off all the tick marks
+pl.yticks(np.array([0.,2., 4.]))
+pl.xticks(np.array([0, 200, 400, 600]))
 
-pl.xlabel('time (ms)')
-pl.ylabel('Source amplitude')
+#pl.xlabel('time (ms)')
+#pl.ylabel('Source amplitude')
 pl.axvspan(300, 500, color='k', alpha=0.1)
 #pl.title('Activations in Label : %s' % label1)
 #pl.ticklabel_format(style='plain',axis='x')
 #pl.rcParams.update({'font.size': 12})
 pl.show()
-outFile = data_path + '/roi_plots/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.label2+'-'+args.hem2+'-'+args.protocol2+'-'+args.set1+'-'+args.set2 + '-'+ args.single_diff + '-' +args.model+'.png'
+outFile = data_path + '/roi_plots/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.hem2+'-'+args.protocol2+'-'+args.set1+'-'+args.set2 + '-'+ args.single_diff + '-' +args.model+'.png'
 pl.savefig(outFile)
 
 
