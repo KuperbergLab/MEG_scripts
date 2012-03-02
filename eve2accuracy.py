@@ -120,7 +120,7 @@ def get_subjects(study, subjType):
         if (subjType == 'sc'):
                 subject_filename = path + 'scripts/function_inputs/sc.meg.all.txt'
         if (subjType == 'ya'):
-                subject_filename = path + 'scripts/function_inputs/ya.meg.all.txt'
+                subject_filename = path + 'scripts/function_inputs/ya.n24.bal.txt'
         subject_list = readInput.readList(subject_filename)
         all_subs = []
         for row in subject_list:
@@ -161,7 +161,7 @@ if __name__ == '__main__':
                                                 avg_rt = sum(v['rts']) / float(len(v['rts']))
                                         else:
                                                 avg_rt = 0
-                                        f.write(sub+':\t\t')
+                                        f.write(sub+'\t\t')
                                         f.write(codes[study][key][0]+'\t\t')
                                         f.write("%1.3f\t\t%1.3f\t\n" % (round(float(v['c'])/v['t'],3),round(avg_rt,3)))
 ##                                f.write('ALL  TASKS\n')
