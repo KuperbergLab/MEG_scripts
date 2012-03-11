@@ -68,6 +68,22 @@ def fixTriggers(subjID):
     			row[3] = 600
     			print row
     		writeOutput.writeTable(outFile,data)
+    		
+    #########################
+    ##FIX RANDOM YA16 MASKEDMM ERROR
+    ##This is only case where original .eve files gets changed, because somehow incorrect trigger got sent on a single trial (how could this happen? spooky)
+    inFile= 'eve/ya16_MaskedMMRun1.eve'
+    outFile = 'eve/ya16_MaskedMMRun1.eve'
+    if os.path.exists(inFile):
+    	data = readInput.readTable(inFile)
+    	for row in data:
+    		trigger = row[3]
+    		time = row[1]
+    		if (time == '232.349' and trigger == '2'):
+    			print row
+    			row[3] = 3
+    			print row
+    	writeOutput.writeTable(outFile,data)	
     
 	##########################
 	##FIX UNKNOWN YA3 LPRUN3 ERROR
