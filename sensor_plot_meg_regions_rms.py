@@ -5,6 +5,9 @@ import numpy as np
 import argparse
 import readInput
 
+##This script plots the RMS of the *grand-average*. That means the RMS is acting to overcome 
+#the negative/positive effect problem at a g-a sensor-level, but if particular subjects have
+#opposite gradiometer fields at the same sensor, the RMS in this script does not overcome that
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('prefix',type=str)
@@ -22,7 +25,7 @@ xmin,xmax = [-100,600]
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
-results_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/MEG_rms/'
+results_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/MEG_rms/rms_ga/'
 channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/grad_'
 channelGroups = ['frontal','temporal','parietal','occipital']
 
@@ -72,7 +75,7 @@ for group in channelGroups:
 			pl.xticks(np.array([0, 200, 400, 600]))
 
 		#pl.title(hem + group)
-		pl.show()
+		#pl.show()
 
 	outFile = results_path + args.prefix + '-' + str(args.set1)+'-'+str(args.set2)+'-'+group +'.png'
 	pl.savefig(outFile)
