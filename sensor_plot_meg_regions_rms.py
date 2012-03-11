@@ -92,9 +92,7 @@ for group in channelGroups:
 			pl.tick_params(axis='both',right='off',top='off') #turn off all the tick marks
 			pl.yticks(np.array([0.,4., 8., 12., 16., 20.]))
 			pl.xticks(np.array([0, 200, 400, 600]))
-# 
-# 		#pl.title(hem + group)
-	#pl.show()
+	pl.show()
 
 	outFile = results_path + args.prefix + '-' + args.protocol + '-' + str(args.set1)+'-'+str(args.set2)+'-'+group +'.png'
 	pl.savefig(outFile)
