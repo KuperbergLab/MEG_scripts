@@ -18,6 +18,8 @@ def fixTriggers(subjID):
     if (subjID == 'ya1' or subjID == 'ya2' or subjID == 'ya4' or subjID == 'ya7' or subjID == 'ya8' or subjID == 'ya16'):
         runDict['AXCPT']=''
     
+    print '----subject specific fixes'
+    
         
         
     #########################
@@ -97,6 +99,29 @@ def fixTriggers(subjID):
     		row = data[i]
     		row[3] = int(row[3])+900
     	writeOutput.writeTable(outFile,data)	
+    	
+    	
+	##########################
+	##FIX YA24 MASKEDMMRUN1 LOSS OF DISPLAY ERROR
+	#Scan log notes that MaskedMMRun1 was ended early because display got disconnected. This probably happened several seconds before presentation was ended. The last moment at which the subject responded was 316.707, so to be conservative we are removing triggers in the 16 subsequent seconds, in which the subject did not respond to several probe trials
+	
+    inFile= 'eve/ya24_MaskedMMRun1.eve'
+    outFile = 'eve/ya24_MaskedMMRun1.eve'
+    if os.path.exists(inFile):
+    	data = readInput.readTable(inFile)
+    	for row in data:
+    		trigger = row[3]
+    		time = row[1]
+    		if (float(time) > 316.707):
+    			row[3] = int(row[3])+900
+    			print row
+    	writeOutput.writeTable(outFile,data)	
+	
+    	
+    	
+    	
+    	
+    	
     	
     #########################
     ##FIX TIMING IN ALL SCRIPTS###
