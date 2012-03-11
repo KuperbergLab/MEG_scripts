@@ -100,7 +100,7 @@ def fixTriggers(subjID):
     	
     #########################
     ##FIX TIMING IN ALL SCRIPTS###
-    
+    print '----fix Timing'
     for exp in expList:
         for run in runDict[exp]:
                 inFile = 'eve/' + subjID + '_'+exp+run+'.eve'
@@ -135,14 +135,19 @@ def fixTriggers(subjID):
                     extraRow = [str(int(finalRow[0])+1),str(round(float(finalRow[1])+1,3)),'0','99']
                     data.append(extraRow)
                     writeOutput.writeTable(outFile,data)
-                
+        
+        
+    print '-----fix codes'    
+    
+        
+        
     ###############################
     ###CHANGE CODES IN ATLLOC
     inFile = 'eve/' + subjID + '_ATLLocMod.eve'
     outFile = 'eve/' + subjID + '_ATLLocMod.eve'
     if os.path.exists(inFile):
         data = readInput.readTable(inFile)
-    
+        print inFile
         wordCount = 0
         flag = ''
         
@@ -158,6 +163,31 @@ def fixTriggers(subjID):
                 row[3] = trigger+flag
         
         writeOutput.writeTable(outFile,data)
+        
+    ###############################################
+    #MASKEDMM
+    
+    for x in runDict['MaskedMM']:
+    	inFile = 'eve/'+subjID+'_MaskedMM'+x+'Mod.eve'
+    	outFile = 'eve/'+subjID+'_MaskedMM'+x+'Mod.eve'
+    	if os.path.exists(inFile):
+    		data = readInput.readTable(inFile)
+    		print inFile
+    		
+    		########################
+    		##Change trigger for incorrect button presses ('go' responses)
+    		rowCount = 0
+    		for row in data:
+    			trigger = row[3]
+    			if (trigger == '1' or trigger == '2' or trigger == '3'):
+    				nextRow = data[rowCount+1]
+    				nextTrigger = nextRow[3]
+    				#print 'hello', trigger, row, nextRow
+    				if nextTrigger == '16' or nextTrigger == '32' or nextTrigger == '64' or nextTrigger == '128':
+    					print "false positive: ", row, nextRow
+    					row[3] = '500' + row[3]
+    			rowCount +=1
+
     
     
     ###############################################
@@ -201,7 +231,7 @@ def fixTriggers(subjID):
                 	nextTrigger = nextRow[3]
                 	#print row, nextRow
                 	if nextTrigger == '16' or nextTrigger == '32' or nextTrigger == '64' or nextTrigger == '128':
-                		print "catch: ", row, nextRow
+                		print "false positive: ", row, nextRow
                 		row[3] = '500' + row[3]
                 rowCount +=1
 
@@ -257,7 +287,7 @@ def fixTriggers(subjID):
                 	nextTrigger = nextRow[3]
                 	#print row, nextRow
                 	if nextTrigger == '16' or nextTrigger == '32' or nextTrigger == '64' or nextTrigger == '128':
-                		print "catch: ", row, nextRow
+                		print "false positive: ", row, nextRow
                 		row[3] = '500' + row[3]
                 rowCount +=1
                 		
