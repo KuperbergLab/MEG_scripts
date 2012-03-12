@@ -62,15 +62,15 @@ levels(erpData.quad$ant)<-c("A","P")
 
 #####Omnibus ANOVA######
 
-#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
-erpData.quad <- subset(erpData.quad, cond == 1 | cond == 2 | cond == 3)
+#COMPUTE ANOVA FOR 2 TARGET CONDITIONS
+erpData.quad <- subset(erpData.quad, cond == 1 | cond == 3)
 
 
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(cond,hem,ant),type=3,detailed=TRUE)
 
 #print results to file
-print("All")
+print("All c1 vs c3")
 print(eztest)
 
 
@@ -82,7 +82,7 @@ erpData.quad.ant <- subset(erpData.quad, ant == 'A')
 eztest <- ezANOVA(data=erpData.quad.ant,dv = .(amp),wid=.(subj),within=.(cond,hem),type=3,detailed=TRUE)
 
 #print results to file
-print("Ant")
+print("Ant c1 vs c3")
 print(eztest)
 
 #####Within Posterior ANOVA####
@@ -93,7 +93,7 @@ erpData.quad.post <- subset(erpData.quad, ant == 'P')
 eztest <- ezANOVA(data=erpData.quad.post,dv = .(amp),wid=.(subj),within=.(cond,hem),type=3,detailed=TRUE)
 
 #print results to file
-print("Post")
+print("Post c1 vs c3")
 print(eztest)
 
 #####Within Left ANOVA####
@@ -104,7 +104,7 @@ erpData.quad.left <- subset(erpData.quad, hem == 'L')
 eztest <- ezANOVA(data=erpData.quad.left,dv = .(amp),wid=.(subj),within=.(cond,ant),type=3,detailed=TRUE)
 
 #print results to file
-print("Left")
+print("Left c1 vs c3")
 print(eztest)
 
 #####Within Right ANOVA####
@@ -115,7 +115,7 @@ erpData.quad.right <- subset(erpData.quad, hem == 'R')
 eztest <- ezANOVA(data=erpData.quad.right,dv = .(amp),wid=.(subj),within=.(cond,ant),type=3,detailed=TRUE)
 
 #print results to file
-print("Right")
+print("Right c1 vs c3")
 print(eztest)
 
 
@@ -127,7 +127,7 @@ erpData.quad.left.ant <- subset(erpData.quad, ant == 'A' & hem == 'L')
 eztest <- ezANOVA(data=erpData.quad.left.ant,dv = .(amp),wid=.(subj),within=.(cond),type=3,detailed=TRUE)
 
 #print results to file
-print("Left Ant")
+print("Left Ant c1 vs c3")
 print(eztest)
 
 #####Within Left, Within Posterior ANOVA####
@@ -138,7 +138,7 @@ erpData.quad.left.post <- subset(erpData.quad, ant == 'P' & hem == 'L')
 eztest <- ezANOVA(data=erpData.quad.left.post,dv = .(amp),wid=.(subj),within=.(cond),type=3,detailed=TRUE)
 
 #print results to file
-print("Left Post")
+print("Left Post c1 vs c3")
 print(eztest)
 
 #####Within Right, Within Anterior ANOVA####
@@ -149,7 +149,7 @@ erpData.quad.right.ant <- subset(erpData.quad, ant == 'A' & hem == 'R')
 eztest <- ezANOVA(data=erpData.quad.right.ant,dv = .(amp),wid=.(subj),within=.(cond),type=3,detailed=TRUE)
 
 #print results to file
-print("Right Ant")
+print("Right Ant c1 vs c3")
 print(eztest)
 
 #####Within Right, Within Posterior ANOVA####
@@ -160,14 +160,14 @@ erpData.quad.right.post <- subset(erpData.quad, ant == 'P' & hem == 'R')
 eztest <- ezANOVA(data=erpData.quad.right.post,dv = .(amp),wid=.(subj),within=.(cond),type=3,detailed=TRUE)
 
 #print results to file
-print("Right Post")
+print("Right Post c1 vs c3")
 print(eztest)
 
 
 ########
 #Print the marginal means
 erpData.quad.aov <- aov(amp ~ cond * hem * ant + Error(subj/(cond * hem * ant)),data=erpData.quad)
-print("Marginal Means")
+print("Marginal Means c1 vs c3")
 print(model.tables(erpData.quad.aov,"means"),digits=5)
 sink()
 
@@ -193,19 +193,19 @@ levels(erpData.midV$ant)<-c("A","A","A","A","A","P","P","P","P","P")
 
 #####Omnibus ANOVA######
 
-#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
-erpData.midV <- subset(erpData.midV, cond == 1 | cond == 2 | cond == 3)
+#COMPUTE OVERALL ANOVA FOR 2 TARGET CONDITIONS
+erpData.midV <- subset(erpData.midV, cond == 1 | cond == 3)
 
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.midV,dv = .(amp),wid=.(subj),within=.(cond,ant),type=3,detailed=TRUE)
 
 #print results to file
-print("midV")
+print("midV c1 vs c3")
 print(eztest)
 
 #Print the marginal means
 erpData.midV.aov <- aov(amp ~ cond * ant + Error(subj/(cond * ant)),data=erpData.midV)
-print("Marginal Means")
+print("Marginal Means c1 vs c3")
 print(model.tables(erpData.midV.aov,"means"),digits=5)
 
 ######HORV############################
@@ -217,19 +217,19 @@ levels(erpData.midH$hem)<-c("L","L","L","L","R","R","R","R")
 
 #####Omnibus ANOVA######
 
-#COMPUTE OVERALL ANOVA FOR 3 TARGET CONDITIONS
-erpData.midH <- subset(erpData.midH, cond == 1 | cond == 2 | cond == 3)
+#COMPUTE OVERALL ANOVA FOR 2 TARGET CONDITIONS
+erpData.midH <- subset(erpData.midH, cond == 1  | cond == 3)
 
 #compute the ANOVA
 eztest <- ezANOVA(data=erpData.midH,dv = .(amp),wid=.(subj),within=.(cond,hem),type=3,detailed=TRUE)
 
 #print results to file
-print("midH")
+print("midH c1 vs c3")
 print(eztest)
 
 #Print the marginal means
 erpData.midH.aov <- aov(amp ~ cond * hem + Error(subj/(cond * hem)),data=erpData.midH)
-print("Marginal Means")
+print("Marginal Means c1 vs c3")
 print(model.tables(erpData.midH.aov,"means"),digits=5)
 
 sink()
