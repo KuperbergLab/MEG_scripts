@@ -1,13 +1,13 @@
-behav_stats_meg_MaskedMM <-function(subjType){
+behav_stats_meg_MaskedMM <-function(subjType, listPrefix){
 
 ###This function outputs behavioral stats for the MEG session
 ###Currently focuses on the animal (go) trials only
 	
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/"
-fileName <- paste(filePath,'MEG_',subjType,'_MaskedMM_accuracy.df',sep="")
+fileName <- paste(filePath,'MEG_',listPrefix,'_MaskedMM_accuracy.df',sep="")
 load(fileName)
 
-outFile <- paste(filePath,'MEG_',subjType,'_MaskedMM_acc_stats.txt',sep="")
+outFile <- paste(filePath,'MEG_',listPrefix,'_MaskedMM_acc_stats.txt',sep="")
 sink(outFile)
 
 ##exclude subjects for whom there were errors in behavioral data recording
