@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#usage: python eve2accuracy.py sybjType ExpName
+#usage: python eve2accuracy.py sybjType ExpName listPrefix
 
 import os
 import sys
@@ -113,14 +113,10 @@ def parse_study(study,subjects):
 	return all_subjects
 
 	
-def get_subjects(study, subjType):
+def get_subjects(study, subjType, listPrefix):
 	path = os.path.join('/cluster/kuperberg/SemPrMM/','MEG/')
-        if (subjType == 'ac'):
-                subject_filename = path + 'scripts/function_inputs/ac.meg.all.txt'
-        if (subjType == 'sc'):
-                subject_filename = path + 'scripts/function_inputs/sc.meg.all.txt'
-        if (subjType == 'ya'):
-                subject_filename = path + 'scripts/function_inputs/ya.n24.bal.txt'
+        subject_filename = path + 'scripts/function_inputs/' + listPrefix + '.txt'
+
         subject_list = readInput.readList(subject_filename)
         all_subs = []
         for row in subject_list:
@@ -134,16 +130,17 @@ if __name__ == '__main__':
 
 	subjType = sys.argv[1]
 	study = sys.argv[2]
+        listPrefix = sys.argv[3]
 	if (study =='AXCPT'and subjType == 'ac'):
                 print "No data for AX in AC subject group"
         elif (study =='AXCPT' and subjType =='sc'):
                 print "No data for AX in SC subject group"
         else:
                 print study
-                subjects = sorted(get_subjects(study, subjType))
+                subjects = sorted(get_subjects(study, subjType, listPrefix))
                 print subjects
                 study_results = parse_study(study,subjects)
-                logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (subjType, study)
+                logf = '/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/MEG_%s_%s_accuracy.log' % (listPrefix, study)
                 with open(logf,'w') as f:
                         f.write('sub:\t\t')
                         good_keys = sorted([key for key in codes[study].keys()],lambda x,y:cmp(int(x),int(y)))
