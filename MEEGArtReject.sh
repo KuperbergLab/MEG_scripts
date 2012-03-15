@@ -9,23 +9,27 @@ cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
    echo $par
    foreach i ( $1* )
-      echo $i 
-      cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-      if ($par == 'ATLLoc') then
-          if ( -e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log) then
-              foreach t ( {$i}_ATLLoc-ave.log ) 
+      echo $i
+      if (-d /$i/ave_projon/logs/) then
+
+         cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
+         if ($par == 'ATLLoc') then
+             if ( -e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log) then
+               foreach t ( {$i}_ATLLoc-ave.log ) 
                   python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par 
-              end
-          endif
-      else
-         if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log ) then
-              foreach t ( {$i}_{$par}Run?-ave.log ) 
+               end
+             endif
+         else
+            if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log ) then
+               foreach t ( {$i}_{$par}Run?-ave.log ) 
                   python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par
-              end
-         endif
-      endif      
-      cd ../../..
-    end
+               end
+            endif
+         endif      
+         cd ../../..
+         pwd
+      endif
+   end
 end
 
 
