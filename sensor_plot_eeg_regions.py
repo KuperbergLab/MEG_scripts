@@ -61,6 +61,7 @@ for group in channelGroups:
 		
 			##get the data
 			file = data_path + prefixList[c] +'-ave.fif'
+                        ##file = data_path + args.prefix1 +'-ave.fif'
 			print file
 			print 'set ',condList[c]
 			evoked = fiff.Evoked(file,setno=condList[c],baseline=(-100,0),proj=False)

@@ -11,6 +11,8 @@ dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 
+numSubj
+
 %%%%Getting the data out, loop once each for projon and projoff
 
 for x = 1:2

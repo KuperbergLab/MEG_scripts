@@ -3,10 +3,10 @@
 #usage makeSTC.sh subjID logfile
 #you need to change the exp variable and condList below to run STCs for your experiment of interest
 
-set exp = "BaleenHP_All"
+set exp = "MaskedMM_All"
 echo $exp
 
-set condList = ( 3 4 )
+set condList = ( 1 2 3 )
 echo $condList
 
 ####################################
@@ -49,17 +49,17 @@ foreach c ($condList)
 # 	echo Unmorphed sLORETA >>& $log
 # 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}-sLORETA.stc --smooth 7 --sLORETA >>& $log
 # 
-# 	echo Morphed mne >>& $log
-# 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-mne.stc --smooth 7 --morph fsaverage >>& $log
+	echo Morphed mne >>& $log
+ 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-mne.stc --smooth 7 --morph fsaverage >>& $log
 	
 	echo Morphed spm >>& $log
 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
 
-# 	echo Morphed spm >>& $log	
-# 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-sLORETA.stc --smooth 7 --sLORETA --morph fsaverage >>& $log	
+ 	echo Morphed sLORETA >>& $log	
+	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-sLORETA.stc --smooth 7 --sLORETA --morph fsaverage >>& $log	
 	
-# 	echo Morphed spm >> & $log
-# 	mne_make_movie --inv $1_$exp-ave-7-meg-eeg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
+ 	#echo Morphed spm >> & $log
+ 	#mne_make_movie --inv $1_$exp-ave-7-meg-eeg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
 	
 end	
 
