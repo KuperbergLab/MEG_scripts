@@ -113,26 +113,26 @@ foreach proj ( 'projon' 'projoff' )
 
 end
 
-mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter
-mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter/logs
+#mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter
+#mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter/logs
 
 
-echo "Making Ave Parameter Files for MaxFilter" >>& $log
-python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 projon >>& $log
+#echo "Making Ave Parameter Files for MaxFilter" >>& $log
+#python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 projon >>& $log
 
-echo "Making Avg fif Files for MaxFilter" >>& $log
-cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter
+#echo "Making Avg fif Files for MaxFilter" >>& $log
+#cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter
 
-mne_process_raw \
---raw ../$1_BaleenHPRun1_MF_raw.fif \
---raw ../$1_BaleenHPRun2_MF_raw.fif \
---raw ../$1_BaleenHPRun3_MF_raw.fif \
---raw ../$1_BaleenHPRun4_MF_raw.fif \
---ave ../ave/$1_BaleenHPRun1.ave \
---ave ../ave/$1_BaleenHPRun2.ave \
---ave ../ave/$1_BaleenHPRun3.ave \
---ave ../ave/$1_BaleenHPRun4.ave \
---gave $1_BaleenHP_All-ave.fif \
---projon --lowpass 20 >>& $log
+#mne_process_raw \
+#--raw ../$1_BaleenHPRun1_MF_raw.fif \
+#--raw ../$1_BaleenHPRun2_MF_raw.fif \
+#--raw ../$1_BaleenHPRun3_MF_raw.fif \
+#--raw ../$1_BaleenHPRun4_MF_raw.fif \
+#--ave ../ave/$1_BaleenHPRun1.ave \
+#--ave ../ave/$1_BaleenHPRun2.ave \
+#--ave ../ave/$1_BaleenHPRun3.ave \
+#--ave ../ave/$1_BaleenHPRun4.ave \
+#--gave $1_BaleenHP_All-ave.fif \
+#--projon --lowpass 20 >>& $log
 
 
