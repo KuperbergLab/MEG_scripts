@@ -41,7 +41,7 @@ def maxFilter(subjID):
 			if st != 0:
 				raise ValueError('Pb while running : %s' % command)
 			else: 
-				print ('Done removing ECG and EOG artifacts. IMPORTANT : Please eye-ball the data !!')
+				print ('Done computing maxFilter. IMPORTANT : Please eye-ball the data !!')
  
 
 if __name__ == "__main__":
