@@ -10,7 +10,7 @@ from mne.stats import permutation_cluster_1samp_test
 from scikits.learn.externals.joblib import Memory
 
 
-# run compute_cluster_src_stats_in_label.py ya.n22.meeg BaleenHP_All 1 2 .3 .5 spm 2.08
+# run source_compute_cluster_stats_in_label.py ya.n24.bal BaleenHP_All 1 2 .3 .5 spm 2.07
 
 ###############################################################################
 # Parameters
@@ -209,8 +209,12 @@ for t in thresholds:
     #you only write out a cluster to an stc file if it crosses the second-stage threshold
     for k, c in enumerate(clusters):
         stc_cluster.data = c
-        if cluster_pv[k] < 0.2:  ##This is the threshold for saving an stc file with cluster
-            stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' \
-                                        % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k]))
+        if cluster_pv[k] < 0.15:  ##This is the threshold for saving an stc file with cluster
+            stcFileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k])
+            stc_cluster.save(stcFileName)
+            #stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k]))
+            labelArray = mne.stc_to_label(stc_cluster, 'fsaverage')
+            label = labelArray[0]
+            mne.write_label(stcFileName, label)            
 
     print 'pv : %s' % np.sort(cluster_pv)[:5]
