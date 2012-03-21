@@ -12,15 +12,11 @@ levels(sourceData.all$prime)<-c("rel","unrel","rel","unrel")
 sourceData.all$prop<-factor(sourceData.all$cond,exclude=NULL)
 levels(sourceData.all$prop)<-c("hi","hi","lo","lo")
 
-sourceData.roi <- subset(sourceData.all, roi==testroi)
-eztest <-ezANOVA(data=sourceData.roi,dv = .(amp),wid=.(subj),within=.(hemCode,prime,prop),type=3,detailed=TRUE)
-print("2x2x2 including hem")
-print(eztest)
-
 
 sourceData.roi <- subset(sourceData.all,roi==testroi & hemCode==testhem)
 
 eztest <-ezANOVA(data=sourceData.roi,dv = .(amp),wid=.(subj),within=.(prime,prop),type=3,detailed=TRUE)
+print("2x2 relatedness x proportion")
 print(eztest)
 
 
