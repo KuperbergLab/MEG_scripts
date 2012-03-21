@@ -19,6 +19,7 @@ import scipy
 import argparse
 import readInput
 import writeOutput
+import os, sys
 
 
 ###################################
@@ -43,7 +44,7 @@ data_path = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/ga_stc'
 protocolList = ['BaleenLP_All', 'BaleenLP_All', 'BaleenHP_All', 'BaleenHP_All']
 condList = ['1', '2', '1', '2']
 hemList = ['lh','rh']
-labelList = ['G_front_inf-Opercular', 'G_front_inf-Triangul','G_front_inf-Orbital', 'Pole_temporal', 'G_temp_ant-sup-Lateral','G_temp_post-sup-Lateral','S_temporal_ant-sup','S_temporal_post-sup','G_temporal_ant-middle','G_temporal_post-middle','G_temporal_inf','S_temporal_inf','G_pariet_inf-Angular','G_temp_sup-Plan_polar','aparc2009-aMTGSTS','aparc2009-pMTGSTS','aparc2009-IFG','aparc2009-aMTGSTSTP']
+labelList = ['G_front_inf-Opercular', 'G_front_inf-Triangul','G_front_inf-Orbital', 'Pole_temporal', 'G_temp_ant-sup-Lateral','G_temp_post-sup-Lateral','S_temporal_ant-sup','S_temporal_post-sup','G_temporal_ant-middle','G_temporal_post-middle','G_temporal_inf','S_temporal_inf','G_pariet_inf-Angular','G_temp_sup-Plan_polar','aparc2009-aMTGSTS','aparc2009-pMTGSTS','aparc2009-IFG','aparc2009-aMTGSTSTP','ya.n24.bal.BaleenHP_300-500_cluster']
 
 ##Convert input times from ms to samples
 baseline=100 #ms
@@ -73,23 +74,23 @@ for x in range(4):
 			stcs_fname = ['/cluster/kuperberg/SemPrMM/MEG/data/ya%s/ave_projon/stc/%s/ya%s_%s_c%sM-%s-%s.stc' % (s, protocolList[x], s, protocolList[x],condList[x],args.model,hem) for s in subjects]
 			
 			label_fname = data_path + '/label/%s-%s.label' % (label, hem)
-			
-	
-			valuesAll = []
-			for stc_fname in stcs_fname:
-				values, times, vertices = mne.label_time_courses(label_fname, stc_fname)
-				values = np.mean(values,0)
-				values = values[sample1:sample2]
-				values = np.mean(values,0)
-				valuesAll.append(values)
-				
-			##Update output table	
-			count = 0
-			for s in subjects:
-				data = valuesAll[count]
-				row = [s, protocolList[x]+condList[x], label, hem, data]
-				dataTable.append(row)
-				count = count + 1
+			if os.access(label_fname, os.F_OK):
+				print label, hem
+				valuesAll = []
+				for stc_fname in stcs_fname:
+					values, times, vertices = mne.label_time_courses(label_fname, stc_fname)
+					values = np.mean(values,0)
+					values = values[sample1:sample2]
+					values = np.mean(values,0)
+					valuesAll.append(values)
+					
+				##Update output table	
+				count = 0
+				for s in subjects:
+					data = valuesAll[count]
+					row = [s, protocolList[x]+condList[x], label, hem, data]
+					dataTable.append(row)
+					count = count + 1
 		
 fileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/R/'+args.prefix+'.BaleenAll.2x2.'+args.model+'.'+str(int(args.t1))+'-'+str(int(args.t2))+'.txt'
 
