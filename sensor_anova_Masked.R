@@ -60,7 +60,21 @@ levels(erpData.quad$hem)<-c("L","R")
 erpData.quad$ant <-factor(erpData.quad$antCode)
 levels(erpData.quad$ant)<-c("A","P")
 
+########
+#Print the marginal means
+erpData.quad.aov <- aov(amp ~ cond * hem * ant + Error(subj/(cond * hem * ant)),data=erpData.quad)
+print("Marginal Means c1 vs c3")
+print(model.tables(erpData.quad.aov,"means"),digits=5)
+
 #####Omnibus ANOVA######
+
+#COMPUTE ANOVA FOR ALL CONDITIONS
+eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(cond,hem,ant),type=3,detailed=TRUE)
+
+#print results to file
+print("All conditions")
+print(eztest)
+
 
 #COMPUTE ANOVA FOR 2 TARGET CONDITIONS
 erpData.quad <- subset(erpData.quad, cond == 1 | cond == 3)
@@ -164,11 +178,7 @@ print("Right Post c1 vs c3")
 print(eztest)
 
 
-########
-#Print the marginal means
-erpData.quad.aov <- aov(amp ~ cond * hem * ant + Error(subj/(cond * hem * ant)),data=erpData.quad)
-print("Marginal Means c1 vs c3")
-print(model.tables(erpData.quad.aov,"means"),digits=5)
+
 sink()
 
 ################################################################
