@@ -12,12 +12,13 @@ def projonrej2eve(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
-	expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP']
+	expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	
-	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4']}
+	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'], 'AXCPT':['Run1','Run2']}
 	
 
 	for exp in expList:
+                print exp
                 for run in runDict[exp]:
                         inFile1 = filePrefix + '/ave_projon/logs/' + subjID + '_' + exp + run + '-ave.log'
                         inFile2 = filePrefix + '/eve/' + subjID + '_' + exp + run + 'ModRej.eve'
