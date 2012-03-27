@@ -373,16 +373,16 @@ def fixTriggers(subjID):
                 ##change triggers for incorrect trials#####
                 
                 ##AX case
-                if trigger == '4': 
-                    if len(nextTrigger) < 2:  ###Test for response (16, 32, 64 or 128)
-                        row[3] = '4' + trigger
+                # if trigger == '4': 
+#                     if len(nextTrigger) < 2:  ###Test for response (16, 32, 64 or 128)
+#                         row[3] = '4' + trigger
                         
                 ##BX, BY, AY case
-                if (trigger == '1' or trigger == '2' or trigger == '3'):
-                    
-                    if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
-                        row[3] = '4' + trigger
-                            
+#                 if (trigger == '1' or trigger == '2' or trigger == '3'):
+#                     
+#                     if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
+#                         row[3] = '4' + trigger
+#                             
                 rowCount +=1
             
             
