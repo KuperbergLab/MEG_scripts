@@ -20,7 +20,7 @@ def computeEvents(subjType, par):
      print subject_list
 
      for subject in subject_list:
-  
+        
 #To Find the total number of rejected trials, and percentage inclusion
         subjID = str(subjType)+ str(subject)
         totalTrials = 0 # Must be initialised within the loop to refresh for each subject :) 
