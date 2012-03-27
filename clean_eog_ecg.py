@@ -5,6 +5,7 @@
 #           Engr. Nandita Shetty,  MS.
 #           Alexandre Gramfort, Ph.D.
 
+##ex: python ../../scripts/clean_eog_ecg.py -i ac1_BaleenHPRun1_raw.fif
 
 import os
 import mne
