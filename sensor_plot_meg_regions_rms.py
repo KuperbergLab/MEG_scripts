@@ -22,14 +22,15 @@ print condList
 colorList = ['k','r']
 lWidth = 4
 
-ymin,ymax = [-.5,24]
+ymin,ymax = [-.5,32]
 xmin,xmax = [-100,600]
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'
 results_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/MEG_rms/'
 channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/grad_'
-channelGroups = ['frontal','temporal','parietal','occipital']
+##channelGroups = ['frontal','temporal','parietal','occipital']
+channelGroups = ['occipital']
 
 hemList = ['L', 'R']
 
