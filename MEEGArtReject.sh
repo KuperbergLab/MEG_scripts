@@ -1,5 +1,5 @@
 #!/bin/csh -f
-#usage: MEGArtReject.sh SubjType 
+#usage: MEEGArtReject.sh SubjType 
 #usage: subjType: sc ac or ya (in Lower case) 
 #Computes the MEG and EEG rejection for all paradigms - 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' 'AXCPT'- (only in the case of ya)
 
