@@ -27,8 +27,9 @@ prefixList = [args.prefix1, args.prefix2]
 print condList
 colorList = ['k','r']
 
-ymin,ymax = [8,-8]
-xmin,xmax = [-100,601]
+eegymin,eegymax = [8,-8]
+eegxmin,eegxmax = [-100,601]
+vertScaleBar = 2 #This controls the size of the vertical axis scale (in microV)
 lWidth = 4
 
 
@@ -76,17 +77,18 @@ for group in channelGroups:
 			###plotting commands
 			pl.plot(times,region_mean,color=colorList[c],linewidth=lWidth) #plot the data
 			
-			pl.ylim([ymin,ymax]) #set the y limits
-			pl.xlim([xmin,xmax]) #set the x limits
+			pl.ylim([eegymin,eegymax]) #set the y limits
+			pl.xlim([eegxmin,eegxmax]) #set the x limits
 			pl.box('off') # turn off the box frame 
-			pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2) #draw a thicker horizontal line at 0			
-			pl.axvline(x=0,ymin=.375,ymax=.625,color='k',linewidth=2) #draw a vertical line at 0 that goes 1/8 of the range in each direction from the middle (e.g., if the range is -8:8, =16, 1/8 of 16=2, so -2:2).
+			pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2) #draw a thicker horizontal line at 0
+			yfactor = abs(eegymax)+abs(eegymin)
+			pl.axvline(x=0,ymin=(.5-(vertScaleBar/float(yfactor))),ymax=(.5+(vertScaleBar/float(yfactor))),color='k',linewidth=2) #draw a vertical line at 0 that goes 1/8 of the range in each direction from the middle (e.g., if the range is -8:8, =16, 1/8 of 16=2, so -2:2).
 
 			pl.yticks(np.array([])) #turn off the y tick labels
 			pl.xticks(np.array([])) #turn off the x tick labels		
 			pl.tick_params(axis='both',right='off',left='off',bottom='off',top='off') #turn off all the tick marks
 			
-			#draw horizontal lines every hundred ms
+			#draw vertical lines every hundred ms
 			pl.axvline(x=100,ymin=.48, ymax=.52, color='k',linewidth=2) 
 			pl.axvline(x=200,ymin=.48, ymax=.52, color='k',linewidth=2)
 			pl.axvline(x=300,ymin=.48, ymax=.52, color='k',linewidth=2)
@@ -109,16 +111,16 @@ for group in channelGroups:
 
 pl.clf()
 pl.subplot(121)
-pl.ylim([8,-8])
-pl.xlim([xmin,xmax])
-pl.axvline(x=0,ymin=.375,ymax=.625,color='k',linewidth=2)
+pl.ylim([eegymin,eegymax])
+pl.xlim([eegxmin,eegxmax])
+pl.axvline(x=0,ymin=(.5-(vertScaleBar/float(yfactor))),ymax=(.5+(vertScaleBar/float(yfactor))),color='k',linewidth=2)
 pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2)
 pl.box('off')
-pl.yticks(np.array([-2.,0.,2.]))
+pl.yticks(np.array([-vertScaleBar,0.,vertScaleBar]))
 #pl.xticks(np.array([]))
 pl.tick_params(axis='both',right='off',left='off',bottom='off',top='off')
-pl.ylim([ymin,ymax])
-pl.xlim([xmin,xmax])
+pl.ylim([eegymin,eegymax])
+pl.xlim([eegxmin,eegxmax])
 pl.axvline(x=100,ymin=.48, ymax=.52, color='k',linewidth=2)
 pl.axvline(x=200,ymin=.48, ymax=.52, color='k',linewidth=2)
 pl.axvline(x=300,ymin=.48, ymax=.52, color='k',linewidth=2)
