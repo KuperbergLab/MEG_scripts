@@ -104,6 +104,21 @@ foreach proj ( 'projon' 'projoff' )
 		--$proj --lowpass 20 >>& $log
 
 	endif	
+ 
+        ##Lost BaleenLPRun3, so averaging only 3 runs
+	if ( $1 == 'ac19' ) then
+		
+		mne_process_raw \
+		--raw ../$1_BaleenLPRun1_raw.fif \
+		--raw ../$1_BaleenLPRun2_raw.fif \
+		--raw ../$1_BaleenLPRun4_raw.fif \
+		--ave ../ave/$1_BaleenLPRun1.ave \
+		--ave ../ave/$1_BaleenLPRun2.ave \
+		--ave ../ave/$1_BaleenLPRun4.ave \
+		--gave $1_BaleenLP_All-ave.fif \
+		--$proj --lowpass 20 >>& $log
+
+	endif	
 
 	####################################
     if ( $proj == 'projon' ) then
