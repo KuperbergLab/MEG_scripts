@@ -22,15 +22,15 @@ print condList
 colorList = ['k','r']
 lWidth = 4
 
-ymin,ymax = [-.5,32]
-xmin,xmax = [-100,600]
+ymin,ymax = [-.5,26]
+xmin,xmax = [-100,660]
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'
 results_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/MEG_rms/'
 channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/grad_'
-##channelGroups = ['frontal','temporal','parietal','occipital']
-channelGroups = ['occipital']
+channelGroups = ['frontal','temporal','parietal','occipital']
+##channelGroups = ['occipital']
 
 hemList = ['L', 'R']
 
@@ -67,6 +67,7 @@ for group in channelGroups:
 				file = data_path + 'ya' + subj + '/ave_projon/ya'+ subj + '_'+args.protocol +'-ave.fif'
 				#print file
 				#print 'set ', condList[c]
+				print 'Jane reading evoked'
 				evoked = mne.fiff.read_evoked(file,setno=condList[c],baseline=(-100,0))
 				badChanSet = set(evoked.info['bads'])  #These two lines remove bad channels
 				goodChannelList = list(set(channelList) - badChanSet)
