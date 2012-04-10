@@ -1,4 +1,4 @@
-behav_stats_meg_Baleen <-function(subjType, listPrefix){
+behav_stats_meg_Baleen <-function(listPrefix){
 
 ###This function outputs behavioral stats for the MEG session
 ###Currently focuses on the animal (go) trials only
