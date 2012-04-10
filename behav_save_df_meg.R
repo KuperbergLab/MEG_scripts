@@ -1,4 +1,4 @@
-behav_save_df_meg <-function(subjType,exp, listPrefix){
+behav_save_df_meg <-function(listPrefix, exp){
 	
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/behavioral_accuracy/R/"
 fileName <- paste(filePath,'MEG_',listPrefix,'_',exp,"_accuracy.log",sep="")
