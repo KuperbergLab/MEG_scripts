@@ -38,10 +38,10 @@ codes = {"Baleen":{
 			"4":("InsectPrime",True,0.1),
 			"5":("InsctTarget",True,0)},
 		"AXCPT":{
-			"1":("A ------ Y",False),
-			"2":("B ------ X",False),
-			"3":("B ------ Y",False),
-			"4":("A ------ X",True,0.0)}
+			"1":("AY",False),
+			"2":("BX",False),
+			"3":("BY",False),
+			"4":("AX",True,0.0)}
 		}
 
 					
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
 	subjType = sys.argv[1]
 	study = sys.argv[2]
-        listPrefix = sys.argv[3]
+	listPrefix = sys.argv[3]
 	if (study =='AXCPT'and subjType == 'ac'):
                 print "No data for AX in AC subject group"
         elif (study =='AXCPT' and subjType =='sc'):
