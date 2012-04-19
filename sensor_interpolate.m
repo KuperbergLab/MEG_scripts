@@ -1,3 +1,7 @@
+%%sensor_interpolate.m: intrepolates data from the EEG channels. Result is saved with the -I tag. 
+%%Usage: sensor_interpolate("Expname', 'subjType', 'listPrefix')
+%%Eg: sensor_interpolate('MaskedMM_All', 'ac', 'ac.meg.all')
+
 function sensor_interpolate(exp,subjGroup,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
