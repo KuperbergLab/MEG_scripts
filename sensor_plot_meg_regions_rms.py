@@ -96,6 +96,6 @@ for group in channelGroups:
 			pl.xticks(np.array([0, 200, 400, 600]))
 	pl.show()
 
-	outFile = results_path + args.prefix + '/' + args.protocol + '-' + str(args.set1)+'-'+str(args.set2)+'-'+group +'.png'
+	outFile = results_path + args.prefix + '-' + args.protocol + '-' + str(args.set1)+'-'+str(args.set2)+'-'+group +'.png'
 	pl.savefig(outFile)
 
