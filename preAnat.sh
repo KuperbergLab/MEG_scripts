@@ -82,6 +82,7 @@ endif
 mne_setup_forward_model --surf --ico 4 >>& $log
 #mne_surf2bem --surf $SUBJECTS_DIR/$1/bem/outer_skin.surf --id 4 --surf $SUBJECTS_DIR/$1/bem/outer_skull.surf --id 3 --surf $SUBJECTS_DIR/$1/bem/inner_skull.surf --id 1 --fif $SUBJECTS_DIR/$1/bem/$1-bem.fif  >>& $log
 mne_make_scalp_surfaces
+mv $SUBJECTS_DIR/$1/bem/$1-head.fif $SUBJECTS_DIR/$1/bem/$1-head-old.fif
 ln $SUBJECTS_DIR/$1/bem/$1-head-medium.fif $SUBJECTS_DIR/$1/bem/$1-head.fif
 
 
