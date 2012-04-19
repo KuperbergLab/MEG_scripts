@@ -1,38 +1,32 @@
 #!/bin/csh -f
 #usage: MEEGArtReject.sh SubjType 
-#usage: subjType: sc ac or ya (in Lower case) 
-#Computes the MEG and EEG rejection for all paradigms - 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' 'AXCPT'- (only in the case of ya)
+#eg: ./MEEGArtReject.sh ac  
+#Computes the MEG and EEG channel rejections for all paradigms - 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' 'AXCPT'- (only in the case of ya). This is computed after the eyeblink(HEOG/VEOG)Rejection. 
 
 
 echo 'CountEvents-CountBadChannels'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
+#foreach par ('MaskedMM')
    echo $par
    foreach i ( $1* )
-      
-      ##if (-d /$i/ave_projon/logs/) then
          echo $i
-         ##cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
          if ($par == 'ATLLoc') then
              if ( -e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-               foreach t ( {$i}_ATLLoc-ave.log )
-                  ##echo $t 
+               foreach t ( {$i}_ATLLoc-ave.log ) 
                   python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par 
                end
              endif
          else
             if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log ) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-               foreach t ( {$i}_{$par}Run?-ave.log )
-                  ##echo $t  
+               foreach t ( {$i}_{$par}Run?-ave.log )  
                   python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par
                end
             endif
          endif
-         ##pwd
          cd ../../..
-      ##endif
    end
 end
 
