@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""rejTable.py to reject the eyeblink events from each paradigm
+"""
+#usage: python rejTable.py subjType 
+# eg: python rejTable.py ac
 
 from os import path as op
 import sys
