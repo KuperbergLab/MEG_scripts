@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""rejTable_combined.py 
+"""
+#usage: python rejTable_combined.py subjType
+#eg: python rejTable_combined.py ac
 
 from os import path as op
 import sys
