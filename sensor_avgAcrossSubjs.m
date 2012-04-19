@@ -1,3 +1,6 @@
+%%Example: sensor_avgAcrossSubjs('MaskedMM_All', 'ac.n12.meeg.mm')
+%%Usage: sensor_avgAcrossSubjs('ExpName', 'listPrefix')
+
 function sensor_avgAcrossSubjs(exp,listPrefix)
 
 %%Ellen Lau%%
