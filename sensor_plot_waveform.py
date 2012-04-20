@@ -11,7 +11,7 @@ import argparse
 ###Plotting parameters###
 
 xmin,xmax = [-100, 601]
-ymin,ymax = [-3,3] ##EEG
+ymin,ymax = [6,-6] ##EEG
 #ymin, ymax = [-1.5,1.5] ##MEG
 lWidth = 4
 
@@ -71,6 +71,6 @@ pl.xlim([xmin,xmax])
 pl.xlabel('time (ms)')
 #pl.ylabel('microVolts')
 
-outFile = 'scratch/'+args.label1+'-'+args.prefix1+'-'+str(args.set1)+'-'+args.label2+'-'+args.prefix2+'-'+str(args.set2)+'-'+str(args.sensor)+'.png'
+outFile = 'scratch/'+args.label1+'-'+args.prefix1+'-'+str(args.set1)+'-'+args.label2+'-'+args.prefix2+'-'+str(args.set2)+'-'+evoked1.info['ch_names'][args.sensor]+'.png'
 pl.savefig(outFile)
 
