@@ -14,7 +14,7 @@ with cluster level permutation test.
 #
 # License: BSD (3-clause)
 
-#run source_compute_cluster_stats_roi.py ya.n22.meeg BaleenHP_All BaleenHP_All Pole_temporal- lh 1 2 spm
+#run source_compute_cluster_stats_roi.py ya.n24.bal BaleenHP_All BaleenHP_All Pole_temporal- lh 1 2 spm
 
 
 print __doc__
