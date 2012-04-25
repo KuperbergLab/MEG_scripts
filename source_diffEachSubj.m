@@ -14,6 +14,7 @@ subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix,'.txt'
 
 [~,n] = size(subjList);
 n
+
 %%for each subject, get the stc data out
 for hemI = 1:2
     allSubjData = zeros(10242,numSamples,n);

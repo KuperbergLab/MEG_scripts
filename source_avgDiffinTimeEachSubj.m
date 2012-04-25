@@ -17,7 +17,6 @@ subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt
 
 
 [~,n] = size(subjList);
- 
 
 for hemI = 1:2
 
