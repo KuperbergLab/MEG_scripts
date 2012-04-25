@@ -353,7 +353,7 @@ def fixTriggers(subjID):
             ################################################################
     
             rowCount = 0
-            
+            flag3 = 0
             for row in data:
                 trigger = row[3]
                 if len(data) > rowCount +1:
@@ -368,6 +368,15 @@ def fixTriggers(subjID):
                 if trigger == '6':   
                     if nextTrigger == '7':  
                             row[3] = '7'
+                
+                #################################################
+                ##Flip half of the related filler triggers to '18' to get equal number of related and unrelated
+                if trigger == '5':
+                    if flag3 == 3:
+                        flag3 = 0
+                    elif flag3 != 3:
+                        flag3 = flag3 + 1   
+                        row[3] = '15'
                                     
                 ###########################################
                 ##change triggers for incorrect trials#####
