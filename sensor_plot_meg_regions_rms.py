@@ -20,7 +20,7 @@ args=parser.parse_args()
 condList = [args.set1, args.set2]
 print condList
 colorList = ['k','r']
-lWidth = 4
+lWidth = 2
 
 ymin,ymax = [-.5,26]
 xmin,xmax = [-100,660]
