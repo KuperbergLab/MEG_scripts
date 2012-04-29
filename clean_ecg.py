@@ -53,7 +53,7 @@ def clean_ecg(in_fif_fname, out_fif_fname=None, ecg_proj_fname=None,
 
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
                '--projtmin -0.08 --projtmax 0.08 --saveprojtag _ecg_proj '
-               '--projnmag 2 --projngrad 1 --projneeg 1 --projevent 999 --highpass 5 '
+               '--projnmag 1 --projngrad 1 --projneeg 1 --projevent 999 --highpass 5 '
                '--lowpass 35 --projmagrej 4000  --projgradrej 3000 --projeegrej 500'
                % (in_path, in_fif_fname, ecg_event_fname))
 
