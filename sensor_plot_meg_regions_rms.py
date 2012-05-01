@@ -43,7 +43,7 @@ print subjects
 for group in channelGroups:
 	pl.clf()
 	font = {
-         'size'   : 30}
+         'size'   : 16}
 	pl.rc('font', **font)
 	
 	for hem in hemList:
