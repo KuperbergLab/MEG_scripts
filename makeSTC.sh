@@ -1,13 +1,31 @@
 #!/bin/csh -f
 
-#usage makeSTC.sh subjID logfile
+#usage makeSTC.sh subjID exp logfile
 #you need to change the exp variable and condList below to run STCs for your experiment of interest
 
-set exp = "BaleenHP_All"
+set exp = $2
 echo $exp
 
-set condList = ( 1 2 3 4)
-echo $condList
+if ( $exp == "MaskedMM_All" ) then
+	set condList = ( 1 2 3 )
+	echo $condList
+endif
+
+if ( $exp == "BaleenLP_All" ) then
+	set condList = ( 1 2 )
+	echo $condList
+endif
+
+if ( $exp == "BaleenHP_All" ) then
+	set condList = ( 1 2 3 4 )
+	echo $condList
+endif
+
+if ( $exp == "AXCPT_All" ) then
+	set condList = ( 1 2 3 4 5 6 )
+	echo $condList
+endif
+
 
 ####################################
 
@@ -21,8 +39,13 @@ if ( $#argv == 1 ) then
     echo "Logging to default log..." >>& $log
 endif
 
-if ( $#argv == 2) then
-    set log=$2
+if ( $#argv == 2 ) then
+    set log='./makeSTC.log'
+    echo "Logging to default log..." >>& $log
+endif
+
+if ( $#argv == 3) then
+    set log=$3
 endif
 
 # if log exists, delete
