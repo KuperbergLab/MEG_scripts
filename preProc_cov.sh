@@ -73,5 +73,29 @@ if ( -e ../$1_AXCPTRun1_raw.fif ) then
 	endif
 endif
 
+
+if ( $1 == 'ac19' ) then
+		
+	mne_process_raw \
+		--raw ../$1_BaleenLPRun1_raw.fif \
+		--raw ../$1_BaleenLPRun2_raw.fif \
+		--raw ../$1_BaleenLPRun4_raw.fif \
+		--raw ../$1_BaleenHPRun1_raw.fif \
+        --raw ../$1_BaleenHPRun2_raw.fif \
+        --raw ../$1_BaleenHPRun3_raw.fif \
+        --raw ../$1_BaleenHPRun4_raw.fif \
+		--cov ../cov/$1_BaleenLPRun1.cov \
+		--cov ../cov/$1_BaleenLPRun2.cov \
+		--cov ../cov/$1_BaleenLPRun4.cov \
+		--cov ../cov/$1_BaleenHPRun1.cov \
+		--cov ../cov/$1_BaleenHPRun2.cov \
+		--cov ../cov/$1_BaleenHPRun3.cov \
+		--cov ../cov/$1_BaleenHPRun4.cov \
+		--gcov $1_Baleen_All-cov.fif \
+		--projon --lowpass 20 >>& $log
+
+endif
+
+
 date
 echo "FINISHED"  >>& $log
