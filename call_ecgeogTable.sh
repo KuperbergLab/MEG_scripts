@@ -17,7 +17,6 @@ foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
 #foreach par ('MaskedMM')
 	if $par == 'ATLLoc' then
 		  echo {$1}_ATLLoc_raw.fif
-		  
 		  python /cluster/kuperberg/SemPrMM/MEG/scripts/ecgeogTable.py {$1}_ATLLoc_raw.fif $par $1 {$1}_ecgeog_eventsTable.txt "ECG 063" 
 	else 
 		  foreach i ({$1}_{$par}Run?_raw.fif) 
