@@ -10,16 +10,15 @@ $mne_compute_proj_ecg.py -i sample_audvis_raw.fif -c "MEG 1531" --l-freq 1 --h-f
 # Author: Alexandre Gramfort, Ph.D. Source: mne_compute_proj_ecg.py
 # Modified by CandidaUstine
 
+
 import sys
+sys.path.insert(0,'/cluster/kuperberg/SemPrMM/MEG/mne-python/')
 import os
 import mne
 from mne import fiff
-sys.path.insert(0,'/cluster/kuperberg/SemPrMM/MEG/mne-python/')
-
-
         
-#######################################################################################################################
-def compute_proj_ecg(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, preload, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
+###############################################################################################################################################################################################
+def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
 
     """Compute SSP/PCA projections for ECG/EOG artifacts
 
@@ -31,8 +30,9 @@ def compute_proj_ecg(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
     """
 
     in_fif_fname = in_path + in_fif_fname
+    
     print 'Reading fif File'
-    raw = mne.fiff.Raw(in_fif_fname, preload=preload)
+    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
@@ -52,8 +52,12 @@ def compute_proj_ecg(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
 
     if average:
          ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+         out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
+
     else:
          ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+         out_fif_fname = prefix + '_ecg_proj_raw.fif'
+
 
     print 'Computing ECG projector'
 
@@ -88,9 +92,7 @@ def compute_proj_ecg(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
     else:
         projs_ecg = mne.compute_proj_epochs(epochs_ecg, n_grad=n_grad, n_mag=n_mag,
                                         n_eeg=n_eeg)
-
-    if preload is not None and os.path.exists(preload):
-        os.remove(preload)
+    
 
     print "Writing ECG projections in %s" % ecg_proj_fname
     mne.write_proj(ecg_proj_fname, projs_ecg + projs_init) ## Original Projections written along with the ecg projections. 
@@ -98,20 +100,24 @@ def compute_proj_ecg(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
     print "Writing ECG projections in %s" % ecg_proj_fname
     mne.write_proj(ecg_proj_fname, projs_ecg)
 
-    print 'Applying ECG projector'
-    command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
-                   '--projoff --save %s --filteroff'
-                   % (in_path, in_fif_fname, ecg_proj_fname, in_fif_fname,
-                   out_fif_fname))
-    print 'Command executed: %s' % command
-    print ('Computed ECG Rejection fif file. Saved result as %s' % out_fif_fname)
+##    print 'Applying ECG projector'
+##    command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
+##               '--projoff --save %s --filteroff'
+##               % (in_path, in_fif_fname, ecg_proj_fname, in_fif_fname, out_fif_fname))
+##    st = os.system(command)
+##    if st != 0:
+##         raise ValueError('Problem while running : %s' % command)
+##    else:
+##            print 'Command executed: %s' % command
+##            print 'Done'
+##            print ('Computed ECG Rejection fif file. Saved result as %s' % out_fif_fname)
 
-#########################################################################################################################
-def compute_proj_eog(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, preload, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
+    return in_fif_fname, ecg_proj_fname, out_fif_fname
+########################################################################################################################################################################
+def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
 
     in_fif_fname = in_path + in_fif_fname
-    # Reading fif File
-    raw = mne.fiff.Raw(in_fif_fname, preload=preload)
+    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
     
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
@@ -122,12 +128,16 @@ def compute_proj_eog(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
 
     if average:
         eog_proj_fname = prefix + '_eog_avg_proj.fif'
+        out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
+
     else:
         eog_proj_fname = prefix + '_eog_proj.fif'
+        out_fif_fname = prefix + '_eog_proj_raw.fif'
+
 
     print 'Running EOG SSP computation'
 
-    eog_events = mne.artifacts.find_eog_events(raw)
+    eog_events, _= mne.artifacts.find_eog_events(raw)  # since our copy of the mne.artifacts.events.py script returns two parameters. 
     print "Writing EOG events in %s" % eog_event_fname
     mne.write_events(eog_event_fname, eog_events)
 
@@ -140,8 +150,8 @@ def compute_proj_eog(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
         del reject['mag']
     if len(mne.fiff.pick_types(raw.info, meg=False, eeg=True, ecg=False)) == 0:
         del reject['eeg']
-   ## if len(mne.fiff.pick_types(raw.info, meg=False, eeg=False, ecg=True)) == 0:
-   ##   del reject['ecg']
+    if len(mne.fiff.pick_types(raw.info, meg=False, eeg=False, ecg=True)) == 0:
+        del reject['ecg']
 
     picks_eog = mne.fiff.pick_types(raw.info, meg=True, eeg=True, ecg=True,
                                 exclude=raw.info['bads'] + bads)
@@ -155,7 +165,7 @@ def compute_proj_eog(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
     epochs_eog = mne.Epochs(raw, eog_events, None, tmin, tmax, baseline=None,
                         picks=picks_eog, reject=reject, proj=True)
 
-    ##projs_init = raw.info['projs']
+    projs_init = raw.info['projs']
 
     if average:
         evoked_eog = epochs_eog.average()
@@ -165,21 +175,59 @@ def compute_proj_eog(in_path, in_fif_fname, out_fif_fname, tmin, tmax, n_grad, n
         projs_eog = mne.compute_proj_epochs(epochs, n_grad=n_grad, n_mag=n_mag,
                                         n_eeg=n_eeg)
 
-    if preload is not None and os.path.exists(preload):
-        os.remove(preload)
 
     print "Writing EOG projections in %s" % eog_proj_fname
     mne.write_proj(eog_proj_fname, projs_eog)
+    
+##    print 'Applying EOG projector'
+##    command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
+##               '--projoff --save %s --filteroff'
+##                   % (in_path, in_fif_fname, eog_proj_fname, in_fif_fname,
+##                   out_fif_fname))
+##    st = os.system(command)
+##    if st != 0:
+##	    raise ValueError('Problem while running : %s' % command)
+##    else:
+##            print 'Command executed: %s' % command
+##            print 'Done'
+##            print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
+    return in_fif_fname, ecg_proj_fname, out_fif_fname
 
-    print 'Applying EOG projector'
-    command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
+########################################################################################################################################################
+def compute_proj_ecgeog(in_path, in_fif_fname):
+
+    in_fif_fname = in_path + in_fif_fname
+    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
+    
+    if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
+        prefix = in_fif_fname[:-8]
+    else:
+        prefix = in_fif_fname[:-4]
+
+    if average:
+        ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+        eog_proj_fname = prefix + '_eog_avg_proj.fif'
+        out_fif_fname = prefix + '_ecgeog_avg_proj_raw.fif'
+
+    else:
+        ecg_proj_fname = prefix + '_ecg_proj.fif'
+        eog_proj_fname = prefix + '_eog_proj.fif'
+        out_fif_fname = prefix + '_ecgeog_proj_raw.fif'
+        
+    print 'Applying ECG and EOG projector'
+    command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s '
                    '--projoff --save %s --filteroff'
-                   % (in_path, in_fif_fname, eog_proj_fname, in_fif_fname,
-                   out_fif_fname))
+               % (in_path, in_fif_fname, eog_proj_fname, ecg_proj_fname, in_fif_fname,
+               out_fif_fname))
+    
     print 'Command executed: %s' % command
-    print ('Computed ECG EOG Rejection fif file. Saved result as %s' % out_fif_fname)
-
-###################################################################################################      
+    print 'Running : %s' % command	
+    st = os.system(command)
+    if st != 0:
+          raise ValueError('Problem while running : %s' % command)
+    else:
+        print 'Done'
+        print ('Computed ECG EOG Rejection fif file. Saved result as %s' % out_fif_fname) 
     
 ###################################################################################################    
 
@@ -194,7 +242,8 @@ if __name__ == '__main__':
     parser.add_option("-i", "--in", dest="raw_in",
                     help="Input raw FIF file", metavar="FILE")
     parser.add_option("-o", "--out", dest="raw_out",
-                    help="Output raw FIF file", metavar="FILE")
+                    help="Output FIF file", metavar="FILE",
+                    default=None)
     parser.add_option("--tmin", dest="tmin",
                     help="time before event in seconds",
                     default=-0.2)
@@ -216,9 +265,9 @@ if __name__ == '__main__':
     parser.add_option("--h-freq", dest="h_freq",
                     help="Filter high cut-off frequency in Hz",
                     default=None)  # XXX
-    parser.add_option("-p", "--preload", dest="preload",
-                    help="Temporary file used during computaion",
-                    default='tmp.mmap')
+ #   parser.add_option("-p", "--preload", dest="preload",
+ #                   help="Temporary file used during computaion",
+ #                    default='tmp.mmap')
     parser.add_option("-a", "--average", dest="average", action="store_true",
                     help="Compute SSP after averaging",
                     default=False)
@@ -271,7 +320,7 @@ if __name__ == '__main__':
     l_freq = options.l_freq
     h_freq = options.h_freq
     average = options.average
-    preload = options.preload
+ #   preload = options.preload
     filter_length = options.filter_length
     n_jobs = options.n_jobs
     ch_name = options.ch_name
@@ -286,29 +335,54 @@ if __name__ == '__main__':
     bad_fname = in_path + bad_fname 
     print bad_fname
     if bad_fname is not None:
-        ##temp = open(bad_fname).readline()
-
-       ## bads = [w.strip().split()[0] for w in temp]
         bads = [w.rstrip().split() for w in open(bad_fname).readlines()]
         print 'Bad channels read : %s' % bads
     else:
         bads = []
     
     if tag == 'ecg':
-       compute_proj_ecg(in_path, raw_in, raw_out, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
-                     average, preload, filter_length, n_jobs, ch_name, reject,
-                     avg_ref, bads)
+                in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
+                             average, filter_length, n_jobs, ch_name, reject,
+                             avg_ref, bads)
+                print 'Applying ECG projector'
+                command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
+                       '--projoff --save %s --filteroff'
+                           % (in_path, in_fif_fname, ecg_proj_fname, in_fif_fname,
+                           out_fif_fname))
+                st = os.system(command)
+                if st != 0:
+                     raise ValueError('Problem while running : %s' % command)
+                else:
+                     print 'Command executed: %s' % command
+                     print 'Done'
+                     print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
+           
     elif tag =='eog':
-       compute_proj_eog(in_path, raw_in, raw_out, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
-                     average, preload, filter_length, n_jobs, ch_name, reject,
-                     avg_ref, bads)
+                in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
+                             average, filter_length, n_jobs, ch_name, reject,
+                             avg_ref, bads)
+                print 'Applying EOG projector'
+                command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
+                       '--projoff --save %s --filteroff'
+                           % (in_path, in_fif_fname, eog_proj_fname, in_fif_fname,
+                           out_fif_fname))
+                st = os.system(command)
+                if st != 0:
+                     raise ValueError('Problem while running : %s' % command)
+                else:
+                     print 'Command executed: %s' % command
+                     print 'Done'
+                     print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
 
     elif tag == 'ecgeog':
-       compute_proj_ecg(in_path, raw_in, raw_out, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
-                     average, preload, filter_length, n_jobs, ch_name, reject,
+        compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
+                     average, filter_length, n_jobs, ch_name, reject,
                      avg_ref, bads)
-       compute_proj_eog(in_path, raw_in, raw_out, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
-                     average, preload, filter_length, n_jobs, ch_name, reject,
+        compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
+                     average, filter_length, n_jobs, ch_name, reject,
                      avg_ref, bads)
+        compute_proj_ecgeog(in_path, raw_in)      
+
+       
     elif tag == 'None': 
-       print 'Specify the Artifact projection required - ecg, eog or ecgeog.'
+        print 'Specify the Artifact projection required - ecg, eog or ecgeog.'
