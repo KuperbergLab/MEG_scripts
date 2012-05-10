@@ -22,8 +22,8 @@ def ecgeogTable(in_fif_fname, par, subjID, out_text_file, ch_name):
     ecg_events, _, average_pulse = mne.artifacts.find_ecg_events(raw, ch_name=ch_name)
     average_pulse = round(average_pulse, 2)
     print average_pulse
-    eog_events = mne.artifacts.find_eog_events(raw) 
-    print len(eog_events)
+    eog_events, eog_permin = mne.artifacts.find_eog_events(raw) 
+    eog_permin = round(eog_permin, 2)
 
     parName = str(par)
     name1=str.split(str(in_fif_fname), '_raw.fif')
@@ -36,7 +36,7 @@ def ecgeogTable(in_fif_fname, par, subjID, out_text_file, ch_name):
     myFile2.write("\t\t")
     myFile2.write(str(average_pulse))
     myFile2.write("\t\t")
-    myFile2.write(str(len(eog_events)))   
+    myFile2.write(str(eog_permin))   
     
 ###################################################################################################    
 
