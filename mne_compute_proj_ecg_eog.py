@@ -191,7 +191,7 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ##            print 'Command executed: %s' % command
 ##            print 'Done'
 ##            print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
-    return in_fif_fname, ecg_proj_fname, out_fif_fname
+    return in_fif_fname, eog_proj_fname, out_fif_fname
 
 ########################################################################################################################################################
 def compute_proj_ecgeog(in_path, in_fif_fname):
@@ -358,7 +358,7 @@ if __name__ == '__main__':
                      print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
            
     elif tag =='eog':
-                in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
+                in_fif_fname, eog_proj_fname, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
                              average, filter_length, n_jobs, ch_name, reject,
                              avg_ref, bads)
                 print 'Applying EOG projector'
