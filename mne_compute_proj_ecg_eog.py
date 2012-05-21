@@ -50,13 +50,13 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         eeg_proj = mne.fiff.proj.make_eeg_average_ref_proj(raw.info)
         raw.info['projs'].append(eeg_proj)
 
-    if average:
-         ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-         out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
+   # if average:
+     #    ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+    #     out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
 
-    else:
-         ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-         out_fif_fname = prefix + '_ecg_proj_raw.fif'
+   # else:
+    ecg_proj_fname = prefix + '_ecg_proj.fif'
+    out_fif_fname = prefix + '_ecg_proj_raw.fif'
 
 
     print 'Computing ECG projector'
@@ -126,13 +126,13 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 
     eog_event_fname = prefix + '_eog-eve.fif'
 
-    if average:
-        eog_proj_fname = prefix + '_eog_avg_proj.fif'
-        out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
+    #if average:
+     #   eog_proj_fname = prefix + '_eog_avg_proj.fif'
+    #    out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
 
-    else:
-        eog_proj_fname = prefix + '_eog_proj.fif'
-        out_fif_fname = prefix + '_eog_proj_raw.fif'
+   # else:
+    eog_proj_fname = prefix + '_eog_proj.fif'
+    out_fif_fname = prefix + '_eog_proj_raw.fif'
 
 
     print 'Running EOG SSP computation'
@@ -204,15 +204,15 @@ def compute_proj_ecgeog(in_path, in_fif_fname):
     else:
         prefix = in_fif_fname[:-4]
 
-    if average:
-        ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-        eog_proj_fname = prefix + '_eog_avg_proj.fif'
-        out_fif_fname = prefix + '_ecgeog_avg_proj_raw.fif'
+   # if average:
+   #     ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+    #    eog_proj_fname = prefix + '_eog_avg_proj.fif'
+    #    out_fif_fname = prefix + '_ecgeog_avg_proj_raw.fif'
 
-    else:
-        ecg_proj_fname = prefix + '_ecg_proj.fif'
-        eog_proj_fname = prefix + '_eog_proj.fif'
-        out_fif_fname = prefix + '_ecgeog_proj_raw.fif'
+    #else:
+    ecg_proj_fname = prefix + '_ecg_proj.fif'
+    eog_proj_fname = prefix + '_eog_proj.fif'
+    out_fif_fname = prefix + '_ecgeog_proj_raw.fif'
         
     print 'Applying ECG and EOG projector'
     command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s '
