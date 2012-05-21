@@ -1,7 +1,6 @@
 ###################################################################################################
 #!/usr/bin/env python
 """Compute SSP/PCA projections for ECG artifacts
-
 You can do for example:
 
 $mne_proj_ecg.py -i sample_audvis_raw.fif -c "MEG 1531" --l-freq 1 --h-freq 100 --rej-grad 3000 --rej-mag 4000 --rej-eeg 100
@@ -15,6 +14,7 @@ import sys
 sys.path.insert(0,'/cluster/kuperberg/SemPrMM/MEG/mne-python/')
 import mne
 from mne import fiff
+from pipeline import make_lingua
         
 ###############################################################################################################################################################################################
 def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
@@ -37,6 +37,7 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     else:
         prefix = in_fif_fname[:-4]
     ecg_event_fname = prefix + '_ecg-eve.fif'
+    make_lingua(ecg_event_fname)
 
     print 'Running ECG SSP computation'
 
@@ -112,6 +113,7 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         prefix = in_fif_fname[:-4]
 
     eog_event_fname = prefix + '_eog-eve.fif'
+    make_lingua(eog_event_fname)
 
 ##    if average:
 ##        eog_proj_fname = prefix + '_eog_avg_proj.fif'
@@ -194,6 +196,8 @@ def compute_proj_ecgeog(in_path, in_fif_fname):
                    '--projoff --save %s --filteroff'
                % (in_path, in_fif_fname, eog_proj_fname, ecg_proj_fname, in_fif_fname,
                out_fif_fname))
+
+    make_lingua(out_fif_fname)
     
     print 'Command executed: %s' % command
     print 'Running : %s' % command	
@@ -323,6 +327,9 @@ if __name__ == '__main__':
                 in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
                              average, filter_length, n_jobs, ch_name, reject,
                              avg_ref, bads)
+                make_lingua(in_fif_fname)
+                make_lingua(ecg_proj_fname)
+                make_lingua(out_fif_fname)
                 print 'Applying ECG projector'
                 command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
                        '--projoff --save %s --filteroff'
@@ -340,6 +347,9 @@ if __name__ == '__main__':
                 in_fif_fname, eog_proj_fname, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
                              average, filter_length, n_jobs, ch_name, reject,
                              avg_ref, bads)
+                make_lingua(in_fif_fname)
+                make_lingua(ecg_proj_fname)
+                make_lingua(out_fif_fname)
                 print 'Applying EOG projector'
                 command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
                        '--projoff --save %s --filteroff'
