@@ -13,8 +13,7 @@ from mne import fiff
 
 def ecgeogTable(in_fif_fname, par, subjID, out_text_file, ch_name):
     
-    #in_fif_fname = in_path + in_fif_fname
-    # Reading fif File
+    out_text_file = '/cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/ecgeogTable/' + out_text_file
     raw = mne.fiff.Raw(in_fif_fname)  #, preload='tmp.mmap')
         
 #######################################################################################################################
