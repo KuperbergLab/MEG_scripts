@@ -37,14 +37,14 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     else:
         prefix = in_fif_fname[:-4]
     ecg_event_fname = prefix + '_ecg-eve.fif'
-    make_lingua(ecg_event_fname)
 
     print 'Running ECG SSP computation'
 
     ecg_events, _, _ = mne.artifacts.find_ecg_events(raw, ch_name=ch_name)
     print "Writing ECG events in %s" % ecg_event_fname
     mne.write_events(ecg_event_fname, ecg_events)
-
+    make_lingua(ecg_event_fname)
+    
     if avg_ref:
         print "Adding average EEG reference projection."
         eeg_proj = mne.fiff.proj.make_eeg_average_ref_proj(raw.info)
