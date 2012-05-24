@@ -51,9 +51,10 @@ if ($BEM_METHOD == FLASH) then
 		cd $SUBJECTS_DIR/$1/bem/flash_org 
 		echo $SUBJECTS_DIR  >>& $log
 		###ORGANIZE DICOMS IF FLASH###
-		mne_organize_dicom ../flash_dcm  >>& $log
+		###Using full path to flash_dcm
+		mne_organize_dicom /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash_dcm  >>& $log
 		ln -s 0*5d* flash05
-		mne_flash_bem --noflash30  >>& $log
+		mne_flash_bem --noflash30  >>& $log   #the error for sc14/15 seems to be here
 		###Create symbolic links to the bem surfaces###
 		cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 		rm *.surf
