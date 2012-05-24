@@ -34,17 +34,19 @@ endif
 
 
 ## including this to remove the _avg_proj files created in the first trial in yas.
-# if $3 == 'ATLLoc' then 
+#if $3 == 'ATLLoc' then 
 # 					   rm {$1}_ATLLoc_{$2}_avg_proj_raw.fif
 # 					   rm {$1}_ATLLoc_{$2}_avg_proj_raw-eve.fif
 # 					   rm {$1}_ATLLoc_{$2}_avg_proj.fif
 # 					   rm {$1}_ATLLoc_{$2}-eve.fif
-# else 
+#else 
 # 					   rm {$1}_{$3}Run?_{$2}_avg_proj_raw.fif
 # 					   rm {$1}_{$3}Run?_{$2}_avg_proj_raw-eve.fif
+# 					   rm {$1}_{$3}Run?_{$2}_proj_raw.fif
+# 					   rm {$1}_{$3}Run?_{$2}_proj_raw-eve.fif
 # 					   rm {$1}_{$3}Run?_{$2}_avg_proj.fif
 # 					   rm {$1}_{$3}Run?_{$2}-eve.fif  
-# endif
+#endif
 
   
 if $3 == 'ATLLoc' then
