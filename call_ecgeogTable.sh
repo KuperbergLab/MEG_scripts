@@ -4,15 +4,19 @@
 
 
 
-cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$1
+cd /autofs/cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/ecgeogTable/
 if ( -e {$1}_ecgeog_eventsTable.txt ) then
 		rm {$1}_ecgeog_eventsTable.txt
+                rm ../../../data/$1/{$1}_ecgeog_eventsTable.txt
 endif
+
+echo "Paradigm	ECG_PulseRate EOG_PerMin" >> {$1}_ecgeog_eventsTable.txt
+
 
 echo 'Creating the ecgeogTable for the subject' $1
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$1
 
-echo "Paradigm	ECG_PulseRate EOG_PerMin" >> {$1}_ecgeog_eventsTable.txt
+
 foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
 #foreach par ('ATLLoc')
 	if $par == 'ATLLoc' then
@@ -25,4 +29,4 @@ foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
 		  end
 	endif
 end
-chgrp lingua {$1}_ecgeog_eventsTable.txt
+chgrp lingua ../../results/artifact_rejection/ecgeogTable/{$1}_ecgeog_eventsTable.txt
