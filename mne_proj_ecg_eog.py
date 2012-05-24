@@ -17,7 +17,7 @@ from mne import fiff
 from pipeline import make_lingua
         
 ###############################################################################################################################################################################################
-def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
+def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads, preload):
 
     """Compute SSP/PCA projections for ECG/EOG artifacts
 
@@ -31,7 +31,7 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     in_fif_fname = in_path + in_fif_fname
     
     print 'Reading fif File'
-    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
+    raw = mne.fiff.Raw(in_fif_fname, preload=preload)
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
@@ -50,13 +50,13 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         eeg_proj = mne.fiff.proj.make_eeg_average_ref_proj(raw.info)
         raw.info['projs'].append(eeg_proj)
 
-##    if average:
-##         ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-##         out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
-##
-##    else:
-    ecg_proj_fname = prefix + '_ecg_proj.fif'
-    out_fif_fname = prefix + '_ecg_proj_raw.fif'
+    if average:
+         ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
+         out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
+
+    else:
+         ecg_proj_fname = prefix + '_ecg_proj.fif'
+         out_fif_fname = prefix + '_ecg_proj_raw.fif'
 
 
     print 'Computing ECG projector'
@@ -82,17 +82,19 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 
     epochs_ecg = mne.Epochs(raw, ecg_events, None, tmin, tmax, baseline=None,
                         picks=picks, reject=reject, proj=True)
-
+    print epochs_ecg
     projs_init = raw.info['projs'] 
 
     if average:
-        evoked_ecg = epochs_ecg.average()
-        projs_ecg = mne.compute_proj_evoked(evoked_ecg, n_grad=n_grad, n_mag=n_mag,
-                                        n_eeg=n_eeg)
+         evoked_ecg = epochs_ecg.average()
+         print "****************************"
+         projs_ecg = mne.compute_proj_evoked(evoked_ecg, n_grad=n_grad, n_mag=n_mag,
+                                         n_eeg=n_eeg)
     else:
-        projs_ecg = mne.compute_proj_epochs(epochs_ecg, n_grad=n_grad, n_mag=n_mag,
-                                        n_eeg=n_eeg)
-    
+         print epochs_ecg, n_grad, n_mag, n_eeg
+         projs_ecg = mne.compute_proj_epochs(epochs_ecg, n_grad=n_grad, n_mag=n_mag,
+                                            n_eeg=n_eeg)
+
 
     print "Writing ECG projections in %s" % ecg_proj_fname
     mne.write_proj(ecg_proj_fname, projs_ecg + projs_init) ## Original Projections written along with the ecg projections. 
@@ -161,7 +163,7 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         projs_eog = mne.compute_proj_evoked(evoked_eog, n_grad=n_grad, n_mag=n_mag,
                                         n_eeg=n_eeg)
     else:
-        projs_eog = mne.compute_proj_epochs(epochs, n_grad=n_grad, n_mag=n_mag,
+    	projs_eog = mne.compute_proj_epochs(epochs, n_grad=n_grad, n_mag=n_mag,
                                         n_eeg=n_eeg)
 
 
@@ -227,12 +229,12 @@ if __name__ == '__main__':
     parser.add_option("-o", "--out", dest="raw_out",
                     help="Output FIF file", metavar="FILE",
                     default=None)
-    parser.add_option("--tmin", dest="tmin",
+    parser.add_option("--tmin", dest="tmin", type="float",
                     help="time before event in seconds",
-                    default=-0.2)
-    parser.add_option("--tmax", dest="tmax",
-                    help="time before event in seconds",
-                    default=0.4)
+                    default=-0.08)
+    parser.add_option("--tmax", dest="tmax", type="float",
+                    help="time after event in seconds",
+                    default=0.08)
     parser.add_option("-g", "--n-grad", dest="n_grad",
                     help="Number of SSP vectors for gradiometers",
                     default=1)
@@ -248,9 +250,9 @@ if __name__ == '__main__':
     parser.add_option("--h-freq", dest="h_freq",
                     help="Filter high cut-off frequency in Hz",
                     default=None)  # XXX
- #   parser.add_option("-p", "--preload", dest="preload",
- #                   help="Temporary file used during computaion",
- #                    default='tmp.mmap')
+    parser.add_option("-p", "--preload", dest="preload",
+                    help="Temporary file used during computaion",
+                    default='tmp.mmap')
     parser.add_option("-a", "--average", dest="average", action="store_true",
                     help="Compute SSP after averaging",
                     default=False)
@@ -265,13 +267,13 @@ if __name__ == '__main__':
                     default=None)
     parser.add_option("--rej-grad", dest="rej_grad",
                     help="Gradiometers rejection parameter in fT/cm (peak to peak amplitude)",
-                    default=2000)
+                    default=3000)
     parser.add_option("--rej-mag", dest="rej_mag",
                     help="Magnetometers rejection parameter in fT (peak to peak amplitude)",
-                    default=3000)
+                    default=4000)
     parser.add_option("--rej-eeg", dest="rej_eeg",
                     help="EEG rejection parameter in uV (peak to peak amplitude)",
-                    default=50)
+                    default=500)
     parser.add_option("--rej-eog", dest="rej_eog",
                     help="EOG rejection parameter in uV (peak to peak amplitude)",
                     default=250)
@@ -303,7 +305,7 @@ if __name__ == '__main__':
     l_freq = options.l_freq
     h_freq = options.h_freq
     average = options.average # Using the average of all the ecg/eog events to compute the corresponding projector. 
- #   preload = options.preload
+    preload = options.preload
     filter_length = options.filter_length
     n_jobs = options.n_jobs
     ch_name = options.ch_name
@@ -322,14 +324,14 @@ if __name__ == '__main__':
         print 'Bad channels read : %s' % bads
     else:
         bads = []
+    print type(tmin)
     
     if tag == 'ecg':
                 in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
-                             average, filter_length, n_jobs, ch_name, reject,
-                             avg_ref, bads)
+                            average, filter_length, n_jobs, ch_name, reject,
+                             avg_ref, bads, preload)
                 make_lingua(in_fif_fname)
                 make_lingua(ecg_proj_fname)
-                make_lingua(out_fif_fname)
                 print 'Applying ECG projector'
                 command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
                        '--projoff --save %s --filteroff'
@@ -341,7 +343,8 @@ if __name__ == '__main__':
                 else:
                      print 'Command executed: %s' % command
                      print 'Done'
-                     print ('Computed EOG Rejection fif file. Saved result as %s' % out_fif_fname)
+                     print ('Computed ECG Rejection fif file. Saved result as %s' % out_fif_fname)
+                make_lingua(out_fif_fname)
            
     elif tag =='eog':
                 in_fif_fname, eog_proj_fname, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
