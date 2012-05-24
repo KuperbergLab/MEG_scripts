@@ -450,7 +450,7 @@ else
 
 endif
 
-
+make_lingua($3)
 
 #mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter
 #mkdir /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_MaxFilter/logs
