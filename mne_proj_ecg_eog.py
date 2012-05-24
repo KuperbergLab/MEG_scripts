@@ -87,7 +87,6 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 
     if average:
          evoked_ecg = epochs_ecg.average()
-         print "****************************"
          projs_ecg = mne.compute_proj_evoked(evoked_ecg, n_grad=n_grad, n_mag=n_mag,
                                          n_eeg=n_eeg)
     else:
@@ -117,13 +116,13 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     eog_event_fname = prefix + '_eog-eve.fif'
     make_lingua(eog_event_fname)
 
-##    if average:
-##        eog_proj_fname = prefix + '_eog_avg_proj.fif'
-##        out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
-##
-##    else:
-    eog_proj_fname = prefix + '_eog_proj.fif'
-    out_fif_fname = prefix + '_eog_proj_raw.fif'
+    if average:
+        eog_proj_fname = prefix + '_eog_avg_proj.fif'
+        out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
+
+    else:
+        eog_proj_fname = prefix + '_eog_proj.fif'
+        out_fif_fname = prefix + '_eog_proj_raw.fif'
 
 
     print 'Running EOG SSP computation'
