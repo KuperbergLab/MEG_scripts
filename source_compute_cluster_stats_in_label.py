@@ -90,7 +90,9 @@ src[0]['use_tris'] = ico_tris
 src[1]['use_tris'] = ico_tris
 
 # set stcs to 0 outside a label to restrict clusters within one label
-label_list = ['/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/lh.aparc2009-langROIs-n10-lh.label','/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/rh.aparc2009-langROIs-n10-rh.label' ]
+#label_list = ['/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/lh.aparc2009-langROIs-n10-lh.label','/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/rh.aparc2009-langROIs-n10-rh.label' ]
+label_list = ['/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/lh.aparc-langROIs-n12-lh.label','/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/fsaverage/label/rh.aparc-langROIs-n12-rh.label' ]
+
 #label = mne.read_label(label_list)
 
 def label_mask(sample_stc, label_list):
