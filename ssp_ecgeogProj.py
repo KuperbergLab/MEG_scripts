@@ -27,16 +27,24 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         Raw fif File
     XXX
     """
-
-    in_fif_fname = in_path + in_fif_fname
-    
-    print 'Reading fif File'
-    raw = mne.fiff.Raw(in_fif_fname, preload=preload)
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
         prefix = in_fif_fname[:-4]
-    ecg_event_fname = prefix + '_ecg-eve.fif'
+    ecg_event_fname = in_path + 'ssp/' + prefix + '_ecg-eve.fif'
+
+    if average:
+         ecg_proj_fname = in_path + 'ssp/' + prefix + '_ecg_avg_proj.fif'
+         out_fif_fname = in_path + 'ssp/' + prefix + '_ecg_avg_proj_raw.fif'
+
+    else:
+         ecg_proj_fname = in_path + 'ssp/' + prefix + '_ecg_proj.fif'
+         out_fif_fname = in_path + 'ssp/' + prefix + '_ecg_proj_raw.fif'
+
+    
+    print 'Reading fif File'
+    in_fif_fname = in_path + in_fif_fname
+    raw = mne.fiff.Raw(in_fif_fname, preload=preload)
 
     print 'Running ECG SSP computation'
 
@@ -49,14 +57,6 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
         print "Adding average EEG reference projection."
         eeg_proj = mne.fiff.proj.make_eeg_average_ref_proj(raw.info)
         raw.info['projs'].append(eeg_proj)
-
-    if average:
-         ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-         out_fif_fname = prefix + '_ecg_avg_proj_raw.fif'
-
-    else:
-         ecg_proj_fname = prefix + '_ecg_proj.fif'
-         out_fif_fname = prefix + '_ecg_proj_raw.fif'
 
 
     print 'Computing ECG projector'
@@ -105,25 +105,29 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ########################################################################################################################################################################
 def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads):
 
-    in_fif_fname = in_path + in_fif_fname
-    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
-    
+	#####Defining filenames
+	
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
         prefix = in_fif_fname[:-4]
 
-    eog_event_fname = prefix + '_eog-eve.fif'
+    eog_event_fname = in_path + 'ssp/'+ prefix + '_eog-eve.fif'
     make_lingua(eog_event_fname)
 
     if average:
-        eog_proj_fname = prefix + '_eog_avg_proj.fif'
-        out_fif_fname = prefix + '_eog_avg_proj_raw.fif'
+        eog_proj_fname = in_path + 'ssp/' + prefix + '_eog_avg_proj.fif'
+        out_fif_fname = in_path + 'ssp/' + prefix + '_eog_avg_proj_raw.fif'
 
     else:
-        eog_proj_fname = prefix + '_eog_proj.fif'
-        out_fif_fname = prefix + '_eog_proj_raw.fif'
+        eog_proj_fname = in_path + 'ssp/' + prefix + '_eog_proj.fif'
+        out_fif_fname = in_path + 'ssp/' + prefix + '_eog_proj_raw.fif'
 
+	####Reading in raw data
+
+    in_fif_fname = in_path + in_fif_fname
+    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
+    
 
     print 'Running EOG SSP computation'
 
@@ -174,23 +178,27 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ########################################################################################################################################################
 def compute_proj_ecgeog(in_path, in_fif_fname):
 
-    in_fif_fname = in_path + in_fif_fname
-    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
-    
     if in_fif_fname.endswith('_raw.fif') or in_fif_fname.endswith('-raw.fif'):
         prefix = in_fif_fname[:-8]
     else:
         prefix = in_fif_fname[:-4]
 
-##    if average:
-##        ecg_proj_fname = prefix + '_ecg_avg_proj.fif'
-##        eog_proj_fname = prefix + '_eog_avg_proj.fif'
-##        out_fif_fname = prefix + '_ecgeog_avg_proj_raw.fif'
-##
-##    else:
-    ecg_proj_fname = prefix + '_ecg_proj.fif'
-    eog_proj_fname = prefix + '_eog_proj.fif'
-    out_fif_fname = prefix + '_ecgeog_proj_raw.fif'
+    if average:
+        ecg_proj_fname = in_path + 'ssp/' +prefix + '_ecg_avg_proj.fif'
+        eog_proj_fname = in_path + 'ssp/' +prefix + '_eog_avg_proj.fif'
+        out_fif_fname = in_path + 'ssp/' +prefix + '_ecgeog_avg_proj_raw.fif'
+
+    else:
+		ecg_proj_fname = in_path + 'ssp/' + prefix + '_ecg_proj.fif'
+		eog_proj_fname = in_path + 'ssp/' + prefix + '_eog_proj.fif'
+		out_fif_fname = in_path + 'ssp/' + prefix + '_ecgeog_proj_raw.fif'
+		
+
+	##Reading raw file
+    in_fif_fname = in_path + in_fif_fname
+    raw = mne.fiff.Raw(in_fif_fname) #, preload=preload)
+    
+
         
     print 'Applying ECG and EOG projector'
     command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s '
