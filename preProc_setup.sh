@@ -34,6 +34,7 @@ mkdir ave_projon -m g+rws
 mkdir ave_projoff -m g+rws
 mkdir ave_projon/logs -m g+rws
 mkdir ave_projoff/logs -m g+rws
+mkdir ssp -m g+rws
 
 #########################################################
 ##Remove any existing *eve.fif files for internal consistency
