@@ -55,7 +55,7 @@ if __name__ == '__main__':
     ##make total table (total count of events presented in scanner that were answered correctly)
     for k,v in all_data.items():
         fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/%s_%s_total_correct_events.txt' % (pre, subjType, k)
-        codes = sorted(v[subjType+'3'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
+        codes = sorted(v[subjType+'7'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
         code_line = '\t\t%s' % '\t\t'.join(codes)   ##This just puts them together to head the table
         subject_lines = []
         for sub in subjects:
@@ -77,7 +77,7 @@ if __name__ == '__main__':
 	##make combined rejTable
     for k,v in all_data.items():
         fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/%s_%s_remaining_events.txt' % (pre, subjType, k)
-        codes = sorted(v[subjType+'3'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
+        codes = sorted(v[subjType+'7'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
         code_line = '\t\t%s' % '\t\t'.join(codes)   ##This just puts them together to head the table
         subject_lines = []
         for sub in subjects:

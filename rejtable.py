@@ -4,6 +4,8 @@
 #usage: python rejTable.py subjType 
 # eg: python rejTable.py ac
 
+###### Testing script only. #########
+
 from os import path as op
 import sys
 from pipeline import load_data
@@ -21,7 +23,6 @@ def get_data(subjects):
     all_data = {}
     for sub in subjects:
         eve_dat = op.join('/%s/kuperberg/SemPrMM/MEG/data/%s/eve' % (pre, sub), 'info.txt')
-        print eve_dat
         try:
             dat = load_data(eve_dat)
             # reorient dat into all_dat
@@ -29,13 +30,11 @@ def get_data(subjects):
                 if k not in all_data:
                     all_data[k] = {}
                 all_data[k][sub] = v
-                #print v
         except IOError:
             pass
     return all_data
 
 if __name__ == '__main__':
-    subjects = []
     data_path = '/cluster/kuperberg/SemPrMM/MEG/'
     subjType = sys.argv[1]
     if (subjType == 'ac'):
@@ -45,22 +44,24 @@ if __name__ == '__main__':
     if (subjType == 'ya'):
 		subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.possible.txt'
     subject_list = readInput.readList(subject_filename)
-   # print subject_list
+    subjects = []
     for row in subject_list:
     	row = subjType+row
     	subjects.append(row)
     print subjects
     
     all_data = get_data(subjects)
-    
     for k,v in all_data.items():
+        #print k, v
+        ##Note: 
         fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/heogveog_rejection/%s_%s_rejTable.txt' % (pre, subjType, k)
-        print fname
-        codes = sorted(v[subjType+'1'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))
-       # print codes
+        codes = sorted(v[subjType+'8'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))
+        print codes 
         code_line = '\t\t%s' % '\t\t\t'.join(codes)
+        #print code_line
         subject_lines = []
         for sub in subjects:
+            #print sub
             if sub in v:
                 if len(sub) > 3:
                     beg = '%s\t' % sub
@@ -76,3 +77,5 @@ if __name__ == '__main__':
         print("Saved rejection table to %s" % fname)
         make_lingua(fname)
     pass
+
+
