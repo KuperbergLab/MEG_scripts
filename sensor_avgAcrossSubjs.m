@@ -109,6 +109,5 @@ for x = 1:2
 
     outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
-
     
 end
