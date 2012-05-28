@@ -10,9 +10,10 @@ import writeOutput
 ##The RMS is computed at the subject level, so all opposite polarity effects on diff channels
 ##are accounted for.
 ##Prints all the 8 plots in one figure. 
-## Example: run sensor_plot_meg_regions_rms_topo BaleenLP_All ya.n24.bal 0 1 
+## Example: run sensor_plot_meg_regions_rms_topo ya BaleenLP_All ya.n24.bal 0 1 
 
 parser = argparse.ArgumentParser(description='Get input')
+parser.add_argument('subjType',type=str)
 parser.add_argument('protocol',type=str)
 parser.add_argument('prefix',type=str)
 parser.add_argument('set1',type=int)
@@ -81,7 +82,7 @@ for group in channelGroups:
 			
 		for c in range(2):
 			for subj in subjects:
-				file = data_path + 'ya' + subj + '/ave_projon/ya'+ subj + '_'+args.protocol +'-ave.fif'
+				file = data_path + args.subjType + subj + '/ave_projon/' + args.subjType + subj + '_'+args.protocol +'-ave.fif'
 				#print file
 				#print 'set ', condList[c]
 				#print 'Jane reading evoked'
