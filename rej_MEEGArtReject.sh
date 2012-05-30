@@ -14,15 +14,16 @@ foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
          if ($par == 'ATLLoc') then
              if ( -e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-               foreach t ( {$i}_ATLLoc-ave.log ) 
-                  python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par 
+               foreach t ( {$i}_ATLLoc-ave.log )
+                  python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_countBadChan.py $t $par 
                end
              endif
          else
             if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log ) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
-               foreach t ( {$i}_{$par}Run?-ave.log )  
-                  python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t $par
+               foreach t ( {$i}_{$par}Run?-ave.log )
+                 # echo $t   
+                  python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_countBadChan.py $t $par
                end
             endif
          endif
@@ -37,7 +38,7 @@ if ($1 == 'ya') then
       cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs
       if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_AXCPTRun1-ave.log) then 
           foreach t ( {$i}_AXCPTRun?-ave.log ) 
-                 python /cluster/kuperberg/SemPrMM/MEG/scripts/countBadChan.py $t AXCPT
+                 python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_countBadChan.py $t AXCPT
           end
       endif
       cd ../../..
@@ -49,6 +50,6 @@ echo 'ComputeEvents'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ( 'AXCPT' 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' )
    echo $par
-   python /cluster/kuperberg/SemPrMM/MEG/scripts/computeEvents.py $1 $par /cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/megeeg_rejection/$1_MEEGArtRejSummary-$par
+   python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_computeEvents.py $1 $par /cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/megeeg_rejection/$1_MEEGArtRejSummary-$par
 end
 echo 'Results saved in MEG/results/artifact_rejection/megeeg_rejection folder' 
