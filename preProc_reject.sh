@@ -29,9 +29,9 @@ date
 if ( -e rej/reject.m ) then
     matlab7.11 -nosplash -nodesktop -nodisplay < /cluster/kuperberg/SemPrMM/MEG/data/$1/rej/reject.m >>& $log
     # now write out new ModRej.eve files
-    python /cluster/kuperberg/SemPrMM/MEG/scripts/rej2eve.py $1 >>& $log
+    python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_rej2eve.py $1 >>& $log
     # now save comparison data
-    python /cluster/kuperberg/SemPrMM/MEG/scripts/cmpEve.py $1 >>& $log
+    python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_cmpEve.py $1 >>& $log
 else
     echo "No reject.m file was found" >>& $log
     exit 1
