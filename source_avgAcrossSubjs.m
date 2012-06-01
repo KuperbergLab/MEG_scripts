@@ -5,11 +5,11 @@ function source_avgAcrossSubjs(exp,listPrefix,condNum,type,norm,numSamples)
 %%if you pick mne and norm=1, you should end up with something basically identical to
 %%spm
 
-%%ex: source_avgAcrossSubjs('MaskedMM_All', 'ya.meg.',1,'spm',0,481)
+%%ex: source_avgAcrossSubjs('MaskedMM_All', '0007.meg.',1,'spm',0,481)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix,'.txt')))';
-
+prefix = listPrefix([1:2])
 
 
 [~,n] = size(subjList);
@@ -27,10 +27,10 @@ for hemI = 1:2
     for subj=subjList
         count=count+1;
         subj 
-        subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/',exp,'/');
+        subjDataPath = strcat(prefix,int2str(subj),'/ave_projon/stc/',exp,'/');
         %%Read in stc file for subject
 
-        filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condNum),'M-',type,'-',hem,'.stc')
+        filename = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condNum),'M-',type,'-',hem,'.stc')
         subjSTC = mne_read_stc_file(filename);
         subjData = subjSTC.data;
         
