@@ -33,7 +33,7 @@ if $3 == 'ATLLoc' then
       if $2 == 'raw' then 
             ln -s {$1}_ATLLoc_$label.fif {$1}_ATLLoc_ssp_raw.fif
       else 
-            ln -s /ssp/{$1}_ATLLoc_$label.fif {$1}_ATLLoc_ssp_raw.fif
+            ln -s ssp/{$1}_ATLLoc_$label.fif {$1}_ATLLoc_ssp_raw.fif
       endif
 else
       pwd
