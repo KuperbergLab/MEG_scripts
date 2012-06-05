@@ -52,16 +52,16 @@ else
             endif
       else 
             if (-e {$1}_{$3}Run1_raw.fif) then 
-                  ln -s /ssp/{$1}_{$3}Run1_$label.fif {$1}_{$3}Run1_ssp_raw.fif 
+                  ln -s ssp/{$1}_{$3}Run1_$label.fif {$1}_{$3}Run1_ssp_raw.fif 
             endif
             if (-e {$1}_{$3}Run2_raw.fif) then 
-                  ln -s /ssp/{$1}_{$3}Run2_$label.fif {$1}_{$3}Run2_ssp_raw.fif 
+                  ln -s ssp/{$1}_{$3}Run2_$label.fif {$1}_{$3}Run2_ssp_raw.fif 
             endif
             if (-e {$1}_{$3}Run3_raw.fif) then 
-                  ln -s /ssp/{$1}_{$3}Run3_$label.fif {$1}_{$3}Run3_ssp_raw.fif 
+                  ln -s ssp/{$1}_{$3}Run3_$label.fif {$1}_{$3}Run3_ssp_raw.fif 
             endif            
             if (-e {$1}_{$3}Run4_raw.fif) then 
-                  ln -s /ssp/{$1}_{$3}Run4_$label.fif {$1}_{$3}Run4_ssp_raw.fif 
+                  ln -s ssp/{$1}_{$3}Run4_$label.fif {$1}_{$3}Run4_ssp_raw.fif 
             endif
        endif   
 endif
