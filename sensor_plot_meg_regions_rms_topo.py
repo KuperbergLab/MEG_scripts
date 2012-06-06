@@ -25,7 +25,7 @@ print condList
 colorList = ['k','r']
 lWidth = 2
 
-ymin,ymax = [-.5,26]
+ymin,ymax = [-.5,30]
 xmin,xmax = [-100,660]
 
 
@@ -46,7 +46,7 @@ pl.clf()
 for group in channelGroups:
 
 	font = {
-         'size'   : 14}
+         'size'   : 10}
 	pl.rc('font', **font)
 	
 	for hem in hemList:
