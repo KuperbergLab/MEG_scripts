@@ -18,7 +18,7 @@ import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-100, 650]
+xmin,xmax = [-100, 710]
 ymin,ymax = [0, 10]
 lWidth = 4
 
@@ -101,7 +101,7 @@ pl.xticks(np.array([0, 200, 400, 600]))
 
 #pl.xlabel('time (ms)')
 #pl.ylabel('Source amplitude')
-pl.axvspan(300, 500, color='k', alpha=0.1)
+pl.axvspan(500, 700, color='k', alpha=0.1)
 #pl.title('Activations in Label : %s' % label1)
 #pl.ticklabel_format(style='plain',axis='x')
 #pl.rcParams.update({'font.size': 12})
