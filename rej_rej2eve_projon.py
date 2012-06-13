@@ -8,7 +8,7 @@ import writeOutput
 import sys
 import os
 
-def projonrej2eve(subjID):
+def  rej_rej2eve_projon(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
@@ -51,13 +51,15 @@ def projonrej2eve(subjID):
                                         if str(timept2) in timept1:
                                                 lineTemp2[3] = 4000 + int(lineTemp2[3])
 
-                                writeOutput.writeTable(outFile,data2)                        
+                                writeOutput.writeTable(outFile,data2)
+#                                 g = os.path.getsize(outFile)    
+#                                 print g               
 
 
                 
                     
 if __name__ == "__main__":
-	projonrej2eve(sys.argv[1])                    
+ rej_rej2eve_projon(sys.argv[1])                    
                     
                     
                     
