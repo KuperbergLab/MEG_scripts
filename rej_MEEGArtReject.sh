@@ -7,11 +7,12 @@
 echo 'CountEvents-CountBadChannels'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
-#foreach par ('MaskedMM')
+#foreach par ('BaleenLP')
    echo $par
    foreach i ( $1* )
          echo $i
          if ($par == 'ATLLoc') then
+             echo $par
              if ( -e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
                foreach t ( {$i}_ATLLoc-ave.log )
@@ -19,10 +20,11 @@ foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
                end
              endif
          else
+            echo $par 
             if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/{$i}_ATLLoc-ave.log ) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$i/ave_projon/logs/
                foreach t ( {$i}_{$par}Run?-ave.log )
-                 # echo $t   
+                  #echo $t   
                   python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_countBadChan.py $t $par
                end
             endif
@@ -48,7 +50,7 @@ endif
 
 echo 'ComputeEvents'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
-foreach par ( 'AXCPT' 'ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM' )
+foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
    echo $par
    python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_computeEvents.py $1 $par /cluster/kuperberg/SemPrMM/MEG/results/artifact_rejection/megeeg_rejection/$1_MEEGArtRejSummary-$par
 end
