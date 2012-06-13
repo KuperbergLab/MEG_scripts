@@ -123,7 +123,8 @@ foreach proj ( 'projon' 'projoff' )
 	####################################
     if ( $proj == 'projon' ) then
         	echo "Making ModRej4projoff.eve files" >>& $log
-	        python /cluster/kuperberg/SemPrMM/MEG/scripts/projonrej2eve.py $1 >>& $log
+	        python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_rej2eve_projon.py $1 >>& $log
+	        echo "done" >>& $log
     endif  
 
 end
