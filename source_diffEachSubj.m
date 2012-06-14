@@ -9,7 +9,7 @@ function source_diffEachSubj(exp,listPrefix,condPair,type,norm, numSamples)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix,'.txt')))';
-
+prefix = listPrefix([1:2])
 
 
 [~,n] = size(subjList);
@@ -29,11 +29,11 @@ for hemI = 1:2
     for subj=subjList
         count=count+1;
         subj 
-        subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/',exp,'/');
+        subjDataPath = strcat(prefix,int2str(subj),'/ave_projon/stc/',exp,'/');
         %%Read in stc file for subject
 
         for c = 1:2
-            filename = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
+            filename = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(c)),'M-',type,'-',hem,'.stc')
             
             subjSTC = mne_read_stc_file(filename);
             
@@ -51,9 +51,9 @@ for hemI = 1:2
         
         subjDataDiff = subjData(:,:,2)-subjData(:,:,1);
         
-        outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
+        outFile = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-',type,'-',hem,'.stc')
         if norm == 1
-            outFile = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
+            outFile = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm-',type,'-',hem,'.stc')
         end
         newSTC = subjSTC;
         newSTC.data = subjDataDiff;
