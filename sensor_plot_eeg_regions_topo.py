@@ -53,19 +53,22 @@ for group in channelGroups:
 	
 		channelFile = channel_path + hem + '_' + group+ '.txt'
 		channelList = readInput.readList(channelFile)
-	
+	    
 		if hem == 'left':
 		    if group == 'ant':
 		       pl.subplot(2,2,1)
+		       pl.title("Left Anterior")
 		    else:
 		       pl.subplot(2,2,3)
+		       pl.title("Left Posterior")
 		else:
 		    if group == 'ant':
 		       pl.subplot(2,2,2)
+		       pl.title("Right Anterior")
 		    else:
 		       pl.subplot(2,2,4)
-		       
-		       
+		       pl.title("Right Posterior")
+		            
 		for c in range(2):
 		
 			##get the data
@@ -110,7 +113,6 @@ for group in channelGroups:
 		#pl.legend((args.label1,args.label2),loc="bottom left")
 		#pl.title(hem + group)
 		pl.plot(times,region_mean*0,color='k')
-		#pl.show()
 
 outFile = results_path + args.prefix1 + '-' + args.prefix2 + '-' + str(args.set1)+'-'+str(args.set2)+'_topo'+ '.png'
 pl.savefig(outFile)
