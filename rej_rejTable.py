@@ -3,6 +3,7 @@
 """
 #usage: python rejTable.py subjType 
 # eg: python rejTable.py ac
+#requires subject 12 of the group to be present to extract item codes, see line 59
 
 ###### Testing script only. #########
 
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         #print k, v
         ##Note: 
         fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/heogveog_rejection/%s_%s_rejTable.txt' % (pre, subjType, k)
-        codes = sorted(v[subjType+'8'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))
+        codes = sorted(v[subjType+'12'].keys(), cmp=lambda x,y: cmp(int(x), int(y)))   ##using subject ID 12 to retrieve item codes
         print codes 
         code_line = '\t\t%s' % '\t\t\t'.join(codes)
         #print code_line
