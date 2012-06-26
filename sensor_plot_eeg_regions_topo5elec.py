@@ -62,24 +62,37 @@ for c in range(2):
                 evoked = fiff.Evoked(file,setno=condList[c],baseline=(-100,0),proj=False)
                 times=evoked.times*1000
                 print channelList
+				
                 for chan in channelList: 
 						if chan == 'FZ':
 							pl.subplot(3,3,2)
+							pl.title("FZ")
+                                                        ##pl.title(1.0, 1.0, 'FZ', fontsize='medium', verticalalignment='top')						
 						elif chan == 'CZ':
 							pl.subplot(3,3,5)
+							pl.title("CZ")
+							##pl.title(1.0, 1.0, 'CZ', fontsize='medium', verticalalignment='top')
+							
 						elif chan == 'PZ':
 							pl.subplot(3,3,8)
+							pl.title("PZ")
+							##pl.title(1.0, 1.0, 'PZ', fontsize='medium', verticalalignment='top')	
 						elif chan == 'C5':
 							pl.subplot(3,3,4)
+							pl.title("C5")
+							##pl.title(1.0, 1.0, 'C5', fontsize='medium', verticalalignment='top')	
 						else:
 							pl.subplot(3,3,6)
+							pl.title("C6")
+							##pl.title(1.0, 1.0, 'C6', fontsize='medium', verticalalignment='top')
 						sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=[chan])
 						print sel
 						data = evoked.data[sel]*1e6
 						
 						##Mean
 						region_mean = np.mean(data,0)
-						
+				    
+				
 						###plotting commands
 						pl.plot(times,region_mean,color=colorList[c],linewidth=lWidth) #plot the data
 						#pl.title(chan)
@@ -106,8 +119,6 @@ for c in range(2):
 						pl.axhline(y=2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
 						 
 pl.plot(times,region_mean*0,color='k')
-
-        
 
 outFile = results_path + args.prefix1 + '-' + args.prefix2 + '-' + str(args.set1)+'-'+str(args.set2)+'_topo5elec'+ '.png'
 pl.savefig(outFile)
