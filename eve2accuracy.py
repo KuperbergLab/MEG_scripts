@@ -36,7 +36,7 @@ codes = {"Baleen":{
 			"2":("Indirectly",False),
 			"3":("Unrelated",False),
 			"4":("InsectPrime",True,0.1),
-			"5":("InsctTarget",True,0)},
+			"5":("InsectTarget",True,0)},
 		"AXCPT":{
 			"1":("AY",False),
 			"2":("BX",False),
