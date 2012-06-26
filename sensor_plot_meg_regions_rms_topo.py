@@ -58,28 +58,37 @@ for group in channelGroups:
 			channelList.append('MEG ' + item)
 		print group
 		print channelList
-			
+		
+		
 		if hem == 'L' :
 		    if group == 'frontal':
 		       pl.subplot(3,4,2)
+		       pl.title("Left Frontal", verticalalignment='bottom')
 		    elif group == 'temporal':
 		       pl.subplot(3,4,5)
+		       pl.title("Left Temporal")
 		    elif group == 'parietal':
 		       pl.subplot(3,4,6)
+		       pl.title("Left Parietal")
 		    else:
 		       pl.subplot(3,4,10)
+		       pl.title("Left Occipital")
 
 		else:
 		    if group == 'frontal':
 		       pl.subplot(3,4,3)
+		       pl.title("Right Frontal")
 		    elif group == 'temporal':
 		       pl.subplot(3,4,8)
+		       pl.title("Right Temporal")
 		    elif group == 'parietal':
 		       pl.subplot(3,4,7)
+		       pl.title("Right Parietal")
 		    else:
 		       pl.subplot(3,4,11)
+		       pl.title("Right Occipital")
 			
-			
+		
 		for c in range(2):
 			for subj in subjects:
 				file = data_path + args.subjType + subj + '/ave_projon/' + args.subjType + subj + '_'+args.protocol +'-ave.fif'
@@ -112,8 +121,9 @@ for group in channelGroups:
 			pl.tick_params(axis='both',right='off',top='off') #turn off all the tick marks
 			pl.yticks(np.array([0.,4., 8., 12., 16., 20.]))
 			pl.xticks(np.array([0, 200, 400, 600]))
-	#pl.show()
-
+			#pl.subplots_adjust(bottom=0.2)
+			
+pl.subplots_adjust(hspace=.5)
 outFile = results_path + args.prefix + '-' + args.protocol + '-' + str(args.set1)+'-'+str(args.set2)+'_topo.png'
 pl.savefig(outFile)
-
+pl.show
