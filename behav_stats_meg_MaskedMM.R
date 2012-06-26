@@ -14,7 +14,7 @@ sink(outFile)
 ##behavData.all = subset(behavData.all, subj != 'ya1')
 
 ##include only animal trials
-behavData.insect<-behavData.all[behavData.all$cond == "InsectPrime" | behavData.all$cond == "InsctTarget", ] 
+behavData.insect<-behavData.all[behavData.all$cond == "InsectPrime" | behavData.all$cond == "InsectTarget", ] 
 
 
 ###################################################
