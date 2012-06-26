@@ -21,42 +21,42 @@ if ( -e $log ) then
     rm $log
 endif
 
-foreach proj ( 'projon' 'projoff' )
+foreach proj ( 'projon' 'projoff')
 	echo "Making Ave Parameter Files" >>& $log
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 $proj >>& $log
 
 	echo "Making Avg fif Files" >>& $log
 	cd /cluster/kuperberg/SemPrMM/MEG/data/$1/ave_$proj
 
-	mne_process_raw \
-	--raw ../$1_Blink_raw.fif \
-	--ave ../ave/$1_Blink.ave \
-	--$proj --lowpass 20 >>& $log
-
-	mne_process_raw \
-	--raw ../$1_ATLLoc_ssp_raw.fif \
-	--ave ../ave/$1_ATLLoc.ave \
-	--$proj --lowpass 20 --highpass .5 >>& $log
-	
-	mne_process_raw \
-	--raw ../$1_MaskedMMRun1_ssp_raw.fif \
-	--raw ../$1_MaskedMMRun2_ssp_raw.fif \
-	--ave ../ave/$1_MaskedMMRun1.ave \
-	--ave ../ave/$1_MaskedMMRun2.ave \
-	--gave $1_MaskedMM_All-ave.fif \
-	--$proj --lowpass 20 >>& $log
-
-	mne_process_raw \
-	--raw ../$1_BaleenLPRun1_ssp_raw.fif \
-	--raw ../$1_BaleenLPRun2_ssp_raw.fif \
-	--raw ../$1_BaleenLPRun3_ssp_raw.fif \
-	--raw ../$1_BaleenLPRun4_ssp_raw.fif \
-	--ave ../ave/$1_BaleenLPRun1.ave \
-	--ave ../ave/$1_BaleenLPRun2.ave \
-	--ave ../ave/$1_BaleenLPRun3.ave \
-	--ave ../ave/$1_BaleenLPRun4.ave \
-	--gave $1_BaleenLP_All-ave.fif \
-	--$proj --lowpass 20 >>& $log
+ 	mne_process_raw \
+ 	--raw ../$1_Blink_raw.fif \
+ 	--ave ../ave/$1_Blink.ave \
+ 	--$proj --lowpass 20 >>& $log
+ 
+ 	mne_process_raw \
+ 	--raw ../$1_ATLLoc_ssp_raw.fif \
+ 	--ave ../ave/$1_ATLLoc.ave \
+ 	--$proj --lowpass 20 --highpass .5 >>& $log
+ 	
+ 	mne_process_raw \
+ 	--raw ../$1_MaskedMMRun1_ssp_raw.fif \
+ 	--raw ../$1_MaskedMMRun2_ssp_raw.fif \
+ 	--ave ../ave/$1_MaskedMMRun1.ave \
+ 	--ave ../ave/$1_MaskedMMRun2.ave \
+ 	--gave $1_MaskedMM_All-ave.fif \
+ 	--$proj --lowpass 20 >>& $log
+ 
+ 	mne_process_raw \
+ 	--raw ../$1_BaleenLPRun1_ssp_raw.fif \
+ 	--raw ../$1_BaleenLPRun2_ssp_raw.fif \
+ 	--raw ../$1_BaleenLPRun3_ssp_raw.fif \
+ 	--raw ../$1_BaleenLPRun4_ssp_raw.fif \
+ 	--ave ../ave/$1_BaleenLPRun1.ave \
+ 	--ave ../ave/$1_BaleenLPRun2.ave \
+ 	--ave ../ave/$1_BaleenLPRun3.ave \
+ 	--ave ../ave/$1_BaleenLPRun4.ave \
+ 	--gave $1_BaleenLP_All-ave.fif \
+ 	--$proj --lowpass 20 >>& $log
 
 	mne_process_raw \
 	--raw ../$1_BaleenHPRun1_ssp_raw.fif \
