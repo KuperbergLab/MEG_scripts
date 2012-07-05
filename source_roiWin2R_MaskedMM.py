@@ -1,6 +1,6 @@
 """
 ====================================================
-For Baleen, outputting data table for input to R on a time-window from the time series of activations in selected labels
+For MaskedMM, outputting data table for input to R on a time-window from the time series of activations in selected labels
 ====================================================
 The label is not subject-specific but defined from fsaverage brain
 
@@ -45,7 +45,7 @@ protocolList = ['MaskedMM_All', 'MaskedMM_All', 'MaskedMM_All']
 condList = ['1', '2', '3']
 hemList = ['lh','rh']
 #labelList = ['G_front_inf-Opercular', 'G_front_inf-Triangul','G_front_inf-Orbital', 'Pole_temporal', 'G_temp_ant-sup-Lateral','G_temp_post-sup-Lateral','S_temporal_ant-sup','S_temporal_post-sup','G_temporal_ant-middle','G_temporal_post-middle','G_temporal_inf','S_temporal_inf','G_pariet_inf-Angular','G_temp_sup-Plan_polar','aparc2009-aMTGSTS','aparc2009-pMTGSTS','aparc2009-IFG','aparc2009-aMTGSTSTP','ya.n24.bal.BaleenHP_300-500_cluster']
-labelList = ['aparc2009-pMTGSTS','aparc2009-IFG','aparc2009-aMTGSTSTP']
+labelList = ['aparc-IFG','aparc-pMTGSTS']
 
 ##Convert input times from ms to samples
 baseline=100 #ms
