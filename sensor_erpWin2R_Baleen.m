@@ -1,4 +1,4 @@
-function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList)
+function sensor_erpWin2R_Baleen(listPrefix,t1,t2,condList)
 
 %This script reads in both BaleenLP and BaleenHP to a single file
 %This script baselines the data and gets rid of non-scalp electrodes
