@@ -59,8 +59,8 @@ label_fname = data_path + '/label/%s.label' % label
 print label
 
 baseline = 100 #ms
-#sample1 = int(round( (baseline)/1.6667)) #don't predict any differences in baseline or first 100
-#print sample1
+sample1 = int(round( (baseline)/1.6667)) #don't predict any differences in baseline
+print sample1
 sample1 = 0
 
 valuesAll1 = []
@@ -97,8 +97,8 @@ T_obs, clusters, cluster_p_values, H0 = \
 # Plot
 import pylab as pl
 
-xmin,xmax = [-100, 701]
-ymin,ymax = [0, 4]
+xmin,xmax = [-100, 801]
+ymin,ymax = [0, 12]
 if args.model == 'mne':
 	ymin,ymax = [0,4*1e-10]
 lWidth = 4
