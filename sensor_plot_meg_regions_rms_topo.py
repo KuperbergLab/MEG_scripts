@@ -26,7 +26,7 @@ colorList = ['k','r']
 lWidth = 2
 
 ymin,ymax = [-.5,30]
-xmin,xmax = [-100,660]
+xmin,xmax = [-100,710]
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'
