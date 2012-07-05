@@ -107,8 +107,8 @@ for group in channelGroups:
 			pl.axvline(x=500,ymin=.48, ymax=.52, color='k',linewidth=2)
 			
 			#draw little endings to the vertical line at 0, in typical ERP convention
-			pl.axhline(y=-2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
-			pl.axhline(y=2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
+			pl.axhline(y=-2,xmin=.08,xmax=.14, color = 'k',linewidth=2)
+			pl.axhline(y=2,xmin=.08,xmax=.14, color = 'k',linewidth=2)
 
 		#pl.legend((args.label1,args.label2),loc="bottom left")
 		#pl.title(hem + group)
