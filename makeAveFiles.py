@@ -71,8 +71,23 @@ def makeAveFiles(subjID,projType):
                                                 myFile.write('\t\ttmax\t' + '3.6' + '\n\t}\n\n')
                                         else:
                                                 myFile.write('\t\ttmax\t' + epMaxDict[exp] + '\n\t}\n\n')
-                                
+                                if exp=='BaleenHP':
+                                        myFile.write('\tcategory {\n')
+                                        myFile.write('\t\tname\t\"'+'Related 120'+'\"\n')
+                                        myFile.write('\t\tevent\t'+'6'+'\n')
+                                        myFile.write('\t\tevent\t'+'8'+'\n')                                        
+                                        myFile.write('\t\ttmin\t-0.1\n')
+                                        myFile.write('\t\ttmax\t' + epMaxDict[exp] + '\n\t}\n\n')
+                                        myFile.write('\tcategory {\n')
+                                        myFile.write('\t\tname\t\"'+'Unrelated 120'+'\"\n')
+                                        myFile.write('\t\tevent\t'+'7'+'\n')
+                                        myFile.write('\t\tevent\t'+'9'+'\n')                                        
+                                        myFile.write('\t\ttmin\t-0.1\n')
+                                        myFile.write('\t\ttmax\t' + epMaxDict[exp] + '\n\t}\n\n')
+                                                                
                                 myFile.write('}\n')
+
+
                  elif exp == 'Blink':
                         for run in runDict[exp]:
                                 filename = filePrefix + '/ave/'+subjID + '_' + exp + run + '.ave'
