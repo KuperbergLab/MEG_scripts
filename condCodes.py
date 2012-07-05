@@ -55,7 +55,7 @@ for exp in codes:
 		if exp == 'ATLLoc':
 			temp[codes[exp][count]] = [60,300]
 		elif exp == 'MaskedMM':
-			temp[codes[exp][count]] = [60,481]
+			temp[codes[exp][count]] = [60,421]
 		else:
 			temp[codes[exp][count]] = [60,421]
 		count = count + 1
@@ -64,7 +64,7 @@ for exp in codes:
 	
 epMax = {'Blink':'.9',
 	'ATLLoc':'.5',
-	'MaskedMM':'.8',
+	'MaskedMM':'.7',
 	'BaleenLP':'.7',
 	'BaleenHP':'.7',
 	'AXCPT':'.7'}
