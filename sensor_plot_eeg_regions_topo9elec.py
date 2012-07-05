@@ -7,12 +7,12 @@ import readInput
 import matplotlib
 
 
-##to add F5 f6 p5 p6 
-#This script creates ERP plot with only FZ, CZ, PZ, C5 and C6 electrodes in the plot. You can plot two conditions at a time. 
+##to add 
+#This script creates ERP plot with only FZ, CZ, PZ, C3, F3, F4, P3, P4 and C4 electrodes in the plot. You can plot two conditions at a time. 
 #It outputs one single .png file with both anterior (with left and right subplots) and posterior plots. 
 #It also outputs a .png file containing the axis figure in classic ERP fashion
 
-#Ex: run sensor_plot_eeg_regions_topo5elec.py ga_ya.n22.meeg_BaleenLP_All_eeg ga_ya.n22.meeg_BaleenLP_All_eeg 0 1 related unrelated
+#Ex: run sensor_plot_eeg_regions_topo9elec.py ga_ya.n22.meeg_BaleenLP_All_eeg ga_ya.n22.meeg_BaleenLP_All_eeg 0 1 related unrelated
 
 
 parser = argparse.ArgumentParser(description='Get input')
@@ -41,7 +41,7 @@ channel_path = '/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_
 
 #channelGroups = ['ant','post']
 #hemList = ['left','right']
-channelList = ['C6', 'FZ', 'CZ', 'C5', 'PZ', 'F5', 'F6', 'P5', 'P6']
+channelList = ['C4', 'FZ', 'CZ', 'C3', 'PZ', 'F3', 'F4', 'P3', 'P4']
 
 pl.clf()
 #for group in channelGroups:
@@ -69,7 +69,7 @@ for c in range(2):
 						if chan == 'FZ':
 							pl.subplot(3,3,2)
 							pl.title("FZ")
-                                                        ##pl.title(1.0, 1.0, 'FZ', fontsize='medium', verticalalignment='top')						
+                            ##pl.title(1.0, 1.0, 'FZ', fontsize='medium', verticalalignment='top')						
 						elif chan == 'CZ':
 							pl.subplot(3,3,5)
 							pl.title("CZ")
@@ -79,32 +79,32 @@ for c in range(2):
 							pl.subplot(3,3,8)
 							pl.title("PZ")
 							##pl.title(1.0, 1.0, 'PZ', fontsize='medium', verticalalignment='top')	
-						elif chan == 'C5':
+						elif chan == 'C3':
 							pl.subplot(3,3,4)
-							pl.title("C5")
+							pl.title("C3")
 							##pl.title(1.0, 1.0, 'C5', fontsize='medium', verticalalignment='top')	
 
-						elif chan == 'C6':
+						elif chan == 'C4':
 							pl.subplot(3,3,6)
-							pl.title("C6")
+							pl.title("C4")
 							##pl.title(1.0, 1.0, 'C6', fontsize='medium', verticalalignment='top')
-						elif chan == 'F5':
+						elif chan == 'F3':
 							pl.subplot(3,3,1)
-							pl.title("F5")
+							pl.title("F3")
 							##pl.title(1.0, 1.0, 'CZ', fontsize='medium', verticalalignment='top')
 							
-						elif chan == 'F6':
+						elif chan == 'F4':
 							pl.subplot(3,3,3)
-							pl.title("F6")
+							pl.title("F4")
 							##pl.title(1.0, 1.0, 'PZ', fontsize='medium', verticalalignment='top')	
-						elif chan == 'P5':
+						elif chan == 'P3':
 							pl.subplot(3,3,7)
-							pl.title("P5")
+							pl.title("P3")
 							##pl.title(1.0, 1.0, 'C5', fontsize='medium', verticalalignment='top')	
 
 						else:
 							pl.subplot(3,3,9)
-							pl.title("P6")
+							pl.title("P4")
 							##pl.title(1.0, 1.0, 'C6', fontsize='medium', verticalalignment='top')
 						sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=[chan])
 						print sel
