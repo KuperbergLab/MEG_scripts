@@ -9,7 +9,7 @@ function [p,contrast] = sensor_quickT(exp, subjGroup, listPrefix,projType, cond1
 %%structures are mostly just there in case you want to plot the sensor
 %%waveform for each condition separately, in the commented lines at the end
 
-load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ch_names.mat')
+load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/ch_names.mat')
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);

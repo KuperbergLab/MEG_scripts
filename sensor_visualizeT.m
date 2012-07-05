@@ -1,6 +1,6 @@
 function sensor_visualizeT(exp, subjGroup, listPrefix,cond1, cond2, t1, t2, pVal)
 
-load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/ch_names.mat')
+load('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/MEG_Chan_Names/ch_names.mat')
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
@@ -47,7 +47,12 @@ for x = 1:2
     sigChan
 
     %%Read in the grand-average data for visualization
-    gaStr = fiff_read_evoked_all(strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif'));
+    if x == 1
+    	gaStr = fiff_read_evoked_all(strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-ave.fif'));    
+    else
+    	gaStr = fiff_read_evoked_all(strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif'));
+    end
+    
     gaStr.info.bads = nonSigChan;
     gaStr.info
 
