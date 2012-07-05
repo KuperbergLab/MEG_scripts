@@ -1,4 +1,4 @@
-function sensor_erpWin2R(exp,subjGroup,listPrefix,t1,t2,condList)
+function sensor_erpWin2R(exp,listPrefix,t1,t2,condList)
 
 %ex" erpWin2R('ATLLoc', 'ac','ac.meg.ATLLoc',300, 500, [1 3 4])
 %This script baselines the data
