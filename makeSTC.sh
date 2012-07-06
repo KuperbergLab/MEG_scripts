@@ -17,7 +17,7 @@ if ( $exp == "BaleenLP_All" ) then
 endif
 
 if ( $exp == "BaleenHP_All" ) then
-	set condList = ( 1 2 3 4 )
+	set condList = ( 1 2 9 10)
 	echo $condList
 endif
 
