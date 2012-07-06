@@ -78,8 +78,7 @@ for c = 1:numCond
         numSample = size(subjStr.evoked(1).epochs,2);
 
         %%For each condition, get the evoked data out
-        s
-        subjStr.evoked
+
         epData = subjStr.evoked(condList(c)).epochs(:,:);
        
         baseline = mean(epData(:,baselineV),2);
