@@ -44,13 +44,15 @@ for subj=subjList
     
     %%Only do the rest (add subject data to array) if not marked as bad
     %%channel
-    
-    badTest = find(strcmp(tempSubjData.info.bads, sensName));
-    
-    if size(badTest,2) == 1 
-        msg = 'bad channel'
-        sensName
-        subj
+    badTest = [];
+    if strcmp(dataType,'meg')
+        badTest = find(strcmp(tempSubjData.info.bads, sensName));
+
+        if size(badTest,2) == 1 
+            msg = 'bad channel'
+            sensName
+            subj
+        end        
     end
 
     %%Now add all this stuff to the time x subj data array
@@ -74,15 +76,15 @@ for subj=subjList
         end
     
         %%Make structures for individual conditions for plotting
-        condData(:,goodCount,1) = tempSubjDataSens1;
-        condData(:,goodCount,2) = tempSubjDataSens2;
+%         condData(:,goodCount,1) = tempSubjDataSens1;
+%         condData(:,goodCount,2) = tempSubjDataSens2;
     
     end
     
 end
 
-goodCount;
-
+% goodCount;
+% 
 cond1Label = tempSubjData.evoked(cond1).comment;
 cond2Label = tempSubjData.evoked(cond2).comment;
 contrast = strcat(cond2Label, '-', cond1Label);
@@ -90,33 +92,8 @@ contrast = strcat(cond2Label, '-', cond1Label);
 %%get the size of the new structure
 [m,n] = size(allData);
 
-%%%%%%%%%%%%%%%%%
-%baseline data
 
-for subj=1:n
-    blEp = allData(1:60,subj);
-    avgBlEp = mean(blEp);
-    avgBlEpRep = repmat(avgBlEp,1,m);
-    size(avgBlEpRep);
-    allData(:,subj) = allData(:,subj) - avgBlEpRep'; 
-    
-    blEp1 = condData(1:60,subj,1);
-    avgBlEp1 = mean(blEp1);
-    avgBlEpRep1 = repmat(avgBlEp1,1,m);
-    size(avgBlEpRep1);
-    condData(:,subj,1) = condData(:,subj,1) - avgBlEpRep1'; 
-    
-    blEp2 = condData(1:60,subj,2);
-    avgBlEp2 = mean(blEp2);
-    avgBlEpRep2 = repmat(avgBlEp2,1,m);
-    size(avgBlEpRep2);
-    condData(:,subj,2) = condData(:,subj,2) - avgBlEpRep2'; 
-
-end
-
-%%%%%%%%%%%%%%%%%%
-%run t-test
-
+%%set up t variables
 t1Samp = (t1+100) / (1000/600);
 t2Samp = (t2+100) / (1000/600);
 tEnd = m * (1000/600) - 101;
@@ -124,13 +101,36 @@ tAxis = linspace(-100,tEnd,m);
 
 tData = [];
 
-for subj = 1:n
+%%%%%%%%%%%%%%%%%
+%baseline data
+
+for subj=1:n
+%    blEp = allData(1:60,subj);
+     avgBlEpRep = repmat(mean(allData(1:60,subj)),1,m);
+     allData(:,subj) = allData(:,subj) - avgBlEpRep'; 
+    
+%     blEp1 = condData(1:60,subj,1);
+%     avgBlEp1 = mean(blEp1);
+%     avgBlEpRep1 = repmat(avgBlEp1,1,m);
+%     size(avgBlEpRep1);
+%     condData(:,subj,1) = condData(:,subj,1) - avgBlEpRep1'; 
+%     
+%     blEp2 = condData(1:60,subj,2);
+%     avgBlEp2 = mean(blEp2);
+%     avgBlEpRep2 = repmat(avgBlEp2,1,m);
+%     size(avgBlEpRep2);
+%     condData(:,subj,2) = condData(:,subj,2) - avgBlEpRep2'; 
     subjMean = mean(allData(t1Samp:t2Samp,subj),1);
     tData(subj) = subjMean;
 end
-tData;
-mean(tData);
-std(tData);
+
+%%%%%%%%%%%%%%%%%%
+%run t-test
+
+
+% tData;
+% mean(tData);
+% std(tData);
 %bar(tData);
 
 [h,p,ci,stats] = ttest(tData);
