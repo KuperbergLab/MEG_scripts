@@ -120,7 +120,7 @@ endif
 
 
 foreach f ( *_raw.fif )
-	mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt >>& $log
+        mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt >>& $log
 end
 
 
