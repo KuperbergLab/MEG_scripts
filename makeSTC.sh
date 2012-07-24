@@ -87,4 +87,5 @@ foreach c ($condList)
 	
 end	
 
-########FIX GROUP ON ALL FILES###
+########FIX GROUP ON ALL FILES########
+chgrp -R lingua .
