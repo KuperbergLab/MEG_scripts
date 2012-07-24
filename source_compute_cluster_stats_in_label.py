@@ -7,7 +7,7 @@ import readInput
 import mne
 from mne.stats import permutation_cluster_1samp_test
 
-from scikits.learn.externals.joblib import Memory
+from sklearn.externals.joblib import Memory
 
 
 # run source_compute_cluster_stats_in_label.py ya.n24.bal BaleenHP_All 1 2 .3 .5 spm 2.07
