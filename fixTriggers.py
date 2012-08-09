@@ -330,7 +330,7 @@ def fixTriggers(subjID):
         outFile = 'eve/'+subjID+'_AXCPT'+x+'Mod.eve'
         if os.path.exists(inFile):
             data = readInput.readTable(inFile)
-            
+            print inFile
             ###############################################################
             if subjID == 'ya6':  ####Fix error in triggers for this subject
                 logFile = '../../vtsd_logs/ya6/AXCPT_ya6_List101_'+x+'.vtsd_log'
@@ -370,7 +370,7 @@ def fixTriggers(subjID):
                             row[3] = '7'
                 
                 #################################################
-                ##Flip half of the related filler triggers to '18' to get equal number of related and unrelated
+                ##Flip 3/4 of the 'A' triggers to 15, to match number of As and Bs
                 if trigger == '5':
                     if flag3 == 3:
                         flag3 = 0
@@ -382,16 +382,18 @@ def fixTriggers(subjID):
                 ##change triggers for incorrect trials#####
                 
                 ##AX case
-                # if trigger == '4': 
-#                     if len(nextTrigger) < 2:  ###Test for response (16, 32, 64 or 128)
-#                         row[3] = '4' + trigger
+                if trigger == '4': 
+                     if len(nextTrigger) < 2:  ###Test for response (16, 32, 64 or 128)
+                         row[3] = '9' + trigger
+                         print 'miss:',row
                         
                 ##BX, BY, AY case
-#                 if (trigger == '1' or trigger == '2' or trigger == '3'):
-#                     
-#                     if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
-#                         row[3] = '4' + trigger
-#                             
+                if (trigger == '1' or trigger == '2' or trigger == '3'):
+                     
+                     if len(nextTrigger) > 1:  ###Test for response (16, 32, 64 or 128)
+                         row[3] = '9' + trigger
+                         print 'false positive:',row
+                             
                 rowCount +=1
             
             
