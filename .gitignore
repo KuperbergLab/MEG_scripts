@@ -14,5 +14,6 @@ scratch*
 *bdf*
 .DS_Store
 .Rapp.history
-
+.R*
+*.gitignore
 ._.gitignore
