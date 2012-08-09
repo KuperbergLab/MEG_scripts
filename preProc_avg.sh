@@ -21,7 +21,7 @@ if ( -e $log ) then
     rm $log
 endif
 
-foreach proj ( 'projon' 'projoff')
+foreach proj ( 'projon' 'projoff') ## Do not change the order. 
 	echo "Making Ave Parameter Files" >>& $log
 	python /cluster/kuperberg/SemPrMM/MEG/scripts/makeAveFiles.py $1 $proj >>& $log
 
