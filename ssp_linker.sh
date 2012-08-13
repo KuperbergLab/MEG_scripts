@@ -15,7 +15,7 @@ if $2 == 'raw' then
    set label = 'raw' 
 
 else if $2 == 'ecg' then 
-   set label = 'ecg_avg_proj_raw'
+   set label = 'clean_ecg_raw'
 
 else if $2 == 'eog' then 
    set label = 'eog_avg_proj_raw'
@@ -28,6 +28,9 @@ endif
 echo $label
 rm {$1}_{$3}Run1_ssp_raw.fif
 rm {$1}_{$3}Run2_ssp_raw.fif
+rm {$1}_{$3}Run3_ssp_raw.fif
+rm {$1}_{$3}Run4_ssp_raw.fif
+
 
 if $3 == 'ATLLoc' then 
       if $2 == 'raw' then 
