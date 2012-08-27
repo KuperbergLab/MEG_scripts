@@ -18,10 +18,10 @@ else if $2 == 'ecg' then
    set label = 'clean_ecg_raw'
 
 else if $2 == 'eog' then 
-   set label = 'eog_avg_proj_raw'
+   set label = 'clean_eog_raw'
 
 else if $2 == 'ecgeog' then 
-   set label = 'ecgeog_avg_proj_raw'
+   set label = 'clean_ecgeog_raw'
 
 endif
 
