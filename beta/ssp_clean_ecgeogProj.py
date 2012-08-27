@@ -1,7 +1,8 @@
 """Clean a raw file from EOG and ECG artifacts with PCA (ie SSP)
 """
 ##Source: ssp_clean_ecg_eog.py, Dr. Engr. Sheraz Khan, P.Eng, Ph.D.
-##Author: Candida Ustine, M.Eng
+##Author: Candida Jane Maria Ustine, M.Eng
+
 
 import os
 import sys
@@ -18,11 +19,13 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     print prefix
     in_fif_fname = in_path + in_fif_fname
     print in_fif_fname
+    out_path = os.path.join(in_path + 'ssp/')
+
     out_fif_fname = in_path + 'ssp/' + prefix + '_clean_ecg_raw.fif'
-    ecg_proj_fname = in_path + 'ssp/' + prefix + '_ecg_proj.fif'
+    ecg_proj_fname = in_path  + prefix + '_ecg_proj.fif'
     ecg_event_fname = in_path + 'ssp/' + prefix + '_ecg-eve.fif'        
     flag = 0
-
+    
     print 'Implementing ECG artifact rejection on data'
     ecg_events, _, _ = mne.artifacts.find_ecg_events(raw_in)
     if not len(ecg_events) < 30:
@@ -32,18 +35,19 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 	
 		# Making projector
 		print 'Computing ECG projector'
-	        os.chdir(in_path + '/ssp')
-                os.getcwd()
-		command = ('mne_process_raw --raw %s --events %s --makeproj '
+                print out_path
+	        #os.chdir('/cluster/kuperberg/SemPrMM/MEG/data/ac1/ssp')
+                #os.getcwd()
+		command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
 				   '--projtmin %s --projtmax %s --saveprojtag _ecg_proj '
-				   '--projnmag %s --projngrad %s --projneeg %s --projevent 999 --highpass %s '
-				   '--lowpass %s --projmagrej 3000  --projgradrej 2000 --projeegrej 50'
-				   % (in_fif_fname, ecg_event_fname, tmin, tmax, n_mag, n_grad, n_eeg, h_freq, l_freq)) 
+				   '--projnmag %s --projngrad %s --projneeg %s --projevent 999 --highpass 5 '
+				   '--lowpass 35 --projmagrej 4000 --projgradrej 3000 --projeegrej 500 '
+		         	   % (in_path, in_fif_fname, ecg_event_fname, tmin, tmax, n_mag, n_grad, n_eeg)) 
 		
 		st = os.system(command)
 		if st != 0:
 			print "Error while running : %s" % command
-                    
+##                    
     return in_fif_fname, ecg_proj_fname, len(ecg_event_fname), out_fif_fname
 
 ########################################################################################################
@@ -52,29 +56,34 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref):
 
 
-    raw_in =fiff.Raw(in_fif_fname)
+    raw_in = fiff.Raw(in_fif_fname)
     prefix = in_fif_fname[:-8]
     print prefix
-    out_fif_fname = 'ssp/'+ prefix + '_clean_eog_raw.fif'
-    eog_proj_fname = 'ssp/'+ prefix + '_eog_proj.fif'
-    eog_event_fname = 'ssp/'+ prefix + '_eog-eve.fif'
-    flag=0
-    
-    print 'Implementing EOG artifact rejection on data'
-    eog_events,_, _ = mne.artifacts.find_ecg_events(raw_in)
-    if not len(eog_events)<20:
-        print eog_evet_fname
-        print "Writing EOG events in %s" % eog_event_fname
+    in_fif_fname = in_path + in_fif_fname
+    print in_fif_fname
+    out_path = os.path.join(in_path + 'ssp/')
 
-        print "Computing the EOG projector"
-        command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-                           '--projtmin %s --projtmax %s --saveprojtag _ecg_proj '
-                           '--projnmag %s --projngrad 1 --projneeg 1 --projevent 999 --highpass %s '
-                           '--lowpass %s --projmagrej 4000  --projgradrej 3000 --projeegrej 500'
-                           % (in_path, in_fif_fname, eog_event_fname, tmin, tmax, n_mag, h_freq, l_freq))
-        st = os.system(command)
-        if st != 0:
-                print "Error while running : %s" % command
+    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog_raw.fif'
+    eog_proj_fname = in_path + prefix + '_eog_proj.fif'
+    eog_event_fname = in_path + 'ssp/' + prefix + '_eog-eve.fif'
+    flag=0
+
+    print 'Implementing EOG artifact rejection on data'
+##    eog_events,_  = mne.artifacts.find_eog_events(raw_in)
+##    if not len(eog_events)<20:
+##        print eog_event_fname
+##        print "Writing EOG events in %s" % eog_event_fname
+##        mne.write_events(eog_event_fname, eog_events)
+##        print eog_proj_fname
+    print "Computing the EOG projector"
+    command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
+                               '--projtmin %s --projtmax %s --saveprojtag _eog_proj '
+                               '--projnmag %s --projngrad %s --projneeg 3 --projevent 998 --highpass 0.3 '
+                               '--lowpass 35 --projmagrej 4000  --projgradrej 3000 --projeegrej 400 --filtersize 8192'
+                               % (in_path, in_fif_fname, eog_event_fname, tmin, tmax, n_mag, n_grad)) 
+    st = os.system(command)
+    if st != 0:
+            print "Error while running : %s" % command
                     
     return in_fif_fname, eog_proj_fname, len(eog_event_fname), out_fif_fname
 
@@ -161,6 +170,7 @@ if __name__ == '__main__':
         sys.exit(-1)
      
     in_path = options.in_path
+    out_path = in_path + 'ssp/'
     tmin = options.tmin
     tmax = options.tmax
     n_grad = options.n_grad
@@ -180,23 +190,12 @@ if __name__ == '__main__':
     avg_ref = options.avg_ref
     bad_fname = options.bad_fname
 
-    bad_fname = in_path + bad_fname 
-    print bad_fname
-    if bad_fname is not None:
-        bads = [w.rstrip().split() for w in open(bad_fname).readlines()]
-        print 'Bad channels read : %s' % bads
-    else:
-        bads = []
-    #print type(tmin)
+    
     if (tag == "ecg"):
             in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
-
-    #print 'Applying ECG projector'
-            #if (not ecg_events < 30):
-
             print 'Applying ECG projector'
             command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --projoff --save %s --filteroff'
-                       % (in_path, in_fif_fname, ecg_proj_fname, in_fif_fname, out_fif_fname))
+                       % (out_path, in_fif_fname, ecg_proj_fname, in_fif_fname, out_fif_fname))
             print 'Command executed: %s' % command
             st = os.system(command)
             if st != 0:
@@ -208,37 +207,38 @@ if __name__ == '__main__':
 
     elif (tag == "eog"):
             in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            print eog_proj_fname
 
             print 'Applying EOG projector'
-            command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s '
-                       '--projoff --save %s --filteroff'
-                       % (in_path, in_fif_fname, eog_proj_fname, in_fif_fname,
-                       out_fif_fname))
+            command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --projoff --save %s --filteroff'
+                       % (in_path, in_fif_fname, eog_proj_fname, in_fif_fname, out_fif_fname))
             print 'Command executed: %s' % command
             st = os.system(command)
             if st != 0:
                     raise ValueError('Pb while running : %s' % command)
-            print ('Done removing EOG artifacts. '
+            print ('Done removing EOG artifacts.'
                    'IMPORTANT : Please eye-ball the data !!')
-            print "EOG ", len(eog_events) 
+            
 
     elif (tag == "ecgeog"):
-       
+    
             in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
             in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            
+            prefix = raw_in[:-8]
+            print prefix
+            out_fname = in_path + 'ssp/' + prefix + '_clean_ecgeog_raw.fif'
 
-            # Applying the ECG EOG projector
-            print 'Applying ECG EOG projector'
+            print 'Applying ECG and EOG projector'
             command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s --projoff --save %s --filteroff'
                        % (in_path, in_fif_fname, ecg_proj_fname, eog_proj_fname, in_fif_fname,
-                       out_fif_fname))
+                       out_fname))
             print 'Command executed: %s' % command
             st = os.system(command)
             if st != 0:
                 raise ValueError('Pb while running : %s' % command)
             print ('Done removing ECG and EOG artifacts. '
                    'IMPORTANT : Please eye-ball the data !!')
-            print "ECG ",len(ecg_events), "EOG ", len(eog_events) 
 
 
     
