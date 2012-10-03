@@ -18,6 +18,7 @@ def countBadChan(inFile, par):
         
         dataTable = readInput.readTable(inFile)
         trialCount=len(dataTable)
+        #print trialCount
         
         # read through the output logfile from the MNE averaging and look for longer lines indicating rejection
         # lines that have more than 9 columns are epochs that were rejected
@@ -27,15 +28,17 @@ def countBadChan(inFile, par):
                      badTrials.append(row[len(row) - 8]) #append the last but 8th item in the list-lineTemp to chans
                      rtrialCount+=1
     	badChanList=list(set(badTrials)) #finds the items in a list(first occurances)
+    	#print(list(badTrials))
     	
     	##Create critical data table of bad channels and the number of trials they caused rejection
     	for chan in badChanList:
     		badchans.append([chan, badTrials.count((chan))])
+    	#print(badchans)	
                                     
         name1=str.split(str(inFile), '_')
         name2=str(name1[0]) + '_MEEGArtReject_' + str(par)
         outFile1=str(name2)
-        myFile2 = open(outFile1, "w")
+        myFile2 = open(outFile1, "a")
         myFile2.write("\n")
         myFile2.write(str(trialCount))
         myFile2.write("\t")
@@ -44,7 +47,7 @@ def countBadChan(inFile, par):
 
         name3=str(name1[0]) + '_MEEGArtReject-BadChan_' + str(par)
         outFile2=str(name3)
-        myFile3 = open(outFile2, "w")
+        myFile3 = open(outFile2, "a")
         for row in badchans:
             myFile3.write("\n")
             myFile3.write(row[0])
