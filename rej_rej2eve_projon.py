@@ -12,7 +12,8 @@ def  rej_rej2eve_projon(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
-	expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+	##expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+	expList = ['BaleenHP']
 	
 	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'], 'AXCPT':['Run1','Run2']}
 	
@@ -23,9 +24,6 @@ def  rej_rej2eve_projon(subjID):
                         inFile1 = filePrefix + '/ave_projon/logs/' + subjID + '_' + exp + run + '-ave.log'
                         inFile2 = filePrefix + '/eve/' + subjID + '_' + exp + run + 'ModRej.eve'
                         outFile = filePrefix + '/eve/' + subjID + '_' + exp + run + 'ModRej4projoff.eve'
-##                        print inFile1
-##                        print inFile2
-##                        print('Step1 done')
                         if os.path.exists(outFile):
                                 os.remove(outFile)
                         
