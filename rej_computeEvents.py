@@ -13,16 +13,18 @@ def computeEvents(subjType, par):
      if (subjType == 'ac'):
          subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
      if (subjType == 'sc'):
-         subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
+         subject_filename = data_path + 'scripts/function_inputs/sc.n16.meeg.b.txt'
      if (subjType == 'ya'):
          subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
      subject_list = readInput.readList(subject_filename)
+ #    subject_list = ['9', '14', '12', '3', '1', '6']
      print subject_list
 
      for subject in subject_list:
         
 #To Find the total number of rejected trials, and percentage inclusion
         subjID = str(subjType)+ str(subject)
+ #       subjID = 'sc14'
         totalTrials = 0 # Must be initialised within the loop to refresh for each subject :) 
         totalRejects = 0
         trialCount=0
@@ -34,7 +36,7 @@ def computeEvents(subjType, par):
         lineTemp1 = []
         temp = 1
         
-        inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEEGArtReject_' + str(par) 
+        inFile1 = data_path + 'data/' + str(subjID) + '/ave_projon/logs/' + str(subjID) + '_MEEGArtReject_' + str(par)
         if os.path.exists(inFile1):
              
           myFile1 = open(inFile1, "r") 
@@ -55,6 +57,7 @@ def computeEvents(subjType, par):
             totalRejects = totalRejects + rtrialCount
             
           pReject=(1-round(((totalRejects)/float(totalTrials)),4))
+          #print(pReject)
 
 
 # To Display the total number of rejected trials, and percentage         
@@ -90,10 +93,12 @@ def computeEvents(subjType, par):
                dataTable3.append(temp5) # Save information as a list of items in a DataTable
           for i in range(0, len(dataTable3)):
               lineTemp1 = dataTable3[i]
+              #print(lineTemp1)
               chans.append(lineTemp1[0])
               chantot.append(lineTemp1[1])          
           items=list(set(chans))
-          items = sorted(items, key=itemgetter(0)) # To print Gradiometer, magnetometers and theh the EEG channels in oreder. 
+          #print(items)
+          items = sorted(items, key=itemgetter(0)) # To print Gradiometer, magnetometers and the the EEG channels in oreder. 
           
 
 # To Display the name of the bad channels rejected
@@ -105,6 +110,8 @@ def computeEvents(subjType, par):
                 for j in range(0, len(chans)):
                         if items[i] == chans[j]:
                               x = x + int(chantot[j])
+                #print(items[i])
+                #print(x)              
                 myFile2.write("\t")
                 myFile2.write(str(x))
                 myFile2.write("\n")
