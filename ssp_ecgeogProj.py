@@ -17,7 +17,7 @@ from mne import fiff
 from pipeline import make_lingua
         
 ###############################################################################################################################################################################################
-def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads, preload):
+def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, average, filter_length, n_jobs, ch_name, reject, avg_ref, bads, preload, flat):
 
     """Compute SSP/PCA projections for ECG/EOG artifacts
 
@@ -46,9 +46,9 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     in_fif_fname = in_path + in_fif_fname
     raw = mne.fiff.Raw(in_fif_fname, preload=preload)
     
-    if (in_path == '/cluster/kuperberg/SemPrMM/MEG/data/ya30/'):
+#    if (in_path == '/cluster/kuperberg/SemPrMM/MEG/data/ya30/'):
     # save after 84s of MEG data in FIF file
-       raw = raw[: , 84:]
+ #      raw = raw[: , 84:]
        #raw.save('sample_audvis_meg_raw.fif', tmin=84)
 
     print 'Running ECG SSP computation'
@@ -117,21 +117,20 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     else:
         prefix = in_fif_fname[:-4]
 
-    eog_event_fname = in_path + 'ssp/'+ prefix + '_eog-eve.fif'
+    eog_event_fname = in_path + 'ssp/'+ prefix + '_PYeog-eve.fif'
 
     if average:
         eog_proj_fname = in_path + 'ssp/' + prefix + '_eog_avg_proj.fif'
         out_fif_fname = in_path + 'ssp/' + prefix + '_eog_avg_proj_raw.fif'
 
     else:
-        eog_proj_fname = in_path + 'ssp/' + prefix + '_eog_proj.fif'
-        out_fif_fname = in_path + 'ssp/' + prefix + '_eog_proj_raw.fif'
+        eog_proj_fname = in_path + 'ssp/' + prefix + '_PYeog_proj.fif'
+        out_fif_fname = in_path + 'ssp/' + prefix + '_PYeog_proj_raw.fif'
 
 	####Reading in raw data
 
     in_fif_fname = in_path + in_fif_fname
     raw = mne.fiff.Raw(in_fif_fname, preload=preload)
-    
 
     print 'Running EOG SSP computation'
 
@@ -327,6 +326,12 @@ if __name__ == '__main__':
                   mag=1e-15 * float(options.rej_mag),
                   eeg=1e-6 * float(options.rej_eeg))
                   ##eog=1e-6 * float(options.rej_eog))
+    flat = dict(gradFlat = 1000e-15,       
+		magFlat = 1e-14,
+		ecg = 250e-6,
+		eog = 250e-6,
+		eeg = 250e-6 
+		)
     avg_ref = options.avg_ref
     bad_fname = options.bad_fname
 
@@ -342,7 +347,7 @@ if __name__ == '__main__':
     if tag == 'ecg':
                 in_fif_fname, ecg_proj_fname, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq,
                             average, filter_length, n_jobs, ch_name, reject,
-                             avg_ref, bads, preload)
+                             avg_ref, bads, preload, flat)
                 make_lingua(in_fif_fname)
                 make_lingua(ecg_proj_fname)
                 print 'Applying ECG projector'
