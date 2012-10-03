@@ -87,7 +87,7 @@ for chan = chan_c
 
     %build new filename
     [p, n, ~] = fileparts(fiff);
-    new_fn = [n '_' chan_str '_timeR20.txt'];
+    new_fn = [n '_' chan_str '_time.txt'];
     tmp = fullfile(p, 'rej');
     if exist(tmp, 'dir') ~= 8
         [status, ~, ~] = mkdir(tmp);
