@@ -23,6 +23,9 @@ else if $2 == 'eog' then
 else if $2 == 'ecgeog' then 
    set label = 'clean_ecgeog_raw'
 
+else if $2 == 'ecgeog1' then 
+   set label = 'clean_ecgeog1_raw'
+
 endif
 
 echo $label
