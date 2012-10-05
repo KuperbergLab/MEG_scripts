@@ -12,8 +12,8 @@ def  rej_rej2eve_projon(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
-	##expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
-	expList = ['BaleenHP']
+	expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+	##expList = ['BaleenHP']
 	
 	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'], 'AXCPT':['Run1','Run2']}
 	
