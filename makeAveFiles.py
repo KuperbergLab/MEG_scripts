@@ -32,8 +32,8 @@ def makeAveFiles(subjID,projType):
 	if subjID == "ya26":
 		eegRej = "90e-6"
 	
-##	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
-        expList = ['BaleenHP'] ## changed on 9/7 for testing number of trials in each case(rej, PCA+rej, PCA+norej -CU)
+	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
+##    expList = ['BaleenHP'] ## changed on 9/7 for testing number of trials in each case(rej, PCA+rej, PCA+norej -CU)
 	
 	runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 	
