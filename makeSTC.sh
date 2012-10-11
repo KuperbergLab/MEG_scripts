@@ -81,9 +81,9 @@ foreach c ($condList)
  	echo Morphed sLORETA >>& $log	
 	mne_make_movie --inv $1_$exp-ave-7-meg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp/$1_{$exp}_c{$c}M-sLORETA.stc --smooth 7 --sLORETA --morph fsaverage >>& $log	
 	
- 	echo Morphed spm >> & $log
- 	mkdir stc/$exp-megeeg
- 	mne_make_movie --inv $1_$exp-ave-7-meg-eeg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp-megeeg/$1_{$exp}-megeeg_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
+# 	echo Morphed spm >> & $log
+# 	mkdir stc/$exp-megeeg
+# 	mne_make_movie --inv $1_$exp-ave-7-meg-eeg-inv.fif --meas $1_{$exp}-ave.fif --set $c --bmin -100 --bmax -.01 --stc stc/$exp-megeeg/$1_{$exp}-megeeg_c{$c}M-spm.stc --smooth 7 --spm --morph fsaverage >>& $log
 	
 end	
 
