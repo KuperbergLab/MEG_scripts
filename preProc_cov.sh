@@ -96,6 +96,19 @@ if ( $1 == 'ac19' ) then
 
 endif
 
+	if ( $1 == 'ac8' ) then
+		
+		mne_process_raw \
+		--raw ../$1_BaleenLPRun1_ssp_raw.fif \
+		--raw ../$1_BaleenLPRun3_ssp_raw.fif \
+		--raw ../$1_BaleenLPRun4_ssp_raw.fif \
+		--ave ../ave/$1_BaleenLPRun1.ave \
+		--ave ../ave/$1_BaleenLPRun3.ave \
+		--ave ../ave/$1_BaleenLPRun4.ave \
+		--gave $1_BaleenLP_All-ave.fif \
+		--$proj --lowpass 20 >>& $log
+
+	endif	
 
 date
 echo "FINISHED"  >>& $log
