@@ -23,7 +23,7 @@ args=parser.parse_args()
 condList = [args.set1, args.set2]
 print condList
 colorList = ['k','r']
-lWidth = 2
+lWidth = 1 ##Changes from 2- Thinner traces 
 
 ymin,ymax = [-.5,30]
 xmin,xmax = [-100,710]
