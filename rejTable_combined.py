@@ -41,7 +41,7 @@ if __name__ == '__main__':
     if (subjType == 'ac'):
 		subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
     if (subjType == 'sc'):
-		subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
+		subject_filename = data_path + 'scripts/function_inputs/sc.n16.meeg.b.txt'
     if (subjType == 'ya'):
 		subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
     subject_list = readInput.readList(subject_filename)
@@ -54,8 +54,9 @@ if __name__ == '__main__':
     
     ##make total table (total count of events presented in scanner that were answered correctly)
     for k,v in all_data.items():
-        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/%s_%s_total_correct_events.txt' % (pre, subjType, k)
-        codes = sorted(v[subjType+'7'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
+      if k == 'BaleenHP': ##if we want to run a specific paradigm
+        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/ssp/%s_%s_total_correct_events_ecgeog.txt' % (pre, subjType, k)
+        codes = sorted(v[subjType+'8'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm #using subj8 to get codes
         code_line = '\t\t%s' % '\t\t'.join(codes)   ##This just puts them together to head the table
         subject_lines = []
         for sub in subjects:
@@ -76,8 +77,9 @@ if __name__ == '__main__':
 
 	##make combined rejTable
     for k,v in all_data.items():
-        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/%s_%s_remaining_events.txt' % (pre, subjType, k)
-        codes = sorted(v[subjType+'7'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
+      if k == 'BaleenHP':
+        fname = '/%s/kuperberg/SemPrMM/MEG/results/artifact_rejection/combined_rejection/ssp/%s_%s_remaining_events_ecgeog.txt' % (pre, subjType, k)
+        codes = sorted(v[subjType+'8'].keys(), cmp=lambda x,y: cmp(int(x), int(y))) ##This is the codes for the events for the paradigm
         code_line = '\t\t%s' % '\t\t'.join(codes)   ##This just puts them together to head the table
         subject_lines = []
         for sub in subjects:
@@ -91,7 +93,7 @@ if __name__ == '__main__':
             if k == 'ATLLoc':
             	aveName = '/%s/kuperberg/SemPrMM/MEG/data/%s/ave_projon/%s_%s-ave.fif' % (pre, sub, sub, k)
             else:
-            	aveName = '/%s/kuperberg/SemPrMM/MEG/data/%s/ave_projon/%s_%s_All-ave.fif' % (pre, sub, sub, k)
+            	aveName = '/%s/kuperberg/SemPrMM/MEG/data/%s/ave_projon/%s_%s_All_ecgeog1-ave.fif' % (pre, sub, sub, k)
             count = 0
             results = beg
             for code in codes:
