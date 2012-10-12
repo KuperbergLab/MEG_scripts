@@ -41,7 +41,7 @@ if __name__ == '__main__':
     if (subjType == 'ac'):
 		subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
     if (subjType == 'sc'):
-		subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
+		subject_filename = data_path + 'scripts/function_inputs/sc.n16.meeg.b.txt'
     if (subjType == 'ya'):
 		subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.possible.txt'
     subject_list = readInput.readList(subject_filename)
@@ -66,6 +66,7 @@ if __name__ == '__main__':
             if sub in v:
                 if len(sub) > 3:
                     beg = '%s\t' % sub
+                    #print 'here'
                 else:
                     beg = '%s\t\t' % sub
                 results = '\t\t'.join(['%.3f' % (float(v[sub][code][0]) / v[sub][code][1]) for code in codes])
