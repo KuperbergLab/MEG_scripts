@@ -9,6 +9,7 @@ import writeOutput
 ##This script plots the RMS for gradiometers in selected regions. It excludes bad channels.
 ##The RMS is computed at the subject level, so all opposite polarity effects on diff channels
 ##are accounted for.
+##Ex: run sensor_plot_meg_regions_rms ya BaleenLP_All ya.n24.bal 0 1
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subjType',type=str)
