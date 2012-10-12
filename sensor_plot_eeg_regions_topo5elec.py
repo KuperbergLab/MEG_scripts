@@ -27,10 +27,10 @@ prefixList = [args.prefix1, args.prefix2]
 print condList
 colorList = ['k','r']
 
-eegymin,eegymax = [10,-10]
+eegymin,eegymax = [7,-7]
 eegxmin,eegxmax = [-100,601]
 vertScaleBar = 2 #This controls the size of the vertical axis scale (in microV)
-lWidth = 2
+lWidth = 1 #Thinner traces
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
