@@ -27,10 +27,10 @@ prefixList = [args.prefix1, args.prefix2]
 print condList
 colorList = ['k','r']
 
-eegymin,eegymax = [10,-10]   
+eegymin,eegymax = [7,-7]   ##Changed from +-10 10/8/12
 eegxmin,eegxmax = [-100,601]
 vertScaleBar = 2 #This controls the size of the vertical axis scale (in microV)
-lWidth = 2
+lWidth = 1 ##thinner traces
 
 
 data_path = '/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/'
@@ -107,8 +107,8 @@ for group in channelGroups:
 			pl.axvline(x=500,ymin=.48, ymax=.52, color='k',linewidth=2)
 			
 			#draw little endings to the vertical line at 0, in typical ERP convention
-			pl.axhline(y=-2,xmin=.08,xmax=.14, color = 'k',linewidth=2)
-			pl.axhline(y=2,xmin=.08,xmax=.14, color = 'k',linewidth=2)
+			pl.axhline(y=-2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
+			pl.axhline(y=2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
 
 		#pl.legend((args.label1,args.label2),loc="bottom left")
 		#pl.title(hem + group)
