@@ -92,7 +92,7 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
  	endif
  	
 	
-	##Hack for ac8 BaleenLP
+	##Hack for ac8, missing run and LF noise
 	if ( $1 == 'ac8' ) then
 		
 		mne_process_raw \
@@ -103,7 +103,20 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
 		--ave ../ave/$1_BaleenLPRun3.ave \
 		--ave ../ave/$1_BaleenLPRun4.ave \
 		--gave $1_BaleenLP_All-ave.fif \
-		--$proj --lowpass 20 >>& $log
+		--$proj --lowpass 20 --highpass 1 >>& $log
+
+ 	mne_process_raw \
+ 	--raw ../$1_BaleenHPRun1_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun2_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun3_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun4_ssp_raw.fif \
+ 	--ave ../ave/$1_BaleenHPRun1.ave \
+ 	--ave ../ave/$1_BaleenHPRun2.ave \
+ 	--ave ../ave/$1_BaleenHPRun3.ave \
+ 	--ave ../ave/$1_BaleenHPRun4.ave \
+ 	--gave $1_BaleenHP_All-ave.fif \
+ 	--$proj --lowpass 20 --highpass 1 >>& $log
+
 
 	endif	
  
