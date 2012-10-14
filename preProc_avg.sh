@@ -103,7 +103,7 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
 		--ave ../ave/$1_BaleenLPRun3.ave \
 		--ave ../ave/$1_BaleenLPRun4.ave \
 		--gave $1_BaleenLP_All-ave.fif \
-		--$proj --lowpass 20 --highpass 1 >>& $log
+		--$proj --lowpass 20 --highpass .5 >>& $log
 
  	mne_process_raw \
  	--raw ../$1_BaleenHPRun1_ssp_raw.fif \
@@ -115,7 +115,7 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
  	--ave ../ave/$1_BaleenHPRun3.ave \
  	--ave ../ave/$1_BaleenHPRun4.ave \
  	--gave $1_BaleenHP_All-ave.fif \
- 	--$proj --lowpass 20 --highpass 1 >>& $log
+ 	--$proj --lowpass 20 --highpass .5 >>& $log
 
 
 	endif	
