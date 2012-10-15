@@ -117,8 +117,38 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
  	--gave $1_BaleenHP_All-ave.fif \
  	--$proj --lowpass 20 --highpass .5 >>& $log
 
+	endif	
+
+	##hack for ac22, highpass
+	if ( $1 == 'ac22' ) then
+		
+		mne_process_raw \
+		--raw ../$1_BaleenLPRun1_ssp_raw.fif \
+		--raw ../$1_BaleenLPRun2_ssp_raw.fif \
+		--raw ../$1_BaleenLPRun3_ssp_raw.fif \
+		--raw ../$1_BaleenLPRun4_ssp_raw.fif \
+		--ave ../ave/$1_BaleenLPRun1.ave \
+		--ave ../ave/$1_BaleenLPRun2.ave \
+		--ave ../ave/$1_BaleenLPRun3.ave \
+		--ave ../ave/$1_BaleenLPRun4.ave \
+		--gave $1_BaleenLP_All-ave.fif \
+		--$proj --lowpass 20 --highpass .5 >>& $log
+
+ 	mne_process_raw \
+ 	--raw ../$1_BaleenHPRun1_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun2_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun3_ssp_raw.fif \
+ 	--raw ../$1_BaleenHPRun4_ssp_raw.fif \
+ 	--ave ../ave/$1_BaleenHPRun1.ave \
+ 	--ave ../ave/$1_BaleenHPRun2.ave \
+ 	--ave ../ave/$1_BaleenHPRun3.ave \
+ 	--ave ../ave/$1_BaleenHPRun4.ave \
+ 	--gave $1_BaleenHP_All-ave.fif \
+ 	--$proj --lowpass 20 --highpass .5 >>& $log
+
 
 	endif	
+ 
  
         ##Lost BaleenLPRun3, so averaging only 3 runs
 	if ( $1 == 'ac19' ) then
