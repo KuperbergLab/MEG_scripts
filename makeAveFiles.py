@@ -27,10 +27,12 @@ def makeAveFiles(subjID,projType):
  
   	if subjID == "ya15":
 		eegRej = "80e-6"
-		
-		
+				
 	if subjID == "ya26":
 		eegRej = "90e-6"
+
+	if subjID == "ac2" or subjID == "ac7":
+		eegRej = "1"
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 ##    expList = ['BaleenHP'] ## changed on 9/7 for testing number of trials in each case(rej, PCA+rej, PCA+norej -CU)
