@@ -5,7 +5,7 @@ function pArray = source_statSTCTime(exp,listPrefix,condPair,type,norm,numSample
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix,  '.txt')))';
-
+prefix = listPrefix([1:2]);
 
 
 for hemI = 1:2
@@ -24,9 +24,9 @@ for hemI = 1:2
     for subj=subjList
         count=count+1;
         subj
-       subjDataPath = strcat('ya',int2str(subj),'/ave_projon/stc/',exp,'/');
+       subjDataPath = strcat(prefix,int2str(subj),'/ave_projon/stc/',exp,'/');
  
-       fileName = strcat(dataPath,'data/',subjDataPath,'ya',int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
+       fileName = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M_',int2str(t1),'-',int2str(t2),'-',type,'-',hem,'.stc')
        subjStruct = mne_read_stc_file(fileName);
 
         subjDiff = subjStruct.data;
