@@ -13,7 +13,7 @@ def computeEvents(subjType, par):
      if (subjType == 'ac'):
          subject_filename = data_path + 'scripts/function_inputs/ac.meg.all.txt'
      if (subjType == 'sc'):
-         subject_filename = data_path + 'scripts/function_inputs/sc.n16.meeg.b.txt'
+         subject_filename = data_path + 'scripts/function_inputs/sc.meg.all.txt'
      if (subjType == 'ya'):
          subject_filename = data_path + 'scripts/function_inputs/ya.meg.all.txt'
      subject_list = readInput.readList(subject_filename)
