@@ -1,6 +1,7 @@
 #!/bin/csh -f
-#usage ./ssp_linker.sh subjID tag paradigm  
-#Example: ./ssp_linker.sh ya1 ecg MaskedMM 
+#usage ./ssp_linker.sh subjID tag paradigm/All  
+#Example: ./ssp_linker.sh ya1 ecgeog MaskedMM 
+#Example: ./ssp_linker.sh ya1 ecgeog All
 
 
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$1/
