@@ -55,8 +55,8 @@ echo 'ComputeEvents'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
 #foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
 foreach par ('BaleenHP' 'BaleenLP')
-   echo $par
-   python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_computeEvents.py $1 $par 
+      echo $par
+      python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_computeEvents.py $1 $par 
 end
 echo 'Results saved in MEG/results/artifact_rejection/megeeg_rejection folder' 
 
