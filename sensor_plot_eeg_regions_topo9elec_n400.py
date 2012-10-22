@@ -29,7 +29,7 @@ prefixList = [args.prefix1, args.prefix2]
 print condList
 colorList = ['k','r']
 
-eegymin,eegymax = [10,-10]
+eegymin,eegymax = [5,-5]
 eegxmin,eegxmax = [-100,701]
 vertScaleBar = 2 #This controls the size of the vertical axis scale (in microV)
 lWidth = 1
@@ -164,8 +164,8 @@ pl.axvline(x=200,ymin=.48, ymax=.52, color='k',linewidth=2)
 pl.axvline(x=300,ymin=.48, ymax=.52, color='k',linewidth=2)
 pl.axvline(x=400,ymin=.48, ymax=.52, color='k',linewidth=2)
 pl.axvline(x=500,ymin=.48, ymax=.52, color='k',linewidth=2)
-pl.axhline(y=-2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
-pl.axhline(y=2,xmin=.12,xmax=.17, color = 'k',linewidth=2)
+pl.axhline(y=-2,xmin=.10,xmax=.15, color = 'k',linewidth=2)
+pl.axhline(y=2,xmin=.10,xmax=.15, color = 'k',linewidth=2)
 
 
 pl.show
