@@ -1,4 +1,4 @@
-function sensor_erpWin2R_Baleen(listPrefix,t1,t2,condList)
+function sensor_erpWin2R_Baleen_acsc(subjGroup,listPrefix,t1,t2,condList)
 
 %This script reads in both BaleenLP and BaleenHP to a single file
 %This script baselines the data and gets rid of non-scalp electrodes
@@ -14,8 +14,14 @@ numChan = 70;
 chan = [316:375 379:388];
 
 baselineV = 1:60;
+if strcmp(subjGroup,'ac')
+	groupNum = 1
+elseif strcmp(subjGroup,'sc')
+	groupNum = 2
+end
 
 dataV = [];
+groupV = [];
 subjV = [];
 condV = [];
 chanV = [];
@@ -24,6 +30,7 @@ antV = [];
 midVV = [];
 midHV = [];
 elec9V = [];
+
 %%MAKE A REGIONS VECTOR%%
 leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt');
 rightA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_ant.txt');
@@ -76,8 +83,8 @@ for i = 1:numChan
     
     if strcmp(regionV{i},'MH') midHList(i) = 1;
     end
-    
-     if strcmp(region9V{i},'elec9') elec9List(i) = 1;
+   
+    if strcmp(region9V{i},'elec9') elec9List(i) = 1;
     end
 end
 
@@ -124,6 +131,7 @@ for x = 1:2
 
             size(epDataM);
             dataV = [dataV;epDataM*1e6];
+            groupV = [groupV;ones(numChan,1)*groupNum];
             subjV = [subjV;ones(numChan,1)*subjList(s)];
             condV = [condV;ones(numChan,1)*condCode];
             chanV = [chanV;[1:numChan]'];
@@ -131,14 +139,14 @@ for x = 1:2
             antV = [antV;antList];
             midVV = [midVV;midVList];
             midHV = [midHV;midHList];
-            elec9V=[elec9V; elec9List];
+            elec9V = [elec9V;elec9List];
         end
     end
 end
-allData = [subjV condV chanV dataV hemV antV midVV midHV elec9V];
+allData = [groupV subjV condV chanV dataV hemV antV midVV midHV elec9V];
 
 
-outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
+outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/acsc_',listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
  
 dlmwrite(outFile,allData,'\t')
         

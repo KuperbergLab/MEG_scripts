@@ -264,4 +264,57 @@ print(model.tables(erpData.midH.aov,"means"),digits=5)
 
 sink()
 
+##################################################################
+##############9electrodes########################################
+##################################################################
+
+
+filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
+load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
+outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_9elec_av.txt",sep="")
+sink(outfile);
+
+erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
+erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
+levels(erpData.all$prop)<-c("lo","lo","hi","hi");
+erpData.9elec <-subset(erpData.all, elec9 != 0)
+
+
+#get rid of bad channels T9, T10, TP9 and TP10
+erpData.all <- subset(erpData.all,elec !=29 & elec != 39 & elec !=40 & elec !=50)
+
+eztest <-ezANOVA(data=erpData.9elec,dv = .(amp),wid=.(subj),within=.(prime,prop),type=3,detailed=TRUE)
+print(eztest)
+
+#
+###################
+erpData.9elec.lo = subset(erpData.9elec, prop == 'lo')
+erpData.9elec.hi = subset(erpData.9elec, prop == 'hi')
+#
+
+eztest <-ezANOVA(data=erpData.9elec.lo,dv = .(amp),wid=.(subj),within=.(prime),type=3,detailed=TRUE)
+
+print("")
+print("Low")
+print(eztest)
+#
+
+eztest <-ezANOVA(data=erpData.9elec.hi,dv = .(amp),wid=.(subj),within=.(prime),type=3,detailed=TRUE)
+
+print("")
+print("High")
+print(eztest)
+#
+
+
+##################
+##Grab marginal means in a silly way
+erpData.aov = aov(amp ~ prime * prop + Error(subj/(prime * prop)),data=erpData.9elec)
+
+print(model.tables(erpData.aov, "means"), digits = 5)
+
+
+sink();
+
 }
