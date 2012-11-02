@@ -32,7 +32,7 @@ if $2 == 'ecg' then
     set projtmin = -0.08
     set projtmax = 0.08
     set ngrad = 1
-    set nmag = 1
+    set nmag = 2
     set neeg = 0
 else if $2 == 'eog' then
     set lfreq = 35
@@ -40,7 +40,7 @@ else if $2 == 'eog' then
     set projtmin = -0.2
     set projtmax = 0.2
     set ngrad = 1
-    set nmag = 1
+    set nmag = 2 
     set neeg = 1 ##2nd ssp vector had no/negative effect so changed back to 1 ##changed back to 3 after modifying HPF 
 
 else if $2 == 'ecgeog' then
@@ -54,12 +54,12 @@ if $4 == 'clean' then
 
 			if $3 == 'ATLLoc' then
 				 echo {$1}_ATLLoc_raw.fif                                  
-				 python  /cluster/kuperberg/SemPrMM/MEG/scripts/beta/ssp_clean_ecgeogProj.py  --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i {$1}_ATLLoc_raw.fif -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --bad $1_bad_chan.txt --tag $2 -g $ngrad -m $nmag -e $neeg
+				 python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py  --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i {$1}_ATLLoc_raw.fif -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --bad $1_bad_chan.txt --tag $2 -g $ngrad -m $nmag -e $neeg
                                  mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_ATLLoc_ecg_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/
                                  mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_ATLLoc_eog_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/
 			else 
-				  foreach i ({$1}_{$3}Run?_raw.fif)
-						   python  /cluster/kuperberg/SemPrMM/MEG/scripts/beta/ssp_clean_ecgeogProj.py --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i $i -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 
+				  foreach i ({$1}_{$3}Run1_raw.fif)
+						   python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i $i -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 
                                                                            
 				  end
 #  				  mv /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/{$1}_{$3}Run?_eog_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/
