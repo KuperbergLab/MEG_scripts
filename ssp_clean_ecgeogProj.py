@@ -63,8 +63,8 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     print in_fif_fname
     out_path = os.path.join(in_path + 'ssp/')
 
-    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog1-5_raw.fif'
-    eog_proj_fname = in_path + prefix + '_eog1-5_proj.fif'
+    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog1_raw.fif'
+    eog_proj_fname = in_path + prefix + '_eog1_proj.fif'
     eog_event_fname = in_path + 'ssp/' + prefix + '_eog1-eve.fif'
     flag=0
 
@@ -77,10 +77,10 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ##        print eog_proj_fname
     print "Computing the EOG projector"
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-                               '--projtmin %s --projtmax %s --saveprojtag _eog1-5_proj '
-                               '--projnmag 5 --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
+                               '--projtmin %s --projtmax %s --saveprojtag _eog1_proj '
+                               '--projnmag %s --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
                                '--lowpass 35 --filtersize 8192 --projmagrej 5500 --projgradrej 3000 --projeegrej 500 '
-                               % (in_path, in_fif_fname, eog_event_fname, tmin, tmax, n_grad, n_eeg))
+                               % (in_path, in_fif_fname, eog_event_fname, tmin, tmax,n_mag, n_grad, n_eeg))
     st = os.system(command)
     if st != 0:
             print "Error while running : %s" % command
