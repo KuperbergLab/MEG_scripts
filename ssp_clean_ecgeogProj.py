@@ -21,8 +21,8 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     print in_fif_fname
     out_path = os.path.join(in_path + 'ssp/')
 
-    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_ecg10_raw.fif'
-    ecg_proj_fname = in_path  + prefix + '_ecg10_proj.fif'
+    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_ecg_raw.fif'
+    ecg_proj_fname = in_path  + prefix + '_ecg_proj.fif'
     ecg_event_fname = in_path + 'ssp/' + prefix + '_ecg-eve.fif'        
     flag = 0
     
@@ -39,10 +39,10 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 	        #os.chdir('/cluster/kuperberg/SemPrMM/MEG/data/ac1/ssp')
                 #os.getcwd()
 		command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-				   '--projtmin %s --projtmax %s --saveprojtag _ecg10_proj '
-				   '--projnmag 10 --projngrad %s --projneeg 0 --projevent 999 --highpass 5 '
+				   '--projtmin %s --projtmax %s --saveprojtag _ecg_proj '
+				   '--projnmag %s --projngrad %s --projneeg 0 --projevent 999 --highpass 5 '
 				   '--lowpass 35 --projmagrej 4000 --projgradrej 3000 --projeegrej 250 '
-		         	   % (in_path, in_fif_fname, ecg_event_fname, tmin, tmax, n_grad)) ##10/1/12 CU after changing the number of projectors for ECG(mag1, grad1, eeg0) 
+		         	   % (in_path, in_fif_fname, ecg_event_fname, tmin, tmax,n_mag, n_grad)) ##10/1/12 CU after changing the number of projectors for ECG(mag1, grad1, eeg0) 
 		
 		st = os.system(command)
 		if st != 0:
@@ -63,8 +63,8 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     print in_fif_fname
     out_path = os.path.join(in_path + 'ssp/')
 
-    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog1-3_raw.fif'
-    eog_proj_fname = in_path + prefix + '_eog1-3_proj.fif'
+    out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog1-5_raw.fif'
+    eog_proj_fname = in_path + prefix + '_eog1-5_proj.fif'
     eog_event_fname = in_path + 'ssp/' + prefix + '_eog1-eve.fif'
     flag=0
 
@@ -77,8 +77,8 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ##        print eog_proj_fname
     print "Computing the EOG projector"
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-                               '--projtmin %s --projtmax %s --saveprojtag _eog1-3_proj '
-                               '--projnmag 3 --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
+                               '--projtmin %s --projtmax %s --saveprojtag _eog1-5_proj '
+                               '--projnmag 5 --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
                                '--lowpass 35 --filtersize 8192 --projmagrej 5500 --projgradrej 3000 --projeegrej 500 '
                                % (in_path, in_fif_fname, eog_event_fname, tmin, tmax, n_grad, n_eeg))
     st = os.system(command)
@@ -227,7 +227,7 @@ if __name__ == '__main__':
             
             prefix = raw_in[:-8]
             print prefix
-            out_fname = in_path + 'ssp/' + prefix + '_clean_ecgeog1_raw.fif'
+            out_fname = in_path + 'ssp/' + prefix + '_clean_ecgeog_raw.fif'
 
             print 'Applying ECG and EOG projector'
             command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --proj %s --projoff --save %s --filteroff'
