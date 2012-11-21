@@ -126,23 +126,14 @@ if ( $1 == 'ya1' | $1 == 'ya3' |$1 == 'ya4' |$1 == 'ya7' ) then
 endif
 
 
-foreach f ( *_raw.fif )
-        mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias2.txt >>& $log
-end
-
-
-##############################################
-###Marking bad channels
-
-echo
-echo "Marking bad channels" >>& $log
-
-if ( -e $1_bad_chan.txt ) then
-	foreach f ( *_raw.fif )
-		mne_mark_bad_channels --bad $1_bad_chan.txt $f >>& $log
+### NOTE: sc3 - MaskedMM Run2 has its last two channels names different and in the reverse order. So to fix that, whenever you re-run preProc_setup, edit the alias3.txt file to reflect the following changes 1) RMAST --> MISC 115 and 2) EEG 099 --> RMAST .
+### This has to be done in 2 steps and only for MM2 to match with channels of MM1 for averaging purpose.  
+if ( $1 == 'sc3' ) then  
+	foreach f ( *MMRun2_raw.fif )
+		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias3.txt >>& $log ##to rename EEG 99 channel aquired in sc3 - MaskedMM Run2 as MISC 115, to create averages across runs. 
 	end
 endif
 
-echo
-date
-echo "Finished preProc - setup" >>& $log
+
+foreach f ( *_raw.fif )
+        mne_rename_channels -
