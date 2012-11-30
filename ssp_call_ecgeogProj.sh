@@ -40,7 +40,7 @@ else if $2 == 'eog' then
     set projtmin = -0.2
     set projtmax = 0.2
     set ngrad = 1
-    set nmag = 2 
+    set nmag = 1 
     set neeg = 1 ##2nd ssp vector had no/negative effect so changed back to 1 ##changed back to 3 after modifying HPF 
 
 else if $2 == 'ecgeog' then
