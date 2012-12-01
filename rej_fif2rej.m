@@ -20,6 +20,9 @@ end
 % add 'eeg' or 'mag' or 'grad' if you want to make rej files based on these channels
 chan_c = {'veog', 'heog' };
 
+%add the subject name in this list if it was run after the new MEG
+%aquisition system change(October 2012) 
+newsub_list = {'ac31', 'sc19'}; 
 
 %%%%%%%%%
 % find the appropriate rej_thr.txt file
@@ -53,16 +56,24 @@ grad_rej = S.data(i == 1);
 [~, i] = ismember(S.textdata, 'mag');
 mag_rej = S.data(i == 1);
 
+veog_chan = 377;
+heog_chan = 376;
+
+if ismember(sub, newsub_list) 
+  veog_chan = 368;
+  heog_chan = 367; 
+end
+
 for chan = chan_c
     chan_str = chan{1};
         switch chan_str
             case 'veog'
-                chans = 377;
+                chans = veog_chan;
                 meth = 'win';
                 thr = veog_rej;
                 f = @window;
             case 'heog'
-                chans = 376;
+                chans = heog_chan;
                 meth = 'win';
                 thr = heog_rej;
                 f = @window;
