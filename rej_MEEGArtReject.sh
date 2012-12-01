@@ -6,8 +6,8 @@
 
 echo 'CountEvents-CountBadChannels'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
-#foreach par ('BaleenHP' 'BaleenLP' 'ATLLoc' 'MaskedMM')
-foreach par ('BaleenHP' 'BaleenLP')
+foreach par ('BaleenHP' 'BaleenLP' 'ATLLoc' 'MaskedMM')
+#foreach par ('BaleenHP' 'BaleenLP')
    echo $par
    foreach i (`cat /autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/$1.meg.all.txt`)   
          set subj = $1$i
@@ -53,8 +53,8 @@ endif
 
 echo 'ComputeEvents'
 cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/
-#foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
-foreach par ('BaleenHP' 'BaleenLP')
+foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
+#foreach par ('BaleenHP' 'BaleenLP')
       echo $par
       python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_computeEvents.py $1 $par 
 end
