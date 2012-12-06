@@ -54,6 +54,8 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 		mne_average_forward_solutions --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --out $1_MaskedMM_All-ave-7-$t-fwd.fif >>& $log
 		mne_average_forward_solutions --fwd $1_BaleenLPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun4-ave-7-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif >>& $log
 		mne_average_forward_solutions --fwd $1_BaleenHPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenHPRun4-ave-7-$t-fwd.fif --out $1_BaleenHP_All-ave-7-$t-fwd.fif >>& $log		
+		if ( -e $1_BaleenLPRun2-ave.fif) then
+			mne_average forward_solutions --fwd $1_BaleenLPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun4-ave-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif >>& $log
 		if ( -e $1_AXCPTRun2-ave.fif ) then
 			mne_average_forward_solutions --fwd $1_AXCPTRun1-ave-7-$t-fwd.fif --fwd $1_AXCPTRun2-ave-7-$t-fwd.fif --out $1_AXCPT_All-ave-7-$t-fwd.fif >>& $log		
 		else if ( -e $1_AXCPTRun1-ave.fif ) then
