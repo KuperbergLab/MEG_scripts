@@ -13,6 +13,8 @@ def makeAveFiles(subjID,projType):
  	gradRej = "2000e-13"
  	magRej = "3000e-15"
  	eegRej = "100e-6"
+        magFlat = "1e-14"
+	gradFlat = "1000e-15"
 
 
 	## SUBJECT-SPECIFIC REJECTION THRESHOLD MODIFICATIONS
@@ -33,6 +35,7 @@ def makeAveFiles(subjID,projType):
 
 	if subjID == "ac2" or subjID == "ac7":
 		eegRej = "1"
+		
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 ##    expList = ['BaleenHP'] ## changed on 9/7 for testing number of trials in each case(rej, PCA+rej, PCA+norej -CU)
@@ -64,6 +67,8 @@ def makeAveFiles(subjID,projType):
                                 	myFile.write('\tgradReject\t'+gradRej + '\n\n')
                                 	myFile.write('\tmagReject\t'+magRej + '\n\n')
                                 	myFile.write('\teegReject\t'+eegRej + '\n\n')
+                                	myFile.write('\tgradFlat\t'+gradFlat + '\n\n')
+                                	myFile.write('\tmagFlat\t'+magFlat + '\n\n')
                                 
                                 for item in condDict[exp]:
                                         myFile.write('\tcategory {\n')
