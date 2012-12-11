@@ -116,7 +116,11 @@ if ( $1 == 'sc19' | $1 == 'ac31') then
 		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias0.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
 	end
 endif
-
+if ( $1 == 'ac31' ) then  
+	foreach f ( *_raw.fif )
+		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1b.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
+	end
+endif
 
 if ( $1 == 'ya1' | $1 == 'ya3' |$1 == 'ya4' |$1 == 'ya7' ) then
 	foreach f ( *_raw.fif )
