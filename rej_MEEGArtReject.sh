@@ -24,7 +24,7 @@ foreach par ('BaleenHP' 'BaleenLP' 'ATLLoc' 'MaskedMM')
              endif
          else
             echo $par 
-            if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$subj/ave_projon/logs/{$subj}_ATLLoc-ave.log ) then
+            if (-e /autofs/cluster/kuperberg/SemPrMM/MEG/data/$subj/ave_projon/logs/{$subj}_{$par}Run1-ave.log ) then
                cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$subj/ave_projon/logs/
                foreach t ( {$subj}_{$par}Run?-ave.log )
                        python /cluster/kuperberg/SemPrMM/MEG/scripts/rej_countBadChan.py $t $par 
