@@ -62,9 +62,17 @@ for x = 1:2
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
                 tempSubjData.evoked(c).epochs(390,:) = []; %deleting EEG115 
-                tempSubjData.evoked(c).epochs(307:315,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(315,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(314,:) = [];
+                tempSubjData.evoked(c).epochs(313,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(312,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(311,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(310,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(309,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(308,:) = []; %deleting STI 
+                tempSubjData.evoked(c).epochs(307,:) = []; %deleting STI
 
-               % tempSubjData.evoked(c).epochs(307:315,:) = [];
+                %tempSubjData.evoked(c).epochs(307:315,:) = [];
             end
         end
         
@@ -72,7 +80,10 @@ for x = 1:2
             disp(subjID)
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
-                tempSubjData.evoked(c).epochs(381:383,:) = []; %deleting STI 
+                %tempSubjData.evoked(c).epochs(381:383,:) = [];
+                tempSubjData.evoked(c).epochs(383,:) = []; %deleting STI
+                tempSubjData.evoked(c).epochs(382,:) = []; %deleting STI
+                tempSubjData.evoked(c).epochs(381,:) = []; %deleting STI 
             end
         end
         
