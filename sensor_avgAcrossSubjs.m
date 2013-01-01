@@ -24,12 +24,14 @@ for x = 1:2
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
         dataType = 'eeg';
         numChan = 74;
-        chanV = 316:389;
+        chanV = 307:380;
+        
     elseif x == 2
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
         dataType = 'meg';
-        numChan = 389;
-        chanV = 1:389;
+        numChan = 380;
+        chanV = 1:380; %previously 389
+
     elseif x == 3
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_MaxFilter.mat'));
         dataType = 'megMF';
@@ -86,15 +88,13 @@ for x = 1:2
 
             %%sensor x time x condition structure for subject data
             epDataAllC(:,:,c) = epData;
-
         end
-
+ 
         %%update sensor x time x condition x subject structure
         allData(:,:,:,s) = epDataAllC;
 
         clear('epData');
         clear('epDataAllC');
-
     end
     
     %%%COMPUTING REGULAR GRAND-AVERAGE%%%%
