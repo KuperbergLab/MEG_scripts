@@ -43,7 +43,7 @@ for x = 1:2
 
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
-    newStr = allSubjData{5};
+    newStr = allSubjData{numSubj}; %%1/1/13 Changed this to 18th subject - to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted) 
     
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
