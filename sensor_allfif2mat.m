@@ -14,7 +14,7 @@ function sensor_allfif2mat(exp,subjGroup,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-
+newsubjList = {'ac31', 'sc19'}; 
 
 %%run twice, for each projection setting
 for x = 1:2
@@ -42,7 +42,7 @@ for x = 1:2
         
         tempSubjData = fiff_read_evoked_all(inFile);
         
-        %%Get rid of junk channels accidentally acquired in first subjects
+        %%Get rid of junk channels accidentally acquired in first ya subjects
         %%so matrices match up
         if (subj == 1 || subj == 2 || subj == 3 || subj == 4) && strcmp(subjGroup,'ya')
             condNum = size(tempSubjData.evoked,2);
@@ -52,9 +52,31 @@ for x = 1:2
             end
         end
         
+        %%Get rid of STI channels in between MEG and EEG channels in subjects 
+        %%aquired before the MEG acquisition system change 
+        subjID = strcat(subjGroup, int2str(subj));
+        disp(subjID)
+        
+        if ~ismember(subjID, newsubjList) 
+            disp(subjID)
+            condNum = size(tempSubjData.evoked,2);
+            for c = 1:condNum
+                tempSubjData.evoked(c).epochs(390,:) = []; %deleting EEG115 
+                tempSubjData.evoked(c).epochs(307:315,:) = []; %deleting STI 
 
+               % tempSubjData.evoked(c).epochs(307:315,:) = [];
+            end
+        end
+        
+        if ismember(subjID, newsubjList)
+            disp(subjID)
+            condNum = size(tempSubjData.evoked,2);
+            for c = 1:condNum
+                tempSubjData.evoked(c).epochs(381:383,:) = []; %deleting STI 
+            end
+        end
+        
         allSubjData{count} = tempSubjData;
-
     end
 
     outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_',projType,'.mat');
