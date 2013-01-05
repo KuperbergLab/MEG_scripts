@@ -87,7 +87,7 @@ for x = 1:2
             end
         end
         
-        allSubjData{count} = tempSubjData;
+        allSubjData{count} = tempSubjData; %%changed allSubjData to TempSubjData to get the ave.mat file for ac.meg.31 to acquire teh template data structure for new MEG EEG channels. 
     end
 
     outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_',projType,'.mat');
