@@ -1,5 +1,5 @@
 %%Example: sensor_avgAcrossSubjs('MaskedMM_All', 'ac.n12.meeg.mm')
-%%Usage: sensor_avgAcrossSubjs('ExpName', 'listPrefix')
+%%Usagev: sensor_avgAcrossSubjs('ExpName', 'listPrefix')
 
 function sensor_avgAcrossSubjs(exp,listPrefix)
 
@@ -12,6 +12,7 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
+tempSubj= (dlmread(strcat(dataPath,'scripts/function_inputs/ac.meg.31.txt')))';
 numSubj = size(subjList,2);
 
 numSubj
@@ -43,8 +44,11 @@ for x = 1:2
 
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
-    newStr = allSubjData{numSubj}; %%1/1/13 Changed this to 18th subject - to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted) 
-    
+    for subj=tempSubj
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat')); %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
+        newStr = TempSubjData{1};    
+    end
+     
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
     if strcmp(exp, 'ATLLoc') 

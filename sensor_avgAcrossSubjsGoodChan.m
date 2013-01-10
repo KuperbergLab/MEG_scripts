@@ -12,19 +12,23 @@ function sensor_avgAcrossSubjsGoodChan(exp,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
+tempSubj= (dlmread(strcat(dataPath,'scripts/function_inputs/ac.meg.31.txt')))';
 numSubj = size(subjList,2);
 
 %%%%Getting the data out
 
 load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
 dataType = 'meg';
-numChan = 389;
-chanV = 1:389;
+numChan = 380;
+chanV = 1:380;
 
 
 %%Get a template fif structure from random subject average, and modify
 %%it to delete the irrelevant channels from the structure
-newStr = allSubjData{5};
+for subj=tempSubj
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat')); %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
+        newStr = TempSubjData{1};    
+end
 
 numSample = size(newStr.evoked(1).epochs,2);
 numCond = size(newStr.evoked,2);
