@@ -54,13 +54,13 @@ if ($BEM_METHOD == FLASH) then
 		###Using full path to flash_dcm
 		mne_organize_dicom /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash_dcm  >>& $log
 		ln -s 0*5d* flash05
-		mne_flash_bem --noflash30  >>& $log   #the error for sc14/15 seems to be here
+		mne_flash_bem --noflash30 >>& $log   #the error for sc14/15 seems to be here
 		###Create symbolic links to the bem surfaces###
 		cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 		rm *.surf
-		ln -s ./flash/outer_skin.surf outer_skin.surf
-		ln -s ./flash/outer_skull.surf outer_skull.surf
-		ln -s ./flash/inner_skull.surf inner_skull.surf
+		ln -s ./flash_dcm/outer_skin.surf outer_skin.surf
+		ln -s ./flash_dcm/outer_skull.surf outer_skull.surf
+		ln -s ./flash_dcm/inner_skull.surf inner_skull.surf
 	else
 		echo "flash 05 exists"  >>& $log
 	endif
