@@ -11,8 +11,8 @@ sample2 = round(t2/1.6666 + 61);
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
-numChan = 74;
-chan = 316:389;
+numChan = 70;
+chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 baselineV = 1:60;
 
 dataV = [];
