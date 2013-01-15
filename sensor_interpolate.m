@@ -7,7 +7,7 @@ function sensor_interpolate(exp,subjGroup,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 disp(dataPath);
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-newsubjList = {'ac31', 'sc19'};
+newsubjList = {'ac31', 'sc19','sc20'};
 
 numChan = 70;
 disp(dataPath);
@@ -48,36 +48,43 @@ for s = subjList
         allY(end+1) = subjStr.info.chs(allChans(i)).eeg_loc(2);
         allZ(end+1) = subjStr.info.chs(allChans(i)).eeg_loc(3);
         badTest = find(strcmp(subjStr.info.bads,subjStr.info.ch_names{allChans(i)}));
+        
         if size(badTest,2) == 0
             goodX(end+1) = subjStr.info.chs(allChans(i)).eeg_loc(1);
             goodY(end+1) = subjStr.info.chs(allChans(i)).eeg_loc(2);
             goodZ(end+1) = subjStr.info.chs(allChans(i)).eeg_loc(3);
             goodChanIndex(end+1) = i;
         else
-            badChanList(end+1) = badTest; %%make a list of bad EEG chan
-        end
-  
-        if i==68  %%Manually entering X,Y,Z coordinates for 3 electrodes(OZ, O2, IZ) for sc19 since they are recorded as 0. 
-            if (s==19) && strcmp(subjGroup, 'sc')
-                allX(68) = 0.01;
-                allY(68) = -0.85;
-                allZ(68) = 0.1;
-            end
-        elseif i==69
-            if (s==19) && strcmp(subjGroup, 'sc')
-                allX(69) = 0.015;
-                allY(69) = -0.90;
-                allZ(69) = 0.9;
-            end
-        elseif i==70
-            if (s==19) && strcmp(subjGroup, 'sc')
-                allX(70) = 0.02;
-                allY(70) = -0.10;
-                allZ(70) = 0.8;
-            end
+            badChanList(end+1) = badTest;%%make a list of bad EEG chan
         end
     end
+    %%Manually entering X,Y,Z coordinates for 3 electrodes(OZ, O2, IZ) for sc19 since they are recorded as 0. 
+    if (s==19) && strcmp(subjGroup, 'sc')
+        allX(68) = 0.01;
+        allY(68) = -0.85;
+        allZ(68) = 0.1;
+        allX(69) = 0.015;
+        allY(69) = -0.90;
+        allZ(69) = 0.9;
+        allX(70) = 0.02;
+        allY(70) = -0.10;
+        allZ(70) = 0.8;
+        goodX(66) = 0.01;
+        goodY(66) = -0.85;
+        goodZ(66) = 0.1;
+        goodChanIndex(66) = 68;
+        goodX(67) = 0.015;
+        goodY(67) = -0.90;
+        goodZ(67) = 0.9;
+        goodChanIndex(67) = 69;
+        goodX(68) = 0.02;
+        goodY(68) = -0.10;
+        goodZ(68) = 0.8;
+        goodChanIndex(68) = 70;
+    end
+    
 
+    
     goodChans = allChans(goodChanIndex);  %%goodChans is in MNE indices (316-389)
     goodPos = [goodX;goodY;goodZ];
     allPos = [allX;allY;allZ];
@@ -107,8 +114,8 @@ for s = subjList
 
     outFileName = strcat(dataPath,'data/',subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-I-ave.fif');
     fiff_write_evoked(outFileName,iStr);
-    
+%     
  end
-
-
-    
+% 
+% 
+%     
