@@ -112,12 +112,12 @@ python /cluster/kuperberg/SemPrMM/MEG/scripts/fixTriggers.py $1 >>& $log
 echo
 echo "Renaming EEG channels" >>& $log
 
-if ( $1 == 'sc19' | $1 == 'ac31') then  
+if ( $1 == 'sc19' | $1 == 'ac31' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22') then  
 	foreach f ( *_raw.fif )
 		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias0.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
 	end
 endif
-if ( $1 == 'ac31' | $1 == 'sc19' ) then  
+if ( $1 == 'ac31' | $1 == 'sc19' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22') then  
 	foreach f ( *_raw.fif )
 		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1b.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
 	end
