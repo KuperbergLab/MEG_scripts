@@ -33,8 +33,11 @@ def makeAveFiles(subjID,projType):
 	if subjID == "ya26":
 		eegRej = "90e-6"
 
-	if subjID == "ac2" or subjID == "ac7":
+	if subjID == "ac2" or subjID == "ac7" or subjID == "sc19": 
 		eegRej = "1"
+		
+	if subjID == "sc17" or subjID == "sc20":
+	    eegRej = "250e-6"
 		
 	
 	expList = ['Blink', 'ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
@@ -61,9 +64,9 @@ def makeAveFiles(subjID,projType):
                                 myFile.write('\toutfile\t\t'+subjID+ '_' + exp + run + '-ave.fif\n')
                                 myFile.write('\tlogfile\t\t./logs/'+subjID + '_' + exp + run + '-ave.log\n')
                                 if projType == 'projoff':
-                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej4projoff.eve\n\n')
+                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'Mod4projoff.eve\n\n')
                                 if projType == 'projon':
-                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'ModRej.eve\n\n')
+                                        myFile.write('\teventfile\t'+filePrefix+'/eve/'+subjID+'_' +exp + run + 'Mod.eve\n\n')
                                 	myFile.write('\tgradReject\t'+gradRej + '\n\n')
                                 	myFile.write('\tmagReject\t'+magRej + '\n\n')
                                 	myFile.write('\teegReject\t'+eegRej + '\n\n')

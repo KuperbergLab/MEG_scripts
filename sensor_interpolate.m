@@ -7,13 +7,14 @@ function sensor_interpolate(exp,subjGroup,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 disp(dataPath);
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-newsubjList = {'ac31', 'sc19','sc20'};
+newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22'};
 
 numChan = 70;
 disp(dataPath);
+tic;
 for s = subjList
 
-    fileName = strcat(dataPath,'data/', subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-ave.fif');
+    fileName = strcat(dataPath,'data/', subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'_noavgref-ave.fif');
     %fileName = strcat(dataPath,'data/', subjGroup,int2str(s),'/',subjGroup,int2str(s),'_',exp,'-ave.fif');
     subjStr = fiff_read_evoked_all(fileName); %%this holds the original data
     iStr = subjStr; %%this will hold the interpolated data
@@ -112,10 +113,11 @@ for s = subjList
     end
     size(iData)
 
-    outFileName = strcat(dataPath,'data/',subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'-I-ave.fif');
+    outFileName = strcat(dataPath,'data/',subjGroup,int2str(s),'/ave_projoff/',subjGroup,int2str(s),'_',exp,'_noavgref-I-ave.fif');
     fiff_write_evoked(outFileName,iStr);
 %     
- end
+end
+ toc;
 % 
 % 
 %     
