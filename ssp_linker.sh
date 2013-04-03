@@ -33,7 +33,8 @@ echo $label
 
 
 
-if $3 == 'All' then 
+if $3 == 'All' then
+    cd /autofs/cluster/kuperberg/SemPrMM/MEG/data/$1/ 
 	foreach par ('ATLLoc' 'BaleenHP' 'BaleenLP' 'MaskedMM')
 		if $par == 'ATLLoc' then 
 		      rm {$1}_ATLLoc_ssp_raw.fif
@@ -63,6 +64,7 @@ if $3 == 'All' then
 					endif
 			  else 
 					if (-e {$1}_{$3}Run1_raw.fif) then 
+					      echo "run1"
 						  ln -s ssp/{$1}_{$par}Run1_$label.fif {$1}_{$par}Run1_ssp_raw.fif 
 					endif
 					if (-e {$1}_{$3}Run2_raw.fif) then 
