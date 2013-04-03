@@ -22,7 +22,7 @@ chan_c = {'veog', 'heog' };
 
 %add the subject name in this list if it was run after the new MEG
 %aquisition system change(October 2012) 
-newsub_list = {'ac31', 'sc19'}; 
+newsub_list = {'ac31', 'sc19', 'sc20'}; 
 
 %%%%%%%%%
 % find the appropriate rej_thr.txt file
