@@ -2,7 +2,7 @@ function fif2rej(fiff, do_plot)
 %------------------------
 %
 % Writes out rejection files, each with two columns.
-% First column is time point (in samples) and next is
+% First column is time point (in seconds) and next is
 % channel on which that time point should be rejected
 %
 % Inputs
