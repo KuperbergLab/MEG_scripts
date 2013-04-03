@@ -8,8 +8,8 @@
 % [name2, ~]=strtok(remain, '_');
 % eog_eventFileName = [inpath, name1,'_', name2, '_eog-eve.fif'];
 
-in_fif_File='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc19/sc19_BaleenLPRun1_raw.fif';
-eog_eventFileName='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc19/ssp/sc19_BaleenLPRun1_eog1-eve.fif';
+in_fif_File='/autofs/cluster/kuperberg/SemPrMM/MEG/data/ac31/ac31_ATLLoc_raw.fif';
+eog_eventFileName='/autofs/cluster/kuperberg/SemPrMM/MEG/data/ac31/ssp/ac31_ATLLoc_eog-eve.fif';
 %eog_figfile='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc1/ssp/sc1_BaleenHPRun2_m2sd_eog.png';
 
 %reading eog channels from data files
@@ -21,15 +21,13 @@ start_samp = fiffsetup.first_samp;
 end_samp = fiffsetup.last_samp;
 [eog] = fiff_read_raw_segment(fiffsetup, start_samp ,end_samp, ch_EOG(2));
 
-
-
 % Detecting Blinks
 filteog = eegfilt(eog, sampRate,0,10);
 EOG_type = 998;
 firstSamp = fiffsetup.first_samp;
 temp = filteog-mean(filteog);
-
-eog_std_dev_value=1;
+ 
+eog_std_dev_value=2; %Change according to the subject
 
 if sum(temp>(mean(temp)+2*std(temp))) > sum(temp<(mean(temp)+2*std(temp)))
     
