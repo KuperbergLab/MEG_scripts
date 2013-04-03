@@ -1,6 +1,6 @@
 #!/bin/csh -f
 #usage: ./ssp_call_ecgeogProj.sh SubjID tag par nmag ngrad neeg
-#eg: ./ssp_call_ecgeogProj.sh ac1 ecg/eog/ecgeog ATLLoc 1 1 0
+#eg: ./ssp_call_ecgeogProj.sh ac1 ecg/eog/ecgeog ATLLoc 1 1 1
 
 # setenv USE_STABLE_5_0_0
 # source /usr/local/freesurfer/nmr-stable50-env
