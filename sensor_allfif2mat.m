@@ -14,10 +14,10 @@ function sensor_allfif2mat(exp,subjGroup,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-newsubjList = {'ac31', 'sc19'}; 
+newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22'}; 
 
 %%run twice, for each projection setting
-for x = 1:2
+for x = 1:1
     if x == 1
         projType = 'projoff';
     elseif x == 2
@@ -33,9 +33,9 @@ for x = 1:2
         count = count + 1;
         
         if x == 1
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projoff/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-I-ave.fif');
         elseif x == 2
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-I-ave.fif');
         elseif x == 3
             inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_MaxFilter/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
         end
@@ -61,9 +61,9 @@ for x = 1:2
             disp(subjID)
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
-                tempSubjData.evoked(c).epochs(390,:) = []; %deleting EEG115 
+                tempSubjData.evoked(c).epochs(390,:) = []; %deleting EEG115 or MISC 115 (as in the case of sc3)
                 tempSubjData.evoked(c).epochs(315,:) = []; %deleting STI 
-                tempSubjData.evoked(c).epochs(314,:) = [];
+                tempSubjData.evoked(c).epochs(314,:) = []; %deleting STI
                 tempSubjData.evoked(c).epochs(313,:) = []; %deleting STI 
                 tempSubjData.evoked(c).epochs(312,:) = []; %deleting STI 
                 tempSubjData.evoked(c).epochs(311,:) = []; %deleting STI 
@@ -90,7 +90,7 @@ for x = 1:2
         allSubjData{count} = tempSubjData; %%changed allSubjData to TempSubjData to get the ave.mat file for ac.meg.31 to acquire teh template data structure for new MEG EEG channels. 
     end
 
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_',projType,'.mat');
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_noavgref_',exp, '_projon.mat');
 
     save(outFile,'allSubjData')
 end
