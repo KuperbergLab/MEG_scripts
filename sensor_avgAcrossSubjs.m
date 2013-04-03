@@ -12,7 +12,9 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-tempSubj= (dlmread(strcat(dataPath,'scripts/function_inputs/ac.meg.31.txt')))';
+%tempSubj= (dlmread(strcat(dataPath,'scripts/function_inputs/ac.meg.31.txt')))';
+tempSubj=(dlmread(strcat(dataPath,'scripts/function_inputs/sc.meg.19.txt')))'; %%Using sc.meg.19 when testing for avgRef projections on grand average. 
+
 numSubj = size(subjList,2);
 
 numSubj
@@ -22,13 +24,13 @@ numSubj
 for x = 1:2
     
     if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_noavgref_', exp, '_projon.mat'));
         dataType = 'eeg';
         numChan = 74;
         chanV = 307:380;
         
     elseif x == 2
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_projon.mat'));
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_noavgref_', exp, '_projon.mat'));
         dataType = 'meg';
         numChan = 380;
         chanV = 1:380; %previously 389
@@ -45,10 +47,16 @@ for x = 1:2
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
     for subj=tempSubj
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat')); %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
-        newStr = TempSubjData{1};    
-    end
-     
+       %%load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat')); %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
+       load(strcat(dataPath, 'results/sensor_level/ave_mat/sc.meg.19_noavgref_',exp, '_projoff.mat')); %%For  Avgref test: Using the template sc19  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
+       %load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat'));
+       newStr = TempSubjData{1};    
+   
+end
+ %%Get a template fif structure from random subject average, and modify
+    %%it to delete the irrelevant channels from the structure
+   % newStr = allSubjData{5};
+%  
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
     if strcmp(exp, 'ATLLoc') 
@@ -111,7 +119,7 @@ for x = 1:2
         newStr.evoked(y).nave = epCount(y);
     end
 
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_noavgref_',exp,'_',dataType,'-ave.fif')
     fiff_write_evoked(outFile,newStr);
     
 end
