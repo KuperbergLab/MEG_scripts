@@ -34,16 +34,7 @@ for x = 1:2
         dataType = 'meg';
         numChan = 380;
         chanV = 1:380; %previously 389
-
-    elseif x == 3
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_',exp, '_MaxFilter.mat'));
-        dataType = 'megMF';
-        numChan = 389;
-        chanV = 1:389;
-        
-    end
     
-
     %%Get a template fif structure from random subject average, and modify
     %%it to delete the irrelevant channels from the structure
     for subj=tempSubj
