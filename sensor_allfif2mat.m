@@ -22,22 +22,20 @@ for x = 1:1
         projType = 'projoff';
     elseif x == 2
         projType = 'projon';
-    elseif x == 3 
-        projType = 'MaxFilter';
+
     end
  
     count = 0;
-    allSubjData={};
+    TempSubjData={};
 
     for subj=subjList
         count = count + 1;
         
         if x == 1
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-I-ave.fif');
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projoff/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
         elseif x == 2
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-I-ave.fif');
-        elseif x == 3
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_MaxFilter/',subjGroup,int2str(subj),'_',exp,'-ave.fif');
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-real-I-ave.fif');
+
         end
         
         tempSubjData = fiff_read_evoked_all(inFile);
@@ -90,7 +88,7 @@ for x = 1:1
         allSubjData{count} = tempSubjData; %%changed allSubjData to TempSubjData to get the ave.mat file for ac.meg.31 to acquire teh template data structure for new MEG EEG channels. 
     end
 
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_noavgref_',exp, '_projon.mat');
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_projoff.mat');
 
     save(outFile,'allSubjData')
 end
