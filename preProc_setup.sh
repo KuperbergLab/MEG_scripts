@@ -95,11 +95,14 @@ echo
 echo "Extracting events" >>& $log
 
 foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')
-	
-	if ( -e $1_{$run}_raw.fif ) then
-		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve --digtrig STI101 >>& $log
-	endif
-
+	if ( -e $1_{$run}_raw.fif ) then  
+	   if ( $1 == 'sc19' | $1 == 'ac31' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22' | $1 == 'ac33') then
+		mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve --digtrig STI101 >>& $log ## after the MEG system change Trigger Channel was STI101
+	   
+           else
+               mne_process_raw --raw $1_{$run}_raw.fif --eventsout eve/$1_{$run}.eve >>& $log
+           endif
+        endif
 end
 
 ##############################################
@@ -113,12 +116,12 @@ python /cluster/kuperberg/SemPrMM/MEG/scripts/fixTriggers.py $1 >>& $log
 echo
 echo "Renaming EEG channels" >>& $log
 
-if ( $1 == 'sc19' | $1 == 'ac31' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22') then  
+if ( $1 == 'sc19' | $1 == 'ac31' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22' | $1 == 'ac33') then  
 	foreach f ( *_raw.fif )
 		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias0.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
 	end
 endif
-if ( $1 == 'ac31' | $1 == 'sc19' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22') then  
+if ( $1 == 'ac31' | $1 == 'sc19' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22' |  $1 == 'ac33') then  
 	foreach f ( *_raw.fif )
 		mne_rename_channels --fif $f --alias ../../scripts/function_inputs/alias1b.txt >>& $log ##to rename all channels in subjects whose data was acquired post October2012- after new acq MEG system
 	end
