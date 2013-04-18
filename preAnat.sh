@@ -48,6 +48,7 @@ if ($BEM_METHOD == FLASH) then
 	if ( ! -e "/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash/outer_skin.surf" ) then
 		echo "flash 05 does not exist"  >>& $log
 		echo "Running BEM Stuff..."  >>& $log
+		mkdir $SUBJECTS_DIR/$1/bem/flash_org
 		cd $SUBJECTS_DIR/$1/bem/flash_org 
 		echo $SUBJECTS_DIR  >>& $log
 		###ORGANIZE DICOMS IF FLASH###
@@ -58,9 +59,9 @@ if ($BEM_METHOD == FLASH) then
 		###Create symbolic links to the bem surfaces###
 		cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 		rm *.surf
-		ln -s ./flash_dcm/outer_skin.surf outer_skin.surf
-		ln -s ./flash_dcm/outer_skull.surf outer_skull.surf
-		ln -s ./flash_dcm/inner_skull.surf inner_skull.surf
+		ln -s ./flash/outer_skin.surf outer_skin.surf
+		ln -s ./flash/outer_skull.surf outer_skull.surf
+		ln -s ./flash/inner_skull.surf inner_skull.surf
 	else
 		echo "flash 05 exists"  >>& $log
 	endif
