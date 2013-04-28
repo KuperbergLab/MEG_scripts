@@ -11,14 +11,17 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
-subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-tempSubj = 'sc.meg.19'
-%tempSubj = 'ac.meg.31' %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
 
+%%Information for template subject
+tempSubj = 19  %%enter actual subj num here (if sc19, enter 19)
+tempSubjListPrefix = 'sc.meg.all' %%enter a list that this subject appears in for .mat file
+tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
+
+subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))'
 numSubj = size(subjList,2)
 
 %%%%Getting the data out, loop once each for projon and projoff
-for x = 1:2
+for x = 2:2
     
     if x == 1
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_projoff.mat'));
@@ -27,20 +30,20 @@ for x = 1:2
         chanV = 307:380;
         
     elseif x == 2
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projoff.mat'));
+        %%Get a template fif structure from random subject average, and modify
+        %%it to delete the irrelevant channels from the structure
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', tempSubjListPrefix, '_', exp, '_projon.mat'));
+        tempSubjIndex = find(tempSubjList == tempSubj)
+        newStr = allSubjData{tempSubjIndex};
+        
+        %%Get the actual data
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
         dataType = 'meg';
         numChan = 380;
-        chanV = 1:380; %previously 389
-    
-    %%Get a template fif structure from random subject average, and modify
-    %%it to delete the irrelevant channels from the structure
-    load(strcat(dataPath, 'results/sensor_level/ave_mat/',tempSubj,'_',exp, '_projoff.mat')); %%For  Avgref test: Using the template sc19  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
-    newStr = TempSubjData{1};    
-   
+        chanV = 1:380; %previously 389  
+      
 end
- %%Get a template fif structure from random subject average, and modify
-    %%it to delete the irrelevant channels from the structure
-   % newStr = allSubjData{5};
+
 %  
     numSample = size(newStr.evoked(1).epochs,2);
     numCond = size(newStr.evoked,2);
@@ -69,7 +72,7 @@ end
     
     %%for each subject, get the evoked data out
     for s = 1:numSubj
-        subjStr = allSubjData{s};
+        subjStr = allSubjData{s}
         s
 
         %%For each condition, get the evoked data out
@@ -89,7 +92,7 @@ end
  
         %%update sensor x time x condition x subject structure
         allData(:,:,:,s) = epDataAllC;
-
+epDataAllC(1,1,2)
         clear('epData');
         clear('epDataAllC');
     end
@@ -103,8 +106,8 @@ end
         newStr.evoked(y).epochs(:,:) = gaData(:,:,y);
         newStr.evoked(y).nave = epCount(y);
     end
-
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'-ave.fif')
+    %newStr.evoked(1).epochs
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'_noavgref-ave.fif')
     fiff_write_evoked(outFile,newStr);
     
 end
