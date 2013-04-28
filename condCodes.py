@@ -45,6 +45,8 @@ condLabels = {'Blink':
 			['6','B prime']]
 			}
 
+runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+
          
 ##Notice the epochs are coded in samples, not ms : (
 epochs = {}
