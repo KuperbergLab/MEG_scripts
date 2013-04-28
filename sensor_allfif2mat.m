@@ -22,11 +22,9 @@ for x = 2:2
         projType = 'projoff';
     elseif x == 2
         projType = 'projon';
-
     end
  
     count = 0;
-    TempSubjData={};
 
     for subj=subjList
         count = count + 1;
@@ -34,7 +32,7 @@ for x = 2:2
         if x == 1
             inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projoff/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
         elseif x == 2
-            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'_noavgref-I-ave.fif');
+            inFile = strcat(dataPath,'data/',subjGroup,int2str(subj),'/ave_projon/',subjGroup,int2str(subj),'_',exp,'-I-ave.fif');
 
         end
         
@@ -69,8 +67,6 @@ for x = 2:2
                 tempSubjData.evoked(c).epochs(309,:) = []; %deleting STI 
                 tempSubjData.evoked(c).epochs(308,:) = []; %deleting STI 
                 tempSubjData.evoked(c).epochs(307,:) = []; %deleting STI
-
-                %tempSubjData.evoked(c).epochs(307:315,:) = [];
             end
         end
         
@@ -78,17 +74,15 @@ for x = 2:2
             disp(subjID)
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
-                %tempSubjData.evoked(c).epochs(381:383,:) = [];
                 tempSubjData.evoked(c).epochs(383,:) = []; %deleting STI
                 tempSubjData.evoked(c).epochs(382,:) = []; %deleting STI
                 tempSubjData.evoked(c).epochs(381,:) = []; %deleting STI 
             end
         end
         
-        allSubjData{count} = tempSubjData; %%changed allSubjData to TempSubjData to get the ave.mat file for ac.meg.31 to acquire teh template data structure for new MEG EEG channels. 
+        allSubjData{count} = tempSubjData; 
     end
-
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_noavgref.mat');
-
+ 
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '.mat');
     save(outFile,'allSubjData')
 end
