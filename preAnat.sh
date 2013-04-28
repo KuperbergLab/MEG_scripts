@@ -43,7 +43,7 @@ mne_setup_source_space  >>& $log
 
 ###Create bem surfaces IF FLASH###
 if ($BEM_METHOD == FLASH) then
-	###Create only if flash surfaces have not already been created###
+	###Create only if flash surfaces have not already been created### Check if the semprmm_pipeline.py --setup_bem step has been run:that puts the flash dicoms to the flash_dcm forder. 
 	###(bem/flash directory is created by the mne_flash_bem script)
 	if ( ! -e "/cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem/flash/outer_skin.surf" ) then
 		echo "flash 05 does not exist"  >>& $log
