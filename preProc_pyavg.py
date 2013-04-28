@@ -17,10 +17,10 @@ print args.subj
 print args.exp
 exp = args.exp
 
-####Experiment specific parameters (needs to be softcoded)
+#######Experiment specific parameters 
 
+###Runs
 runs = cc.runDict[exp]
-
 if args.subj == 'ac8' and exp == 'BaleenLP':
     runs = ['Run1','Run3','Run4']
 if args.subj == 'ac19' and exp == 'BaleenLP':
@@ -28,44 +28,45 @@ if args.subj == 'ac19' and exp == 'BaleenLP':
 if args.subj == 'ac13' and exp == 'BaleenLP':
     runs = ['Run1','Run2','Run4']
 
+###EventLabels
+labelList = cc.condLabels[exp]
+event_id = {}
+for row in labelList:
+    event_id[row[1]] = row[0]
+print event_id
 
-
-
-if exp == 'BaleenHP':
-    event_id = dict(Related=6, Unrelated=7, RelatedFiller=8, UnrelatedFiller=9, ProbeTarget=10, ProbePrime=12, Prime=14, RelatedFillerExtra=18)
-if exp == 'BaleenLP':
-    event_id = dict(Related=1, Unrelated=2, UnrelatedFiller=4, ProbeTarget=5, ProbePrime=11)
-
+###TimeWindow
 tmin = -.1
-tmax = .7
+tmax = cc.epMax[exp]
 
+
+########Artifact rejection parameters
+
+###General
 gradRej = 2000e-13
 magRej = 3000e-15
 eegRej = 100e-6
 magFlat = 1e-14
 gradFlat = 1000e-15
 
-## SUBJECT-SPECIFIC REJECTION THRESHOLD MODIFICATIONS
+###Subject-specific
 if args.subj == "ya31" or args.subj == "sc9":
-    magRej = 4000e-15   ##note exception for ya31 and sc9, whose magnetometers were baseline noisy
- 	
+    magRej = 4000e-15
 if args.subj == "ya5" or args.subj == "ya21" or args.subj == "ya18" or args.subj == "ya27" or args.subj == "ya31":
-    eegRej = 150e-6   ##because of alpha for ya21
- 	
+    eegRej = 150e-6  
 if args.subj == "ya23":
     eegRej = 125e-6
- 
 if args.subj == "ya15":
     eegRej = 80e-6
-				
 if args.subj == "ya26":
     eegRej = 90e-6
-
 if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc19": 
     eegRej = 1
-		
 if args.subj == "sc17" or args.subj == "sc20":
     eegRej = 250e-6
+
+####################################
+########Compute averages
 
 evokedRuns = []
 for evRun in runs:
