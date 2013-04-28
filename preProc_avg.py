@@ -18,6 +18,10 @@ exp = args.exp
 
 #######Experiment specific parameters 
 
+###Filtering
+hp_cutoff = None
+lp_cutoff = 20
+
 ###Runs
 runs = cc.runDict[exp]
 if args.subj == 'ac8' and exp == 'BaleenLP':
@@ -88,32 +92,19 @@ for evRun in runs:
         for row in events:
             row[0] = row[0]-raw_skip
 
-    # Merge events
-    #events = mne.event.merge_events(events,[6,8],20,replace_events=False)
-    #events = mne.event.merge_events(events,[7,9],21,replace_events=False)
-    #   Read SSP raw data
+    ###Read SSP raw data
     raw_ssp = fiff.Raw(raw_ssp_fname,preload=True)
 
-    #   Filter SSP raw data
-    fiff.Raw.filter(raw_ssp,l_freq=None,h_freq=20)
+    ###Filter SSP raw data
+    fiff.Raw.filter(raw_ssp,l_freq=hp_cutoff,h_freq=lp_cutoff)
 
-    #   Set up pick list
-    include = []  # or stim channels ['STI 014']
-    exclude = []
-    #exclude = raw.info['bads'] # bads
-
-    # pick all channels
-    #picks = fiff.pick_types(raw_ssp.info, meg=True, eeg=True, stim=True, eog=True, include=include, exclude=exclude)
+    ###Pick all channels, including stimulus triggers
     picks = []
     for i in range(raw_ssp.info['nchan']):
         picks.append(i)
 
-    # Read epochs
+    ###Read epochs
     epochs = mne.Epochs(raw_ssp, events, event_id, tmin, tmax, picks=picks, baseline=(None, 0),add_eeg_ref=False, proj=True,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
-
-    #Combine conditions
-    #combine_event_ids(epochs, ['Related', 'RelatedFiller'],{'Related120':68},copy=False)
-    #combine_event_ids(epochs, ['Unrelated','UnrelatedFiller'],{'Unrelated120':79},copy=False)
 
     evokeds = [epochs[cond].average(picks=picks) for cond in event_id]
     if exp == 'BaleenHP':
@@ -124,7 +115,7 @@ for evRun in runs:
     fiff.write_evoked(data_path + 'ave_projon/'+args.subj+'_'+exp+evRun+'-ave.fif',evokeds)
     evokedRuns.append(evokeds)
 
-#Make grand-average
+###Make grand-average
 runData = []
 runNave = []
 newEvoked = copy.deepcopy(evokedRuns[0])
