@@ -35,12 +35,13 @@ if args.subj == 'ac13' and exp == 'BaleenLP':
 labelList = cc.condLabels[exp]
 event_id = {}
 for row in labelList:
-    event_id[row[1]] = row[0]
+    event_id[row[1]] = int(row[0])
 print event_id
 
 ###TimeWindow
 tmin = -.1
-tmax = cc.epMax[exp]
+tmax = float(cc.epMax[exp])
+
 
 
 ########Artifact rejection parameters
@@ -69,7 +70,7 @@ if args.subj == "sc17" or args.subj == "sc20":
     eegRej = 250e-6
 
 ####################################
-########Compute averages
+########Compute averages for each run
 
 evokedRuns = []
 for evRun in runs:
@@ -105,17 +106,23 @@ for evRun in runs:
 
     ###Read epochs
     epochs = mne.Epochs(raw_ssp, events, event_id, tmin, tmax, picks=picks, baseline=(None, 0),add_eeg_ref=False, proj=True,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
-
     evokeds = [epochs[cond].average(picks=picks) for cond in event_id]
+
+    ###Add the 120 conditions for BaleenHP
     if exp == 'BaleenHP':
         evoked_Rel = evokeds[4]+evokeds[5]
         evoked_Unrel = evokeds[6]+evokeds[7]
         evokeds.append(evoked_Rel)
         evokeds.append(evoked_Unrel)
+
     fiff.write_evoked(data_path + 'ave_projon/'+args.subj+'_'+exp+evRun+'-ave.fif',evokeds)
     evokedRuns.append(evokeds)
 
-###Make grand-average
+
+
+
+##############################
+############Make grand-average
 runData = []
 runNave = []
 newEvoked = copy.deepcopy(evokedRuns[0])
@@ -133,7 +140,5 @@ for c in range(numCond):
     runData = []
     runNave = []
 
-
-
 #Write grand-average to disk
-fiff.write_evoked(data_path+'ave_projon/'+args.subj+'_'+exp+'_All_noavgref-ave.fif',newEvoked)
+fiff.write_evoked(data_path+'ave_projon/'+args.subj+'_'+exp+'_All-ave.fif',newEvoked)
