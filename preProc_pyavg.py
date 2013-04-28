@@ -7,7 +7,6 @@ import numpy
 import argparse
 import copy
 
-
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subj',type=str)
 parser.add_argument('exp',type=str)
@@ -70,21 +69,21 @@ if args.subj == "sc17" or args.subj == "sc20":
 
 evokedRuns = []
 for evRun in runs:
-    ####Subject and run-specific parameters
+
+    ###Get Subject and run-specific parameters
     print evRun
     data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'+args.subj+'/'
+    event_fname = data_path + 'eve/'+args.subj+'_'+exp+evRun+'Mod.eve'      
+    print event_fname
     raw_fname = data_path + args.subj+'_'+ exp +evRun+'_raw.fif'
     raw_ssp_fname = data_path + args.subj+'_'+ exp +evRun+'_ssp_raw.fif'
-    event_fname = data_path + 'eve/'+args.subj+'_'+exp+evRun+'Mod.eve'
-        
-    print event_fname
 
-    #   Setup for reading the original raw data and events
+    ###Setup for reading the original raw data and events
     raw = fiff.Raw(raw_fname)
     events = mne.read_events(event_fname)
     raw_skip = raw.first_samp
 
-    #   Correct events for the fact that ssp data has the skip removed, except sc9 for some reason
+    ###Correct events for the fact that ssp data has the skip removed, except sc9, ac12, and ac13 for some reason
     if not (args.subj == "sc9") and not (args.subj == 'ac12') and not (args.subj == 'ac13'):
         for row in events:
             row[0] = row[0]-raw_skip
