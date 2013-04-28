@@ -20,16 +20,10 @@ tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListP
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))'
 numSubj = size(subjList,2)
 
-%%%%Getting the data out, loop once each for projon and projoff
-for x = 2:2
-    
-    if x == 1
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_projoff.mat'));
-        dataType = 'eeg';
-        numChan = 74;
-        chanV = 307:380;
-        
-    elseif x == 2
+%%%%Getting the data out
+for x = 2:2 %%legacy loop for projon
+            
+   if x == 2
         %%Get a template fif structure from random subject average, and modify
         %%it to delete the irrelevant channels from the structure
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', tempSubjListPrefix, '_', exp, '_projon.mat'));
@@ -107,7 +101,7 @@ epDataAllC(1,1,2)
         newStr.evoked(y).nave = epCount(y);
     end
     %newStr.evoked(1).epochs
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'_noavgref-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'_projon-ave.fif')
     fiff_write_evoked(outFile,newStr);
     
 end
