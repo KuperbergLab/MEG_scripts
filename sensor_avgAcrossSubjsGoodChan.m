@@ -11,25 +11,28 @@ function sensor_avgAcrossSubjsGoodChan(exp,listPrefix)
 
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
+
+%%Information for template subject
+tempSubj = 19  %%enter actual subj num here (if sc19, enter 19)
+tempSubjListPrefix = 'sc.meg.all' %%enter a list that this subject appears in for .mat file
+tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
+
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-tempSubj= (dlmread(strcat(dataPath,'scripts/function_inputs/ac.meg.31.txt')))';
 numSubj = size(subjList,2);
+
+%%Get a template fif structure from random subject average, and modify
+%%it to delete the irrelevant channels from the structure
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', tempSubjListPrefix, '_', exp, '_projon.mat'));
+tempSubjIndex = find(tempSubjList == tempSubj)
+newStr = allSubjData{tempSubjIndex};
 
 %%%%Getting the data out
 
-load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_noavgref_',exp, '_projon.mat'));
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
 dataType = 'meg';
 numChan = 380;
 chanV = 1:380;
 
-
-%%Get a template fif structure from random subject average, and modify
-%%it to delete the irrelevant channels from the structure
-for subj=tempSubj
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/ac.meg.31_',exp, '_projoff.mat')); %%Using the template ac31  to accomodate for the change in ac, sc data structure - EEG channels(307-380) in new subjects and (316-389) in old subjects(STI(307-315) deleted)
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/sc.meg.19_noavgref_',exp, '_projoff.mat'));
-        newStr = TempSubjData{1};    
-end
 
 numSample = size(newStr.evoked(1).epochs,2);
 numCond = size(newStr.evoked,2);
@@ -116,6 +119,6 @@ for y = 1:numCond
     newStr.evoked(y).epochs(:,:) = goodDataMean(:,:,y);
     newStr.evoked(y).nave = epCount(y);
 end
-outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_noavgref_',exp,'_',dataType,'-goodC-ave.fif')
+outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif')
 fiff_write_evoked(outFile,newStr);
 
