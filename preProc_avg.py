@@ -7,6 +7,9 @@ import numpy
 import argparse
 import copy
 
+
+#######Get input
+
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subj',type=str)
 parser.add_argument('exp',type=str)
@@ -16,11 +19,22 @@ print args.subj
 print args.exp
 exp = args.exp
 
-#######Experiment specific parameters 
+
+#######Analysis parameters
+
+###Event file suffix (e.g., artifact rejection applied?)
+evSuffix = 'Mod.eve'
+
+###Projection and Average Reference 
+projVal = True
+avgRefVal = False
 
 ###Filtering
 hp_cutoff = None
 lp_cutoff = 20
+
+
+#######Experiment specific parameters 
 
 ###Runs
 runs = cc.runDict[exp]
@@ -41,7 +55,6 @@ print event_id
 ###TimeWindow
 tmin = -.1
 tmax = float(cc.epMax[exp])
-
 
 
 ########Artifact rejection parameters
@@ -69,7 +82,9 @@ if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc19":
 if args.subj == "sc17" or args.subj == "sc20":
     eegRej = 250e-6
 
-####################################
+
+
+#####################################
 ########Compute averages for each run
 
 evokedRuns = []
@@ -78,7 +93,7 @@ for evRun in runs:
     ###Get Subject and run-specific parameters
     print evRun
     data_path = '/cluster/kuperberg/SemPrMM/MEG/data/'+args.subj+'/'
-    event_fname = data_path + 'eve/'+args.subj+'_'+exp+evRun+'Mod.eve'      
+    event_fname = data_path + 'eve/' + args.subj + '_' + exp+evRun + evSuffix      
     print event_fname
     raw_fname = data_path + args.subj+'_'+ exp +evRun+'_raw.fif'
     raw_ssp_fname = data_path + args.subj+'_'+ exp +evRun+'_ssp_raw.fif'
@@ -105,7 +120,7 @@ for evRun in runs:
         picks.append(i)
 
     ###Read epochs
-    epochs = mne.Epochs(raw_ssp, events, event_id, tmin, tmax, picks=picks, baseline=(None, 0),add_eeg_ref=False, proj=True,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
+    epochs = mne.Epochs(raw_ssp, events, event_id, tmin, tmax, picks=picks, baseline=(None, 0),add_eeg_ref=avgRefVal, proj=projVal,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
     evokeds = [epochs[cond].average(picks=picks) for cond in event_id]
 
     ###Add the 120 conditions for BaleenHP
