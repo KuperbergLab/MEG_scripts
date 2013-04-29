@@ -6,7 +6,7 @@ function ssp_makeproj(subj, study, runnum)
 
 rawfile=['/cluster/kuperberg/SemPrMM/MEG/data/',subj, '/ssp/',subj,'_', study,'Run',runnum, '_clean_ecg_raw.fif']; % raw file
 
-projfile=['/cluster/kuperberg/SemPrMM/MEG/data/',subj, '/ssp/',subj,'_', study,'Run',runnum,'_saved_ecg-proj.fif']; % new proj filename 
+projfile=['/cluster/kuperberg/SemPrMM/MEG/data/',subj, '/ssp/',subj,'_', study,'Run',runnum,'_ecg_proj.fif']; % new proj filename 
 info= fiff_read_meas_info(rawfile);
 % indexActive=zeros(1,length(info.projs));
 % 
@@ -15,6 +15,10 @@ info= fiff_read_meas_info(rawfile);
 % indexActive(i) = 1; % to make the active projs 
 % % 
 % end
+
+for i=1:length(info.projs)
+ info.projs(i).active=1;
+end
 
 projdata=info.projs;
 
