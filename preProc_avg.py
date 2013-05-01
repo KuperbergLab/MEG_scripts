@@ -42,8 +42,8 @@ if args.subj == 'ac8' and exp == 'BaleenLP':
     runs = ['Run1','Run3','Run4']
 if args.subj == 'ac19' and exp == 'BaleenLP':
     runs = ['Run1','Run2','Run4']
-if args.subj == 'ac13' and exp == 'BaleenLP':
-    runs = ['Run1','Run2','Run4']
+if args.subj == 'sc19' and exp == 'MaskedMM':
+    runs = ['Run2']
 
 ###EventLabels
 labelList = cc.condLabels[exp]
