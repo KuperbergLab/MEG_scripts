@@ -14,7 +14,7 @@ function sensor_allfif2mat(exp,subjGroup,listPrefix)
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22'}; 
+newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22', 'ac33'}; 
 
 %%run twice, for each projection setting
 for x = 2:2
