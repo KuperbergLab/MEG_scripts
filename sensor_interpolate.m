@@ -7,7 +7,7 @@ function sensor_interpolate(exp,subjGroup,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 disp(dataPath);
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
-newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22'};
+newsubjList = {'ac31', 'sc19','sc20', 'sc21', 'sc22', 'ac33'};
 
 numChan = 70;
 disp(dataPath);
