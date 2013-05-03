@@ -66,7 +66,7 @@ for group in channelGroups:
 			
 		for c in range(2):
 			for subj in subjects:
-				file = data_path + args.subjType + subj + '/ave_projon/'+ args.subjType + subj + '_'+args.protocol +'-ave.fif'
+				file = data_path + args.subjType + subj + '/ave_projon/'+ args.subjType + subj + '_'+args.protocol +'-ave.fif' 
 				#print file
 				#print 'set ', condList[c]
 				evoked = mne.fiff.read_evoked(file,setno=condList[c],baseline=(-100,0))
