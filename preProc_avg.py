@@ -68,19 +68,22 @@ gradFlat = 1000e-15
 
 ###Subject-specific
 if args.subj == "ya31" or args.subj == "sc9":
-    magRej = 4000e-15
-if args.subj == "ya5" or args.subj == "ya21" or args.subj == "ya18" or args.subj == "ya27" or args.subj == "ya31":
-    eegRej = 150e-6  
+    magRej = 4000e-15 ##note exception for ya31 and sc9, whose magnetometers were baseline noisy
+if args.subj == "ya5" or args.subj == "ya21" or args.subj == "ya18" or args.subj == "ya27" or args.subj == "ya31" or args.subj == "ac33":
+    eegRej = 150e-6  ##note because of alpha for ya21
 if args.subj == "ya23":
     eegRej = 125e-6
 if args.subj == "ya15":
     eegRej = 80e-6
 if args.subj == "ya26":
     eegRej = 90e-6
-if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc19": 
+if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc6": 
     eegRej = 1
 if args.subj == "sc17" or args.subj == "sc20":
     eegRej = 250e-6
+if args.subj == "sc6" :
+    gradRej = 4000e-13
+    magRej = 4000e-15
 
 
 
@@ -97,6 +100,8 @@ for evRun in runs:
     print event_fname
     raw_fname = data_path + args.subj+'_'+ exp +evRun+'_raw.fif'
     raw_ssp_fname = data_path + args.subj+'_'+ exp +evRun+'_ssp_raw.fif'
+    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+exp + evRun +'-ave.log'
+    
 
     ###Setup for reading the original raw data and events
     raw = fiff.Raw(raw_fname)
@@ -110,6 +115,8 @@ for evRun in runs:
 
     ###Read SSP raw data
     raw_ssp = fiff.Raw(raw_ssp_fname,preload=True)
+
+    mne.set_log_file(fname = avg_log_fname, overwrite = True)
 
     ###Filter SSP raw data
     fiff.Raw.filter(raw_ssp,l_freq=hp_cutoff,h_freq=lp_cutoff)
