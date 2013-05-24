@@ -23,7 +23,20 @@ elseif strcmp(subjGroup,'sc')
 	groupNum = 2
 end
 
+chanGroupList = {'left_ant','right_ant'}
+groupFactor = {[1 0],'hem',[1 1],'ant'}
+chanArray = {}
+
 groupV = []; dataV = []; subjV = []; condV = []; chanV = []; hemV = []; antV = []; midVV = []; midHV = []; elec9V = [];
+regionV = cell(numChan,1);
+region9V=cell(numChan,1);
+
+for cg = 1:size(chanGroupList,2)
+    fileName = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupList{cg},'.txt')
+    chanArray{cg} = dlmread(fileName)
+end
+
+
 %%MAKE A REGIONS VECTOR%%
 leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt')
 rightA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_ant.txt');
@@ -32,9 +45,18 @@ rightP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/
 midV = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_v.txt');
 midH = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_h.txt');
 elec9=dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/elec9.txt');
-regionV = cell(numChan,1);
-region9V=cell(numChan,1);
 
+for x = 1:numChan
+    currChan = x;
+    if x > 60 currChan = x+4;end
+    for cg = 1:size(chanGroupList,2)
+        if find(chanArray{cg}==currChan) regionV{x} = chanGroupList{cg};
+        end
+    end
+    if isempty(regionV{x}) regionV{x} = 'XX';end
+end
+regionV
+        
 for i = 1:numChan
     z=i;
     if i > 60 z=i+4;end
