@@ -1,4 +1,4 @@
-function sensor_erpWin2R_Baleen(listPrefix,t1,t2,condList)
+function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList)
 
 %This script reads in both BaleenLP and BaleenHP to a single file
 %This script baselines the data and gets rid of non-scalp electrodes
@@ -14,6 +14,7 @@ numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 baselineV = 1:60;
 
+groupV = [];
 dataV = [];
 subjV = [];
 condV = [];
@@ -123,6 +124,7 @@ for x = 1:2
 
             size(epDataM);
             dataV = [dataV;epDataM*1e6];
+            groupV = [groupV;ones(numChan,1)*groupNum];
             subjV = [subjV;ones(numChan,1)*subjList(s)];
             condV = [condV;ones(numChan,1)*condCode];
             chanV = [chanV;[1:numChan]'];
@@ -134,7 +136,7 @@ for x = 1:2
         end
     end
 end
-allData = [subjV condV chanV dataV hemV antV midVV midHV elec9V];
+allData = [groupV subjV condV chanV dataV hemV antV midVV midHV elec9V];
 
 
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
