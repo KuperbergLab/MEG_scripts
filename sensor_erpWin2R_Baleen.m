@@ -1,6 +1,7 @@
 function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList,proj)
 
-%This script reads in both BaleenLP and BaleenHP to a single file
+%This script reads in both BaleenLP and BaleenHP to a single
+%file
 %This script baselines the data and gets rid of non-scalp electrodes
 
 sample1 = round(t1/1.6666 + 61);
@@ -22,18 +23,9 @@ elseif strcmp(subjGroup,'sc')
 	groupNum = 2
 end
 
-groupV = [];
-dataV = [];
-subjV = [];
-condV = [];
-chanV = [];
-hemV = [];
-antV = [];
-midVV = [];
-midHV = [];
-elec9V = [];
+groupV = []; dataV = []; subjV = []; condV = []; chanV = []; hemV = []; antV = []; midVV = []; midHV = []; elec9V = [];
 %%MAKE A REGIONS VECTOR%%
-leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt');
+leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt')
 rightA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_ant.txt');
 leftP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_post.txt');
 rightP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_post.txt');
@@ -90,8 +82,6 @@ for i = 1:numChan
 end
 
 
-%      
-
 for x = 1:2
     if x == 1
         exp ='BaleenLP_All'
@@ -102,39 +92,39 @@ for x = 1:2
     load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_',proj,'.mat'));        
     
     [blah,numCond] = size(condList);
-
+    totalCond = size(allSubjData{1}.evoked,2)
+    
+    %find condition indices
+    condCodeList = zeros(numCond,1);
     for c = 1:numCond
-        cond = condList(c);
-        if cond > 2
-            if x == 1
-                cond = cond-1;  %adjust for diff number of conditions
+        condLabel = condList{c};
+        for x=1:totalCond
+            if strcmp(condLabel,allSubjData{1}.evoked(x).comment)
+                condCodeList(c) = x;
             end
         end
+    end
+    condCodeList
+    
+    for c = 1:numCond
+        condCode = condCodeList(c);
         exp
-        cond
-
 
         for s = 1:numSubj
             subjStr = allSubjData{s};
             numSample = size(subjStr.evoked(1).epochs,2);
 
             %%For each condition, get the evoked data out
-            epData = subjStr.evoked(cond).epochs(:,:);    
+            epData = subjStr.evoked(condCode).epochs(:,:);    
             baseline = mean(epData(:,baselineV),2);
             baseline = repmat(baseline,1,numSample);
             epData = epData - baseline;       
             epDataM = squeeze(mean(epData(chan,sample1:sample2),2));
-            if strcmp(exp,'BaleenLP_All')
-                condCode = cond;
-            elseif strcmp(exp,'BaleenHP_All')
-                condCode = cond+100;
-            end
-
+  
             size(epDataM);
             dataV = [dataV;epDataM*1e6];
             groupV = [groupV;ones(numChan,1)*groupNum];
             subjV = [subjV;ones(numChan,1)*subjList(s)];
-            condV = [condV;ones(numChan,1)*condCode];
             chanV = [chanV;[1:numChan]'];
             hemV = [hemV;hemList];
             antV = [antV;antList];
@@ -144,7 +134,7 @@ for x = 1:2
         end
     end
 end
-allData = [groupV subjV condV chanV dataV hemV antV midVV midHV elec9V];
+allData = [groupV subjV chanV dataV hemV antV midVV midHV elec9V];
 
 
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
