@@ -1,4 +1,4 @@
-function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList)
+function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList,proj)
 
 %This script reads in both BaleenLP and BaleenHP to a single file
 %This script baselines the data and gets rid of non-scalp electrodes
@@ -13,6 +13,14 @@ numSubj = size(subjList,2);
 numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 baselineV = 1:60;
+
+if strcmp(subjGroup,'ya')
+	groupNum = 0
+elseif strcmp(subjGroup,'ac')
+	groupNum = 1
+elseif strcmp(subjGroup,'sc')
+	groupNum = 2
+end
 
 groupV = [];
 dataV = [];
@@ -91,7 +99,7 @@ for x = 1:2
         exp = 'BaleenHP_All';
     end 
     %load allSubjData cell array 
-    load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projoff.mat'));        
+    load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_',proj,'.mat'));        
     
     [blah,numCond] = size(condList);
 
