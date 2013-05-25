@@ -18,8 +18,8 @@ import pylab as pl
 import argparse
 
 ####Plotting Parameters####
-xmin,xmax = [-100, 710]
-ymin,ymax = [0, 10]
+xmin,xmax = [-100, 610]
+ymin,ymax = [0, 8]
 lWidth = 4
 
 color1 = 'k'
@@ -76,8 +76,7 @@ times1=times1*1000
 times2=times2*1000
 
 #        'weight' : 'bold',
-font = {'family' : 'normal',
-        'size'   : 30}
+font = {'size'   : 20}
 
 pl.rc('font', **font)
 
@@ -95,9 +94,13 @@ pl.xlim([xmin,xmax])
 pl.box('off') # turn off the box frame 
 pl.axhline(y=0,xmin=0,xmax=1,color='k',linewidth=2) #draw a thicker horizontal line at 0			
 pl.axvline(x=0,ymin=0,ymax=1,color='k',linewidth=2) #draw a vertical line at 0 that goes 1/8 of the range in each direction from the middle (e.g., if the range is -8:8, =16, 1/8 of 16=2, so -2:2).
-pl.tick_params(axis='both',right='off',top='off') #turn off all the tick marks
-pl.yticks(np.array([0.,2., 4.,6.,8.]))
-pl.xticks(np.array([0, 200, 400, 600]))
+pl.tick_params(axis='both',right='off',top='off',left='off')
+pl.yticks(np.array([]))
+pl.axhline(y=5,xmin=.12,xmax=.16,color='k',linewidth=1)
+pl.axvline(x=100,ymin=0,ymax=.03,color='k')
+pl.axvline(x=300,ymin=0,ymax=.03,color='k')
+pl.axvline(x=500,ymin=0,ymax=.03,color='k')
+pl.xticks(np.array([]))
 
 #pl.xlabel('time (ms)')
 #pl.ylabel('Source amplitude')
@@ -105,7 +108,7 @@ pl.axvspan(300, 500, color='k', alpha=0.1)
 #pl.title('Activations in Label : %s' % label1)
 #pl.ticklabel_format(style='plain',axis='x')
 #pl.rcParams.update({'font.size': 12})
-pl.show()
+#pl.show()
 outFile = data_path + '/roi_plots/'+args.label1+'-'+args.hem2+'-'+args.protocol1+'-'+args.hem2+'-'+args.protocol2+'-'+args.set1+'-'+args.set2 + '-'+ args.single_diff + '-' +args.model+'.png'
 pl.savefig(outFile)
 
