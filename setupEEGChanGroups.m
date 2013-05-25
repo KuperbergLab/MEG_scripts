@@ -1,15 +1,22 @@
 function setupEEGChanGroups(chanGroupList,groupFactor,matFileName)
 
+%Note a couple things:
+%1. Each cell of the groupFactor array needs to contain a value for each
+%chanGroup. If no true value, use 'XX'
+%2. Each channel can only appear on one list, or things will get messed up.
+%Run again with a different output name if you want to try putting the same
+%channel on different lists
+
 %%EXample:
 %%setupEEGChanGroups({'left_ant','right_ant','left_post','right_post'},{{'left','right','left','right'},{'ant','ant','post','post'}},'quad48')
+%%setupEEGChanGroups({'left_ant','right_ant','left_post','right_post','midline_h','midline_v'},{{'left','right','left','right','XX','XX'},{'ant','ant','post','post','XX','XX'}},'quad48Mid')
+%%setupEEGChanGroups({'elec9'},{{'XX'}},'elec_9')
 
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 outFileName = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',matFileName,'.mat')
 numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 
-%chanGroupList = {'left_ant','right_ant','left_post','right_post'}
-%groupFactor = {{'left','right','left','right'},{'ant','ant','post','post'}}
 chanArray = {};
 regionV = cell(1,numChan);
 
