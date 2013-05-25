@@ -15,23 +15,15 @@ numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 baselineV = 1:60;
 
-if strcmp(subjGroup,'ya')
-	groupNum = 0
-elseif strcmp(subjGroup,'ac')
-	groupNum = 1
-elseif strcmp(subjGroup,'sc')
-	groupNum = 2
-end
-
 chanGroupList = {'left_ant','right_ant','left_post','right_post'}
 groupFactor = {{'left','right','left','right'},{'ant','ant','post','post'}}
-chanArray = {}
+chanArray = {};
 dataV = []; 
 regionV = cell(1,numChan);
-
+sGroupV = cell(1,numChan);
 for cg = 1:size(chanGroupList,2)
-    fileName = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupList{cg},'.txt')
-    chanArray{cg} = dlmread(fileName)
+    fileName = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupList{cg},'.txt');
+    chanArray{cg} = dlmread(fileName);
 end
 
 for x = 1:numChan
@@ -42,6 +34,7 @@ for x = 1:numChan
         end
     end
     if isempty(regionV{x}) regionV{x} = 'XX';end
+    sGroupV{x} = subjGroup;
 end
 
 
@@ -59,12 +52,13 @@ for x = 1:size(groupFactor,2)
             tempA{y} = 'XX';
         end
     end
-    tempA
+
     chanGroupArray{x} = tempA;
 end
 
 
 chanGroupArray{end+1} = regionV;
+chanGroupArray{end+1} = sGroupV;
 
 chanGroupArray;
 allArray = chanGroupArray;
@@ -124,12 +118,21 @@ for x = 1:2
     end %% condition loop
     
 end %% exp loop
-allArray;
-size(dataV);
-allData = [dataV];
-allArray{end+1} = dataV'
 
+allData = [dataV];
+%allArray{end+1} = dataV'
+newArray = {};
+for t = 1:size(dataV)
+    for g = 1:size(allArray,2)
+        newArray{t,g} =allArray{g}{t};
+    end
+    newArray{t,g+1} = dataV(t);
+end
+newArray;
+
+    
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
  
-dlmwrite(outFile,allData,'\t')
+%dlmwrite(outFile,allData,'\t')
+dlmcell(outFile,newArray,'    ');
         
