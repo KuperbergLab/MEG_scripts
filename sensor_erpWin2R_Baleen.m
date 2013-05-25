@@ -23,28 +23,16 @@ elseif strcmp(subjGroup,'sc')
 	groupNum = 2
 end
 
-chanGroupList = {'left_ant','right_ant'}
-groupFactor = {[1 0],'hem',[1 1],'ant'}
+chanGroupList = {'left_ant','right_ant','left_post','right_post'}
+groupFactor = {{'left','right','left','right'},{'ant','ant','post','post'}}
 chanArray = {}
-
-groupV = []; dataV = []; subjV = []; condV = []; chanV = []; hemV = []; antV = []; midVV = []; midHV = []; elec9V = [];
-regionV = cell(numChan,1);
-region9V=cell(numChan,1);
+dataV = []; 
+regionV = cell(1,numChan);
 
 for cg = 1:size(chanGroupList,2)
     fileName = strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupList{cg},'.txt')
     chanArray{cg} = dlmread(fileName)
 end
-
-
-%%MAKE A REGIONS VECTOR%%
-leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt')
-rightA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_ant.txt');
-leftP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_post.txt');
-rightP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_post.txt');
-midV = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_v.txt');
-midH = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_h.txt');
-elec9=dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/elec9.txt');
 
 for x = 1:numChan
     currChan = x;
@@ -55,84 +43,61 @@ for x = 1:numChan
     end
     if isempty(regionV{x}) regionV{x} = 'XX';end
 end
-regionV
-        
-for i = 1:numChan
-    z=i;
-    if i > 60 z=i+4;end
-    if find(leftA==z) regionV{i} = 'LA';
-    elseif find(rightA==z) regionV{i} = 'RA';
-    elseif find(leftP==z) regionV{i} = 'LP';
-    elseif find(rightP==z) regionV{i} = 'RP';
-    elseif find(midV==z) regionV{i} = 'MV';
-    elseif find(midH==z) regionV{i} = 'MH';
-    else regionV{i} = 'XX'; i;
-    end
-end
 
-for i = 1:numChan
-    z=i;
-    if i > 60 z=i+4;end
-    if find(elec9==z) region9V{i} = 'elec9';
-    else region9V{i} = 'XX'; i;
-    end
-end
 
-hemList = zeros(numChan,1);
-antList = zeros(numChan,1);
-midVList = zeros(numChan,1);
-midHList = zeros(numChan,1);
-elec9List=zeros(numChan,1);
-
-for i = 1:numChan
-    if (strcmp(regionV{i},'LA')) | (strcmp(regionV{i},'LP')) hemList(i) = 1;
-    elseif (strcmp(regionV{i},'RA')) | (strcmp(regionV{i},'RP')) hemList(i) = 2;
+%%assign the grouping factors to each channel
+chanGroupArray = {};
+groupCount = 0;
+for x = 1:size(groupFactor,2)
+    groupCount = groupCount+1;
+    tempA = {};
+    for y = 1:numChan
+        if ~strcmp(regionV{y},'XX')
+            pos = strmatch(regionV{y},chanGroupList,'exact');
+            tempA{y} = groupFactor{x}{pos};
+        else
+            tempA{y} = 'XX';
+        end
     end
-    
-    if (strcmp(regionV{i},'LA')) | (strcmp(regionV{i},'RA')) antList(i) = 1;
-    elseif (strcmp(regionV{i},'LP')) | (strcmp(regionV{i},'RP')) antList(i) = 2;
-    end
-    
-    if strcmp(regionV{i},'MV') midVList(i) = 1;
-    end
-    
-    if strcmp(regionV{i},'MH') midHList(i) = 1;
-    end
-    
-     if strcmp(region9V{i},'elec9') elec9List(i) = 1;
-    end
+    tempA
+    chanGroupArray{x} = tempA;
 end
 
 
+chanGroupArray{end+1} = regionV;
+
+chanGroupArray;
+allArray = chanGroupArray;
+flag = 0;
 for x = 1:2
     if x == 1
-        exp ='BaleenLP_All'
+        exp ='BaleenLP_All';
     elseif x==2
         exp = 'BaleenHP_All';
     end 
     %load allSubjData cell array 
     load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_',proj,'.mat'));        
     
-    [blah,numCond] = size(condList);
-    totalCond = size(allSubjData{1}.evoked,2)
+    numCond= size(condList,2);
+    totalCond = size(allSubjData{1}.evoked,2);
     
     %find condition indices
     condCodeList = zeros(numCond,1);
     for c = 1:numCond
         condLabel = condList{c};
-        for x=1:totalCond
-            if strcmp(condLabel,allSubjData{1}.evoked(x).comment)
-                condCodeList(c) = x;
+        for y=1:totalCond
+            if strcmp(condLabel,allSubjData{1}.evoked(y).comment)
+                condCodeList(c) = y;
             end
         end
     end
-    condCodeList
+    condCodeList;
     
     for c = 1:numCond
         condCode = condCodeList(c);
-        exp
+        exp;
 
-        for s = 1:numSubj
+        for s = 1:2%numSubj
             subjStr = allSubjData{s};
             numSample = size(subjStr.evoked(1).epochs,2);
 
@@ -142,22 +107,27 @@ for x = 1:2
             baseline = repmat(baseline,1,numSample);
             epData = epData - baseline;       
             epDataM = squeeze(mean(epData(chan,sample1:sample2),2));
-  
-            size(epDataM);
             dataV = [dataV;epDataM*1e6];
-            groupV = [groupV;ones(numChan,1)*groupNum];
-            subjV = [subjV;ones(numChan,1)*subjList(s)];
-            chanV = [chanV;[1:numChan]'];
-            hemV = [hemV;hemList];
-            antV = [antV;antList];
-            midVV = [midVV;midVList];
-            midHV = [midHV;midHList];
-            elec9V=[elec9V; elec9List];
-        end
-    end
-end
-allData = [groupV subjV chanV dataV hemV antV midVV midHV elec9V];
-
+            
+            %%append copy to changroup array
+            %%on the first run, this is correctly filled in above, so don't
+            %%redo it (flag)
+            if flag == 1
+                for z = 1:(size(chanGroupArray,2))
+                     allArray{z} = [allArray{z} chanGroupArray{z}];
+                end
+            else
+                flag = 1;
+            end
+        end %%subject loop
+        
+    end %% condition loop
+    
+end %% exp loop
+allArray;
+size(dataV);
+allData = [dataV];
+allArray{end+1} = dataV'
 
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',int2str(t1),'-',int2str(t2),'.txt');
  
