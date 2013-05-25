@@ -16,7 +16,7 @@ numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
 
 dataV = []; 
-
+subjV = [];
 %load chanGroupArray
 load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupFileName,'.mat'))
 
@@ -25,10 +25,10 @@ sGroupV = cell(1,numChan);
 for x = 1:numChan
     sGroupV{x} = subjGroup;
 end
+sGroupV(:) = {subjGroup};
 chanGroupArray{end+1} = sGroupV;
 
 %Now make the big data array
-allArray = chanGroupArray;
 flag = 0;
 for x = 1:2
     if x == 1
@@ -55,10 +55,11 @@ for x = 1:2
     condCodeList;
     
     for c = 1:numCond
+        condLabel = condList{c};
         condCode = condCodeList(c);
         exp;
 
-        for s = 1:2%numSubj
+        for s = 1:numSubj
             subjStr = allSubjData{s};
             numSample = size(subjStr.evoked(1).epochs,2);
 
@@ -69,25 +70,35 @@ for x = 1:2
             epData = epData - baseline;       
             epDataM = squeeze(mean(epData(chan,sample1:sample2),2));
             dataV = [dataV;epDataM*1e6];
-            
-            %%append copy to changroup array
-            %%on the first run, this is correctly filled in above, so don't
-            %%redo it (flag)
+            %%Get trial info
+            tempSubj = cell(1,numChan);
+            tempSubj(:) = {strcat(subjGroup,int2str(subjList(s)))};
+            tempExp = cell(1,numChan);
+            tempExp(:) = {exp};
+            tempCond = cell(1,numChan);
+            tempCond(:) = {condLabel};
+            tempArray = chanGroupArray;
+            tempArray{end+1} = tempSubj;
+            tempArray{end+1} = tempExp;
+            tempArray{end+1} = tempCond;
+            %%append copy to all array
+            %%on the first run, need to just assign (flag)
             if flag == 1
-                for z = 1:(size(chanGroupArray,2))
-                     allArray{z} = [allArray{z} chanGroupArray{z}];
+                for z = 1:(size(tempArray,2))
+                     allArray{z} = [allArray{z} tempArray{z}];
                 end
             else
+                allArray = tempArray;
+                %size(allArray,2)
                 flag = 1;
-            end
+             end
         end %%subject loop
         
     end %% condition loop
     
 end %% exp loop
 
-allData = [dataV];
-%allArray{end+1} = dataV'
+
 newArray = {};
 for t = 1:size(dataV)
     for g = 1:size(allArray,2)
@@ -100,6 +111,5 @@ newArray;
     
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',chanGroupFileName,'.',int2str(t1),'-',int2str(t2),'.txt');
  
-%dlmwrite(outFile,allData,'\t')
 dlmcell(outFile,newArray,'    ');
         
