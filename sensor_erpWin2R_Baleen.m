@@ -20,13 +20,20 @@ subjV = [];
 %load chanGroupArray
 load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupFileName,'.mat'))
 
+%add chanNum info
+chanNumV = cell(1,numChan);
+for x = 1:numChan
+    chanNumV{x} = x;
+end
+chanGroupArray{end+1} = chanNumV;
+
 %add subjGroup info
 sGroupV = cell(1,numChan);
-for x = 1:numChan
-    sGroupV{x} = subjGroup;
-end
 sGroupV(:) = {subjGroup};
 chanGroupArray{end+1} = sGroupV;
+
+
+
 
 %Now make the big data array
 flag = 0;
