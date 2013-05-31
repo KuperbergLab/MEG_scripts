@@ -1,105 +1,110 @@
-function sensor_erpWin2R(exp,listPrefix,t1,t2,condList)
+function sensor_erpWin2R(exp,subjGroup,listPrefix,t1,t2,condList,proj,chanGroupFileName)
 
-%ex" erpWin2R('ATLLoc', 'ac','ac.meg.ATLLoc',300, 500, [1 3 4])
-%This script baselines the data
+%ex sensor_erpWin2R('MaskedMM_All','sc','sc.meg.all',350,450,{'Unrelated','Direct'},'projon','quad48Mid')
 
+%This script assumes a channel grouping file has been created with
+%setupEEGChanGroups.m
+%This script baselines the data with a hard-coded 60 sample baseline window
 
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
 
-
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
+baselineV = 1:60;
 numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
-baselineV = 1:60;
+dataV = []; 
 
-dataV = [];
-subjV = [];
-condV = [];
-chanV = [];
-hemV = [];
-antV = [];
-midVV = [];
-midHV = [];
+%load chanGroupArray
+load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupFileName,'.mat'))
 
-%%MAKE A REGIONS VECTOR%%
-leftA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_ant.txt');
-rightA = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_ant.txt');
-leftP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/left_post.txt');
-rightP = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/right_post.txt');
-midV = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_v.txt');
-midH = dlmread('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/midline_h.txt');
-regionV = cell(numChan,1);
-
-for i = 1:numChan
-    z=i;
-    if i > 60 z=i+4;end
-    if find(leftA==z) regionV{i} = 'LA';
-    elseif find(rightA==z) regionV{i} = 'RA';
-    elseif find(leftP==z) regionV{i} = 'LP';
-    elseif find(rightP==z) regionV{i} = 'RP';
-    elseif find(midV==z) regionV{i} = 'MV'; %vertical midline
-    elseif find(midH==z) regionV{i} = 'MH'; %horizontal midline
-    else regionV{i} = 'XX'; i;
-    end
+%add chanNum info
+chanNumV = cell(1,numChan);
+for x = 1:numChan
+    chanNumV{x} = x;
 end
+chanGroupArray{end+1} = chanNumV;
 
-hemList = zeros(numChan,1);
-antList = zeros(numChan,1);
-midVList = zeros(numChan,1);
-midHList = zeros(numChan,1);
+%add subjGroup info
+sGroupV = cell(1,numChan);
+sGroupV(:) = {subjGroup};
+chanGroupArray{end+1} = sGroupV;
 
-for i = 1:numChan
-    if (strcmp(regionV{i},'LA')) | (strcmp(regionV{i},'LP')) hemList(i) = 1;
-    elseif (strcmp(regionV{i},'RA')) | (strcmp(regionV{i},'RP')) hemList(i) = 2;
-    end
-    
-    if (strcmp(regionV{i},'LA')) | (strcmp(regionV{i},'RA')) antList(i) = 1;
-    elseif (strcmp(regionV{i},'LP')) | (strcmp(regionV{i},'RP')) antList(i) = 2;
-    end
-    
-    if strcmp(regionV{i},'MV') midVList(i) = 1;
-    end
-    
-    if strcmp(regionV{i},'MH') midHList(i) = 1;
-    end
-end
+%Now make the big data array
+flag = 0;
 
-load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_',exp, '_projoff.mat'));
-[blah,numCond] = size(condList);
-numCond
+%load allSubjData cell array 
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_',proj,'.mat'));        
 
+numCond= size(condList,2);
+totalCond = size(allSubjData{1}.evoked,2);
+
+%find condition indices
+condCodeList = zeros(numCond,1);
 for c = 1:numCond
-    c  
+    condLabel = condList{c};
+    for y=1:totalCond
+        if strcmp(condLabel,allSubjData{1}.evoked(y).comment)
+            condCodeList(c) = y;
+        end
+    end
+end
+
+%fill in data 
+for c = 1:numCond
+    condLabel = condList{c};
+    condCode = condCodeList(c);
+
     for s = 1:numSubj
         subjStr = allSubjData{s};
         numSample = size(subjStr.evoked(1).epochs,2);
 
         %%For each condition, get the evoked data out
-
-        epData = subjStr.evoked(condList(c)).epochs(:,:);
-       
+        epData = subjStr.evoked(condCode).epochs(:,:);    
         baseline = mean(epData(:,baselineV),2);
         baseline = repmat(baseline,1,numSample);
         epData = epData - baseline;       
         epDataM = squeeze(mean(epData(chan,sample1:sample2),2));
- 
-        size(epDataM);
         dataV = [dataV;epDataM*1e6];
-        subjV = [subjV;ones(numChan,1)*subjList(s)];
-        condV = [condV;ones(numChan,1)*condList(c)];
-        chanV = [chanV;[1:numChan]'];
-        hemV = [hemV;hemList];
-        antV = [antV;antList];
-        midVV = [midVV;midVList];
-        midHV = [midHV;midHList];
-        
-    end
-end
-allData = [subjV condV chanV dataV hemV antV midVV midHV];
+        %%Get trial info
+        tempSubj = cell(1,numChan);
+        tempSubj(:) = {strcat(subjGroup,int2str(subjList(s)))};
+        tempExp = cell(1,numChan);
+        tempExp(:) = {exp};
+        tempCond = cell(1,numChan);
+        tempCond(:) = {condLabel};
+        tempArray = chanGroupArray;
+        tempArray{end+1} = tempSubj;
+        tempArray{end+1} = tempExp;
+        tempArray{end+1} = tempCond;
+        %%append copy to all array
+        %%on the first run, need to just assign (flag)
+        if flag == 1
+            for z = 1:(size(tempArray,2))
+                 allArray{z} = [allArray{z} tempArray{z}];
+            end
+        else
+            allArray = tempArray;
+            %size(allArray,2)
+            flag = 1;
+         end
+    end %%subject loop
 
-outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/',listPrefix,'.',exp,'.',int2str(t1),'-',int2str(t2),'.txt');
-dlmwrite(outFile,allData,'\t')
+end %% condition loop
+    
+
+newArray = {};
+for t = 1:size(dataV)
+    for g = 1:size(allArray,2)
+        newArray{t,g} =allArray{g}{t};
+    end
+    newArray{t,g+1} = dataV(t);
+end
+
+    
+outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.',exp,'.',chanGroupFileName,'.',int2str(t1),'-',int2str(t2),'.txt');
+ 
+dlmcell(outFile,newArray,'    ');
         
