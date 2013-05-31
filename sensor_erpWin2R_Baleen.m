@@ -14,9 +14,8 @@ numSubj = size(subjList,2);
 baselineV = 1:60;
 numChan = 70;
 chan = [307:366 370:379]; %Not including the STI channels and RMAST 1/11/13
-
 dataV = []; 
-subjV = [];
+
 %load chanGroupArray
 load(strcat('/autofs/cluster/kuperberg/SemPrMM/MEG/scripts/function_inputs/EEG_Chan_Names/',chanGroupFileName,'.mat'))
 
@@ -31,9 +30,6 @@ chanGroupArray{end+1} = chanNumV;
 sGroupV = cell(1,numChan);
 sGroupV(:) = {subjGroup};
 chanGroupArray{end+1} = sGroupV;
-
-
-
 
 %Now make the big data array
 flag = 0;
@@ -59,12 +55,10 @@ for x = 1:2
             end
         end
     end
-    condCodeList;
     
     for c = 1:numCond
         condLabel = condList{c};
         condCode = condCodeList(c);
-        exp;
 
         for s = 1:numSubj
             subjStr = allSubjData{s};
@@ -113,7 +107,6 @@ for t = 1:size(dataV)
     end
     newArray{t,g+1} = dataV(t);
 end
-newArray;
 
     
 outFile = strcat('/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/', listPrefix, '.Baleen_All.',chanGroupFileName,'.',int2str(t1),'-',int2str(t2),'.txt');
