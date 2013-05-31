@@ -5,6 +5,8 @@ function sensor_erpWin2R_Baleen(subjGroup,listPrefix,t1,t2,condList,proj,chanGro
 %This script reads in both BaleenLP and BaleenHP to a single file
 %This script baselines the data with a hard-coded 60 sample baseline window
 
+%ex: sensor_erpWin2R_Baleen('sc','sc.meg.all',350,450,{'Unrelated','Related'},'projon','quad48Mid')
+
 sample1 = round(t1/1.6666 + 61);
 sample2 = round(t2/1.6666 + 61);
 
