@@ -11,13 +11,13 @@ import mne
 from mne import fiff
 #from pipeline import make_lingua
 
-def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref):
+def compute_proj_ecg(in_path, in_fif_fname, h_tmin, h_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref):
 
     # Reading fif File
     raw_in = fiff.Raw(in_fif_fname)
     prefix = in_fif_fname[:-8]
-##    prefix = 'sc3_BaleenLPRun4'
-##    print prefix
+#    prefix = 'sc3_BaleenLPRun4'
+#    print prefix
     in_fif_fname = in_path + in_fif_fname
     print in_fif_fname
     out_path = os.path.join(in_path + 'ssp/')
@@ -41,9 +41,9 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     #os.getcwd()
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
                        '--projtmin %s --projtmax %s --saveprojtag _ecg_proj '
-                       '--projnmag 1 --projngrad 1 --projneeg 0 --projevent 999 --highpass 5 '
-                       '--lowpass 35 --projmagrej 5000 --projgradrej 3000 --projeegrej 250 '
-                       % (in_path, in_fif_fname, ecg_event_fname, tmin, tmax)) ##1/15/13 CU:projectors always fixed 1 1 0
+                       '--projnmag 1 --projngrad 1 --projneeg 1 --projevent 999 --highpass 5 '
+                       '--lowpass 35 --projmagrej 8000 --projgradrej 7000 --projeegrej 900'
+                       % (in_path, in_fif_fname, ecg_event_fname, h_tmin, h_tmax)) ##6/1/13 CU:projectors fixed 1 1 1  
     
     st = os.system(command)
     if st != 0:
@@ -54,7 +54,7 @@ def compute_proj_ecg(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
 ########################################################################################################
                               
                               
-def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref):
+def compute_proj_eog(in_path, in_fif_fname, e_tmin, e_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref):
 
 
     raw_in = fiff.Raw(in_fif_fname)
@@ -66,6 +66,7 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     out_path = os.path.join(in_path + 'ssp/')
 
     out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog_raw.fif'
+  ##  out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog_06212013_e0.02_raw.fif' 
     eog_proj_fname = in_path + prefix + '_eog_proj.fif' 
     eog_event_fname = in_path + 'ssp/' + prefix + '_eog-eve.fif'
     flag=0
@@ -81,8 +82,8 @@ def compute_proj_eog(in_path, in_fif_fname, tmin, tmax, n_grad, n_mag, n_eeg, l_
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
                                '--projtmin %s --projtmax %s --saveprojtag _eog_proj '
                                '--projnmag %s --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
-                               '--lowpass 35 --filtersize 8192 --projmagrej 5500 --projgradrej 3000 --projeegrej 900 '  ###filtersize 8192, projeegrej was 500 by default!!!
-                               % (in_path, in_fif_fname, eog_event_fname, tmin, tmax, n_mag, n_grad, n_eeg))  ##1/15/13 CU: refer the speadsheet(projectors custom made for each subject)
+                               '--lowpass 35 --filtersize 8192 --projmagrej 8000 --projgradrej 7000 --projeegrej 900'  ###filtersize 8192, projeegrej was 500 by default!!!
+                               % (in_path, in_fif_fname, eog_event_fname, e_tmin, e_tmax, n_mag, n_grad, n_eeg))  ##1/15/13 CU: refer the speadsheet(projectors custom made for each subject)  --projmagrej 5500 --projgradrej 3000 --projeegrej 900
     st = os.system(command)
     if st != 0:
             print "Error while running : %s" % command
@@ -104,12 +105,18 @@ if __name__ == '__main__':
     parser.add_option("--in_path", dest="in_path",
                     help="Raw file path name",
                     default=None)
-    parser.add_option("--tmin", dest="tmin", type="float",
+    parser.add_option("--h_tmin", dest="h_tmin", type="float",
                     help="time before event in seconds",
                     default=-0.08)
-    parser.add_option("--tmax", dest="tmax", type="float",
+    parser.add_option("--h_tmax", dest="h_tmax", type="float",
                     help="time after event in seconds",
                     default=0.08)
+    parser.add_option("--e_tmin", dest="e_tmin", type="float",
+                    help="time before event in seconds",
+                    default=-0.2)
+    parser.add_option("--e_tmax", dest="e_tmax", type="float",
+                    help="time after event in seconds",
+                    default=0.2)
     parser.add_option("-g", "--n-grad", dest="n_grad", type="int",
                     help="Number of SSP vectors for gradiometers",
                     default=1)
@@ -173,8 +180,10 @@ if __name__ == '__main__':
      
     in_path = options.in_path
     out_path = in_path + 'ssp/'
-    tmin = options.tmin
-    tmax = options.tmax
+    e_tmin = options.e_tmin
+    e_tmax = options.e_tmax
+    h_tmin = options.h_tmin
+    h_tmax = options.h_tmax
     n_grad = options.n_grad
     n_mag = options.n_mag
     n_eeg = options.n_eeg
@@ -194,7 +203,7 @@ if __name__ == '__main__':
 
     
     if (tag == "ecg"):
-            in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, h_tmin, h_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
             print 'Applying ECG projector'
             command = ('mne_process_raw --cd %s --raw %s --proj %s --proj %s --projoff --save %s --filteroff'
                        % (out_path, in_fif_fname, ecg_proj_fname, in_fif_fname, out_fif_fname))
@@ -207,7 +216,7 @@ if __name__ == '__main__':
 
 
     elif (tag == "eog"):
-            in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, e_tmin, e_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
             print eog_proj_fname
 
             print 'Applying EOG projector'
@@ -223,8 +232,8 @@ if __name__ == '__main__':
 
     elif (tag == "ecgeog"):
     
-            in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
-            in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, tmin, tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            in_fif_fname, ecg_proj_fname, ecg_events, out_fif_fname = compute_proj_ecg(in_path, raw_in, h_tmin, h_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
+            in_fif_fname, eog_proj_fname, eog_events, out_fif_fname = compute_proj_eog(in_path, raw_in, e_tmin, e_tmax, n_grad, n_mag, n_eeg, l_freq, h_freq, filter_length, n_jobs, ch_name, reject, avg_ref)
             
             prefix = raw_in[:-8]
             print prefix
