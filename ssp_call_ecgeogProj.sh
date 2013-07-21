@@ -42,11 +42,17 @@ else if $2 == 'eog' then
     set ngrad = 2 
     set nmag = 2
     set neeg = 2 ##2nd ssp vector had no/negative effect so changed back to 1 ##changed back to 3 after modifying HPF 
+    set e_tmin = -0.02
+    set e_tmax = 0.02
+    set h_tmin = -0.08
+    set h_tmax = 0.08
 else if $2 == 'ecgeog' then
     set lfreq = 35
     set hfreq = 0.3 
-    set projtmin = -0.2
-    set projtmax = 0.2
+    set e_tmin = -0.2
+    set e_tmax = 0.2
+    set h_tmin = -0.08
+    set h_tmax = 0.08
 endif 
 
 
@@ -55,7 +61,7 @@ if $3 == 'ATLLoc' then
 	 python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py  --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i {$1}_ATLLoc_raw.fif -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --bad $1_bad_chan.txt --tag $2 -g $5 -m $4 -e $6
 else 
 	  foreach i ({$1}_{$3}Run?_raw.fif)
-			   python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i $i -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 -g $5 -m $4 -e $6											   
+			   python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i $i -c "ECG 063" --e_tmin $e_tmin --e_tmax $e_tmax --h_tmin $h_tmin --h_tmax $h_tmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 -g $5 -m $4 -e $6											   
 	  end
 endif    
 
@@ -64,3 +70,4 @@ mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_ATLLoc_eog_proj.fif /cluster/kupe
 mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_{$3}Run?_eog_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/
 mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_{$3}Run?_ecg_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/
 mv /cluster/kuperberg/SemPrMM/MEG/data/$1/{$1}_{$3}Run?_ecgeog_proj.fif /cluster/kuperberg/SemPrMM/MEG/data/$1/ssp/
+
