@@ -30,9 +30,9 @@ def compute_proj_ecg(in_path, in_fif_fname, h_tmin, h_tmax, n_grad, n_mag, n_eeg
     print 'Implementing ECG artifact rejection on data'
     ecg_events, _, _ = mne.artifacts.find_ecg_events(raw_in)
     if not len(ecg_events) < 30:
-            print ecg_event_fname
-            print "Writing ECG events in %s" % ecg_event_fname
-            mne.write_events(ecg_event_fname, ecg_events)
+           # print ecg_event_fname
+           print "Writing ECG events in %s" % ecg_event_fname
+           mne.write_events(ecg_event_fname, ecg_events)
 	
     # Making projector
     print 'Computing ECG projector'
@@ -40,10 +40,10 @@ def compute_proj_ecg(in_path, in_fif_fname, h_tmin, h_tmax, n_grad, n_mag, n_eeg
     #os.chdir('/cluster/kuperberg/SemPrMM/MEG/data/ac1/ssp')
     #os.getcwd()
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
-                       '--projtmin %s --projtmax %s --saveprojtag _ecg_proj '
-                       '--projnmag 1 --projngrad 1 --projneeg 1 --projevent 999 --highpass 5 '
-                       '--lowpass 35 --projmagrej 8000 --projgradrej 7000 --projeegrej 900'
-                       % (in_path, in_fif_fname, ecg_event_fname, h_tmin, h_tmax)) ##6/1/13 CU:projectors fixed 1 1 1  
+                       '--projtmin -0.2 --projtmax 0.2 --saveprojtag _ecg_proj '
+                       '--projnmag 1 --projngrad 1 --projneeg 0 --projevent 999 --highpass 5 '
+                       '--lowpass 35 --projmagrej 8000 --projgradrej 5000 --projeegrej 600'
+                       % (in_path, in_fif_fname, ecg_event_fname)) ##6/1/13 CU:projectors fixed 1 1 0 
     
     st = os.system(command)
     if st != 0:
@@ -59,14 +59,13 @@ def compute_proj_eog(in_path, in_fif_fname, e_tmin, e_tmax, n_grad, n_mag, n_eeg
 
     raw_in = fiff.Raw(in_fif_fname)
     prefix = in_fif_fname[:-8]
-##    prefix = 'sc3_BaleenLPRun4'
+#    prefix = 'sc3_BaleenLPRun4'
 ##    print prefix
     in_fif_fname = in_path + in_fif_fname
     print in_fif_fname
     out_path = os.path.join(in_path + 'ssp/')
 
     out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog_raw.fif'
-  ##  out_fif_fname = in_path + 'ssp/' + prefix + '_clean_eog_06212013_e0.02_raw.fif' 
     eog_proj_fname = in_path + prefix + '_eog_proj.fif' 
     eog_event_fname = in_path + 'ssp/' + prefix + '_eog-eve.fif'
     flag=0
@@ -82,7 +81,7 @@ def compute_proj_eog(in_path, in_fif_fname, e_tmin, e_tmax, n_grad, n_mag, n_eeg
     command = ('mne_process_raw --cd %s --raw %s --events %s --makeproj '
                                '--projtmin %s --projtmax %s --saveprojtag _eog_proj '
                                '--projnmag %s --projngrad %s --projneeg %s --projevent 998 --highpass 0.3 '
-                               '--lowpass 35 --filtersize 8192 --projmagrej 8000 --projgradrej 7000 --projeegrej 900'  ###filtersize 8192, projeegrej was 500 by default!!!
+                               '--lowpass 35 --filtersize 8192 --projmagrej 8000 --projgradrej 7000 --projeegrej 800'  ###filtersize 8192, projeegrej was 500 by default!!!
                                % (in_path, in_fif_fname, eog_event_fname, e_tmin, e_tmax, n_mag, n_grad, n_eeg))  ##1/15/13 CU: refer the speadsheet(projectors custom made for each subject)  --projmagrej 5500 --projgradrej 3000 --projeegrej 900
     st = os.system(command)
     if st != 0:
