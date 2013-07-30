@@ -106,7 +106,7 @@ for c in range(2):
 							pl.subplot(3,3,9)
 							pl.title("P2")
 							##pl.title(1.0, 1.0, 'C6', fontsize='medium', verticalalignment='top')
-						sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=[chan])
+						sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=[chan], exclude ="bads")
 						print sel
 						data = evoked.data[sel]*1e6
 						
