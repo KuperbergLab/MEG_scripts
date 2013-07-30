@@ -78,7 +78,7 @@ for group in channelGroups:
 			print 'set ',condList[c]
 			evoked = fiff.Evoked(file,setno=condList[c],baseline=(-100,0),proj=False)
 			times=evoked.times*1000
-			sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=channelList)
+			sel = fiff.pick_types(evoked.info,meg=False,eeg=False,include=channelList, exclude = "bads")
 			print sel
 			data = evoked.data[sel]*1e6
 			
