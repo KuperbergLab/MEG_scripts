@@ -58,7 +58,7 @@ endif
 
 if $3 == 'ATLLoc' then
 	 echo {$1}_ATLLoc_raw.fif                                  
-	 python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py  --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i {$1}_ATLLoc_raw.fif -c "ECG 063" --tmin $projtmin --tmax $projtmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --bad $1_bad_chan.txt --tag $2 -g $5 -m $4 -e $6
+	 python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py  --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i {$1}_ATLLoc_raw.fif -c "ECG 063" --e_tmin $e_tmin --e_tmax $e_tmax --h_tmin $h_tmin --h_tmax $h_tmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 -g $5 -m $4 -e $6
 else 
 	  foreach i ({$1}_{$3}Run?_raw.fif)
 			   python  /cluster/kuperberg/SemPrMM/MEG/scripts/ssp_clean_ecgeogProj.py --in_path /cluster/kuperberg/SemPrMM/MEG/data/$1/ -i $i -c "ECG 063" --e_tmin $e_tmin --e_tmax $e_tmax --h_tmin $h_tmin --h_tmax $h_tmax --l-freq $lfreq --h-freq $hfreq --rej-grad $gradrej --rej-mag $magrej --rej-eeg $eegrej --tag $2 -g $5 -m $4 -e $6											   
