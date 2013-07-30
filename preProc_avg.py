@@ -77,13 +77,17 @@ if args.subj == "ya15":
     eegRej = 80e-6
 if args.subj == "ya26":
     eegRej = 90e-6
-if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc6": 
+if args.subj == "ac2" or args.subj == "ac7" or args.subj == "sc6" or args.subj == "sc9": 
     eegRej = 1
-if args.subj == "sc17" or args.subj == "sc20":
+if args.subj == "sc17" or args.subj == "sc20" or args.subj == "ac13":
     eegRej = 250e-6
 if args.subj == "sc6" :
     gradRej = 4000e-13
     magRej = 4000e-15
+if args.subj == "sc4" :
+    gradRej = 4000e-13
+    magRej = 4000e-15
+    eegRej = 250e-6
 
 
 

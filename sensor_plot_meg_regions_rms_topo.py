@@ -94,7 +94,6 @@ for group in channelGroups:
 				file = data_path + args.subjType + subj + '/ave_projon/' + args.subjType + subj + '_'+args.protocol +'-ave.fif'
 				#print file
 				#print 'set ', condList[c]
-				#print 'Jane reading evoked'
 				evoked = mne.fiff.read_evoked(file,setno=condList[c],baseline=(-100,0))
 				badChanSet = set(evoked.info['bads'])  #These two lines remove bad channels
 				goodChannelList = list(set(channelList) - badChanSet)
