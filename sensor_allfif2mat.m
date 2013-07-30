@@ -83,6 +83,6 @@ for x = 2:2
         allSubjData{count} = tempSubjData; 
     end
  
-    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_projon.mat');
+    outFile = strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '.mat');
     save(outFile,'allSubjData')
 end
