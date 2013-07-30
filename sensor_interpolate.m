@@ -82,22 +82,27 @@ for s = subjList
         goodZ(68) = 0.8;
         goodChanIndex(68) = 70;
     end
-    
 
     
     goodChans = allChans(goodChanIndex);  %%goodChans is in MNE indices (316-389)
     goodPos = [goodX;goodY;goodZ];
     allPos = [allX;allY;allZ];
     badChanList
+    %allPos
+    %goodPos
     iStr.info.bads(badChanList) = [];  %unmark the bad EEG chan in the interp. structure
 
     %% Make a triangulation of the positions    
-    allTri = pos2tri(allPos);    
+    allTri = pos2tri(allPos); 
     goodTri = pos2tri(goodPos);
+%    load seamount
+   % trisurf(allTri, allX, allY, allZ)
+%    trisurf(goodTri, goodX, goodY, goodZ)
     
     %% Interpolate at each time point in each condition
 
     numConditions = size(subjStr.evoked,2);
+    numConditions
     if strcmp(exp, 'ATLLoc') numConditions = 3; end
 
     numSamples = size(subjStr.evoked(1).epochs,2);
