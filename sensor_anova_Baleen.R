@@ -3,14 +3,20 @@ sensor_anova_Baleen <-function(filePrefix,chanGroupName,t1,t2){
 library('ez')
 
 filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,".Baleen_All.",chanGroupName,".",t1,"-",t2,".df",sep=""))
+load(paste(filePath,filePrefix,".BaleenLP_All.",chanGroupName,".",t1,"-",t2,".df",sep=""))
+erpData.LP.all <- erpData.all
+load(paste(filePath,filePrefix,".BaleenHP_All.",chanGroupName,".",t1,"-",t2,".df",sep=""))
+erpData.HP.all <- erpData.all
+
+#combine LP and HP datasets
+erpData.all <-rbind(erpData.LP.all,erpData.HP.all)
+
+#more transparent factor labels
+colnames(erpData.all)[3] <- "prop"
+colnames(erpData.all)[4] <- "prime"
+
 outfile <-paste(filePath,filePrefix,".Baleen_All.",chanGroupName,".",t1,"-",t2,"_main_av.txt",sep="")
 sink(outfile);
-
-erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
-erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prop)<-c("lo","lo","hi","hi");
 
 #get rid of bad channels T9, T10, TP9 and TP10
 erpData.all <- subset(erpData.all,elec !=29 & elec != 39 & elec !=40 & elec !=50)
@@ -20,8 +26,8 @@ print(eztest)
 
 #
 ###################
-erpData.lo = subset(erpData.all, prop == 'lo')
-erpData.hi = subset(erpData.all, prop == 'hi')
+erpData.lo = subset(erpData.all, prop == 'BaleenLP_All')
+erpData.hi = subset(erpData.all, prop == 'BaleenHP_All')
 #
 
 eztest <-ezANOVA(data=erpData.lo,dv = .(amp),wid=.(subj),within=.(prime),type=3,detailed=TRUE)
@@ -53,30 +59,17 @@ sink();
 #############QUADRANT ANALYSIS##################################
 ################################################################
 
-filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
+
 outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_quad_av.txt",sep="")
 sink(outfile);
 
-erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
-erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prop)<-c("lo","lo","hi","hi");	
-	
-	
 #Just get those 48 electrodes that are in the defined quadrants
-erpData.quad <-subset(erpData.all, hemCode != 0)
-
-#get factors without 0 and relabel
-erpData.quad$hem <-factor(erpData.quad$hemCode)
-levels(erpData.quad$hem)<-c("L","R")
-erpData.quad$ant <-factor(erpData.quad$antCode)
-levels(erpData.quad$ant)<-c("A","P")
+erpData.quad <-subset(erpData.all, hemCode != 'XX')
 
 #####Omnibus ANOVA######
 
 #compute the ANOVA
-eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(prime,prop,hem,ant),type=3,detailed=TRUE)
+eztest <- ezANOVA(data=erpData.quad,dv = .(amp),wid=.(subj),within=.(prime,prop,hemCode,antCode),type=3,detailed=TRUE)
 
 #print results to file
 print("All")
@@ -206,17 +199,9 @@ sink()
 #############MIDLINE ANALYSIS##################################
 ################################################################
 
-filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
 outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_mid_av.txt",sep="")
 sink(outfile);
-	
-	
-erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
-erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prop)<-c("lo","lo","hi","hi");
-	
+		
 #start with all the electrodes in both midlines
 erpData.mid <-subset(erpData.all, hemCode == 0 & elec != 28 & elec != 29 & elec != 39 & elec !=40)
 
@@ -268,16 +253,9 @@ sink()
 ##############9electrodes########################################
 ##################################################################
 
-
-filePath <- "/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/R/"
-load(paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,".df",sep=""))
 outfile <-paste(filePath,filePrefix,"Baleen_All.",t1,"-",t2,"_9elec_av.txt",sep="")
 sink(outfile);
 
-erpData.all$prime<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prime)<-c("rel","unrel","rel","unrel");
-erpData.all$prop<-factor(erpData.all$cond,exclude=NULL);
-levels(erpData.all$prop)<-c("lo","lo","hi","hi");
 erpData.9elec <-subset(erpData.all, elec9 != 0)
 
 
