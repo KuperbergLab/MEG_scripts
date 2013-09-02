@@ -68,7 +68,7 @@ if ($BEM_METHOD == FLASH) then
 else
 	##use this if the flash surfaces don't work
 	echo "Running Watershed stuff..."
-	mne_watershed_bem   >>& $log
+	mne_watershed_bem --overwrite >>& $log
 	###Create symbolic links to the bem surfaces###
 	cd /cluster/kuperberg/SemPrMM/MRI/structurals/subjects/$1/bem
 	rm *.surf
