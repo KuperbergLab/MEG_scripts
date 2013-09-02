@@ -11,9 +11,10 @@ function ssp_find_eog_event_cu(subjID,exp, runnum)
 
 inpath = '/autofs/cluster/kuperberg/SemPrMM/MEG';
 
-in_fif_File = [inpath '/data/' subjID '/' subjID '_' exp,runnum,'_raw.fif'];
-%in_fif_File='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc4/sc4_BaleenHPRun1_raw.fif';
-eog_eventFileName = [inpath '/data/' subjID '/ssp/' subjID '_' exp,runnum,'_eog-eve.fif'];
+%in_fif_File = [inpath '/data/' subjID '/' subjID '_' exp,runnum,'_raw.fif'];
+in_fif_File = [inpath '/data/' subjID '/' subjID '_ATLLoc_raw.fif'];
+%eog_eventFileName = [inpath '/data/' subjID '/ssp/' subjID '_' exp,runnum,'_eog-eve.fif'];
+eog_eventFileName = [inpath '/data/' subjID '/ssp/' subjID '_ATLLoc_eog-eve.fif'];
 %eog_eventFileName='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc4/ssp/sc4_BaleenHPRun1_eog-eve.fif';
 %eog_figfile='/autofs/cluster/kuperberg/SemPrMM/MEG/data/sc1/ssp/sc1_MaskedMMRun22BaleenLP_m2sd_eog.png';
 
@@ -34,7 +35,7 @@ temp = filteog-mean(filteog);
  
 eog_std_dev_value=1; %Change according to the subject(Default 1) (Higher number- detect only distict narrow peaks) 
 
-if sum(temp>(mean(temp)+2*std(temp))) > sum(temp<(mean(temp)+2*std(temp)))
+if sum(temp>(mean(temp)+1*std(temp))) > sum(temp<(mean(temp)+1*std(temp)))
     
     eog_events = ssp_peakfinder((filteog),eog_std_dev_value*std(filteog),-1);
 
