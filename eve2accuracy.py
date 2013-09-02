@@ -56,7 +56,7 @@ def parse_eve(eve,study):
         ax_maxrt=2.0
 	lines = readTable(eve)
 	results = dict()
-	response_ind = [i for i,x in enumerate(lines) if x[3] == "16" or x[3] == "32" or x[3] == "64" or x[3] == "128"]
+	response_ind = [i for i,x in enumerate(lines) if x[3] == "16" or x[3] == "32" or x[3] == "64" or x[3] == "128" or x[3] =="4294934528"]
 	for code in codes[study]:
 		code_lines = [line for line in lines if line[3] == code]
 		if len(code_lines) > 0: #code present at all
