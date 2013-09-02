@@ -22,8 +22,8 @@ def  rej_rej2eve_projon(subjID):
                 print exp
                 for run in runDict[exp]:
                         inFile1 = filePrefix + '/ave_projon/logs/' + subjID + '_' + exp + run + '-ave.log'
-                        inFile2 = filePrefix + '/eve/' + subjID + '_' + exp + run + 'ModRej.eve'
-                        outFile = filePrefix + '/eve/' + subjID + '_' + exp + run + 'ModRej4projoff.eve'
+                        inFile2 = filePrefix + '/eve/' + subjID + '_' + exp + run + 'Mod.eve'
+                        outFile = filePrefix + '/eve/' + subjID + '_' + exp + run + 'Mod4projoff.eve'
                         if os.path.exists(outFile):
                                 os.remove(outFile)
                         
