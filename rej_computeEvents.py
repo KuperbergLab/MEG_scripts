@@ -93,7 +93,7 @@ def computeEvents(subjType, par):
                dataTable3.append(temp5) # Save information as a list of items in a DataTable
           for i in range(0, len(dataTable3)):
               lineTemp1 = dataTable3[i]
-              #print(lineTemp1)
+              #print(lineTemp1[0])
               chans.append(lineTemp1[0])
               chantot.append(lineTemp1[1])          
           items=list(set(chans))
