@@ -12,7 +12,7 @@ def  rej_rej2eve_projon_ecgeog_norej(subjID):
 	
 	filePrefix = '/cluster/kuperberg/SemPrMM/MEG/data/'+subjID
 	
-	expList = ['BaleenHP']
+	expList = ['BaleenLP','BaleenHP']
 	###expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
 	runDict = {'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'], 'AXCPT':['Run1','Run2']}
 	
@@ -20,7 +20,7 @@ def  rej_rej2eve_projon_ecgeog_norej(subjID):
 	for exp in expList:
                 print exp
                 for run in runDict[exp]:
-                        inFile1 = filePrefix + '/ave_projon/logs/ssp_avelogs/' + subjID + '_' + exp + run + '_ecgeog1_norej-ave.log'
+                        inFile1 = filePrefix + '/ave_projon/logs/ssp_avelogs/' + subjID + '_' + exp + run + '_ecgeog_norej-ave.log'
                         inFile2 = filePrefix + '/eve/' + subjID + '_' + exp + run + 'Mod.eve'
                         outFile = filePrefix + '/eve/' + subjID + '_' + exp + run + 'Mod4projoff.eve'
 ##                        print inFile1
