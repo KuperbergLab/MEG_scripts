@@ -1,4 +1,4 @@
-% eegfilt() -  (high|low|band)-iass filter data using two-way least-squares 
+% eegfilt() -  (high|low|band)-iass filter data using two-way least-squares
 %              FIR filtering. Multiple data channels and epochs supported.
 %              Requires the MATLAB Signal Processing Toolbox.
 % Usage:
