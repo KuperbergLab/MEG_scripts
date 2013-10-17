@@ -13,29 +13,36 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 
 %%Information for template subject
-tempSubj = 19  %%enter actual subj num here (if sc19, enter 19)
-tempSubjListPrefix = 'sc.meg.all' %%enter a list that this subject appears in for .mat file
+tempSubj = 33  %%enter actual subj num here (if sc19, enter 19)
+tempSubjListPrefix = 'ac.meg.all' %%enter a list that this subject appears in for .mat file
 tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
-
+    
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))'
 numSubj = size(subjList,2)
 
+%%Get a template fif structure from random subject average, and modify
+%%it to delete the irrelevant channels from the structure
+load(strcat(dataPath, 'results/sensor_level/ave_mat/', tempSubjListPrefix, '_', exp, '_projon.mat'));
+    tempSubjIndex = find(tempSubjList == tempSubj)
+    newStr = allSubjData{tempSubjIndex};
+
 %%%%Getting the data out
 for x = 2:2 %%legacy loop for projon
+    
+    if x == 1 %outdated not using now... 
+        load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix,'_', exp, '_projon.mat'));
+        dataType = 'eeg';
+        numChan = 74;
+        chanV = 307:380;
             
-   if x == 2
-        %%Get a template fif structure from random subject average, and modify
-        %%it to delete the irrelevant channels from the structure
-        load(strcat(dataPath, 'results/sensor_level/ave_mat/', tempSubjListPrefix, '_', exp, '_projon.mat'));
-        tempSubjIndex = find(tempSubjList == tempSubj)
-        newStr = allSubjData{tempSubjIndex};
-        
+    elseif x == 2
+       
         %%Get the actual data
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
         dataType = 'meg';
         numChan = 380;
-        chanV = 1:380; %previously 389  
-      
+        chanV = 1:380; %previously 389
+    end
 end
 
 %  
@@ -76,7 +83,7 @@ end
      
             %%keep a running count of how many epochs went into grand-average
             epCount(c) = epCount(c) + subjStr.evoked(c).nave;
-	  	     
+
             %%And now cut down epoch and channel name structure to the channels of interest, either EEG or MEG
             epData = epData(chanV,:);        
 
@@ -101,7 +108,7 @@ epDataAllC(1,1,2)
         newStr.evoked(y).nave = epCount(y);
     end
     %newStr.evoked(1).epochs
-    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_',dataType,'_projon-ave.fif')
+    outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix, '_',exp,'_projon-ave.fif')
     fiff_write_evoked(outFile,newStr);
     
 end
