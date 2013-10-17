@@ -13,8 +13,8 @@ function sensor_avgAcrossSubjsGoodChan(exp,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 
 %%Information for template subject
-tempSubj = 19  %%enter actual subj num here (if sc19, enter 19)
-tempSubjListPrefix = 'sc.meg.all' %%enter a list that this subject appears in for .mat file
+tempSubj = 33  %%enter actual subj num here (if sc19, enter 19)
+tempSubjListPrefix = 'ac.meg.all' %%enter a list that this subject appears in for .mat file
 tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
 
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
@@ -30,7 +30,7 @@ newStr = allSubjData{tempSubjIndex};
 
 load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
 dataType = 'meg';
-numChan = 380;
+numChan = 380; %previously 380 
 chanV = 1:380;
 
 
@@ -85,7 +85,9 @@ for s = 1:numSubj
             end
         
             if size(badTest,2) == 0
-                iChan;
+                if iChan == 53
+                    sensName
+                end
                 size(epData);
                 size(goodDataSum);
                 goodDataSum(countG,:,c) = goodDataSum(countG,:,c) + epData(iChan,:);
@@ -104,7 +106,8 @@ end
 %%about how many observations went into each channel.
   	
 goodDataCount = goodDataCount(:,1);
-goodDataCount'
+goodDataCount
+find(goodDataCount<2) %to find any 0  in the structure
 
 %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
 %%equivalent dimension matrix  	
@@ -119,6 +122,14 @@ for y = 1:numCond
     newStr.evoked(y).epochs(:,:) = goodDataMean(:,:,y);
     newStr.evoked(y).nave = epCount(y);
 end
+%newStr.evoked.epochs
 outFile = strcat(dataPath,'results/sensor_level/ga_fif/ga_',listPrefix,'_',exp,'_',dataType,'-goodC-ave.fif')
-fiff_write_evoked(outFile,newStr);
+%new_evoked_file = ('/autofs/cluster/kuperberg/SemPrMM/MEG/results/sensor_level/ga_fif/ga_sc.meg.all_BaleenHP_All_meg_projon_10092013-ave.fif')
 
+newStr.evoked.epochs;
+fiff_write_evoked(outFile,newStr);
+%newStr.evoked.epochs
+
+new = fiff_read_evoked_all(outFile)
+new.evoked.epochs;
+end
