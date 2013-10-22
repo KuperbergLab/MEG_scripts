@@ -7,17 +7,17 @@ set exp = $2
 echo $exp
 
 if ( $exp == "MaskedMM_All" ) then
-	set condList = ( 1 2 3 )
+	set condList = ( 4 2 3 )
 	echo $condList
 endif
 
 if ( $exp == "BaleenLP_All" ) then
-	set condList = ( 1 2 )
+	set condList = ( 3 5 )
 	echo $condList
 endif
 
 if ( $exp == "BaleenHP_All" ) then
-	set condList = ( 1 2 9 10)
+	set condList = ( 5 7 9 10)
 	echo $condList
 endif
 
