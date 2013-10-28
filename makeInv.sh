@@ -34,7 +34,7 @@ date
 ###note these only change if cov matrix changes###
 ##Note we're using the covariance from BaleenLP, because we don't have a good baseline period in ATLLoc
 
-
+#foreach t ('meg')
 foreach t ('meg' 'eeg' 'meg-eeg')
 	##This has to be done separately b/c just one fwd solution exists for EEG, and just need one for each covariance matrix
 	if ($t == 'eeg' ) then
@@ -66,7 +66,7 @@ end
 
 ######MAKE MORPHING MAP TO FSAVERAGE######
 
-mne_make_morph_maps --from $1 --to fsaverage >>& $log
+mne_make_morph_maps --from $1 --to fsaverage >>& $log ## --redo if they already exist
 
 
 
