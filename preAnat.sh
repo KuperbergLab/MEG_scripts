@@ -33,8 +33,8 @@ set BEM_METHOD=$2
 
 ###Set up MRI images for MRILab and setup source space##
 
-mne_setup_mri >>& $log
-mne_setup_source_space  >>& $log
+mne_setup_mri >>& $log     ##use --overwrite to recreate existing data
+mne_setup_source_space  >>& $log ##use --overwrite to recreate existing data
 
 
 ####FLASH VS WATERSHED##################
