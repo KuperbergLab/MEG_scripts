@@ -34,7 +34,7 @@ date
 ####note these don't depend on brain data so don't need to change if avg changes
 ####EEG cap stays in place, so only one for whole experiment
 
-#foreach t ('meg-eeg')
+#foreach t ('meg')
 foreach t ('meg' 'eeg' 'meg-eeg')
 #    echo "Jane here"
 	if ( $t == 'eeg' ) then
@@ -55,7 +55,7 @@ foreach t ('meg' 'eeg' 'meg-eeg')
  		endif
  	end	
 ########################AVERAGE FORWARD SOLUTIONS#######################	
-    if ($t == 'meg' || $t == 'meg-eeg' ) then
+    if ($t == 'meg') then
 #  #  if ($t == 'meg-eeg' ) then
         mne_average_forward_solutions --fwd $1_MaskedMMRun1-ave-7-$t-fwd.fif --fwd $1_MaskedMMRun2-ave-7-$t-fwd.fif --out $1_MaskedMM_All-ave-7-$t-fwd.fif >>& $log
         mne_average_forward_solutions --fwd $1_BaleenLPRun1-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun2-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun3-ave-7-$t-fwd.fif --fwd $1_BaleenLPRun4-ave-7-$t-fwd.fif --out $1_BaleenLP_All-ave-7-$t-fwd.fif >>& $log
