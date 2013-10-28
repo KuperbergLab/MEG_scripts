@@ -33,7 +33,7 @@ def compute_proj_ecg(in_path, in_fif_fname, h_tmin, h_tmax, n_grad, n_mag, n_eeg
            # print ecg_event_fname
            print "Writing ECG events in %s" % ecg_event_fname
            mne.write_events(ecg_event_fname, ecg_events)
-	
+        
     # Making projector
     print 'Computing ECG projector'
     print out_path
@@ -248,4 +248,3 @@ if __name__ == '__main__':
                 raise ValueError('Pb while running : %s' % command)
             print ('Done removing ECG and EOG artifacts. '
                    'IMPORTANT : Please eye-ball the data !!')
-
