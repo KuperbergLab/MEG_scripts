@@ -91,9 +91,7 @@ mv $1_BaleenRun8_raw.fif $1_BaleenHPRun4_raw.fif
 #############################################################
 ##Extracting events read from .fif files into .eve text files
 
-echo
 echo "Extracting events" >>& $log
-
 foreach run ('Blink' 'ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')
 	if ( -e $1_{$run}_raw.fif ) then  
 	   if ( $1 == 'sc19' | $1 == 'ac31' | $1 == 'sc20' | $1 == 'sc21' | $1 == 'sc22' | $1 == 'ac33') then
