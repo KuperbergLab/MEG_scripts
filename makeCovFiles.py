@@ -28,11 +28,16 @@ def makeCovFiles(subjID):
 	if subjID == "ya26":
 		eegRej = "90e-6"
 
-	if subjID == "ac2" or subjID == "ac7" or subjID == "sc19": 
+	if subjID == "ac2" or subjID == "ac7" or subjID == "sc19" or subjID == "sc6": 
 		eegRej = "1"
 		
-	if subjID == "sc17" or subjID == "sc20":
+	if subjID == "sc17":
 	      eegRej = "250e-6"
+	      
+	if subjID == "sc20":
+		eegRej = "1"
+
+
 		
 	
 	expList = ['MaskedMM','BaleenLP','BaleenHP','AXCPT']
@@ -40,6 +45,10 @@ def makeCovFiles(subjID):
 	runDict = {'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 	
 	condDict = {'MaskedMM':[['14','Prime']], 'BaleenLP':[['14','Prime'],['11','Prime Probe']],'BaleenHP':[['14','Prime'],['12','Prime Probe']],'AXCPT':[['1','AY target'],['2','BX target'],['3','BY target'],['4','AX target'],['5','A prime'],['6','B prime']]}
+
+        if subjID == "sc3":
+                
+              condDict = {'MaskedMM': [['6', 'Prime']],'BaleenLP':[['14','Prime'],['11','Prime Probe']],'BaleenHP':[['14','Prime'],['12','Prime Probe']],'AXCPT':[['1','AY target'],['2','BX target'],['3','BY target'],['4','AX target'],['5','A prime'],['6','B prime']]}
 
 	for exp in expList:
 		for run in runDict[exp]:
