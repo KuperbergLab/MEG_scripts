@@ -32,7 +32,7 @@ for hemI = 1:2
         count=count+1;
         subj 
         subjDataPath = strcat(prefix,int2str(subj),'/ave_projon/stc/',exp,'/');
-        filePrefix = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M');
+        filePrefix = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M')
         if norm == 1
             filePrefix = strcat(dataPath,'data/',subjDataPath,prefix,int2str(subj),'_',exp,'_c',int2str(condPair(2)),'-c',int2str(condPair(1)),'M-norm');
         end
