@@ -10,7 +10,10 @@ import writeOutput
 ##The RMS is computed at the subject level, so all opposite polarity effects on diff channels
 ##are accounted for.
 ##Prints all the 8 plots in one figure. 
-## Example: run sensor_plot_meg_regions_rms_topo ya BaleenLP_All ya.n24.bal 0 1 
+## Example: run sensor_plot_meg_regions_rms_topo ya BaleenLP_All ya.n24.bal 0 1
+
+##ATTENTION##
+#####When speicifying the conditions, make sure you have the 'c' right number from their individual subject/ave_propjon/ directories. 
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subjType',type=str)
