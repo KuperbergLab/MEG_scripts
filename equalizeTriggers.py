@@ -2,7 +2,10 @@ import readInput
 import writeOutput
 import sys
 import os
+import mne
 from mne import fiff
+from mne import Epochs
+from mne.epochs import equalize_epoch_counts
 
 
 ##THIS SCRIPT BASED OFF OF FIXTRIGGERS, WILL BE RUN AFTER PREPROC_AVG AND EQUALIZE EXACTLY # OF TRIGGERS
@@ -12,8 +15,7 @@ def equalizeTriggers(subjID):
 
     os.chdir("/cluster/kuperberg/SemPrMM/MEG/data/"+subjID)
     
-    #expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
-    expList = ['AXCPT']
+    expList = ['ATLLoc','MaskedMM','BaleenLP','BaleenHP','AXCPT']
     runDict = { 'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
 
     codeGroupDict = { 'AXCPT':['AXCPT_prime','AXCPT_target']}
@@ -46,8 +48,8 @@ def equalizeTriggers(subjID):
 
             
         for run in runDict[exp]:
-            inFile = 'eve/' + subjID + '_'+exp+run+'ModRej4projoff.eve'
-            outFile = 'eve/' + subjID + '_' + exp + run + 'ModRej.eve' #when finalized, this should probably be ModRejEq.eve, and later scripts changed
+            inFile = 'eve/' + subjID + '_'+exp+run+'Mod.eve'
+            outFile = 'eve/' + subjID + '_' + exp + run + 'Mod-testeq.eve' #when finalized, this should probably be ModRejEq.eve, and later scripts changed
             print inFile
             if os.path.exists(inFile):
                     data = readInput.readTable(inFile)
@@ -64,8 +66,42 @@ def equalizeTriggers(subjID):
 
 
                     writeOutput.writeTable(outFile,data)
+
+def equalize_AXCPT(subjID): 
+
+   print "Jane here!"
+   event_id = {'A_prime':5, 'B_prime':6}
+   rawfname = '/cluster/kuperberg/SemPrMM/MEG/data/' +subjID + '/' +subjID + '_AXCPTRun1_raw.fif'
+   raw = fiff.Raw(rawfname)
+ #  eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/eve/%s_AXCPTRun1.eve' % (subjID, subjID)
+   eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/%s_AXCPTRun1_raw-eve.fif' % (subjID, subjID)
+   events = mne.read_events(eventsfname)
+   APrime_event_id = 5
+   BPrime_event_id = 6
+##   AX_event_id = 4
+##   AY_event_id = 1
+##   BX_event_id = 2
+##   BY_event_id = 3
+   tmin = -0.1
+   tmax = 0.7
+   APrimeEpochs = mne.Epochs(raw, events, APrime_event_id, tmin, tmax)
+   BPrimeEpochs = mne.Epochs(raw, events, BPrime_event_id, tmin, tmax)
+##   AXEpochs = mne.Epochs(raw, events, AX_event_id, tmin, tmax)
+##   AYEpochs = mne.Epochs(raw, events, AY_event_id, tmin, tmax)
+##   BXEpochs = mne.Epochs(raw, events, BX_event_id, tmin, tmax)
+##   BYEpochs = mne.Epochs(raw, events, BY_event_id, tmin, tmax)
+   print "A Prime before"
+   print APrimeEpochs
+   print "B Prime before"
+   print BPrimeEpochs   
+   mne.epochs.equalize_epoch_counts([APrimeEpochs, BPrimeEpochs]) ## tried mintime and truncate, default is fine
+   print "A Prime After"
+   print APrimeEpochs
+   print "B Prime After"
+   print BPrimeEpochs 
                                        
 
 if __name__ == "__main__":
     subjID = sys.argv[1]
-    equalizeTriggers(subjID)
+  #  equalizeTriggers(subjID)
+    equalize_AXCPT(subjID)
