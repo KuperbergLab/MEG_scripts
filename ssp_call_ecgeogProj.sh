@@ -1,5 +1,5 @@
 #!/bin/csh -f
-#usage: ./ssp_call_ecgeogProj.sh SubjID tag par nmag ngrad neeg
+#usage: ./ssp_call_ecgeogProj.sh SubjID tag par nmag ngrad neeg (for EOG)
 #eg: ./ssp_call_ecgeogProj.sh ac1 ecg/eog/ecgeog ATLLoc 1 1 1
 
 # setenv USE_STABLE_5_0_0
@@ -34,6 +34,10 @@ if $2 == 'ecg' then
     set ngrad = 1
     set nmag = 1 
     set neeg = 0
+    set e_tmin = -0.2
+    set e_tmax = 0.2
+    set h_tmin = -0.08
+    set h_tmax = 0.08
 else if $2 == 'eog' then
     set lfreq = 35
     set hfreq = 0.3 
