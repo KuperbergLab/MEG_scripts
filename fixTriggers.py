@@ -369,15 +369,15 @@ def fixTriggers(subjID):
                     if nextTrigger == '7':  
                             row[3] = '7'
                 
-                #################################################
-                ##Flip 3/4 of the 'A' triggers to 15, to match number of As and Bs
-                if trigger == '5':
-                    if flag3 == 3:
-                        flag3 = 0
-                    elif flag3 != 3:
-                        flag3 = flag3 + 1   
-                        row[3] = '15'
-                                    
+##                #################################################
+##                ##Flip 3/4 of the 'A' triggers to 15, to match number of As and Bs
+##                if trigger == '5':
+##                    if flag3 == 3:
+##                        flag3 = 0
+##                    elif flag3 != 3:
+##                        flag3 = flag3 + 1   
+##                        row[3] = '15'
+##                                    
                 ###########################################
                 ##change triggers for incorrect trials#####
                 
