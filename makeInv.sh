@@ -34,8 +34,8 @@ date
 ###note these only change if cov matrix changes###
 ##Note we're using the covariance from BaleenLP, because we don't have a good baseline period in ATLLoc
 
-#foreach t ('meg')
-foreach t ('meg' 'eeg' 'meg-eeg')
+foreach t ('meg')
+#foreach t ('meg' 'eeg' 'meg-eeg')
 	##This has to be done separately b/c just one fwd solution exists for EEG, and just need one for each covariance matrix
 	if ($t == 'eeg' ) then
 		 mne_do_inverse_operator --fwd $1_All-ave-7-eeg-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-Baleen-ave-7-eeg-inv.fif >>& $log
@@ -44,10 +44,12 @@ foreach t ('meg' 'eeg' 'meg-eeg')
 			mne_do_inverse_operator --fwd $1_All-ave-7-eeg-fwd.fif --depth --loose .5 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT-ave-7-eeg-inv.fif >>& $log
 		endif	
 	else if ( $t == 'meg') then
-		 mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-inv.fif >>& $log
-		 mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMM_All-ave-7-$t-inv.fif >>& $log
-		 mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenLP_All-ave-7-$t-inv.fif >>& $log
-		 mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenHP_All-ave-7-$t-inv.fif >>& $log
+                 mne_do_inverse_operator --fwd $1_AXCPT-equalisedTar_All-ave-7-meg-fwd.fif --depth --loose .5 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT-equalisedTar_All-ave-7-$t-inv.fif >>& $log 
+                 mne_do_inverse_operator --fwd $1_AXCPT-equalisedPri_All-ave-7-meg-fwd.fif --depth --loose .5 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT-equalisedPri_All-ave-7-$t-inv.fif >>& $log
+		 #mne_do_inverse_operator --fwd $1_ATLLoc-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_ATLLoc-ave-7-$t-inv.fif >>& $log
+		 #mne_do_inverse_operator --fwd $1_MaskedMM_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_MaskedMM_All-cov.fif --inv $1_MaskedMM_All-ave-7-$t-inv.fif >>& $log
+		 #mne_do_inverse_operator --fwd $1_BaleenLP_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenLP_All-ave-7-$t-inv.fif >>& $log
+		 #mne_do_inverse_operator --fwd $1_BaleenHP_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_Baleen_All-cov.fif --inv $1_BaleenHP_All-ave-7-$t-inv.fif >>& $log
 		if ( -e $1_AXCPTRun1-ave.fif ) then
 			mne_do_inverse_operator --fwd $1_AXCPT_All-ave-7-$t-fwd.fif --depth --loose .5 --$t --senscov $1_AXCPT_All-cov.fif --inv $1_AXCPT_All-ave-7-$t-inv.fif >>& $log
 		endif
