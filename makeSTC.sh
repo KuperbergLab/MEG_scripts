@@ -26,6 +26,16 @@ if ( $exp == "AXCPT_All" ) then
 	echo $condList
 endif
 
+if ( $exp == "AXCPT-equalisedTar_All" ) then
+	set condList = ( 1 2 3 4 )
+	echo $condList
+endif
+
+if ( $exp == "AXCPT-equalisedPri_All" ) then
+	set condList = ( 1 2 )
+	echo $condList
+endif
+
 
 ####################################
 
