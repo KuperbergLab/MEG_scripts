@@ -3,7 +3,9 @@ codes = {'BaleenHP':('6', '7', '8', '9', '10', '12','14','18'),
          'BaleenLP':('1', '2', '4', '5', '11','14'),
          'MaskedMM':('1', '2', '3', '4', '5'),
          'ATLLoc':('41', '42', '43','1','2','3'),
-         'AXCPT':('1', '2', '3', '4','5','6')}
+         'AXCPT':('1', '2', '3', '4','5','6'),
+         'AXCPTtar':('1', '2', '3', '4'),
+         'AXCPTpri':('4', '5')}
          
 condLabels = {'Blink': 
         	[['1','Blink']],
@@ -42,10 +44,18 @@ condLabels = {'Blink':
 			['3','BYtarget'],
 			['4','AXtarget'],
 			['5','Aprime'],
+			['6','Bprime']],
+                'AXCPTtar':
+			[['1','AYtarget'],
+			['2','BXtarget'],
+			['3','BYtarget'],
+			['4','AXtarget']],
+                'AXCPTpri':
+			[['5','Aprime'],
 			['6','Bprime']]
 			}
 
-runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2']}
+runDict = {'Blink':[''],'ATLLoc':[''],'MaskedMM':['Run1','Run2'],'BaleenLP':['Run1','Run2','Run3','Run4'],'BaleenHP':['Run1','Run2','Run3','Run4'],'AXCPT':['Run1','Run2'], 'AXCPTtar':['Run1','Run2'], 'AXCPTpri':['Run1','Run2']}
 
          
 ##Notice the epochs are coded in samples, not ms : (
@@ -69,4 +79,6 @@ epMax = {'Blink':'.9',
 	'MaskedMM':'.7',
 	'BaleenLP':'.7',
 	'BaleenHP':'.7',
-	'AXCPT':'.7'}
+	'AXCPT':'.7',
+        'AXCPTtar':'.7',
+        'AXCPTpri':'.7'}
