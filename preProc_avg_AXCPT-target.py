@@ -51,7 +51,7 @@ print event_id
 tmin = -.1
 tmax = float(cc.epMax[exp])
 
-
+############################################
 ########Artifact rejection parameters######
 
 ###General
@@ -90,8 +90,8 @@ for evRun in runs:
     event_fname = data_path + 'eve/' + args.subj + '_' + expName+evRun + evSuffix
     #event_fname = data_path  + args.subj + '_' + expName+evRun + evSuffix      
     print event_fname
-    raw_fname = data_path + args.subj+'_'+ expName +evRun+'_raw.fif'
-    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+expName + evRun +'-equalise-test-ave.log' ##CHANGE THIS
+    raw_fname = data_path + args.subj+'_'+ expName +evRun+'_ssp_raw.fif' ##Using ssp because for only for ya12, ya27, ya31 AXCPT- ecg SSP has been perfrmed, rest have been sym-linked to the raw file. 
+    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+expName + evRun +'-equaliseTar-test-ave.log' ##CHANGE THIS
     
 
     ###Setup for reading the original raw data and events
@@ -99,6 +99,13 @@ for evRun in runs:
     events = mne.read_events(event_fname)
     raw_skip = raw.first_samp
     mne.set_log_file(fname = avg_log_fname, overwrite = True)
+
+    ###Correct events for the fact that ssp data has the skip removed
+    if (args.subj == "ya12") or (args.subj == 'ya27') or (args.subj == 'ya31'):
+        print "Adjusting events for SSP raw.fif files"
+        for row in events:
+            row[0] = row[0]-raw_skip
+
 
     ###Filter raw data
     fiff.Raw.filter(raw,l_freq=hp_cutoff,h_freq=lp_cutoff)
@@ -122,47 +129,20 @@ for evRun in runs:
 #    epochs = mne.Epochs(raw, events, event_id, tmin, tmax) ## picks=picks, baseline=(None, 0),add_eeg_ref=avgRefVal, proj=projVal,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
 #    print epochs
 
-####    epochs.drop_bad_epochs()
-####    for ep in [epochsAY, epochsBX, epochsBY, epochsAX]:
-####         ep.drop_bad_epochs()
-##         
-#    epochs_eq = mne.Epochs(raw, events, event_id, tmin, tmax)
-
-#    for ev_id in event_id:
-#        print ev_id
-#        ep[ev_id] = mne.Epochs(raw, events, event_id(str(ev_id)), tmin, tmax)
-#    print ep
-##    print epochs_eq
-
     print "Epochs before equalising"
     print epochsAX
     print epochsBX
     print epochsAY
     print epochsBY
-#    print epochs
-#    print [epochs_eq[cond] for cond in event_id]
-##    
-##    ###Equalising A and B target trials for AXCPT - YA
-##    
-
-#    mne.epochs.equalize_epoch_counts([epochs['AYtarget'],epochs['BXtarget'], epochs['BYtarget'], epochs['AXtarget']], method = "mintime")   
-#   mne.epochs.equalize_epoch_counts([epochs[1], epochs[2], epochs[3], epochs[0]], method = "mintime")
+   
+    ###Equalising A and B target trials for AXCPT - YA
     mne.epochs.equalize_epoch_counts([epochsAY, epochsBX, epochsBY, epochsAX], method = "mintime")
-#    epochs_eq.equalize_event_counts(['BYtarget','BXtarget', 'AXtarget', 'AYtarget']) ##[event_id['AYtarget'],event_id['BXtarget'], event_id['BYtarget'], event_id['AXtarget']]
-#    epochs_eq.equalize_event_counts(['1','2', '3', '4'], copy = True)
 
     print "Epochs After equalising"
     print epochsAX
     print epochsBX
     print epochsAY
     print epochsBY
-   # print epochs
-
-####    epochs_eq = []
-#    for ep in [epochsAY, epochsBX, epochsBY, epochsAX]:
-#        epochs_eq.append(ep)
-   # print epochs_eq
-######       epochs_eq+=[ep]
    
     ###Averaging Epochs#######
     evokedAY =epochsAY.average(picks = picks)
@@ -172,19 +152,9 @@ for evRun in runs:
     for ep in [evokedAY, evokedBX, evokedBY, evokedAX]:
            evokeds.append(ep)
 
-#    for ep in [epochsAY, epochsBX, epochsBY, epochsAX]:
-#     evokeds = evokeds.append(ep.average(picks=picks))
-
-####    for ep in [epochsAY, epochsBX, epochsBY, epochsAX]:
-####           evokeds = [ep.average(picks=picks) for ep in event_id
-####
-
     fiff.write_evoked(data_path + 'ave_projon/'+args.subj+'_'+expName+evRun+'-equalisedTar-ave.fif',evokeds)
     evokedRuns.append(evokeds)
 
-##
-##
-##
 ##
 ####################################
 ############Make grand-average######
