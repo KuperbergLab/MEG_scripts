@@ -28,7 +28,7 @@ expName = 'AXCPT'
 #######Analysis parameters###########
 
 ###Event file suffix (e.g., artifact rejection applied?)
-evSuffix = 'ModRej.eve'
+evSuffix = 'ModRej.eve' ##Change back to ModRej.eve - testing ssp on AXCPT data - CU 12/26/13 
 #evSuffix = '_raw-eve.fif'
 
 
@@ -100,9 +100,9 @@ for evRun in runs:
     event_fname = data_path + 'eve/' + args.subj + '_' + expName+evRun + evSuffix
     #event_fname = data_path  + args.subj + '_' + expName+evRun + evSuffix      
     print event_fname
-    raw_fname = data_path + args.subj+'_'+ expName +evRun+'_raw.fif'
+    raw_fname = data_path + args.subj+'_'+ expName +evRun+'_ssp_raw.fif' ##Using ssp because for only for ya12, ya27, ya31 AXCPT- ecg SSP has been perfrmed, rest have been sym-linked to the raw file. 
     #raw_ssp_fname = data_path + args.subj+'_'+ expName +evRun+'_raw.fif' ## _ssp_raw.fif
-    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+expName + evRun +'-equalise-test-ave.log' ##CHANGE THIS
+    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+expName + evRun +'-equalisePri-test-ave.log' ##CHANGE THIS
     
 
     ###Setup for reading the original raw data and events#######
@@ -110,8 +110,9 @@ for evRun in runs:
     events = mne.read_events(event_fname)
     raw_skip = raw.first_samp
 
-    ###Correct events for the fact that ssp data has the skip removed, except sc9, ac12, and ac13 for some reason
-    if not (args.subj == "sc9") and not (args.subj == 'ac12') and not (args.subj == 'ac13'):
+    ###Correct events for the fact that ssp data has the skip removed
+    if (args.subj == "ya12") or (args.subj == 'ya27') or (args.subj == 'ya31'): #############################Change back 0-- testing with ssp for all subjects CU 12/26/13
+        print "Adjusting events for SSP raw.fif files"
         for row in events:
             row[0] = row[0]-raw_skip
 
@@ -126,6 +127,7 @@ for evRun in runs:
         picks.append(i)
 
     ###Read Prime Epochs#######
+    ###Include catch for subjects where ssp-ecg was performed###
     epochsAPrime = mne.Epochs(raw, events, event_id['APrime'], tmin, tmax , name = 'APrime', picks=picks, baseline=(None, 0),add_eeg_ref=avgRefVal, proj=projVal,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
     epochsBPrime = mne.Epochs(raw, events, event_id['BPrime'], tmin, tmax , name = 'BPrime', picks=picks, baseline=(None, 0),add_eeg_ref=avgRefVal, proj=projVal,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
                    
@@ -164,4 +166,13 @@ for c in range(numCond):
         runData.append(evRun[c].data)
         runNave.append(evRun[c].nave)
     gaveData = numpy.mean(runData,0)
-    ga
+    gaveNave = numpy.sum(runNave)
+    newEvoked[c].data = gaveData
+    newEvoked[c].nave = gaveNave
+    runData = []
+    runNave = []
+
+#######Write grand-average to disk####
+fiff.write_evoked(data_path+'ave_projon/'+args.subj+'_'+expName+'-equalisedPri_All-ave.fif',newEvoked)
+
+
