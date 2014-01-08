@@ -51,11 +51,12 @@ for x = 2:2
         %%Get rid of STI channels in between MEG and EEG channels in subjects 
         %%aquired before the MEG acquisition system change 
         subjID = strcat(subjGroup, int2str(subj));
-        disp(subjID)
+        %disp(subjID)
         
-        if ~ismember(subjID, newsubjList) || ~(subjGroup == 'ya')
-        %if ~(subjGroup == 'ya')
+       if ~ismember(subjID, newsubjList) && ~strcmp(subjGroup, 'ya')
+       %if ~(subjGroup == 'ya')
             disp(subjID)
+            disp 'Jane here'
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
                 tempSubjData.evoked(c).epochs(390,:) = []; %deleting EEG115 or MISC 115 (as in the case of sc3)
@@ -80,7 +81,6 @@ for x = 2:2
                 tempSubjData.evoked(c).epochs(381,:) = []; %deleting STI 
             end
         end
-        
         allSubjData{count} = tempSubjData; 
     end
  
