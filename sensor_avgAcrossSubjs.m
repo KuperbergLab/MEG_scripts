@@ -1,7 +1,7 @@
-%%Example: sensor_avgAcrossSubjs('MaskedMM_All', 'ac.n12.meeg.mm')
-%%Usagev: sensor_avgAcrossSubjs('ExpName', 'listPrefix')
+%%Example: sensor_avgAcrossSubjs('MaskedMM_All','ac', 'ac.n12.meeg.mm')
+%%Usagev: sensor_avgAcrossSubjs('ExpName','subjgrp', 'listPrefix')
 
-function sensor_avgAcrossSubjs(exp,listPrefix)
+function sensor_avgAcrossSubjs(exp,subjGroup,listPrefix)
 
 %%Ellen Lau%%
 %%This outputs grand-average evoked files for viewing in
@@ -13,9 +13,15 @@ function sensor_avgAcrossSubjs(exp,listPrefix)
 dataPath = '/autofs/cluster/kuperberg/SemPrMM/MEG/';
 
 %%Information for template subject
-tempSubj = 33  %%enter actual subj num here (if sc19, enter 19)
-tempSubjListPrefix = 'ac.meg.all' %%enter a list that this subject appears in for .mat file
+tempSubj = 33  %%enter actual subj num here (if sc19, enter 19);  
+tempSubjListPrefix = 'ac.meg.all' %%enter a list that this subject appears in .mat file;
 tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
+
+if subjGroup == 'ya'
+    tempSubj = 6
+    tempSubjListPrefix = 'ya.n18.ax' %% for YA AXCPT 
+    tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
+end
     
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))'
 numSubj = size(subjList,2)
@@ -40,8 +46,13 @@ for x = 2:2 %%legacy loop for projon
         %%Get the actual data
         load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
         dataType = 'meg';
-        numChan = 380;
-        chanV = 1:380; %previously 389
+        if ~strcmp(subjGroup,'ya')
+             numChan = 380;
+             chanV = 1:380; %previously 389 %%ac sc 380
+        else 
+             numChan = 389;
+             chanV = 1:389; %previously 389 %%ac sc 380
+        end
     end
 end
 
