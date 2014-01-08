@@ -53,7 +53,8 @@ for x = 2:2
         subjID = strcat(subjGroup, int2str(subj));
         disp(subjID)
         
-        if ~ismember(subjID, newsubjList) 
+        if ~ismember(subjID, newsubjList) || ~(subjGroup == 'ya')
+        %if ~(subjGroup == 'ya')
             disp(subjID)
             condNum = size(tempSubjData.evoked,2);
             for c = 1:condNum
