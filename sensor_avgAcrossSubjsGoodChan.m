@@ -1,4 +1,4 @@
-function sensor_avgAcrossSubjsGoodChan(exp,listPrefix)
+function sensor_avgAcrossSubjsGoodChan(exp,subjGroup, listPrefix)
 
 %%Ellen Lau%%
 %%This outputs grand-average evoked files for viewing in
@@ -17,6 +17,12 @@ tempSubj = 33  %%enter actual subj num here (if sc19, enter 19)
 tempSubjListPrefix = 'ac.meg.all' %%enter a list that this subject appears in for .mat file
 tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
 
+if subjGroup == 'ya'
+    tempSubj = 6
+    tempSubjListPrefix = 'ya.n18.ax' %% for YA AXCPT 
+    tempSubjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',tempSubjListPrefix, '.txt')))'
+end
+
 subjList = (dlmread(strcat(dataPath,'scripts/function_inputs/',listPrefix, '.txt')))';
 numSubj = size(subjList,2);
 
@@ -30,8 +36,13 @@ newStr = allSubjData{tempSubjIndex};
 
 load(strcat(dataPath, 'results/sensor_level/ave_mat/', listPrefix, '_', exp, '_projon.mat'));
 dataType = 'meg';
-numChan = 380; %previously 380 
-chanV = 1:380;
+if subjGroup == 'ya'
+    numChan = 389;
+    chanV = 1:389; %previously ya 389 %%ac sc 380
+else 
+    numChan = 380;
+    chanV = 1:380; %previously ya 389 %%ac sc 380
+end
 
 
 numSample = size(newStr.evoked(1).epochs,2);
@@ -106,7 +117,7 @@ end
 %%about how many observations went into each channel.
   	
 goodDataCount = goodDataCount(:,1);
-goodDataCount
+goodDataCount;
 find(goodDataCount<2) %to find any 0  in the structure
 
 %%Now repeat this 390 x 1 matrix by number of samples and conditions to get
