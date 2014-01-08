@@ -73,33 +73,50 @@ def equalize_AXCPT(subjID):
    event_id = {'A_prime':5, 'B_prime':6}
    rawfname = '/cluster/kuperberg/SemPrMM/MEG/data/' +subjID + '/' +subjID + '_AXCPTRun1_raw.fif'
    raw = fiff.Raw(rawfname)
- #  eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/eve/%s_AXCPTRun1.eve' % (subjID, subjID)
-   eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/%s_AXCPTRun1_raw-eve.fif' % (subjID, subjID)
+   eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/eve/%s_AXCPTRun1Mod.eve' % (subjID, subjID)
+ #  eventsfname =  '/cluster/kuperberg/SemPrMM/MEG/data/%s/%s_AXCPTRun1_raw-eve.fif' % (subjID, subjID)
    events = mne.read_events(eventsfname)
    APrime_event_id = 5
    BPrime_event_id = 6
-##   AX_event_id = 4
-##   AY_event_id = 1
-##   BX_event_id = 2
-##   BY_event_id = 3
+   AX_event_id = 4
+   AY_event_id = 1
+   BX_event_id = 2
+   BY_event_id = 3
    tmin = -0.1
    tmax = 0.7
    APrimeEpochs = mne.Epochs(raw, events, APrime_event_id, tmin, tmax)
    BPrimeEpochs = mne.Epochs(raw, events, BPrime_event_id, tmin, tmax)
-##   AXEpochs = mne.Epochs(raw, events, AX_event_id, tmin, tmax)
-##   AYEpochs = mne.Epochs(raw, events, AY_event_id, tmin, tmax)
-##   BXEpochs = mne.Epochs(raw, events, BX_event_id, tmin, tmax)
-##   BYEpochs = mne.Epochs(raw, events, BY_event_id, tmin, tmax)
+   AXEpochs = mne.Epochs(raw, events, AX_event_id, tmin, tmax)
+   AYEpochs = mne.Epochs(raw, events, AY_event_id, tmin, tmax)
+   BXEpochs = mne.Epochs(raw, events, BX_event_id, tmin, tmax)
+   BYEpochs = mne.Epochs(raw, events, BY_event_id, tmin, tmax)
    print "A Prime before"
    print APrimeEpochs
    print "B Prime before"
-   print BPrimeEpochs   
-   mne.epochs.equalize_epoch_counts([APrimeEpochs, BPrimeEpochs]) ## tried mintime and truncate, default is fine
+   print BPrimeEpochs
+   print "AX before"
+   print AXEpochs
+   print "BX Before"
+   print BXEpochs
+   print "AY before"
+   print AYEpochs
+   print "BY Before"
+   print BYEpochs
+   mne.epochs.equalize_epoch_counts([APrimeEpochs, BPrimeEpochs], method = 'mintime') ## tried mintime and truncate, default is fine
+   mne.epochs.equalize_epoch_counts([AXEpochs, AYEpochs, BXEpochs, BYEpochs], method = 'mintime') ## tried mintime and truncate, default is fine
    print "A Prime After"
    print APrimeEpochs
    print "B Prime After"
-   print BPrimeEpochs 
-                                       
+   print BPrimeEpochs
+   print "AX after"
+   print AXEpochs
+   print "BX after"
+   print BXEpochs
+   print "AY after"
+   print AYEpochs
+   print "BY after"
+   print BYEpochs
+##                                       
 
 if __name__ == "__main__":
     subjID = sys.argv[1]
