@@ -74,24 +74,24 @@ foreach proj ( 'projon' 'projoff') ## Do not change the order.
  	--gave $1_BaleenHP_All-ave.fif \
  	--$proj --lowpass 20 --highpass .5 >>& $log
 # 
-#  	if ( -e ../$1_AXCPTRun1_ssp_raw.fif ) then
-#  		if ( -e ../$1_AXCPTRun2_ssp_raw.fif ) then
-#  			mne_process_raw \
-#  			--raw ../$1_AXCPTRun1_ssp_raw.fif \
-#  			--raw ../$1_AXCPTRun2_ssp_raw.fif \
-#  			--ave ../ave/$1_AXCPTRun1.ave \
-#  			--ave ../ave/$1_AXCPTRun2.ave \
-#  			--gave $1_AXCPT_All-ave.fif \
-#  			--$proj --lowpass 20 --highpass .5 >>& $log
-#  		else
-#  			mne_process_raw \
-#  			--raw ../$1_AXCPTRun1_ssp_raw.fif \
-#  			--ave ../ave/$1_AXCPTRun1.ave \
-#  			--$proj --lowpass 20 --highpass .5 >>& $log
-#  			cp $1_AXCPTRun1-ave.fif $1_AXCPT_All-ave.fif
-#  		endif
-#  	endif
-#  	
+ 	if ( -e ../$1_AXCPTRun1_ssp_raw.fif ) then
+ 		if ( -e ../$1_AXCPTRun2_ssp_raw.fif ) then
+ 			mne_process_raw \
+ 			--raw ../$1_AXCPTRun1_ssp_raw.fif \
+ 			--raw ../$1_AXCPTRun2_ssp_raw.fif \
+ 			--ave ../ave/$1_AXCPTRun1.ave \
+ 			--ave ../ave/$1_AXCPTRun2.ave \
+ 			--gave $1_AXCPT_All-ave.fif \
+ 			--$proj --lowpass 20 --highpass .5 >>& $log
+ 		else
+ 			mne_process_raw \
+ 			--raw ../$1_AXCPTRun1_ssp_raw.fif \
+ 			--ave ../ave/$1_AXCPTRun1.ave \
+ 			--$proj --lowpass 20 --highpass .5 >>& $log
+ 			cp $1_AXCPTRun1-ave.fif $1_AXCPT_All-ave.fif
+ 		endif
+ 	endif
+ 	
 	##Hack for ac8, missing run and LF noise
 	if ( $1 == 'ac8' ) then
 		
