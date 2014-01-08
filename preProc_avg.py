@@ -103,7 +103,7 @@ for evRun in runs:
     event_fname = data_path + 'eve/' + args.subj + '_' + exp+evRun + evSuffix      
     print event_fname
     raw_fname = data_path + args.subj+'_'+ exp +evRun+'_raw.fif'
-    raw_ssp_fname = data_path + args.subj+'_'+ exp +evRun+'_ssp_raw.fif'
+    raw_ssp_fname = data_path + args.subj+'_'+ exp +evRun+'_ssp_raw.fif
     avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+exp + evRun +'-ave.log'
     
 
@@ -132,6 +132,7 @@ for evRun in runs:
 
     ###Read epochs
     epochs = mne.Epochs(raw_ssp, events, event_id, tmin, tmax, picks=picks, baseline=(None, 0),add_eeg_ref=avgRefVal, proj=projVal,reject=dict(eeg=eegRej,mag=magRej,grad=gradRej),flat=dict(mag=magFlat, grad=gradFlat))
+    print epochs    
     evokeds = [epochs[cond].average(picks=picks) for cond in event_id]
 
     ###Add the 120 conditions for BaleenHP
@@ -152,6 +153,7 @@ for evRun in runs:
 runData = []
 runNave = []
 newEvoked = copy.deepcopy(evokedRuns[0])
+print newEvoked
 count = 0
 numCond = len(newEvoked)
 
