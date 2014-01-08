@@ -13,7 +13,7 @@ from pipeline import load_data
 import readInput
 
 from writeOutput import writeTable
-from pipeline import make_lingua
+#from pipeline import make_lingua
 
 if sys.platform == 'darwin':
     pre = 'Volumes'
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         f.write('\n'.join(subject_lines))
         f.close()
         print("Saved rejection table to %s" % fname)
-        make_lingua(fname)
+       # make_lingua(fname)
     pass
 
 
