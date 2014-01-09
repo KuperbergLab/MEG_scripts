@@ -8,17 +8,18 @@ import argparse
 import copy
 from mne.epochs import equalize_epoch_counts
 
-
-############################################
+########################################################################################
+####Example: python preProc_avg_AXCPT-prime.py ya6 on
+########################################################################################
 #######Get input###########
 
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subj',type=str)
-#parser.add_argument('exp',type=str)
+parser.add_argument('proj',type=str)
 args=parser.parse_args()
 
 print args.subj
-#print args.exp
+print args.proj
 #exp = args.exp
 exp = 'AXCPTpri'
 print exp
@@ -32,9 +33,14 @@ evSuffix = 'ModRej.eve' ##Change back to ModRej.eve - testing ssp on AXCPT data 
 #evSuffix = '_raw-eve.fif'
 
 
-###Projection and Average Reference 
-projVal = True
+###Projection and Average Reference
 avgRefVal = False
+if args.proj == 'off':
+    projVal = False 
+    ave_dest = 'ave_projoff'
+else:
+    projVal = True
+    ave_dest = 'ave_projon'
 
 ###Filtering
 hp_cutoff = None
@@ -102,7 +108,8 @@ for evRun in runs:
     print event_fname
     raw_fname = data_path + args.subj+'_'+ expName +evRun+'_ssp_raw.fif' ##Using ssp because for only for ya12, ya27, ya31 AXCPT- ecg SSP has been perfrmed, rest have been sym-linked to the raw file. 
     #raw_ssp_fname = data_path + args.subj+'_'+ expName +evRun+'_raw.fif' ## _ssp_raw.fif
-    avg_log_fname = data_path + 'ave_projon/logs/' +args.subj+ '_'+expName + evRun +'-equalisePri-test-ave.log' ##CHANGE THIS
+    avg_log_fname = data_path +'/' + ave_dest+'/logs/' +args.subj+ '_'+expName + evRun +'-equalisePri-test-ave.log' ##CHANGE THIS
+    print avg_log_fname
     
 
     ###Setup for reading the original raw data and events#######
@@ -149,7 +156,7 @@ for evRun in runs:
            evokeds.append(ep)
         
     ###Computing Evoked Potentials#######
-    fiff.write_evoked(data_path + 'ave_projon/'+args.subj+'_'+expName+evRun+'-equalisedPri-ave.fif',evokeds)
+    fiff.write_evoked(data_path +'/' + ave_dest +'/'+ args.subj+'_'+expName+evRun+'-equalisedPri-ave.fif',evokeds)
     evokedRuns.append(evokeds)
 
 
@@ -173,6 +180,6 @@ for c in range(numCond):
     runNave = []
 
 #######Write grand-average to disk####
-fiff.write_evoked(data_path+'ave_projon/'+args.subj+'_'+expName+'-equalisedPri_All-ave.fif',newEvoked)
+fiff.write_evoked(data_path +'/'+ ave_dest +'/'+args.subj+'_'+expName+'-equalisedPri_All-ave.fif',newEvoked)
 
 
