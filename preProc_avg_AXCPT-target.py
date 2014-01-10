@@ -14,10 +14,11 @@ from mne import epochs
 #######Get input######
 parser = argparse.ArgumentParser(description='Get input')
 parser.add_argument('subj',type=str)
-#parser.add_argument('exp',type=str)
+parser.add_argument('proj',type=str)
 args=parser.parse_args()
 
 print args.subj
+print args.proj
 exp = 'AXCPTtar'
 print exp
 expName = 'AXCPT'
@@ -26,9 +27,14 @@ expName = 'AXCPT'
 ###Event file suffix (e.g., artifact rejection applied?)
 evSuffix = 'ModRej.eve'
 
-###Projection and Average Reference 
-projVal = True
+###Projection and Average Reference
 avgRefVal = False
+if args.proj == 'off':
+    projVal = False 
+    ave_dest = 'ave_projoff'
+else:
+    projVal = True
+    ave_dest = 'ave_projon'
 
 ###Filtering
 hp_cutoff = None
@@ -39,7 +45,9 @@ lp_cutoff = 20
 runs = cc.runDict[exp]
 if args.subj == 'ac8' and exp == 'BaleenLP':
     runs = ['Run1','Run3','Run4']
-
+if args.subj == 'ya6':
+    runs = ['Run2']
+    
 ###EventLabels
 labelList = cc.condLabels[exp]
 event_id = {}
@@ -152,7 +160,7 @@ for evRun in runs:
     for ep in [evokedAY, evokedBX, evokedBY, evokedAX]:
            evokeds.append(ep)
 
-    fiff.write_evoked(data_path + 'ave_projon/'+args.subj+'_'+expName+evRun+'-equalisedTar-ave.fif',evokeds)
+    fiff.write_evoked(data_path +'/' + ave_dest +'/'+ args.subj+'_'+expName+evRun+'-equalisedTar-ave.fif',evokeds)
     evokedRuns.append(evokeds)
 
 ##
@@ -177,5 +185,5 @@ for c in range(numCond):
     runNave = []
 
 #Write grand-average to disk
-fiff.write_evoked(data_path+'ave_projon/'+args.subj+'_'+expName+'-equalisedTar_All-ave.fif',newEvoked)
+fiff.write_evoked(data_path +'/' + ave_dest +'/'+ args.subj+'_'+expName+'-equalisedTar_All-ave.fif',newEvoked)
 
