@@ -53,6 +53,8 @@ lp_cutoff = 20
 runs = cc.runDict[exp]
 if args.subj == 'ac8' and exp == 'BaleenLP':
     runs = ['Run1','Run3','Run4']
+if args.subj == 'ya6':
+    runs = ['Run2']
 
 ###EventLabels
 labelList = cc.condLabels[exp]
