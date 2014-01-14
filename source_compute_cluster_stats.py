@@ -6,8 +6,9 @@ import readInput
 
 import mne
 from mne.stats import permutation_cluster_1samp_test
-
-from scikits.learn.externals.joblib import Memory
+from mne import spatial_tris_connectivity, grade_to_tris
+##from scikits.learn.externals.joblib import Memory
+from sklearn.externals.joblib import Memory
 
 ###############################################################################
 # Parameters
@@ -87,8 +88,8 @@ src[1]['use_tris'] = ico_tris
 
 
 def load_data(stcs1_fname, stcs2_fname, dec):
-    stcs1 = [mne.SourceEstimate(fname) for fname in stcs1_fname]
-    stcs2 = [mne.SourceEstimate(fname) for fname in stcs2_fname]
+    stcs1 = [mne.read_source_estimate(fname) for fname in stcs1_fname]
+    stcs2 = [mne.read_source_estimate(fname) for fname in stcs2_fname]
 
 	#This is just resampling in time, not space
     def resample_stc(stc, dec):
@@ -102,6 +103,7 @@ def load_data(stcs1_fname, stcs2_fname, dec):
             resample_stc(stc, dec=dec)
             #stc.crop(.3,.5)
             stc.crop(0.1, None)  #cropping the time-window for faster runtime
+   # print "Jane here"
 
 
     def average_stcs(stcs):
@@ -112,9 +114,9 @@ def load_data(stcs1_fname, stcs2_fname, dec):
         for i, stc in enumerate(stcs):
             if len(times) == len(stc.times):
                 X[i] = stc.data
-        mean_stc.data = np.mean(X, axis=0)
+        mean_stc._data = np.mean(X, axis=0)
         return mean_stc, X
-
+        print "Jane here"
 	#X1, X2 are the full time,vertices,subject matrices; mean_stc1 and mean_stc2 are the grand-avgs
     mean_stc1, X1 = average_stcs(stcs1)
     mean_stc2, X2 = average_stcs(stcs2)
@@ -123,9 +125,8 @@ def load_data(stcs1_fname, stcs2_fname, dec):
 mean_stc1, X1, mean_stc2, X2 = mem.cache(load_data)(stcs1_fname, stcs2_fname, dec)
 
 template_stc = copy.deepcopy(mean_stc1)
-
 stc_diff = copy.deepcopy(template_stc)
-stc_diff.data = mean_stc2.data - mean_stc1.data
+stc_diff._data = mean_stc2.data - mean_stc1.data  ##Stc cond 2- Stc cond 1 
 stc_diff.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + 'diff_of_means')
 
 if time_interval is not None:  # squash time interval
@@ -143,7 +144,8 @@ n_samples, n_vertices, n_times = X1.shape
 X1 = np.ascontiguousarray(np.swapaxes(X1, 1, 2).reshape(n_samples, -1))
 X2 = np.ascontiguousarray(np.swapaxes(X2, 1, 2).reshape(n_samples, -1))
 
-connectivity = mne.spatio_temporal_src_connectivity(src, n_times)
+#connectivity = mne.spatio_temporal_src_connectivity(src, n_times)
+connectivity = spatial_tris_connectivity(grade_to_tris(5))
 
 for t in thresholds:
     from time import time
@@ -171,16 +173,14 @@ for t in thresholds:
     stc_cluster = copy.deepcopy(template_stc)
     #you only write out a cluster to an stc file if it crosses the second-stage threshold
     for k, c in enumerate(clusters):
-        stc_cluster.data = c
-        if cluster_pv[k] < 0.2:  ##This is the threshold for saving an stc file with cluster
+        stc_cluster._data = c
+        if cluster_pv[k] < 0.3:  ##This is the threshold for saving an stc file with cluster
             stcFileName = '/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k])
+            print stcFileName
             stc_cluster.save(stcFileName)
-
-            #stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' \
-            #                            % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k]))
+            #stc_cluster.save('/cluster/kuperberg/SemPrMM/MEG/results/source_space/cluster_stats/' + prefix + '%d-%d_cluster%d_%s_thresh_%s_pv_%.3f' % (args.t1*1000,args.t2*1000,k, stat_name, t, cluster_pv[k]))
             labelArray = mne.stc_to_label(stc_cluster, 'fsaverage')
             label = labelArray[0]
             mne.write_label(stcFileName, label)            
-
 
     print 'pv : %s' % np.sort(cluster_pv)[:5]
