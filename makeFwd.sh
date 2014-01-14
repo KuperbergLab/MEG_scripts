@@ -40,8 +40,8 @@ foreach t ('meg')
 	if ( $t == 'eeg' ) then
 		mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_ATLLoc-ave.fif --eegonly --fwd $1_All-ave-7-$t-fwd.fif --overwrite >>& $log
 	endif
- 	#foreach exp ('ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2')	
- 	foreach exp ('AXCPTRun1-equalisedPri' 'AXCPTRun2-equalisedPri' 'AXCPTRun1-equalisedTar' 'AXCPTRun2-equalisedTar')
+ 	foreach exp ('ATLLoc' 'MaskedMMRun1' 'MaskedMMRun2' 'BaleenLPRun1' 'BaleenLPRun2' 'BaleenLPRun3' 'BaleenLPRun4' 'BaleenHPRun1' 'BaleenHPRun2' 'BaleenHPRun3' 'BaleenHPRun4' 'AXCPTRun1' 'AXCPTRun2' 'AXCPTRun1-equalisedPri' 'AXCPTRun2-equalisedPri' 'AXCPTRun1-equalisedTar' 'AXCPTRun2-equalisedTar')	
+ 	#foreach exp ('AXCPTRun1-equalisedPri' 'AXCPTRun2-equalisedPri' 'AXCPTRun1-equalisedTar' 'AXCPTRun2-equalisedTar')
  		if ( -e $1_$exp-ave.fif ) then
  			if ( $t == 'meg' ) then
  				 mne_do_forward_solution --bem $1-5120-5120-5120-bem-sol.fif --meas $1_$exp-ave.fif --megonly --fwd $1_$exp-ave-7-$t-fwd.fif --overwrite >>& $log
